@@ -1,0 +1,225 @@
+[gd_scene load_steps=31 format=3 uid="uid://csdjgowxtbr64"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_8v3y8"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/tracker_projectiley.gd" id="2_ef5xw"]
+[ext_resource type="Texture2D" uid="uid://bn3nrfkxujoox" path="res://sprites/Enemies/Sacerdote/Sacerdote_Projectile_Charge.png" id="2_jsctt"]
+[ext_resource type="Texture2D" uid="uid://fwsney2fvw6e" path="res://sprites/Enemies/Sacerdote/Sacerdote_Projectile.png" id="3_ra0gc"]
+[ext_resource type="Texture2D" uid="uid://dbj6enacxbcbi" path="res://sprites/Enemies/Sacerdote/Sacerdote_Projectile_Destroyed.png" id="4_iltbb"]
+
+[sub_resource type="Gradient" id="Gradient_8at8q"]
+offsets = PackedFloat32Array(0, 0.453901, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.980392, 0.843137, 0.258824, 1, 0.894118, 0.156863, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3hho7"]
+gradient = SubResource("Gradient_8at8q")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_fxh02"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(16, 14, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+direction = Vector3(1, -1, 0)
+angular_velocity_min = 9.99998
+angular_velocity_max = 50.0
+gravity = Vector3(0, -50, 0)
+color_ramp = SubResource("GradientTexture1D_3hho7")
+turbulence_enabled = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2lnn"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_70ng1"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_heju5"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(52, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppft8"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(78, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nv2in"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(104, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7j2un"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(130, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_avxm1"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(156, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mli6"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(182, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sqmsx"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(208, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_raj7i"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(234, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d3rch"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(260, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8vc3v"]
+atlas = ExtResource("2_jsctt")
+region = Rect2(286, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rhqvj"]
+atlas = ExtResource("4_iltbb")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4glwh"]
+atlas = ExtResource("4_iltbb")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q24c7"]
+atlas = ExtResource("4_iltbb")
+region = Rect2(52, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1wsa0"]
+atlas = ExtResource("4_iltbb")
+region = Rect2(78, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2org6"]
+atlas = ExtResource("3_ra0gc")
+region = Rect2(0, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm0wx"]
+atlas = ExtResource("3_ra0gc")
+region = Rect2(26, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1auvl"]
+atlas = ExtResource("3_ra0gc")
+region = Rect2(52, 0, 26, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbdwl"]
+atlas = ExtResource("3_ra0gc")
+region = Rect2(78, 0, 26, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xi7vo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2lnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_70ng1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_heju5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppft8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nv2in")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7j2un")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avxm1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mli6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sqmsx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_raj7i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3rch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8vc3v")
+}],
+"loop": false,
+"name": &"Charge",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rhqvj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4glwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q24c7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1wsa0")
+}],
+"loop": false,
+"name": &"Destroyed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2org6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm0wx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1auvl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbdwl")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_s3yre"]
+radius = 8.0
+
+[node name="TrackerProjectile" node_paths=PackedStringArray("_sprite", "_body_collision", "_particle", "_charge_audio", "_idle_audio", "_hit_audio") instance=ExtResource("1_8v3y8")]
+collision_layer = 72
+collision_mask = 5
+script = ExtResource("2_ef5xw")
+attack_damage = 10
+move_speed = 220.0
+arc_bulge_factor = 0.4
+max_lifetime = 5.0
+_health = 1
+is_interactable = true
+interactable_pieces = []
+_sprite = NodePath("Texture")
+_body_collision = NodePath("Collision")
+_particle = NodePath("fogo_fx")
+_charge_audio = NodePath("ChargeAudio")
+_idle_audio = NodePath("IdleAudio")
+_hit_audio = NodePath("HitAudio")
+
+[node name="fogo_fx" type="GPUParticles2D" parent="." index="0"]
+visible = false
+amount = 100
+process_material = SubResource("ParticleProcessMaterial_fxh02")
+
+[node name="Texture" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_xi7vo")
+animation = &"Destroyed"
+
+[node name="Collision" parent="." index="2"]
+visible = false
+shape = SubResource("CircleShape2D_s3yre")
+debug_color = Color(0.998444, 0, 0.14186, 0.42)
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="." index="3"]
+
+[node name="ChargeAudio" type="AudioStreamPlayer" parent="." index="4"]
+
+[node name="IdleAudio" type="AudioStreamPlayer" parent="." index="5"]

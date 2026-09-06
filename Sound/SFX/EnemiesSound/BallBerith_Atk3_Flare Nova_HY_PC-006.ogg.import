@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://rpryg32hsf5b"
+path="res://.godot/imported/BallBerith_Atk3_Flare Nova_HY_PC-006.ogg-ed6440efe88f767c488c600e8f0fcd19.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/BallBerith_Atk3_Flare Nova_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/BallBerith_Atk3_Flare Nova_HY_PC-006.ogg-ed6440efe88f767c488c600e8f0fcd19.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

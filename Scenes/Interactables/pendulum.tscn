@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://ducc0uci4ddnn"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/pendulum.gd" id="1_3bvgh"]
+[ext_resource type="Texture2D" uid="uid://ckfbya15ssgdw" path="res://sprites/Environment/EGITO/Pendulo_Base_egito_v01.png" id="2_k283u"]
+[ext_resource type="Script" path="res://Scripts/Interactables/rope_drawer.gd" id="3_4614w"]
+[ext_resource type="Texture2D" uid="uid://cv7lttw88uv8i" path="res://sprites/Environment/EGITO/Pendulo_pedaço_egito_v01.png" id="3_lai5c"]
+[ext_resource type="Script" path="res://Scripts/Interactables/pendulum_peso.gd" id="4_7ewpk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kkl35"]
+size = Vector2(36, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdg6g"]
+size = Vector2(36, 20)
+
+[node name="Pendulum" type="Node2D" node_paths=PackedStringArray("pivot", "bob")]
+script = ExtResource("1_3bvgh")
+pivot = NodePath("PivotPoint")
+bob = NodePath("PendulumPeso")
+
+[node name="Suport" type="Node2D" parent="."]
+z_index = 1
+
+[node name="Texture" type="Sprite2D" parent="Suport"]
+z_index = 1
+position = Vector2(0, -115)
+texture = ExtResource("2_k283u")
+
+[node name="PivotPoint" type="Marker2D" parent="."]
+position = Vector2(0, -117)
+
+[node name="RopeDrawer" type="Node2D" parent="." node_paths=PackedStringArray("anchor", "bob")]
+z_index = 1
+script = ExtResource("3_4614w")
+anchor = NodePath("../PivotPoint")
+bob = NodePath("../PendulumPeso")
+
+[node name="PendulumPeso" type="RigidBody2D" parent="."]
+z_index = 1
+collision_layer = 16
+script = ExtResource("4_7ewpk")
+
+[node name="Texture" type="Sprite2D" parent="PendulumPeso"]
+texture = ExtResource("3_lai5c")
+
+[node name="Collision" type="CollisionShape2D" parent="PendulumPeso"]
+shape = SubResource("RectangleShape2D_kkl35")
+
+[node name="Detection" type="Area2D" parent="PendulumPeso"]
+collision_layer = 16
+
+[node name="Collision" type="CollisionShape2D" parent="PendulumPeso/Detection"]
+shape = SubResource("RectangleShape2D_qdg6g")
+debug_color = Color(0.998744, 0, 0.133802, 0.42)

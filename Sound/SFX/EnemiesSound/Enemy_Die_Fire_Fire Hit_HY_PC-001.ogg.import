@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b5db35iqadw0a"
+path="res://.godot/imported/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg-23d219be863a571216bc0fb0c8e43f99.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg"
+dest_files=["res://.godot/imported/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg-23d219be863a571216bc0fb0c8e43f99.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

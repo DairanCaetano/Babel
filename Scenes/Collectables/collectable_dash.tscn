@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://melnng4jallh"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_r6w2i"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_dash.gd" id="2_a6a5q"]
+[ext_resource type="PackedScene" uid="uid://cmjsoap2ln5gd" path="res://Scenes/FX/skill_fx_particle.tscn" id="3_f3kg2"]
+[ext_resource type="Texture2D" uid="uid://cvb7xg1x2gy5y" path="res://sprites/Items/Skills_Dash.png" id="3_xfp64"]
+
+[sub_resource type="Animation" id="Animation_vpi8x"]
+resource_name = "Idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2)]
+}
+
+[sub_resource type="Animation" id="Animation_gx7rg"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7h7dp"]
+_data = {
+"Idle": SubResource("Animation_vpi8x"),
+"RESET": SubResource("Animation_gx7rg")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61xsr"]
+atlas = ExtResource("3_xfp64")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lr3ch"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61xsr")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qdjn4"]
+size = Vector2(20, 22)
+
+[node name="CollectableDash" groups=["collectibles"] instance=ExtResource("1_r6w2i")]
+script = ExtResource("2_a6a5q")
+ability_icon_path = "res://sprites/Items/Skills_Dash.png"
+ability_title = "Dash"
+ability_description = "Botas ancestrais que permitem avançar rapidamente enquanto corre."
+collectible_id = "dash_boots_1"
+has_post_dialog = true
+
+[node name="Anim" type="AnimationPlayer" parent="." index="0"]
+libraries = {
+"": SubResource("AnimationLibrary_7h7dp")
+}
+autoplay = "Idle"
+
+[node name="skillFXParticle" parent="." index="1" instance=ExtResource("3_f3kg2")]
+
+[node name="Texture" parent="." index="2" groups=["collectibles"]]
+sprite_frames = SubResource("SpriteFrames_lr3ch")
+
+[node name="Collision" parent="." index="3"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_qdjn4")

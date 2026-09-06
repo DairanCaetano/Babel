@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://5otke01wqyv1"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/stats_display.gd" id="1_vu7c2"]
+[ext_resource type="Texture2D" uid="uid://bjrm3mcu1yyle" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Label_Anim_v01.png" id="2_e180g"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_lcoed"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7lvd"]
+atlas = ExtResource("2_e180g")
+region = Rect2(0, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_241l0"]
+atlas = ExtResource("2_e180g")
+region = Rect2(78, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_na5h4"]
+atlas = ExtResource("2_e180g")
+region = Rect2(156, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vjk4"]
+atlas = ExtResource("2_e180g")
+region = Rect2(156, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0iftr"]
+atlas = ExtResource("2_e180g")
+region = Rect2(78, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmsyb"]
+atlas = ExtResource("2_e180g")
+region = Rect2(0, 0, 78, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6oqm3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7lvd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_241l0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_na5h4")
+}],
+"loop": false,
+"name": &"Text_in",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7vjk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0iftr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pmsyb")
+}],
+"loop": false,
+"name": &"Text_out",
+"speed": 5.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ae8l3"]
+font = ExtResource("3_lcoed")
+font_size = 14
+
+[node name="StatsDisplay" type="Control" node_paths=PackedStringArray("_animated_sprite", "_label")]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("1_vu7c2")
+_animated_sprite = NodePath("Texture")
+_label = NodePath("Texture/VBoxContainer/Text")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6oqm3")
+animation = &"Text_out"
+frame = 2
+frame_progress = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Texture"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -78.0
+offset_top = -22.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+
+[node name="Text" type="Label" parent="Texture/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_ae8l3")

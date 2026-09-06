@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://un31u0gxfstw"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_66i5s"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_ceremonial_branch.gd" id="2_3fmw1"]
+[ext_resource type="PackedScene" uid="uid://op2yx85s2hqp" path="res://Scenes/FX/skill_fx_particle_COLOR1.tscn" id="3_iusl2"]
+[ext_resource type="Texture2D" uid="uid://duyfj5yjgtlkp" path="res://sprites/Equipments/ramo_ritualistico.png" id="3_vgkdh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqxox"]
+atlas = ExtResource("3_vgkdh")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_56o5p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqxox")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e5nja"]
+
+[node name="CollectableCeremonialBranch" instance=ExtResource("1_66i5s")]
+script = ExtResource("2_3fmw1")
+ability_icon_path = "res://sprites/Equipments/ramo_ritualistico.png"
+ability_title = "Broto Cerimonial"
+ability_description = "Uma erva rara capaz de acalmar a fúria de um deus."
+collectible_id = "ceremonial_branch"
+has_post_dialog = true
+
+[node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_iusl2")]
+
+[node name="Texture" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_56o5p")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="2"]
+shape = SubResource("RectangleShape2D_e5nja")

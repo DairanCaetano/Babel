@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://b2i1y8jfosi11"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_tuvly"]
+[ext_resource type="Script" path="res://Scenes/Collectables/collectable_chakram.gd" id="2_5su7o"]
+[ext_resource type="Texture2D" uid="uid://cq2l3nnv3imjv" path="res://sprites/Weapons/Babel_Armas_Chakram_Icon_Pixel Art_v01.png" id="2_ftpmk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n3e1a"]
+atlas = ExtResource("2_ftpmk")
+region = Rect2(0, 0, 19, 19)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_352wj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n3e1a")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ofjak"]
+
+[node name="CollectableChakram" instance=ExtResource("1_tuvly")]
+script = ExtResource("2_5su7o")
+ability_icon_path = "res://sprites/Weapons/Babel_Armas_Chakram_Icon_Pixel Art_v01.png"
+ability_title = "Chakram"
+ability_description = "Arma de arremesso comum no sul da Ásia. Pode interagir com paredes e ser reposicionada."
+collectible_id = "chakram_1"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_352wj")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_ofjak")

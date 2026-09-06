@@ -1,0 +1,20 @@
+[gd_scene load_steps=2 format=3 uid="uid://dcj4vo3vs0e8t"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_q7jlq"]
+
+[node name="DustParticles" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_q7jlq")
+position = Vector2(333, 160)
+amount = 15
+lifetime = 0.6
+preprocess = 2.0
+fixed_fps = 30
+fract_delta = false
+draw_order = 1
+emission_shape = 3
+emission_rect_extents = Vector2(200, 50)
+gravity = Vector2(-100, 50)
+linear_accel_min = 8.54
+linear_accel_max = 36.59
+damping_max = 100.0
+color = Color(1, 0.545098, 0, 1)

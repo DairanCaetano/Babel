@@ -1,0 +1,37 @@
+[gd_scene load_steps=8 format=3 uid="uid://d0ockxy8tsbux"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_mmfrs"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_speed_boost.gd" id="2_sd5wj"]
+[ext_resource type="PackedScene" uid="uid://cmjsoap2ln5gd" path="res://Scenes/FX/skill_fx_particle.tscn" id="3_i8eu1"]
+[ext_resource type="Texture2D" uid="uid://mefnwuc6eh27" path="res://sprites/Items/Skills_Speed_Boost.png" id="4_tf14v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qndu4"]
+atlas = ExtResource("4_tf14v")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kjaru"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qndu4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lmkg4"]
+
+[node name="CollectableComponent" instance=ExtResource("1_mmfrs")]
+script = ExtResource("2_sd5wj")
+ability_icon_path = "res://sprites/UI/MENU_1/ABILITIES ICONS/GUI_Abilities_Run_fast_Icon.png"
+ability_title = "Aceleração"
+ability_description = "Seu corpo está mais leve e mais ágil permitindo que se mova a altas velocidades."
+
+[node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_i8eu1")]
+
+[node name="Texture" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_kjaru")
+
+[node name="Collision" parent="." index="2"]
+shape = SubResource("RectangleShape2D_lmkg4")

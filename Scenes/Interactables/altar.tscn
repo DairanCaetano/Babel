@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfh7ij2j8xdib"]
+
+[ext_resource type="Texture2D" uid="uid://d3fcrfbwtbhqs" path="res://sprites/Interactables/Babel_Altar_v01.png" id="1_y6clo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1ed6s"]
+size = Vector2(34, 16)
+
+[node name="Altar" type="StaticBody2D"]
+collision_layer = 16
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("1_y6clo")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1ed6s")

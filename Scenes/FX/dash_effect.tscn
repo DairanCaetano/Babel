@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://ca7iv5mdvxcmd"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_8g3yn"]
+[ext_resource type="Texture2D" uid="uid://0wl6417ukmss" path="res://sprites/FX/POEIRA/DASH FX/Tola_Rolamento_FX_v02.png" id="2_xd0ok"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8eq3"]
+atlas = ExtResource("2_xd0ok")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s11ql"]
+atlas = ExtResource("2_xd0ok")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qjh6j"]
+atlas = ExtResource("2_xd0ok")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4vmm"]
+atlas = ExtResource("2_xd0ok")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i14r2"]
+atlas = ExtResource("2_xd0ok")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qvbfb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8eq3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s11ql")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qjh6j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4vmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i14r2")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="DashEffect" instance=ExtResource("1_8g3yn")]
+sprite_frames = SubResource("SpriteFrames_qvbfb")
+frame = 4
+frame_progress = 1.0

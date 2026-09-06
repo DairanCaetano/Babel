@@ -1,0 +1,75 @@
+[gd_scene load_steps=7 format=3 uid="uid://blm7dn6ujtap1"]
+
+[ext_resource type="Script" path="res://Scripts/Background/background.gd" id="1_3m5cv"]
+[ext_resource type="Texture2D" uid="uid://dixdndhms1imt" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_CÉU_sprites_v02.png" id="2_8iuan"]
+[ext_resource type="Texture2D" uid="uid://cm2klstnnpciq" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_BG CIDADE_sprites_v02.png" id="2_48xs5"]
+[ext_resource type="Texture2D" uid="uid://duvbycnos8u8c" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_BG PRÉDIOS_Complemento_sprites_v01.png" id="2_bpgdj"]
+[ext_resource type="Texture2D" uid="uid://dku71xxo2krae" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_CÉU_Complemento_sprites_v02.png" id="3_i4boh"]
+[ext_resource type="Texture2D" uid="uid://nnts44nsf0fi" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_BG PRÉDIOS_sprites_v03.png" id="4_8cksm"]
+
+[node name="Tebes_BG" type="ParallaxBackground"]
+script = ExtResource("1_3m5cv")
+
+[node name="Additionalcidade" type="ParallaxLayer" parent="."]
+position = Vector2(-64, -18)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Texture" type="TextureRect" parent="Additionalcidade"]
+offset_left = 65.0
+offset_top = 35.0
+offset_right = 705.0
+offset_bottom = 395.0
+texture = ExtResource("2_bpgdj")
+metadata/_edit_use_anchors_ = true
+
+[node name="AdditionalCloud" type="ParallaxLayer" parent="."]
+position = Vector2(1, 17)
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(640, 360)
+
+[node name="Texture" type="TextureRect" parent="AdditionalCloud"]
+offset_top = -120.0
+offset_right = 640.0
+offset_bottom = 240.0
+texture = ExtResource("3_i4boh")
+metadata/_edit_use_anchors_ = true
+
+[node name="Cloud" type="ParallaxLayer" parent="."]
+position = Vector2(1, 17)
+motion_scale = Vector2(0.1, 0.1)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Texture" type="TextureRect" parent="Cloud"]
+offset_top = -120.0
+offset_right = 640.0
+offset_bottom = 240.0
+texture = ExtResource("2_8iuan")
+metadata/_edit_use_anchors_ = true
+
+[node name="cidade" type="ParallaxLayer" parent="."]
+position = Vector2(-64, -77)
+motion_scale = Vector2(0.2, 0.2)
+motion_mirroring = Vector2(480, 0)
+
+[node name="Texture" type="TextureRect" parent="cidade"]
+offset_left = 65.0
+offset_top = 79.0
+offset_right = 705.0
+offset_bottom = 439.0
+texture = ExtResource("2_48xs5")
+metadata/_edit_use_anchors_ = true
+
+[node name="predios" type="ParallaxLayer" parent="."]
+visible = false
+position = Vector2(-87, -103)
+motion_scale = Vector2(0.18, 0.18)
+motion_mirroring = Vector2(640, 0)
+
+[node name="Texture" type="TextureRect" parent="predios"]
+offset_left = 88.0
+offset_top = 61.0
+offset_right = 728.0
+offset_bottom = 421.0
+texture = ExtResource("4_8cksm")
+metadata/_edit_use_anchors_ = true

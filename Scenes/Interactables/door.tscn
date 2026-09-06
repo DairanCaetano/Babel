@@ -1,0 +1,215 @@
+[gd_scene load_steps=32 format=3 uid="uid://dwa3dijqx57ec"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/door.gd" id="1_bmc0h"]
+[ext_resource type="Texture2D" uid="uid://dsd0vdb6tv7vu" path="res://sprites/Interactables/Babel_Interativos_Door_Broken_v01.png" id="1_tspxp"]
+[ext_resource type="Texture2D" uid="uid://dm3ryivg3htgu" path="res://sprites/Interactables/Babel_Interativos_Door_v01.png" id="2_8b36b"]
+[ext_resource type="Texture2D" uid="uid://bl70wyejuf24c" path="res://sprites/Interactables/INTERACTABLE_MADEIRA_PEDAÇOS__v01.png" id="2_xagff"]
+[ext_resource type="Texture2D" uid="uid://cl23a4n2rwhe4" path="res://sprites/Interactables/INTERACTABLE_MADEIRA_PEDAÇOS__v02.png" id="3_pop2q"]
+[ext_resource type="Texture2D" uid="uid://cvhgi84lmqd5t" path="res://sprites/UI/SAVE/icon.png" id="3_tffch"]
+[ext_resource type="Texture2D" uid="uid://bed45ou5ulxnk" path="res://sprites/Interactables/INTERACTABLE_MADEIRA_PEDAÇOS__v03.png" id="4_x2jkp"]
+[ext_resource type="Texture2D" uid="uid://sl3o67b117i8" path="res://sprites/Interactables/INTERACTABLE_MADEIRA_PEDAÇOS__v04.png" id="5_pk8kn"]
+[ext_resource type="AudioStream" uid="uid://dl1qp0g217egk" path="res://Sound/SFX/InteractablesSound/old-wooden-door_1.ogg" id="9_kdxp3"]
+[ext_resource type="AudioStream" uid="uid://3k8111btcu7" path="res://Sound/SFX/InteractablesSound/old-wooden-door-2.ogg" id="10_bcwob"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5rnb"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(0, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8ugk"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(62, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x6jyt"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(124, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6xk2"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(186, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ab3bm"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(248, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_op3k5"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(310, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qgebx"]
+atlas = ExtResource("1_tspxp")
+region = Rect2(372, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ospd4"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(0, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5uwdq"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(186, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvt22"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(124, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2mtee"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(62, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xttcl"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(62, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7omoo"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(124, 0, 62, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24hly"]
+atlas = ExtResource("2_8b36b")
+region = Rect2(186, 0, 62, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qnat4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5rnb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n8ugk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x6jyt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m6xk2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ab3bm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_op3k5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qgebx")
+}],
+"loop": false,
+"name": &"Broken",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ospd4")
+}],
+"loop": true,
+"name": &"Closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5uwdq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvt22")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2mtee")
+}],
+"loop": false,
+"name": &"Closing",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xttcl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7omoo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24hly")
+}],
+"loop": false,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_msl6u"]
+size = Vector2(6, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d6hgs"]
+size = Vector2(56, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lclu6"]
+atlas = ExtResource("3_tffch")
+region = Rect2(0, 0, 18, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idpl2"]
+atlas = ExtResource("3_tffch")
+region = Rect2(18, 0, 18, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0soti"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lclu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idpl2")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_er6bd"]
+size = Vector2(4, 46)
+
+[node name="Door" type="Node2D" node_paths=PackedStringArray("texture", "door_collision", "interaction_area", "interaction_prompt", "door_hurtbox", "break_sound", "open_door_sound")]
+script = ExtResource("1_bmc0h")
+texture = NodePath("Texture")
+door_collision = NodePath("DoorCollision")
+interaction_area = NodePath("InteractionArea")
+interaction_prompt = NodePath("InteractionPrompt")
+door_hurtbox = NodePath("DoorHurtbox")
+shard_textures = Array[Texture2D]([ExtResource("2_xagff"), ExtResource("3_pop2q"), ExtResource("4_x2jkp"), ExtResource("5_pk8kn")])
+break_sound = NodePath("BrokenDoorAudio")
+open_door_sound = NodePath("OpenDoorAudio")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qnat4")
+animation = &"Closed"
+autoplay = "Closed"
+
+[node name="DoorCollision" type="StaticBody2D" parent="."]
+collision_layer = 16
+
+[node name="Collision" type="CollisionShape2D" parent="DoorCollision"]
+shape = SubResource("RectangleShape2D_msl6u")
+debug_color = Color(0.584691, 0.396614, 0.965049, 0.42)
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Collision" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, -1)
+shape = SubResource("RectangleShape2D_d6hgs")
+debug_color = Color(0.727344, 0.472579, 0.130204, 0.42)
+
+[node name="InteractionPrompt" type="AnimatedSprite2D" parent="."]
+position = Vector2(-20, -36)
+sprite_frames = SubResource("SpriteFrames_0soti")
+animation = &"Idle"
+
+[node name="DoorHurtbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="Collision" type="CollisionShape2D" parent="DoorHurtbox"]
+shape = SubResource("RectangleShape2D_er6bd")
+debug_color = Color(0.972409, 0.141243, 0.226641, 0.42)
+
+[node name="OpenDoorAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_kdxp3")
+volume_db = -20.0
+
+[node name="BrokenDoorAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_bcwob")

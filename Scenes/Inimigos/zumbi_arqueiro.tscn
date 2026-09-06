@@ -1,0 +1,260 @@
+[gd_scene load_steps=37 format=3 uid="uid://cqoit6rd0yko5"]
+
+[ext_resource type="PackedScene" uid="uid://6063j6olpca3" path="res://Scenes/Inimigos/base_enemy.tscn" id="1_nburf"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_8w0f7"]
+[ext_resource type="Script" path="res://Scripts/Enemies/zumbi_arqueiro.gd" id="2_c0h12"]
+[ext_resource type="PackedScene" uid="uid://bd3s3x2wvprtu" path="res://Scenes/Projectile/projectile_enemy_arrow.tscn" id="3_nnarg"]
+[ext_resource type="Texture2D" uid="uid://bbdvt8e0c2db3" path="res://sprites/Enemies/Zumbi Arqueiro/Zumbi_Arqueiro_Ataque_v01.png" id="4_vfnbi"]
+[ext_resource type="Texture2D" uid="uid://c8mr3t07jcpm6" path="res://sprites/Enemies/Zumbi Arqueiro/Zumbi_Arqueiro_Dead_v01.png" id="5_cfso1"]
+[ext_resource type="Texture2D" uid="uid://b8hc07nq7voq6" path="res://sprites/Enemies/Zumbi Arqueiro/Zumbi_Arqueiro_Idle_v01.png" id="6_unks0"]
+[ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="8_s1hav"]
+[ext_resource type="AudioStream" uid="uid://cc7hs2jyp68eo" path="res://Sound/SFX/EnemiesSound/Bow Attack 2.ogg" id="9_vja2y"]
+[ext_resource type="AudioStream" uid="uid://b5db35iqadw0a" path="res://Sound/SFX/EnemiesSound/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg" id="10_n6w0h"]
+[ext_resource type="AudioStream" uid="uid://65k86o12cr1l" path="res://Sound/SFX/EnemiesSound/Enemy_hurt.ogg" id="11_3l3u6"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="12_2jh8w"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uw74t"]
+resource_local_to_scene = true
+shader = ExtResource("2_8w0f7")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpgd0"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(150, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_657i5"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(150, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qe4sl"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(0, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnnwg"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(0, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuba6"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(50, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vpasg"]
+atlas = ExtResource("4_vfnbi")
+region = Rect2(100, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5t0vp"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(0, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3smep"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(50, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bme25"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(100, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3cpyh"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(150, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yn6lx"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(200, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t6wid"]
+atlas = ExtResource("5_cfso1")
+region = Rect2(250, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uq42"]
+atlas = ExtResource("6_unks0")
+region = Rect2(0, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lfe3y"]
+atlas = ExtResource("6_unks0")
+region = Rect2(50, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7goi"]
+atlas = ExtResource("6_unks0")
+region = Rect2(100, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jwd5y"]
+atlas = ExtResource("6_unks0")
+region = Rect2(150, 0, 50, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jofic"]
+atlas = ExtResource("6_unks0")
+region = Rect2(200, 0, 50, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cc85s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpgd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_657i5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qe4sl")
+}],
+"loop": false,
+"name": &"Attack",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnnwg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuba6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vpasg")
+}],
+"loop": false,
+"name": &"Attack_Anticipaton",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5t0vp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3smep")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bme25")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3cpyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yn6lx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t6wid")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uq42")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lfe3y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7goi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jwd5y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jofic")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_22keg"]
+size = Vector2(17, 28)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m6a5w"]
+size = Vector2(541.625, 96)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_3ibk3"]
+radius = 43.0116
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tcvup"]
+size = Vector2(20, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cf6p"]
+size = Vector2(25, 3)
+
+[node name="Zumbi Arqueiro" node_paths=PackedStringArray("detection_area", "attack_area", "texture", "fire_point", "fire_timer", "fire_particle", "hurt_box") instance=ExtResource("1_nburf")]
+script = ExtResource("2_c0h12")
+projectile_scene = ExtResource("3_nnarg")
+projectile_speed = 300.0
+fire_rate = 1.0
+y_offset_range = 5.0
+start_facing_right = false
+detection_area = NodePath("DetectionArea")
+attack_area = NodePath("AttackArea")
+texture = NodePath("Texture")
+fire_point = NodePath("Marker2D")
+fire_timer = NodePath("Timer")
+fire_particle = NodePath("GPUParticles2D")
+hurt_box = NodePath("Hurtbox")
+_knockback_speed = 10.0
+shot_interval = 0.5
+gravity = 980.0
+
+[node name="Texture" parent="." index="0"]
+material = SubResource("ShaderMaterial_uw74t")
+sprite_frames = SubResource("SpriteFrames_cc85s")
+animation = &"Attack_Anticipaton"
+script = null
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(4.5, 8)
+shape = SubResource("RectangleShape2D_22keg")
+
+[node name="AttackArea" parent="." index="3"]
+position = Vector2(-96, 22)
+collision_layer = 0
+script = null
+
+[node name="Collision" parent="AttackArea" index="0"]
+position = Vector2(-188.188, 0)
+shape = SubResource("RectangleShape2D_m6a5w")
+debug_color = Color(0.665918, 0.511116, 0.0357442, 0.42)
+
+[node name="DetectionArea" parent="." index="4"]
+collision_layer = 0
+
+[node name="Collision" parent="DetectionArea" index="0"]
+shape = SubResource("CircleShape2D_3ibk3")
+
+[node name="Marker2D" type="Marker2D" parent="." index="9"]
+
+[node name="Timer" type="Timer" parent="." index="10"]
+wait_time = 0.3
+one_shot = true
+
+[node name="GPUParticles2D" parent="." index="11" instance=ExtResource("8_s1hav")]
+
+[node name="AttackAudio" parent="." index="13"]
+stream = ExtResource("9_vja2y")
+
+[node name="DeadAudio" parent="." index="14"]
+stream = ExtResource("10_n6w0h")
+
+[node name="HitAudio" parent="." index="16"]
+stream = ExtResource("11_3l3u6")
+
+[node name="Hurtbox" parent="." index="17"]
+collision_layer = 72
+collision_mask = 5
+
+[node name="Collision" parent="Hurtbox" index="0"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_tcvup")
+debug_color = Color(0.978013, 0.0680272, 0.337077, 0.42)
+
+[node name="EnemyStepArea2" parent="." index="18" instance=ExtResource("12_2jh8w")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea2" index="1"]
+position = Vector2(0.5, -8.5)
+shape = SubResource("RectangleShape2D_8cf6p")
+debug_color = Color(0.858281, 0.364203, 0, 0.42)
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

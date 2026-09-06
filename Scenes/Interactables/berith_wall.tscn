@@ -1,0 +1,127 @@
+[gd_scene load_steps=19 format=3 uid="uid://ydsnq8tytkat"]
+
+[ext_resource type="Texture2D" uid="uid://csrfm3cahyks5" path="res://sprites/Environment/TEBES/Babel_Tebes_Root_wall.png" id="1_mfagf"]
+[ext_resource type="Script" path="res://Scripts/Interactables/berith_wall.gd" id="1_x0mlm"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_eoueg"]
+[ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="3_ytrxf"]
+[ext_resource type="AudioStream" uid="uid://cl1c7ui24atnh" path="res://Sound/SFX/InteractablesSound/Hidden_Area.ogg" id="4_4fi60"]
+[ext_resource type="AudioStream" uid="uid://dilog71umf3tc" path="res://Sound/SFX/InteractablesSound/Fire_Extinguish_.ogg" id="5_raerd"]
+[ext_resource type="AudioStream" uid="uid://cwv3ucejwrqlh" path="res://Sound/SFX/InteractablesSound/Wall Impact Crumbling.ogg" id="7_ardra"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ih6nl"]
+shader = ExtResource("2_eoueg")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 1.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2j4pi"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(48, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_31t8n"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(96, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1aaiw"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(144, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nied0"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(192, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2pnp7"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(240, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ob70l"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(288, 0, 48, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bfgmu"]
+atlas = ExtResource("1_mfagf")
+region = Rect2(0, 0, 48, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t3tay"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2j4pi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_31t8n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1aaiw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nied0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2pnp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ob70l")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bfgmu")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_if1gp"]
+size = Vector2(44, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_om31q"]
+size = Vector2(44, 56)
+
+[node name="BerithWall" type="Node2D" node_paths=PackedStringArray("_fire_particle", "_texture", "_hitbox", "_wall", "_secret_audio", "_dead_fire_audio", "_hit_audio")]
+script = ExtResource("1_x0mlm")
+_fire_particle = NodePath("FireParticles")
+_texture = NodePath("Texture")
+_hitbox = NodePath("Hitbox")
+_wall = NodePath("Wall")
+_secret_audio = NodePath("HiddenAreaAudio")
+_dead_fire_audio = NodePath("FlameAudio")
+_hit_audio = NodePath("HitAudio")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ih6nl")
+sprite_frames = SubResource("SpriteFrames_t3tay")
+animation = &"Dead"
+
+[node name="Wall" type="StaticBody2D" parent="."]
+collision_layer = 16
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Wall"]
+shape = SubResource("RectangleShape2D_if1gp")
+
+[node name="FireParticles" parent="." instance=ExtResource("3_ytrxf")]
+
+[node name="HiddenAreaAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_4fi60")
+
+[node name="FlameAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_raerd")
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_ardra")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 5
+
+[node name="Collision" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("RectangleShape2D_om31q")
+debug_color = Color(0.977102, 0, 0.406738, 0.42)

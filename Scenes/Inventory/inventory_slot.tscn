@@ -1,0 +1,100 @@
+[gd_scene load_steps=16 format=3 uid="uid://l5exs5y48ql7"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/inventory_slot.gd" id="1_6cu8c"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="2_rt2yn"]
+[ext_resource type="Texture2D" uid="uid://dmxio525j0fo8" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Select_Pixel Art_v01.png" id="3_lq1q8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yo50s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_nelck"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sdufh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_km5og"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s5tcv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3bnwd"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x21wq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x6wbb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_b8dww"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_47lrj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7kauv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qt335"]
+line_spacing = 0.0
+font = ExtResource("2_rt2yn")
+font_size = 11
+shadow_size = 0
+shadow_color = Color(0.137255, 0.137255, 0.137255, 1)
+shadow_offset = Vector2(0, 1)
+
+[node name="InventorySlot" type="Button" node_paths=PackedStringArray("_slot_label", "_slot_texture")]
+custom_minimum_size = Vector2(32, 32)
+mouse_filter = 1
+theme_override_styles/focus = SubResource("StyleBoxEmpty_yo50s")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_nelck")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_sdufh")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_km5og")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_s5tcv")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_3bnwd")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_x21wq")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_x6wbb")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_b8dww")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_47lrj")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_7kauv")
+flat = true
+script = ExtResource("1_6cu8c")
+_slot_label = NodePath("Amount")
+_slot_texture = NodePath("SlotTexture")
+
+[node name="SlotTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Amount" type="Label" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 5.0
+offset_bottom = 11.0
+label_settings = SubResource("LabelSettings_qt335")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="SlotSelected" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("3_lq1q8")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

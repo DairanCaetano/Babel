@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://bgkva5mwnj75g"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_f7hae"]
+[ext_resource type="Texture2D" uid="uid://c745lhxprlg1j" path="res://sprites/Weapons/Babel_sub_Armas_Whip_ICON_v01.png" id="2_chg08"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_whip.gd" id="2_x67j1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3j05"]
+atlas = ExtResource("2_chg08")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_h5w5x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3j05")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r4qnr"]
+
+[node name="CollectableWhip" instance=ExtResource("1_f7hae")]
+script = ExtResource("2_x67j1")
+ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Whip_ICON_v01.png"
+ability_title = "Chicote Antigo"
+ability_description = "Um chicote antigo que parece ser uma relíquia de família. A arma perfeita para caçar monstros."
+collectible_id = "Whip_1"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_h5w5x")
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_r4qnr")

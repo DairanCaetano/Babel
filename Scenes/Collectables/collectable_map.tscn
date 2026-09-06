@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://djupcwyxxcpkv"]
+
+[ext_resource type="PackedScene" uid="uid://bv36np20gw6sp" path="res://Scenes/Collectables/collectable_item.tscn" id="1_gdiwc"]
+[ext_resource type="Texture2D" uid="uid://cbxcgfne51xg0" path="res://sprites/Items/Mapa_Itens.png" id="2_1t1jt"]
+
+[node name="CollectableMap" instance=ExtResource("1_gdiwc")]
+
+[node name="Texture" parent="." index="1"]
+texture = ExtResource("2_1t1jt")

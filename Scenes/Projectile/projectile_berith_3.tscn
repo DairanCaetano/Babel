@@ -1,0 +1,154 @@
+[gd_scene load_steps=21 format=3 uid="uid://dy0se54dl3xak"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_g35eb"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_berith_3.gd" id="2_xcmrm"]
+[ext_resource type="Texture2D" uid="uid://6dxb31vyn0hi" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_3_FX_v01.png" id="3_jk00r"]
+[ext_resource type="AudioStream" uid="uid://b4anhcihg7jsg" path="res://Sound/SFX/EnemiesSound/Berith_Atk3_start_Noisy Hit_HY_PC-006.ogg" id="4_ty2jj"]
+[ext_resource type="AudioStream" uid="uid://nxta0rmshhk4" path="res://Sound/SFX/EnemiesSound/Berith_Atk3_Electric Hit_HY_PC-006.ogg" id="5_g06g3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32h3f"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(0, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auljy"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(50, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fejk"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(100, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vf5q7"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(150, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2aen"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(200, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vkkqa"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(250, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_81gda"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(300, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y7ner"]
+atlas = ExtResource("3_jk00r")
+region = Rect2(350, 0, 50, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pf17s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32h3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auljy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fejk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vf5q7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_32h3f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auljy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fejk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2aen")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vkkqa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_81gda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y7ner")
+}],
+"loop": false,
+"name": &"Active",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xq8so"]
+size = Vector2(34, 300)
+
+[sub_resource type="Curve" id="Curve_1gocy"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_03x74"]
+max_value = 50.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 28.0956), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_fknfu"]
+max_value = 3.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_clil8"]
+curve_x = SubResource("Curve_1gocy")
+curve_y = SubResource("Curve_03x74")
+curve_z = SubResource("Curve_fknfu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_kguse"]
+lifetime_randomness = 0.7
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, -30, 0)
+emission_shape_scale = Vector3(10, 0, 1)
+emission_shape = 3
+emission_box_extents = Vector3(1, 1, 1)
+gravity = Vector3(0, -2000, 0)
+scale_over_velocity_curve = SubResource("CurveXYZTexture_clil8")
+color = Color(0.545098, 1, 0.803922, 1)
+
+[node name="ProjectileBerith3" node_paths=PackedStringArray("texture", "collision", "attack_anticipation_audio", "attack_audio", "particles") instance=ExtResource("1_g35eb")]
+position = Vector2(-10, -46)
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("2_xcmrm")
+texture = NodePath("Texture")
+collision = NodePath("Collision")
+attack_anticipation_audio = NodePath("AttackStartAudio")
+attack_audio = NodePath("AttackAudio")
+particles = NodePath("GPUParticles2D")
+attack_damage = 10
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_pf17s")
+animation = &"Active"
+autoplay = "Active"
+frame = 10
+frame_progress = 1.0
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_xq8so")
+debug_color = Color(0.973341, 0, 0.434678, 0.42)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." index="2"]
+position = Vector2(0, 149)
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_kguse")
+preprocess = 0.5
+speed_scale = 0.5
+visibility_rect = Rect2(-100, -200, 200, 200)
+
+[node name="AttackStartAudio" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource("4_ty2jj")
+
+[node name="AttackAudio" type="AudioStreamPlayer" parent="." index="4"]
+stream = ExtResource("5_g06g3")
+
+[connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="." method="_on_texture_frame_changed"]

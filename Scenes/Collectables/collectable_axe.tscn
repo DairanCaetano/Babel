@@ -1,0 +1,36 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccp53jteh7db8"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_wvb3x"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_axe.gd" id="2_f678k"]
+[ext_resource type="Texture2D" uid="uid://cq5kw5c36ci2" path="res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v02.png" id="3_kx1ft"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rrhs"]
+atlas = ExtResource("3_kx1ft")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v7ofl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8rrhs")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v8c4w"]
+
+[node name="CollectableAxe" instance=ExtResource("1_wvb3x")]
+script = ExtResource("2_f678k")
+ability_icon_path = "res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v02.png"
+ability_title = "Machado Leve"
+ability_description = "Um machado leve, forjado para arremessos."
+collectible_id = "CollectableAxe"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_v7ofl")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_v8c4w")

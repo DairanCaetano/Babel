@@ -1,0 +1,58 @@
+[gd_scene load_steps=9 format=3 uid="uid://b74gctdpf5mmt"]
+
+[ext_resource type="Script" path="res://Scripts/FX/dust_explosion_fx.gd" id="1_15en7"]
+[ext_resource type="Texture2D" uid="uid://1rc7cby7o8cb" path="res://sprites/Enemies/Serpopardo/Serpopardo_Dust_FX.png" id="1_ux73e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxd1s"]
+atlas = ExtResource("1_ux73e")
+region = Rect2(0, 0, 40, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ncoq8"]
+atlas = ExtResource("1_ux73e")
+region = Rect2(40, 0, 40, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fuloh"]
+atlas = ExtResource("1_ux73e")
+region = Rect2(80, 0, 40, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kgyl0"]
+atlas = ExtResource("1_ux73e")
+region = Rect2(120, 0, 40, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_41bk4"]
+atlas = ExtResource("1_ux73e")
+region = Rect2(160, 0, 40, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_c3pv0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxd1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ncoq8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fuloh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kgyl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_41bk4")
+}],
+"loop": false,
+"name": &"Action",
+"speed": 10.0
+}]
+
+[node name="DustExplosionFx" type="Node2D" node_paths=PackedStringArray("_texture")]
+z_index = 1
+script = ExtResource("1_15en7")
+_texture = NodePath("Texture")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_c3pv0")
+animation = &"Action"
+autoplay = "Action"
+frame_progress = 1.0

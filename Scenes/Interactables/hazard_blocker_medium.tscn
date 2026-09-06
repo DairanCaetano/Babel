@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://c7wf8v08vkoxp"]
+
+[ext_resource type="PackedScene" uid="uid://bgfpeiwxxphk1" path="res://Scenes/Interactables/hazard_blocker.tscn" id="1_f01g5"]
+[ext_resource type="Texture2D" uid="uid://m2n0g16y64na" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v02.png" id="2_8nxos"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0ehgl"]
+atlas = ExtResource("2_8nxos")
+region = Rect2(0, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a7ep1"]
+atlas = ExtResource("2_8nxos")
+region = Rect2(16, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m7g7y"]
+atlas = ExtResource("2_8nxos")
+region = Rect2(32, 0, 16, 90)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lrcnf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0ehgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a7ep1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m7g7y")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3lc2y"]
+size = Vector2(16, 72)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_raxen"]
+size = Vector2(12.5, 90)
+
+[node name="HazardBlockerMedium" instance=ExtResource("1_f01g5")]
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_lrcnf")
+frame_progress = 0.0
+
+[node name="Collision" parent="DamageArea" index="0"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_3lc2y")
+
+[node name="Collision" parent="." index="2"]
+shape = SubResource("RectangleShape2D_raxen")

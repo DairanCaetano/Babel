@@ -1,0 +1,147 @@
+[gd_scene load_steps=22 format=3 uid="uid://cpuh2bamqgul6"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_vfa03"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_berith_2.gd" id="2_72ors"]
+[ext_resource type="Texture2D" uid="uid://3duxcmbk682x" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_2_FX_v01.png" id="3_po7g0"]
+[ext_resource type="AudioStream" uid="uid://b0g7lf6rtspho" path="res://Sound/SFX/EnemiesSound/Berith_Atk2_Eruption_HY_PC-005.ogg" id="4_cwaof"]
+[ext_resource type="AudioStream" uid="uid://c08ubyssd2uw1" path="res://Sound/SFX/EnemiesSound/Berith_Atk2_Cruncher_HY_PC-005.ogg" id="5_dncy6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gn3qo"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(0, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5e2nf"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(120, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4terl"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(240, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xe4v8"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(360, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ub31l"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(480, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ryced"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(600, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o3rhg"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(720, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3n8o0"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(840, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rvmun"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(960, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xgoje"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(1080, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wfity"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(1200, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yq4kd"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(1320, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_st32o"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(1440, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kj20i"]
+atlas = ExtResource("3_po7g0")
+region = Rect2(1560, 0, 120, 140)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n77vk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gn3qo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5e2nf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4terl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xe4v8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ub31l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ryced")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o3rhg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3n8o0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rvmun")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xgoje")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wfity")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yq4kd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_st32o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kj20i")
+}],
+"loop": false,
+"name": &"Active",
+"speed": 8.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ueih"]
+size = Vector2(87, 85)
+
+[node name="ProjectileBerith2" node_paths=PackedStringArray("texture", "collision", "attack_anticipation_audio", "attack_audio") instance=ExtResource("1_vfa03")]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("2_72ors")
+texture = NodePath("Texture")
+collision = NodePath("Collision")
+attack_anticipation_audio = NodePath("BerithAtkStartAudio")
+attack_audio = NodePath("BerithAtkAudio")
+attack_damage = 10
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_n77vk")
+animation = &"Active"
+frame = 13
+frame_progress = 1.0
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(-2.5, 13.5)
+shape = SubResource("RectangleShape2D_4ueih")
+disabled = true
+debug_color = Color(0.849138, 0.374117, 0, 0.42)
+
+[node name="BerithAtkAudio" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource("4_cwaof")
+
+[node name="BerithAtkStartAudio" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource("5_dncy6")
+
+[connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="." method="_on_texture_frame_changed"]

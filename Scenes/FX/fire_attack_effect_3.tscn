@@ -1,0 +1,73 @@
+[gd_scene load_steps=12 format=3 uid="uid://cuy5r263j3li6"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_a5vkt"]
+[ext_resource type="Texture2D" uid="uid://cbmcncxccyart" path="res://sprites/FX/COMBATE/Tola_Attack_FIREv03.png" id="2_48gio"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adahm"]
+atlas = ExtResource("2_48gio")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hshu1"]
+atlas = ExtResource("2_48gio")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jgdme"]
+atlas = ExtResource("2_48gio")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2r2d"]
+atlas = ExtResource("2_48gio")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lytur"]
+atlas = ExtResource("2_48gio")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xwrh7"]
+atlas = ExtResource("2_48gio")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6aajp"]
+atlas = ExtResource("2_48gio")
+region = Rect2(540, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c0k06"]
+atlas = ExtResource("2_48gio")
+region = Rect2(630, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ul02u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adahm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hshu1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jgdme")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2r2d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lytur")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xwrh7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6aajp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c0k06")
+}],
+"loop": false,
+"name": &"Fire",
+"speed": 10.0
+}]
+
+[node name="BaseEffect" instance=ExtResource("1_a5vkt")]
+sprite_frames = SubResource("SpriteFrames_ul02u")
+animation = &"Fire"
+autoplay = "Fire"

@@ -1,0 +1,141 @@
+[gd_scene load_steps=18 format=3 uid="uid://cjvodakeerebu"]
+
+[ext_resource type="Texture2D" uid="uid://chiav4r537ov0" path="res://sprites/UI/MENU_1/Babel_Read_Page_Anim.png" id="1_1wvmf"]
+[ext_resource type="Script" path="res://Scripts/Inventory/archive_display_system.gd" id="1_g2gu1"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_y6h2c"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="4_xx4cp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdwkj"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(0, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0a17f"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(480, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjmcj"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(960, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u3g57"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(1440, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yh3pb"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(1920, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7brwa"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(1920, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o1kal"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(1440, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nyqmv"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(960, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_weak1"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(480, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xmu6s"]
+atlas = ExtResource("1_1wvmf")
+region = Rect2(0, 0, 480, 270)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_an7xo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdwkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0a17f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjmcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u3g57")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yh3pb")
+}],
+"loop": false,
+"name": &"Text_in",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7brwa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o1kal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nyqmv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_weak1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xmu6s")
+}],
+"loop": false,
+"name": &"Text_out",
+"speed": 10.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_3cvol"]
+font = ExtResource("3_y6h2c")
+
+[sub_resource type="LabelSettings" id="LabelSettings_ypdp3"]
+font = ExtResource("4_xx4cp")
+font_size = 11
+
+[node name="ArchiveDisplaySystem" type="Control" node_paths=PackedStringArray("_animated_sprite", "_archive_title", "_archive_content") groups=["archive_display"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_g2gu1")
+_animated_sprite = NodePath("Texture")
+_archive_title = NodePath("Texture/VBoxContainer/ArchiveTitle")
+_archive_content = NodePath("Texture/VBoxContainer/ArchiveContent")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 135)
+sprite_frames = SubResource("SpriteFrames_an7xo")
+animation = &"Text_in"
+frame = 4
+frame_progress = 1.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Texture"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -323.0
+offset_top = -215.0
+offset_right = -156.0
+offset_bottom = -23.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 32
+
+[node name="ArchiveTitle" type="Label" parent="Texture/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_3cvol")
+vertical_alignment = 1
+
+[node name="ArchiveContent" type="Label" parent="Texture/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_ypdp3")
+autowrap_mode = 2

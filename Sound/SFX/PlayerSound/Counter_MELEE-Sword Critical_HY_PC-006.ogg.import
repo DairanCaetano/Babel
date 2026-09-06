@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://ik824mo7tw12"
+path="res://.godot/imported/Counter_MELEE-Sword Critical_HY_PC-006.ogg-123fd6ea8c6be41bd2972435bc64a13a.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/PlayerSound/Counter_MELEE-Sword Critical_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/Counter_MELEE-Sword Critical_HY_PC-006.ogg-123fd6ea8c6be41bd2972435bc64a13a.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,50 @@
+[gd_scene load_steps=9 format=3 uid="uid://bu0sf5kli7xeo"]
+
+[ext_resource type="PackedScene" uid="uid://bgj24es5p3f1k" path="res://Scenes/FX/fire_effect.tscn" id="1_wc8h4"]
+[ext_resource type="Texture2D" uid="uid://bisqtip6v0tku" path="res://sprites/FX/FOGO/Fire_FX_Mystic_v01.png" id="2_urn5v"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uffe"]
+atlas = ExtResource("2_urn5v")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mlknh"]
+atlas = ExtResource("2_urn5v")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1mwtn"]
+atlas = ExtResource("2_urn5v")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kvgls"]
+atlas = ExtResource("2_urn5v")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_btkrx"]
+atlas = ExtResource("2_urn5v")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qpmwj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uffe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mlknh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1mwtn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kvgls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_btkrx")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[node name="FireMysticEffect" instance=ExtResource("1_wc8h4")]
+sprite_frames = SubResource("SpriteFrames_qpmwj")

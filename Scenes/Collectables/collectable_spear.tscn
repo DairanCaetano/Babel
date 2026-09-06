@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://c87puwj1bd1ov"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_cb2ll"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_spear.gd" id="2_wxc4n"]
+[ext_resource type="Texture2D" uid="uid://cqu4ch2aa8hd8" path="res://sprites/Weapons/Babel_sub_Armas_Lança_ICON_v02.png" id="3_3eg1g"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0h1r"]
+atlas = ExtResource("3_3eg1g")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1jxx7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0h1r")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iaxv1"]
+size = Vector2(21, 21)
+
+[node name="CollectableSpear" instance=ExtResource("1_cb2ll")]
+script = ExtResource("2_wxc4n")
+ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Lança_ICON_v02.png"
+ability_title = "Lança de Arremesso"
+ability_description = "Uma lança longa de arremesso. É capaz de sustentar o peso de um homem."
+collectible_id = "spear_1"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_1jxx7")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(0.5, -0.5)
+shape = SubResource("RectangleShape2D_iaxv1")

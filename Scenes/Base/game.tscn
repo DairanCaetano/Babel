@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxhcbrd84l026"]
+
+[ext_resource type="PackedScene" uid="uid://drsw64oa5wkpn" path="res://Scenes/Player/character_camera.tscn" id="1_7okua"]
+[ext_resource type="Script" path="res://Scripts/Control/level_container.gd" id="1_7wqso"]
+[ext_resource type="Script" path="res://Scripts/Control/game.gd" id="1_fjrnu"]
+[ext_resource type="PackedScene" uid="uid://g78ro8nvelp1" path="res://Scenes/Player/Tola/player.tscn" id="2_4ha3v"]
+[ext_resource type="PackedScene" uid="uid://bfx2s5jfb5uxt" path="res://Scenes/Inventory/hud.tscn" id="3_xennc"]
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("level_container", "player_root", "character", "camera", "hud")]
+script = ExtResource("1_fjrnu")
+level_container = NodePath("LevelContainer")
+player_root = NodePath("Player")
+character = NodePath("Player/Character")
+camera = NodePath("CharacterCamera")
+hud = NodePath("HUD")
+initial_level_override = "res://Scenes/Fases/Tebes/tebes_1_2.tscn"
+
+[node name="LevelContainer" type="Node2D" parent="."]
+script = ExtResource("1_7wqso")
+
+[node name="CharacterCamera" parent="." instance=ExtResource("1_7okua")]
+offset = Vector2(0, 10)
+process_callback = 0
+limit_bottom = 1000000
+limit_smoothed = true
+position_smoothing_enabled = true
+drag_horizontal_enabled = true
+drag_vertical_enabled = true
+drag_left_margin = 0.1
+drag_top_margin = 0.4
+drag_right_margin = 0.1
+drag_bottom_margin = 0.1
+editor_draw_limits = true
+editor_draw_drag_margin = true
+
+[node name="Player" type="Node2D" parent="."]
+
+[node name="Character" parent="Player" instance=ExtResource("2_4ha3v")]
+
+[node name="HUD" parent="." instance=ExtResource("3_xennc")]

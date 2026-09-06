@@ -1,0 +1,82 @@
+[gd_scene load_steps=14 format=3 uid="uid://i7vpv02lriwo"]
+
+[ext_resource type="Texture2D" uid="uid://dmxio525j0fo8" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Select_Pixel Art_v01.png" id="1_kcb4w"]
+[ext_resource type="Script" path="res://Scripts/Inventory/archives_slot.gd" id="1_ukiq1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6kapp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ncona"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k22yv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_bsdvt"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_56ot4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_21vqe"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_703j4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mq07y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xib3n"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kl5wx"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_k4l8b"]
+
+[node name="ArchivesSlot" type="Button" node_paths=PackedStringArray("_texture_rect", "_slot_selected")]
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 32.0
+size_flags_horizontal = 4
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6kapp")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_ncona")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_k22yv")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_bsdvt")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_56ot4")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_21vqe")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_703j4")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_mq07y")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_xib3n")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_kl5wx")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_k4l8b")
+flat = true
+script = ExtResource("1_ukiq1")
+_texture_rect = NodePath("SlotTexture")
+_slot_selected = NodePath("SlotSelected")
+
+[node name="SlotTexture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 4
+
+[node name="SlotSelected" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_kcb4w")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="pressed" from="." to="." method="_on_pressed"]

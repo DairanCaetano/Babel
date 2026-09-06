@@ -1,0 +1,53 @@
+[gd_scene load_steps=5 format=3 uid="uid://cem1i5l7di7vv"]
+
+[ext_resource type="Texture2D" uid="uid://dujw45ske0vbo" path="res://sprites/FX/DIVERSOS/Scream_FX_01.png" id="1_n74ti"]
+
+[sub_resource type="Animation" id="Animation_koyhn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_b4scn"]
+resource_name = "Roar"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(10, 10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g3jct"]
+_data = {
+"RESET": SubResource("Animation_koyhn"),
+"Roar": SubResource("Animation_b4scn")
+}
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Texture" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.262745)
+texture = ExtResource("1_n74ti")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_g3jct")
+}
+autoplay = "Roar"

@@ -1,0 +1,78 @@
+[gd_scene load_steps=11 format=3 uid="uid://di8h1e2oivrux"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/spear_platform.gd" id="1_dyytl"]
+[ext_resource type="Texture2D" uid="uid://bowusgrnh0fyk" path="res://sprites/Interactables/Spear_Interativos_Pixel Art_v01.png" id="1_ek4xy"]
+[ext_resource type="Texture2D" uid="uid://v7kx5oxu0qx2" path="res://sprites/Interactables/Spear_anim_Interativos_Pixel Art_v01.png" id="2_bmo2a"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_clfgc"]
+size = Vector2(38, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpuky"]
+atlas = ExtResource("2_bmo2a")
+region = Rect2(0, 0, 50, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_72i7g"]
+atlas = ExtResource("2_bmo2a")
+region = Rect2(50, 0, 50, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdbvs"]
+atlas = ExtResource("2_bmo2a")
+region = Rect2(100, 0, 50, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x7m2p"]
+atlas = ExtResource("1_ek4xy")
+region = Rect2(0, 0, 40, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0ltwv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hpuky")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_72i7g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdbvs")
+}],
+"loop": false,
+"name": &"Active",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x7m2p")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wehcj"]
+size = Vector2(32, 4)
+
+[node name="SpearPlatform" type="StaticBody2D" node_paths=PackedStringArray("sprite", "collision_shape")]
+collision_layer = 16
+collision_mask = 3
+script = ExtResource("1_dyytl")
+sprite = NodePath("Texture")
+collision_shape = NodePath("Collision")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_clfgc")
+one_way_collision = true
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_0ltwv")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Detection" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="Detection"]
+position = Vector2(-3, 0)
+shape = SubResource("RectangleShape2D_wehcj")
+debug_color = Color(0.866163, 0.355278, 0, 0.42)
+
+[connection signal="body_entered" from="Detection" to="." method="_on_detection_body_entered"]
+[connection signal="body_exited" from="Detection" to="." method="_on_detection_body_exited"]

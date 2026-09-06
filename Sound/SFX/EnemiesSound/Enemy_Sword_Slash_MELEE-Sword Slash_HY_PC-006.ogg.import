@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://qjxhdk54epbu"
+path="res://.godot/imported/Enemy_Sword_Slash_MELEE-Sword Slash_HY_PC-006.ogg-d94a6c0b9a6c611c9a130f7e89fb85c3.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Enemy_Sword_Slash_MELEE-Sword Slash_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/Enemy_Sword_Slash_MELEE-Sword Slash_HY_PC-006.ogg-d94a6c0b9a6c611c9a130f7e89fb85c3.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

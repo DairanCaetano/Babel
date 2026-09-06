@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cavvyicdj2kyr"
+path="res://.godot/imported/Whip_EXPLOSION-Mana Bomb_HY_PC-006.ogg-f2667811ee683767742f7a100eceb236.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/PlayerSound/Whip_EXPLOSION-Mana Bomb_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/Whip_EXPLOSION-Mana Bomb_HY_PC-006.ogg-f2667811ee683767742f7a100eceb236.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

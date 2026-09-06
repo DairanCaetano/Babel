@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://cl4rtqrag8jfq"]
+
+[ext_resource type="Script" path="res://Scripts/FX/crt_screen_fx.gd" id="1_3yqvy"]
+[ext_resource type="Shader" path="res://Scenes/FX/screen_effect.gdshader" id="1_tugro"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0jl0i"]
+shader = ExtResource("1_tugro")
+
+[sub_resource type="QuadMesh" id="QuadMesh_4lmy5"]
+size = Vector2(640, 360)
+center_offset = Vector3(320, 180, 0)
+
+[node name="CRT_Screen_FX" type="CanvasLayer"]
+script = ExtResource("1_3yqvy")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="."]
+material = SubResource("ShaderMaterial_0jl0i")
+mesh = SubResource("QuadMesh_4lmy5")

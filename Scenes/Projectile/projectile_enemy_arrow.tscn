@@ -1,0 +1,121 @@
+[gd_scene load_steps=18 format=3 uid="uid://bd3s3x2wvprtu"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_ssyyk"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_enemy_arrow.gd" id="2_4ql7e"]
+[ext_resource type="Texture2D" uid="uid://ccrfhaenccsxb" path="res://sprites/Enemies/Zumbi Arqueiro/Babel_Flecha_Inimigo_v01.png" id="3_3i4xm"]
+[ext_resource type="Texture2D" uid="uid://c86js5obw0n26" path="res://sprites/Enemies/Zumbi Arqueiro/Babel_Flecha_Inimigo_quebrada_v01.png" id="3_5cfmw"]
+[ext_resource type="AudioStream" uid="uid://bw3633pceg64w" path="res://Sound/SFX/EnemiesSound/Bow Impact Hit 1.ogg" id="5_8yby5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tad2p"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(0, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wkewp"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(45, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_er1s2"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(90, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s74rh"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(135, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11wt0"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(180, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cvoag"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(225, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oglug"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(270, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bbnil"]
+atlas = ExtResource("3_5cfmw")
+region = Rect2(315, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_up7kx"]
+atlas = ExtResource("3_3i4xm")
+region = Rect2(0, 0, 45, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_268ra"]
+atlas = ExtResource("3_3i4xm")
+region = Rect2(45, 0, 45, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b6j6w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tad2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wkewp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_er1s2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s74rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11wt0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cvoag")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oglug")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bbnil")
+}],
+"loop": true,
+"name": &"Destroyed",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_up7kx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_268ra")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r8u3e"]
+size = Vector2(26, 10)
+
+[node name="ProjectileEnemyShooter" node_paths=PackedStringArray("_sprite", "body_collision", "_arrow_hit_audio") instance=ExtResource("1_ssyyk")]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("2_4ql7e")
+attack_damage = 1
+speed = 300.0
+_health = 1
+is_static = true
+is_interactable = true
+interactable_pieces = []
+is_special = false
+_sprite = NodePath("Texture")
+body_collision = NodePath("Collision")
+_arrow_hit_audio = NodePath("ArrowHitAudio")
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_b6j6w")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(-3, 0)
+shape = SubResource("RectangleShape2D_r8u3e")
+debug_color = Color(0.980467, 0, 0.379428, 0.42)
+
+[node name="ArrowHitAudio" type="AudioStreamPlayer2D" parent="." index="2"]
+stream = ExtResource("5_8yby5")

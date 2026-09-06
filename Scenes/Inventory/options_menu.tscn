@@ -1,0 +1,222 @@
+[gd_scene load_steps=15 format=3 uid="uid://bq8f8semmgijy"]
+
+[ext_resource type="Script" path="res://Scripts/Menu/options_menu.gd" id="1_eyfpk"]
+[ext_resource type="Texture2D" uid="uid://dcbcgvp05ryfd" path="res://sprites/UI/MENU_1/Babel_Menu_Options_Select_v01.png" id="2_bgc3o"]
+[ext_resource type="Texture2D" uid="uid://dsixjl526e252" path="res://sprites/UI/MENU_1/Babel_GUI_BG_Pixel Art_v01.png" id="2_tjo1j"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_m6wy0"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_sntdy"]
+[ext_resource type="Texture2D" uid="uid://bd38321ejwj3j" path="res://sprites/UI/MENU_1/Babel_GUI_Options_Menu_v01.png" id="4_nwq4r"]
+[ext_resource type="AudioStream" uid="uid://r4ukokbmlftd" path="res://Sound/SFX/MenuSound/UI_Navigation.ogg" id="5_4xj7h"]
+[ext_resource type="AudioStream" uid="uid://c0afal5i0hl2p" path="res://Sound/SFX/MenuSound/UI_Select.ogg" id="6_rua1t"]
+[ext_resource type="AudioStream" uid="uid://btuxq57rgdure" path="res://Sound/SFX/MenuSound/PauseMenu.ogg" id="7_q1cxr"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_61xfq"]
+font = ExtResource("3_m6wy0")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_opmff"]
+font = ExtResource("3_sntdy")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_3yttu"]
+font = ExtResource("3_sntdy")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_tqnsf"]
+font = ExtResource("3_sntdy")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_r8xxe"]
+font = ExtResource("3_sntdy")
+font_size = 11
+
+[node name="OptionsPage" type="Control" node_paths=PackedStringArray("navigation_audio", "select_audio", "close_audio", "music_slider", "sfx_slider", "filter_title_label", "language_title_label", "window_title_label", "vibration_title_label", "quit_title_label", "filter_value_label", "language_value_label", "window_value_label", "vibration_value_label")]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_eyfpk")
+navigation_audio = NodePath("NavigationAudio")
+select_audio = NodePath("SelectAudio")
+close_audio = NodePath("CloseAudio")
+music_slider = NodePath("OptionsContainer/MusicContainer/MusicSlider")
+sfx_slider = NodePath("OptionsContainer/SFXContainer/SXFSlider")
+filter_title_label = NodePath("BannerOptionsContainer/Options_menu")
+language_title_label = NodePath("OptionsContainer/FilterContainer/Teme")
+window_title_label = NodePath("OptionsContainer/WindowContainer/Label")
+vibration_title_label = NodePath("OptionsContainer/vibrationContainer/Teme")
+quit_title_label = NodePath("OptionsContainer/QuitContainer/Teme")
+filter_value_label = NodePath("OptionsContainer/FilterContainer/options")
+language_value_label = NodePath("OptionsContainer/LanguageContainer/Options")
+window_value_label = NodePath("OptionsContainer/WindowContainer/options")
+vibration_value_label = NodePath("OptionsContainer/vibrationContainer/Options")
+
+[node name="BG" type="Sprite2D" parent="."]
+position = Vector2(240, 135)
+texture = ExtResource("2_tjo1j")
+
+[node name="BannerOptionsContainer" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 182.0
+offset_top = 18.0
+offset_right = 278.0
+offset_bottom = 39.0
+
+[node name="Options_menu" type="Label" parent="BannerOptionsContainer"]
+layout_mode = 2
+text = "Opções"
+label_settings = SubResource("LabelSettings_61xfq")
+
+[node name="OptionsContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 134.0
+offset_top = 45.0
+offset_right = 315.0
+offset_bottom = 254.0
+theme_override_constants/separation = 15
+alignment = 1
+
+[node name="FilterContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/FilterContainer"]
+visible = false
+position = Vector2(90, 3)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/FilterContainer"]
+layout_mode = 2
+text = "Filtro"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="options" type="Label" parent="OptionsContainer/FilterContainer"]
+layout_mode = 2
+text = "ligado"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="LanguageContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/LanguageContainer"]
+visible = false
+position = Vector2(90, 6)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/LanguageContainer"]
+layout_mode = 2
+text = "Idiomas"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="Options" type="Label" parent="OptionsContainer/LanguageContainer"]
+layout_mode = 2
+text = "Português"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="MusicContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/MusicContainer"]
+visible = false
+position = Vector2(90, 6)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/MusicContainer"]
+layout_mode = 2
+text = "Música"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="MusicSlider" type="HSlider" parent="OptionsContainer/MusicContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+
+[node name="SFXContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 48
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/SFXContainer"]
+visible = false
+position = Vector2(90, 6)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/SFXContainer"]
+layout_mode = 2
+text = "SFX     "
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="SXFSlider" type="HSlider" parent="OptionsContainer/SFXContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+max_value = 1.0
+step = 0.05
+
+[node name="WindowContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/WindowContainer"]
+visible = false
+position = Vector2(90, 11)
+texture = ExtResource("2_bgc3o")
+
+[node name="Label" type="Label" parent="OptionsContainer/WindowContainer"]
+layout_mode = 2
+text = "Janela"
+label_settings = SubResource("LabelSettings_tqnsf")
+
+[node name="options" type="Label" parent="OptionsContainer/WindowContainer"]
+layout_mode = 2
+text = "Janela"
+label_settings = SubResource("LabelSettings_r8xxe")
+
+[node name="vibrationContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/vibrationContainer"]
+visible = false
+position = Vector2(90, 8)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/vibrationContainer"]
+layout_mode = 2
+text = "vibração"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="Options" type="Label" parent="OptionsContainer/vibrationContainer"]
+layout_mode = 2
+text = "Ligado"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="QuitContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/QuitContainer"]
+visible = false
+position = Vector2(90, 5)
+texture = ExtResource("2_bgc3o")
+
+[node name="Teme" type="Label" parent="OptionsContainer/QuitContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Sair para menu"
+label_settings = SubResource("LabelSettings_opmff")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(240, 136)
+texture = ExtResource("4_nwq4r")
+
+[node name="NavigationAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_4xj7h")
+
+[node name="SelectAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_rua1t")
+
+[node name="CloseAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_q1cxr")

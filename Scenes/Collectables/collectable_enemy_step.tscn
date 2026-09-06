@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://b483uto5dka1m"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_fccsl"]
+[ext_resource type="Texture2D" uid="uid://c2b6k7yedixgc" path="res://sprites/Items/Skills_Enemy_Step.png" id="2_cl6ln"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_enemy_step.gd" id="2_gwkov"]
+[ext_resource type="PackedScene" uid="uid://cmjsoap2ln5gd" path="res://Scenes/FX/skill_fx_particle.tscn" id="3_607j0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fabsf"]
+atlas = ExtResource("2_cl6ln")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_p1aji"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fabsf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xc75i"]
+
+[sub_resource type="Animation" id="Animation_viliy"]
+resource_name = "Idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2)]
+}
+
+[sub_resource type="Animation" id="Animation_ioe3v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_njk5t"]
+_data = {
+"Idle": SubResource("Animation_viliy"),
+"RESET": SubResource("Animation_ioe3v")
+}
+
+[node name="CollectableEnemyStep" groups=["collectibles"] instance=ExtResource("1_fccsl")]
+script = ExtResource("2_gwkov")
+ability_icon_path = "res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
+ability_title = "Impulso no inimigo"
+ability_description = "Pule em cima do inimigo para realizar um impulso e alcançar áreas mais altas."
+collectible_id = "enemy_step_1"
+
+[node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_607j0")]
+
+[node name="Texture" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_p1aji")
+
+[node name="Collision" parent="." index="2"]
+shape = SubResource("RectangleShape2D_xc75i")
+
+[node name="Anim" type="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_njk5t")
+}
+autoplay = "Idle"

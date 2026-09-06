@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://m0n1m0ia4e6r"]
+
+[ext_resource type="PackedScene" uid="uid://bls514774qst8" path="res://Scenes/Interactables/interactable_component.tscn" id="1_cn2er"]
+[ext_resource type="Texture2D" uid="uid://bwlyvtgr8a8b3" path="res://sprites/Interactables/Espinhos_v01.png" id="2_5v4ph"]
+[ext_resource type="Script" path="res://Scripts/Interactables/spike.gd" id="2_xc4j4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lg4xq"]
+size = Vector2(16, 14)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ppyj7"]
+atlas = ExtResource("2_5v4ph")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tixcc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ppyj7")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="Spike" instance=ExtResource("1_cn2er")]
+collision_mask = 3
+script = ExtResource("2_xc4j4")
+_damage = 5
+_health = 0
+_is_static = false
+_is_interactable = false
+_interactable_pieces = []
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_lg4xq")
+debug_color = Color(0.96146, 0, 0.378248, 0.42)
+
+[node name="Texture" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_tixcc")
+animation = &"Idle"
+autoplay = "Idle"
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

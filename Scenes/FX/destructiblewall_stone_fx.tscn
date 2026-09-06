@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6pips7kuvau7"]
+
+[ext_resource type="PackedScene" uid="uid://bv36np20gw6sp" path="res://Scenes/Collectables/collectable_item.tscn" id="1_s21dv"]
+[ext_resource type="Texture2D" uid="uid://dk0xncs0gt5kg" path="res://sprites/Interactables/DestructableRock_FX.png" id="2_4meng"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_emho6"]
+bounce = 0.2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sxsjx"]
+radius = 6.5
+height = 13.0
+
+[node name="DestructibleWallStone" instance=ExtResource("1_s21dv")]
+collision_layer = 0
+mass = 0.3
+physics_material_override = SubResource("PhysicsMaterial_emho6")
+gravity_scale = 1.5
+linear_damp = 1.5
+angular_damp = 3.0
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("CapsuleShape2D_sxsjx")
+
+[node name="Texture" parent="." index="1"]
+texture = ExtResource("2_4meng")

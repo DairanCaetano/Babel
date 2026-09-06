@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://tnhdxg3dg5dv"]
+
+[ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="1_6a0dn"]
+[ext_resource type="Texture2D" uid="uid://bisqtip6v0tku" path="res://sprites/FX/FOGO/Fire_FX_Mystic_v01.png" id="2_nqwvj"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_raldj"]
+particle_flag_disable_z = true
+emission_shape_offset = Vector3(0, 20, 0)
+emission_shape = 3
+emission_box_extents = Vector3(80, 50, 1)
+gravity = Vector3(0, -50, 0)
+scale_max = 2.0
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+turbulence_enabled = true
+
+[node name="FireMysticParticles" instance=ExtResource("1_6a0dn")]
+amount = 15
+process_material = SubResource("ParticleProcessMaterial_raldj")
+texture = ExtResource("2_nqwvj")
+lifetime = 0.5
+fixed_fps = 60

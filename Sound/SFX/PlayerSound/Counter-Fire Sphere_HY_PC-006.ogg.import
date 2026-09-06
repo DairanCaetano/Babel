@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dsavaw2h4bmoj"
+path="res://.godot/imported/Counter-Fire Sphere_HY_PC-006.ogg-1253eba4ef65969c6c70856e0b375765.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/PlayerSound/Counter-Fire Sphere_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/Counter-Fire Sphere_HY_PC-006.ogg-1253eba4ef65969c6c70856e0b375765.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

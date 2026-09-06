@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://jqcbfk16emom"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_57vbr"]
+[ext_resource type="Texture2D" uid="uid://cqp5qt63o176a" path="res://sprites/FX/COMBATE/Tola_Attack_FIREv02.png" id="2_icnqc"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_528am"]
+atlas = ExtResource("2_icnqc")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cq1p"]
+atlas = ExtResource("2_icnqc")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jkdj"]
+atlas = ExtResource("2_icnqc")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mghxl"]
+atlas = ExtResource("2_icnqc")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dt5jw"]
+atlas = ExtResource("2_icnqc")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_56deu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_528am")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4cq1p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4jkdj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mghxl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dt5jw")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="FireAttackEffect2" instance=ExtResource("1_57vbr")]
+sprite_frames = SubResource("SpriteFrames_56deu")
+animation = &"default"
+frame = 4
+frame_progress = 1.0

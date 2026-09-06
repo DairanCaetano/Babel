@@ -1,0 +1,34 @@
+[gd_scene load_steps=7 format=3 uid="uid://b5udpytbpv0u5"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_17nje"]
+[ext_resource type="Script" path="res://Scripts/Collectables/Archives/collectable_text_tebes_3.gd" id="2_iolfr"]
+[ext_resource type="Texture2D" uid="uid://c7epr8m44g6y3" path="res://sprites/Items/Arquivo_Itens2.png" id="3_eo6ne"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep3ap"]
+atlas = ExtResource("3_eo6ne")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dlgev"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep3ap")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_52q53"]
+
+[node name="CollectableTextTebes3" instance=ExtResource("1_17nje")]
+script = ExtResource("2_iolfr")
+archive_icon = "res://sprites/Items/Arquivo_Itens1.png"
+collectible_id = "archive_3"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_dlgev")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_52q53")

@@ -1,0 +1,67 @@
+[gd_scene load_steps=9 format=3 uid="uid://flo5rf12itii"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/hanging_box.gd" id="1_i065f"]
+[ext_resource type="Texture2D" uid="uid://cc1r3aqv47j85" path="res://sprites/Environment/TEBES/Rope_Anchor_Sprite.png" id="1_vqsg1"]
+[ext_resource type="Script" path="res://Scripts/Interactables/pushables.gd" id="3_e7j3y"]
+[ext_resource type="Texture2D" uid="uid://d4lnaam1qxncb" path="res://sprites/Interactables/Bloco_Sprite.png" id="4_0as6c"]
+[ext_resource type="Script" path="res://Scripts/Interactables/rope_visual.gd" id="5_qbeas"]
+[ext_resource type="AudioStream" uid="uid://c2icp7v75hbo1" path="res://Sound/SFX/InteractablesSound/Rope_Broken.ogg" id="6_e87d0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ka1qt"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_psbc6"]
+size = Vector2(8, 122)
+
+[node name="HangingBox" type="Node2D" node_paths=PackedStringArray("rope_anchor", "pushable_box", "rope_visual")]
+z_index = 1
+script = ExtResource("1_i065f")
+rope_anchor = NodePath("RopeAnchor")
+pushable_box = NodePath("PushableBox")
+rope_visual = NodePath("RopeVisual/Line2D")
+
+[node name="RopeAnchor" type="StaticBody2D" parent="."]
+position = Vector2(0, -139)
+collision_layer = 16
+collision_mask = 3
+
+[node name="Texture" type="Sprite2D" parent="RopeAnchor"]
+texture = ExtResource("1_vqsg1")
+
+[node name="PushableBox" type="CharacterBody2D" parent="."]
+collision_layer = 1024
+collision_mask = 1035
+script = ExtResource("3_e7j3y")
+
+[node name="Texture" type="Sprite2D" parent="PushableBox"]
+texture = ExtResource("4_0as6c")
+
+[node name="Collision" type="CollisionShape2D" parent="PushableBox"]
+shape = SubResource("RectangleShape2D_ka1qt")
+debug_color = Color(5.77569e-07, 0.646602, 0.232994, 0.42)
+
+[node name="HurtBox" type="Area2D" parent="PushableBox"]
+
+[node name="RopeVisual" type="Node2D" parent="." node_paths=PackedStringArray("anchor", "box", "line", "hit_box", "collision", "_rope_broken_audio")]
+script = ExtResource("5_qbeas")
+rope_width = 4.0
+rope_color = Color(0.190559, 0.135555, 0.0803915, 1)
+anchor = NodePath("../RopeAnchor")
+box = NodePath("../PushableBox")
+line = NodePath("Line2D")
+hit_box = NodePath("RopeHitBox")
+collision = NodePath("RopeHitBox/Collision")
+_rope_broken_audio = NodePath("../RopeBrokenAudio")
+
+[node name="Line2D" type="Line2D" parent="RopeVisual"]
+
+[node name="RopeHitBox" type="Area2D" parent="RopeVisual"]
+collision_layer = 16
+collision_mask = 4
+
+[node name="Collision" type="CollisionShape2D" parent="RopeVisual/RopeHitBox"]
+position = Vector2(0, -75)
+shape = SubResource("RectangleShape2D_psbc6")
+
+[node name="RopeBrokenAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_e87d0")

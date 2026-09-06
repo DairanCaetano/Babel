@@ -1,0 +1,41 @@
+[gd_scene load_steps=3 format=3 uid="uid://bls514774qst8"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/interactable_component.gd" id="1_m3lxj"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7lbmj"]
+animations = []
+
+[node name="InteractableComponent" type="Area2D" node_paths=PackedStringArray("_sprite", "_body_collision", "_broken_audio", "_interaction_area") groups=["destructible_objects"]]
+collision_layer = 16
+collision_mask = 2
+script = ExtResource("1_m3lxj")
+_interactable_pieces = ["res://sprites/Interactables/Jarro_pedaço_v01.png", "res://sprites/Interactables/Jarro_pedaço_v02.png", "res://sprites/Interactables/Jarro_pedaço_v03.png", "res://sprites/Interactables/Jarro_pedaço_v04.png"]
+_sprite = NodePath("Texture")
+_body_collision = NodePath("Body/Collision")
+_broken_audio = NodePath("BrokenAudio")
+_interaction_area = NodePath("InteractionArea/Collision")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="Body" type="StaticBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape2D" parent="Body"]
+debug_color = Color(0.99662, 0, 0.183111, 0.42)
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7lbmj")
+animation = &""
+
+[node name="BrokenAudio" type="AudioStreamPlayer" parent="."]
+volume_db = -30.0
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Collision" type="CollisionShape2D" parent="InteractionArea"]
+debug_color = Color(0.866011, 0.355453, 1.92523e-07, 0.42)
+
+[connection signal="area_entered" from="." to="." method="_on_interactable_area_entered"]
+[connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]

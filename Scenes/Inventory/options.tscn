@@ -1,0 +1,141 @@
+[gd_scene load_steps=9 format=3 uid="uid://dl6w15hhx4edp"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/options_page.gd" id="1_maxt0"]
+[ext_resource type="Texture2D" uid="uid://dcbcgvp05ryfd" path="res://sprites/UI/MENU_1/Babel_Menu_Options_Select_v01.png" id="2_5862s"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_63l03"]
+[ext_resource type="Texture2D" uid="uid://cwmw8lqvw0hl3" path="res://sprites/UI/MENU_1/Babel_GUI_Options_Box_Art_v02.png" id="4_1i0wy"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_opmff"]
+font = ExtResource("3_63l03")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_3yttu"]
+font = ExtResource("3_63l03")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_tqnsf"]
+font = ExtResource("3_63l03")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_r8xxe"]
+font = ExtResource("3_63l03")
+font_size = 11
+
+[node name="OptionsPage" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_maxt0")
+
+[node name="BannerOptionsContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+offset_left = 255.0
+offset_top = 18.0
+offset_right = 351.0
+offset_bottom = 39.0
+
+[node name="OptionsContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 71.0
+offset_right = 274.0
+offset_bottom = 111.0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="FilterContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 80
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/FilterContainer"]
+visible = false
+position = Vector2(90, 3)
+texture = ExtResource("2_5862s")
+
+[node name="Teme" type="Label" parent="OptionsContainer/FilterContainer"]
+layout_mode = 2
+text = "Filtro"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="options" type="Label" parent="OptionsContainer/FilterContainer"]
+layout_mode = 2
+text = "ligado"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="LanguageContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/LanguageContainer"]
+visible = false
+position = Vector2(90, 6)
+texture = ExtResource("2_5862s")
+
+[node name="Teme" type="Label" parent="OptionsContainer/LanguageContainer"]
+layout_mode = 2
+text = "Idiomas"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="Options" type="Label" parent="OptionsContainer/LanguageContainer"]
+layout_mode = 2
+text = "Português"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="WindowContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/WindowContainer"]
+visible = false
+position = Vector2(90, 11)
+texture = ExtResource("2_5862s")
+
+[node name="Label" type="Label" parent="OptionsContainer/WindowContainer"]
+layout_mode = 2
+text = "Janela"
+label_settings = SubResource("LabelSettings_tqnsf")
+
+[node name="options" type="Label" parent="OptionsContainer/WindowContainer"]
+layout_mode = 2
+text = "Janela"
+label_settings = SubResource("LabelSettings_r8xxe")
+
+[node name="vibrationContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 60
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/vibrationContainer"]
+visible = false
+position = Vector2(90, 8)
+texture = ExtResource("2_5862s")
+
+[node name="Teme" type="Label" parent="OptionsContainer/vibrationContainer"]
+layout_mode = 2
+text = "vibração"
+label_settings = SubResource("LabelSettings_opmff")
+
+[node name="Options" type="Label" parent="OptionsContainer/vibrationContainer"]
+layout_mode = 2
+text = "Ligado"
+label_settings = SubResource("LabelSettings_3yttu")
+
+[node name="QuitContainer" type="HBoxContainer" parent="OptionsContainer"]
+layout_mode = 2
+
+[node name="Texture" type="Sprite2D" parent="OptionsContainer/QuitContainer"]
+visible = false
+position = Vector2(90, 5)
+texture = ExtResource("2_5862s")
+
+[node name="Teme" type="Label" parent="OptionsContainer/QuitContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Sair para menu"
+label_settings = SubResource("LabelSettings_opmff")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(210, 149)
+texture = ExtResource("4_1i0wy")

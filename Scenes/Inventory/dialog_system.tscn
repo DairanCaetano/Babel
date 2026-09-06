@@ -1,0 +1,133 @@
+[gd_scene load_steps=14 format=3 uid="uid://da2eugovb0w4t"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/dialogue_system.gd" id="1_8g67a"]
+[ext_resource type="Texture2D" uid="uid://b45wvlfpeykro" path="res://sprites/UI/DIALOGUE/Babel_GUI_Dialogue_v01.png" id="2_uddpn"]
+[ext_resource type="Texture2D" uid="uid://cthynsx8htt1q" path="res://sprites/UI/DIALOGUE/Babel_GUI_Dialogue_Faceset_v01.png" id="3_njdui"]
+[ext_resource type="Texture2D" uid="uid://ci2tcvrmnonmw" path="res://sprites/UI/DIALOGUE/Babel_GUI_FaceDialogue_Pixel Art_v01.png" id="4_xp5ww"]
+[ext_resource type="FontFile" uid="uid://bnnhjdfnkjecp" path="res://Fonts/castlevania_3/castlevania-3.ttf" id="5_vvrk1"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="6_cst46"]
+[ext_resource type="Texture2D" uid="uid://cs1f2ntl8ok8" path="res://sprites/UI/DIALOGUE/Babel_GUI_Dialogue_Skip_icon_v01.png" id="6_hv1l6"]
+[ext_resource type="AudioStream" uid="uid://dw3k1dbt66suj" path="res://Sound/SFX/MenuSound/Text_Scroll.ogg" id="8_og3bv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bpc4y"]
+font = ExtResource("5_vvrk1")
+
+[sub_resource type="LabelSettings" id="LabelSettings_wols1"]
+font = ExtResource("6_cst46")
+font_size = 12
+
+[sub_resource type="Animation" id="Animation_y2tp0"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5eom1"]
+resource_name = "moving"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -8)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mxljy"]
+_data = {
+"RESET": SubResource("Animation_y2tp0"),
+"moving": SubResource("Animation_5eom1")
+}
+
+[node name="DialogSystem" type="Control" node_paths=PackedStringArray("_faceset", "_title", "_dialog_Text", "_skip_indicator", "_dialog_audio")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_8g67a")
+_faceset = NodePath("BackgroundDialogue/FacesetBackground/Faceset")
+_title = NodePath("BackgroundDialogue/VContainer/Title")
+_dialog_Text = NodePath("BackgroundDialogue/VContainer/DialogueText")
+_skip_indicator = NodePath("SkipIndicator")
+_dialog_audio = NodePath("DialogAudio")
+
+[node name="BackgroundDialogue" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_uddpn")
+
+[node name="FacesetBackground" type="TextureRect" parent="BackgroundDialogue"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_njdui")
+
+[node name="Faceset" type="TextureRect" parent="BackgroundDialogue/FacesetBackground"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("4_xp5ww")
+
+[node name="VContainer" type="VBoxContainer" parent="BackgroundDialogue"]
+custom_minimum_size = Vector2(256, 80)
+layout_mode = 0
+offset_left = 114.0
+offset_top = 55.0
+offset_right = 434.0
+offset_bottom = 135.0
+theme_override_constants/separation = 5
+
+[node name="Title" type="Label" parent="BackgroundDialogue/VContainer"]
+layout_mode = 2
+text = "Tola"
+label_settings = SubResource("LabelSettings_bpc4y")
+
+[node name="DialogueText" type="Label" parent="BackgroundDialogue/VContainer"]
+custom_minimum_size = Vector2(320, 52)
+layout_mode = 2
+text = "OLA, ESTE E UM TESTE PARA DETERMINAR O ESPACO QUE O TEXTO VAI OCUPAR NA CAIXA DE DIALOGOS DO GAME BABEL, UM METROIDVANIA BRASILEIRO INSPIRADO EM CLASSUICOS DO PASSADO COMO ALADDIN."
+label_settings = SubResource("LabelSettings_wols1")
+autowrap_mode = 2
+
+[node name="SkipIndicator" type="TextureRect" parent="."]
+visible = false
+z_index = 1
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 8
+texture = ExtResource("6_hv1l6")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SkipIndicator"]
+libraries = {
+"": SubResource("AnimationLibrary_mxljy")
+}
+autoplay = "moving"
+
+[node name="DialogAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_og3bv")

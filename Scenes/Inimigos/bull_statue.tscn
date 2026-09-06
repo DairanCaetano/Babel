@@ -1,0 +1,64 @@
+[gd_scene load_steps=10 format=3 uid="uid://cv20kqqwep1im"]
+
+[ext_resource type="PackedScene" uid="uid://6063j6olpca3" path="res://Scenes/Inimigos/base_enemy.tscn" id="1_c0udu"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_j6es8"]
+[ext_resource type="Texture2D" uid="uid://rmfh330s45nb" path="res://sprites/Enemies/Estátua Boi/Babel_Personagens_Estatua_Boi_Pixel Art_v01.png" id="3_pksy4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tydhi"]
+resource_local_to_scene = true
+shader = ExtResource("2_j6es8")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm8oc"]
+atlas = ExtResource("3_pksy4")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oskmb"]
+atlas = ExtResource("3_pksy4")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4tme"]
+atlas = ExtResource("3_pksy4")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqllf"]
+atlas = ExtResource("3_pksy4")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_deyja"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm8oc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oskmb")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4tme")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqllf")
+}],
+"loop": true,
+"name": &"Rest",
+"speed": 5.0
+}]
+
+[node name="BullStatue" instance=ExtResource("1_c0udu")]
+
+[node name="Texture" parent="." index="0"]
+material = SubResource("ShaderMaterial_tydhi")
+sprite_frames = SubResource("SpriteFrames_deyja")
+animation = &"Idle"

@@ -1,0 +1,132 @@
+[gd_scene load_steps=12 format=3 uid="uid://6063j6olpca3"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/base_enemy.gd" id="1_gtuuj"]
+[ext_resource type="Script" path="res://Scripts/Enemies/enemy_texture.gd" id="2_o7pnw"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_pba37"]
+[ext_resource type="Script" path="res://Scripts/Enemies/enemy_attack_area.gd" id="3_dj4ih"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="5_ujrrh"]
+[ext_resource type="Script" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="6_1xxbm"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0c8lt"]
+resource_local_to_scene = true
+shader = ExtResource("2_pba37")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3sfmj"]
+
+[sub_resource type="Gradient" id="Gradient_1v3tf"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p2cqi"]
+gradient = SubResource("Gradient_1v3tf")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_k1dwp"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 25.0
+direction = Vector3(0.5, -0.5, 0)
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+gravity = Vector3(0, 800, 0)
+damping_min = 100.0
+damping_max = 800.0
+scale_max = 3.0
+color = Color(0.980392, 0.117647, 0, 1)
+color_ramp = SubResource("GradientTexture1D_p2cqi")
+
+[node name="BaseEnemy" type="CharacterBody2D" node_paths=PackedStringArray("_enemy_texture", "_floor_detection_ray", "_wall_detection_ray", "_knockback_timer", "_attack_area_collision", "_attack_area_detection", "_particle_2d", "_hurtbox_detection", "_chase_area", "_dead_audio", "_dead_scream_audio", "_hit_audio", "_attack_audio") groups=["enemies"]]
+collision_layer = 0
+collision_mask = 6
+script = ExtResource("1_gtuuj")
+_enemy_texture = NodePath("Texture")
+_floor_detection_ray = NodePath("FloorDetectionRay")
+_wall_detection_ray = NodePath("WallDetectionRay")
+_knockback_timer = NodePath("KnockbackTimer")
+_attack_area_collision = NodePath("AttackArea/Collision")
+_attack_area_detection = NodePath("DetectionArea/Collision")
+_particle_2d = NodePath("BloodParticles")
+_hurtbox_detection = NodePath("Hurtbox")
+_chase_area = NodePath("ChaseArea")
+enemy_direction = true
+_move_speed = 20.0
+_dead_audio = NodePath("DeadAudio")
+_dead_scream_audio = NodePath("DeadScreamAudio")
+_hit_audio = NodePath("HitAudio")
+_attack_audio = NodePath("AttackAudio")
+
+[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_enemy")]
+material = SubResource("ShaderMaterial_0c8lt")
+sprite_frames = SubResource("SpriteFrames_3sfmj")
+script = ExtResource("2_o7pnw")
+_enemy = NodePath("..")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="FloorDetectionRay" type="RayCast2D" parent="."]
+target_position = Vector2(0, 16)
+collision_mask = 3
+
+[node name="AttackArea" type="Area2D" parent="."]
+script = ExtResource("3_dj4ih")
+
+[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+
+[node name="DetectionArea" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="DetectionArea"]
+
+[node name="DamageAudio" type="AudioStreamPlayer" parent="DetectionArea"]
+
+[node name="KnockbackTimer" type="Timer" parent="."]
+wait_time = 0.3
+one_shot = true
+
+[node name="WallDetectionRay" type="RayCast2D" parent="."]
+position = Vector2(16, 5)
+target_position = Vector2(16, 0)
+collision_mask = 2
+
+[node name="BloodParticles" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_k1dwp")
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+
+[node name="ChaseArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Collision" type="CollisionShape2D" parent="ChaseArea"]
+
+[node name="EnemyStepArea" parent="." instance=ExtResource("5_ujrrh")]
+
+[node name="AttackAudio" type="AudioStreamPlayer" parent="."]
+
+[node name="DeadAudio" type="AudioStreamPlayer" parent="."]
+
+[node name="DeadScreamAudio" type="AudioStreamPlayer" parent="."]
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="."]
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+script = ExtResource("6_1xxbm")
+_contact_damage = 5
+
+[node name="Collision" type="CollisionShape2D" parent="Hurtbox"]
+
+[connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]
+[connection signal="body_entered" from="AttackArea" to="AttackArea" method="_on_body_entered"]
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]
+[connection signal="timeout" from="KnockbackTimer" to="." method="_on_knockback_timer_timeout"]
+[connection signal="body_entered" from="ChaseArea" to="." method="_on_chase_area_body_entered"]
+[connection signal="body_exited" from="ChaseArea" to="." method="_on_chase_area_body_exited"]
+[connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]

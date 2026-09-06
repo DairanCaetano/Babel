@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://d4lwlukohcc4x"]
+
+[ext_resource type="Script" path="res://Scripts/FX/ghost_trail.gd" id="1_p3ncn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pt4a4"]
+
+[node name="GhostTrail" type="Node2D" node_paths=PackedStringArray("_texture")]
+script = ExtResource("1_p3ncn")
+_texture = NodePath("Texture")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pt4a4")

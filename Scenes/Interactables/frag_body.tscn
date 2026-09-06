@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://t6xejjbqp4sj"]
+
+[ext_resource type="Script" path="res://RigidBody2D.gd" id="1_rnbnm"]
+[ext_resource type="Texture2D" uid="uid://b70ydyossqm7c" path="res://sprites/Interactables/Babel_Itens_Fragmento1_Pixel Art_v01.png" id="2_xgxa8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_heqtt"]
+size = Vector2(8, 12)
+
+[sub_resource type="Animation" id="Animation_5yely"]
+resource_name = "Active"
+length = 0.5
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+
+[sub_resource type="Animation" id="Animation_qaoln"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [1]
+}
+
+[sub_resource type="Animation" id="Animation_kl71u"]
+resource_name = "Vanished"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [5, 6, 7, 8]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_xliqv"]
+_data = {
+"Active": SubResource("Animation_5yely"),
+"RESET": SubResource("Animation_qaoln"),
+"Vanished": SubResource("Animation_kl71u")
+}
+
+[node name="frag_body" type="RigidBody2D"]
+collision_layer = 16
+collision_mask = 3
+script = ExtResource("1_rnbnm")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_xgxa8")
+hframes = 5
+vframes = 3
+frame = 1
+
+[node name="frag_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_heqtt")
+
+[node name="anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_xliqv")
+}
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

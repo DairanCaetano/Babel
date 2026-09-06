@@ -1,0 +1,47 @@
+[gd_scene load_steps=8 format=3 uid="uid://d05s06vo2k8q3"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_itcp3"]
+[ext_resource type="Texture2D" uid="uid://lx4kwjwii5bl" path="res://sprites/FX/ITENS/Collect_Items_FX.png" id="2_knqvf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcciv"]
+atlas = ExtResource("2_knqvf")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jmgry"]
+atlas = ExtResource("2_knqvf")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d13fk"]
+atlas = ExtResource("2_knqvf")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_quw26"]
+atlas = ExtResource("2_knqvf")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_1pxuu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcciv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jmgry")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d13fk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_quw26")
+}],
+"loop": false,
+"name": &"action",
+"speed": 10.0
+}]
+
+[node name="CollectItemEffect" instance=ExtResource("1_itcp3")]
+sprite_frames = SubResource("SpriteFrames_1pxuu")
+animation = &"action"
+autoplay = "action"
+frame = 3
+frame_progress = 1.0

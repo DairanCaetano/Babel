@@ -1,0 +1,78 @@
+[gd_scene load_steps=12 format=3 uid="uid://clagxpnog3dm8"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_ugthq"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_chakram.gd" id="2_6wc2w"]
+[ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="3_h88kr"]
+[ext_resource type="Texture2D" uid="uid://4ak05c7t0c6g" path="res://sprites/Weapons/Babel_Armas_Chakram_Pixel Art_v01.png" id="3_xj17p"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n0dw0"]
+atlas = ExtResource("3_xj17p")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fliol"]
+atlas = ExtResource("3_xj17p")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqep0"]
+atlas = ExtResource("3_xj17p")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cexd"]
+atlas = ExtResource("3_xj17p")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ol1au"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n0dw0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fliol")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqep0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4cexd")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_63o0x"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_psb05"]
+radius = 12.0416
+
+[node name="ProjectileChakram" node_paths=PackedStringArray("_texture", "_collision") instance=ExtResource("1_ugthq")]
+collision_mask = 14
+script = ExtResource("2_6wc2w")
+attack_damage = 5
+move_speed = 300.0
+_deceleration = 400.0
+max_distance = 200.0
+_texture = NodePath("Texture")
+_collision = NodePath("Hitbox/Collision")
+ghost_trail_scene = ExtResource("3_h88kr")
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ol1au")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("CircleShape2D_63o0x")
+debug_color = Color(0.125154, 0.579275, 0.781637, 0.42)
+
+[node name="Hitbox" type="Area2D" parent="." index="2"]
+collision_layer = 0
+collision_mask = 78
+
+[node name="Collision" type="CollisionShape2D" parent="Hitbox" index="0"]
+shape = SubResource("CircleShape2D_psb05")
+debug_color = Color(0.943821, 0.176279, 0.408872, 0.42)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="body_entered" from="Hitbox" to="." method="_on_hitbox_body_entered"]

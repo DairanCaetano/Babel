@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://bnkt162ojyg55"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_7yin4"]
+[ext_resource type="Texture2D" uid="uid://c1u66k7bdv2rk" path="res://sprites/FX/DEFESA FX/Tola_Defesa_FX_v04.png" id="2_qg4xq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_66m5v"]
+atlas = ExtResource("2_qg4xq")
+region = Rect2(0, 0, 90, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm0su"]
+atlas = ExtResource("2_qg4xq")
+region = Rect2(90, 0, 90, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hxfn0"]
+atlas = ExtResource("2_qg4xq")
+region = Rect2(180, 0, 90, 73)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ng5ni"]
+atlas = ExtResource("2_qg4xq")
+region = Rect2(270, 0, 90, 73)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l16qd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_66m5v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm0su")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hxfn0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ng5ni")
+}],
+"loop": false,
+"name": &"ParryFX",
+"speed": 10.0
+}]
+
+[node name="ParryEffect" instance=ExtResource("1_7yin4")]
+sprite_frames = SubResource("SpriteFrames_l16qd")
+autoplay = "ParryFX"
+frame_progress = 1.0

@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://brosow3m5ignn"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_0k1r6"]
+[ext_resource type="Texture2D" uid="uid://d1k20xb8olsyj" path="res://sprites/FX/POEIRA/RUN FX/Tola_Corrida_FX_v02.png" id="3_fy7vo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x67bn"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6hgyf"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjg3v"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7ux8f"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j6n44"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4so6u"]
+atlas = ExtResource("3_fy7vo")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qvbfb"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x67bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6hgyf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjg3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7ux8f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j6n44")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4so6u")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="RunEffect" instance=ExtResource("1_0k1r6")]
+sprite_frames = SubResource("SpriteFrames_qvbfb")
+frame = 5
+frame_progress = 1.0

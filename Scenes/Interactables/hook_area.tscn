@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ca4aq4q4frgu"]
+
+[ext_resource type="Texture2D" uid="uid://dnpp0rvj5onhl" path="res://sprites/Player/Tola/gancho/Babel_Interativos_Gancho_v01.png" id="1_i8wjw"]
+[ext_resource type="Script" path="res://Scenes/Interactables/hook_area.gd" id="1_km3gq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_c43vt"]
+
+[node name="HookArea" type="Area2D"]
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_km3gq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_i8wjw")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_c43vt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

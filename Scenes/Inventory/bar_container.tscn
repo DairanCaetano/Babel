@@ -1,0 +1,93 @@
+[gd_scene load_steps=8 format=3 uid="uid://bxc2dpyvg0112"]
+
+[ext_resource type="Texture2D" uid="uid://3506yyoerfgd" path="res://sprites/UI/MENU_1/Babel_HUD_Pixel Art_v01.png" id="1_6jigi"]
+[ext_resource type="Script" path="res://Scripts/Inventory/bar_container.gd" id="1_m150d"]
+[ext_resource type="Texture2D" uid="uid://c1xmo6xhbdqro" path="res://sprites/UI/MENU_1/Babel_HealthBar_Pixel Art_v01.png" id="2_7bq52"]
+[ext_resource type="Texture2D" uid="uid://dpc586w6hobd6" path="res://sprites/UI/MENU_1/Babel_UnderBar_Pixel Art_v01.png" id="3_nird1"]
+[ext_resource type="Texture2D" uid="uid://irmkll1y6bd1" path="res://sprites/UI/MENU_1/Babel_ManaBar_Pixel Art_v01.png" id="3_wg3jx"]
+[ext_resource type="Texture2D" uid="uid://dc5ankpv5v75u" path="res://sprites/UI/MENU_1/Babel_HealthBarBorder_Pixel Art_v01.png" id="5_orv56"]
+[ext_resource type="Texture2D" uid="uid://cf5n8bfsujpaq" path="res://sprites/UI/MENU_1/Babel_StaminaBarBorder_Pixel Art_v01.png" id="7_6yffa"]
+
+[node name="BarContainer" type="Control" node_paths=PackedStringArray("health_bar", "stamina_bar", "trail_bar", "trail_stamina_bar", "health_border", "stamina_border") groups=["bar_container"]]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_m150d")
+health_bar = NodePath("StatusBar/HealthBar")
+stamina_bar = NodePath("StatusBar/StaminaBar")
+trail_bar = NodePath("StatusBar/TrailBar")
+trail_stamina_bar = NodePath("StatusBar/TrailStaminaBar")
+health_border = NodePath("StatusBar/HealthBorder")
+stamina_border = NodePath("StatusBar/StaminaBorder")
+growth_tween_duration = 1.0
+
+[node name="StatusBar" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("1_6jigi")
+
+[node name="TrailBar" type="TextureProgressBar" parent="StatusBar"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 8.0
+offset_right = 114.0
+offset_bottom = 14.0
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("3_nird1")
+
+[node name="HealthBar" type="TextureProgressBar" parent="StatusBar"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 8.0
+offset_right = 114.0
+offset_bottom = 14.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 44
+stretch_margin_top = 6
+texture_progress = ExtResource("2_7bq52")
+
+[node name="HealthBorder" type="NinePatchRect" parent="StatusBar"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 5.0
+offset_right = 117.0
+offset_bottom = 17.0
+texture = ExtResource("5_orv56")
+patch_margin_left = 3
+patch_margin_right = 3
+
+[node name="TrailStaminaBar" type="TextureProgressBar" parent="StatusBar"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 20.0
+offset_right = 114.0
+offset_bottom = 26.0
+scale = Vector2(1, 0.66)
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("3_nird1")
+
+[node name="StaminaBar" type="TextureProgressBar" parent="StatusBar"]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 20.0
+offset_right = 114.0
+offset_bottom = 24.0
+value = 100.0
+nine_patch_stretch = true
+texture_progress = ExtResource("3_wg3jx")
+
+[node name="StaminaBorder" type="NinePatchRect" parent="StatusBar"]
+layout_mode = 0
+offset_left = 67.0
+offset_top = 17.0
+offset_right = 117.0
+offset_bottom = 27.0
+texture = ExtResource("7_6yffa")
+patch_margin_left = 3
+patch_margin_right = 3

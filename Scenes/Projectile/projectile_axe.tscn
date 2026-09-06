@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://bgenjweqoym3c"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_2oaqc"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_axe.gd" id="2_qrk0w"]
+[ext_resource type="Texture2D" uid="uid://bj2a4xwt75e6y" path="res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v01.png" id="2_wo3ac"]
+[ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="3_anx3e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wnq2"]
+atlas = ExtResource("2_wo3ac")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u6v57"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wnq2")
+}],
+"loop": true,
+"name": &"Throw",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pvqpc"]
+
+[node name="ProjectileAxe" node_paths=PackedStringArray("_texture") groups=["player_attack"] instance=ExtResource("1_2oaqc")]
+collision_mask = 1114
+script = ExtResource("2_qrk0w")
+_attack_damage = 4
+rotation_speed = 720.0
+ghost_interval = 0.03
+ghost_trail_scene = ExtResource("3_anx3e")
+_texture = NodePath("Texture")
+_move_speed = 250.0
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_u6v57")
+animation = &"Throw"
+autoplay = "Throw"
+frame_progress = 0.736537
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("CircleShape2D_pvqpc")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

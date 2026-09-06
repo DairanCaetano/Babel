@@ -1,0 +1,324 @@
+[gd_scene load_steps=20 format=3 uid="uid://bgw7giqkp0e7w"]
+
+[ext_resource type="Script" path="res://Scripts/Cinematic/cinematic_intro.gd" id="1_6bdjn"]
+[ext_resource type="Texture2D" uid="uid://nr8b2csbuv12" path="res://sprites/Cinematics/Cinemactic_Intro_2.png" id="2_3rwwg"]
+[ext_resource type="Texture2D" uid="uid://hhtnldfarw4m" path="res://sprites/Menu/Babel_Logo_Anim_v01.png" id="2_xaiax"]
+[ext_resource type="Shader" path="res://Shaders/glitch.gdshader" id="3_lqvrb"]
+[ext_resource type="Texture2D" uid="uid://bqc1n2eaq3oku" path="res://sprites/Cinematics/Cinemactic_Intro_Tola_Azazel.png" id="4_60ia5"]
+[ext_resource type="Script" path="res://Scripts/Cinematic/control_text_intro.gd" id="5_naw84"]
+[ext_resource type="PackedScene" uid="uid://cl4rtqrag8jfq" path="res://Scenes/FX/crt_screen_fx.tscn" id="7_6l64q"]
+[ext_resource type="FontFile" uid="uid://dxlfd4ne1nryl" path="res://Fonts/alagard/alagard.ttf" id="7_vhjo8"]
+[ext_resource type="Shader" path="res://Shaders/heat.gdshader" id="8_ob4hx"]
+[ext_resource type="Texture2D" uid="uid://dafj3nbilqtyn" path="res://sprites/FX/NEBLINA/Babel_FX_Effects_ Fog_v06.png" id="9_hi2ta"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7axdh"]
+shader = ExtResource("3_lqvrb")
+shader_parameter/shake_power = 0.009
+shader_parameter/shake_rate = 0.1
+shader_parameter/shake_speed = 10.0
+shader_parameter/shake_block_size = 20.0
+shader_parameter/shake_color_rate = 0.01
+
+[sub_resource type="Animation" id="Animation_yiqhc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureTower:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(240, 540)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureLogo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureLogo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TextureTolaAzazel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(232, 327)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TextureTolaAzazel:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Fog:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(480, -55)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("TextureTower:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_hw2x1"]
+resource_name = "cinematic"
+length = 46.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("TextureTower:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.1, 45.3667),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(240, 690), Vector2(240, 660), Vector2(240, -420)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("TextureLogo:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(1.96667, 34.2667, 34.7334),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("TextureLogo:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(34.9, 35.2667, 35.6, 35.9334, 36.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("TextureTolaAzazel:position")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(28.7667, 43.4667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(232, 327), Vector2(232, 220)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("TextureTolaAzazel:scale")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(28.7, 34.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(3, 3), Vector2(1, 1)]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("Control")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(4.86667),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"start_scroll"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Fog:position")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(25.3, 35.2667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(480, -55), Vector2(-800, -55)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("TextureTower:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(-0.0333333, 41.7667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0.98, 0.98), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5388i"]
+_data = {
+"RESET": SubResource("Animation_yiqhc"),
+"cinematic": SubResource("Animation_hw2x1")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e2el5"]
+atlas = ExtResource("4_60ia5")
+region = Rect2(0, 0, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ki0in"]
+atlas = ExtResource("4_60ia5")
+region = Rect2(200, 0, 200, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4yn6"]
+atlas = ExtResource("4_60ia5")
+region = Rect2(400, 0, 200, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_em2od"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e2el5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ki0in")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4yn6")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5b4sw"]
+shader = ExtResource("8_ob4hx")
+shader_parameter/strength = 0.02
+shader_parameter/speed = 2.0
+shader_parameter/frequency = 20.0
+
+[node name="CinematicIntro" type="Node2D" node_paths=PackedStringArray("animation_player")]
+script = ExtResource("1_6bdjn")
+animation_player = NodePath("Anim")
+
+[node name="GlitchFx" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="Texture" type="ColorRect" parent="GlitchFx"]
+material = SubResource("ShaderMaterial_7axdh")
+offset_right = 481.0
+offset_bottom = 271.0
+color = Color(1, 1, 1, 0.337255)
+
+[node name="BG" type="Sprite2D" parent="."]
+
+[node name="CRT_Screen_FX" parent="." instance=ExtResource("7_6l64q")]
+
+[node name="TextureTower" type="Sprite2D" parent="."]
+position = Vector2(240, 540)
+texture = ExtResource("2_3rwwg")
+
+[node name="TextureLogo" type="Sprite2D" parent="."]
+position = Vector2(239, 136)
+texture = ExtResource("2_xaiax")
+hframes = 5
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+offset_left = -10.0
+offset_top = 239.0
+offset_right = 556.0
+offset_bottom = 279.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_right = 573.0
+offset_bottom = 53.0
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5388i")
+}
+autoplay = "cinematic"
+
+[node name="TextureTolaAzazel" type="AnimatedSprite2D" parent="."]
+position = Vector2(232, 327)
+sprite_frames = SubResource("SpriteFrames_em2od")
+autoplay = "default"
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 33.0
+offset_top = 18.0
+offset_right = 436.0
+offset_bottom = 218.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("5_naw84")
+font = ExtResource("7_vhjo8")
+font_size = 14
+
+[node name="Fog" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.345098)
+material = SubResource("ShaderMaterial_5b4sw")
+offset_left = 480.0
+offset_top = -55.0
+offset_right = 1120.0
+offset_bottom = 305.0
+texture = ExtResource("9_hi2ta")

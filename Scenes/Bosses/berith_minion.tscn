@@ -1,0 +1,251 @@
+[gd_scene load_steps=34 format=3 uid="uid://c2u5vykfbc0f0"]
+
+[ext_resource type="PackedScene" uid="uid://cv20kqqwep1im" path="res://Scenes/Inimigos/bull_statue.tscn" id="1_s7jvg"]
+[ext_resource type="Script" path="res://Scripts/Bosses/berith_minion.gd" id="2_k55ei"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_noir5"]
+[ext_resource type="PackedScene" uid="uid://n2pcr2ojecgp" path="res://Scenes/FX/pixel_fire_2D.tscn" id="3_56hrf"]
+[ext_resource type="Texture2D" uid="uid://b3rw5ixtq5rn3" path="res://sprites/Bosses/Baal Berith/Babel_Personagens_Berith_Minion_Pixel Art_v02.png" id="5_dqxrr"]
+[ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="6_3dlag"]
+[ext_resource type="PackedScene" uid="uid://domirasqwif0f" path="res://Scenes/FX/estatues_explosion.tscn" id="7_0d3fv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_11pae"]
+resource_local_to_scene = true
+shader = ExtResource("2_noir5")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.5, 0, 1)
+shader_parameter/fire_intensity = 0.6
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhdu8"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(935, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fht1d"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(990, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_svgdi"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(1045, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2atlj"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(0, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lt6gv"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(55, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h84ks"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(110, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ipx23"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(165, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgng3"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(220, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ptixy"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(275, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g8ha6"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(330, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i7atd"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(385, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xn7ab"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(440, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4qboh"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(495, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q4bxf"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(550, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n23pe"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(605, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ljsmw"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(660, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_37dxd"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(715, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h6isn"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(770, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdwoo"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(825, 0, 55, 45)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7vtq"]
+atlas = ExtResource("5_dqxrr")
+region = Rect2(880, 0, 55, 45)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_taynd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhdu8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fht1d")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_svgdi")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2atlj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lt6gv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h84ks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ipx23")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cgng3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ptixy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g8ha6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i7atd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xn7ab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4qboh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q4bxf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n23pe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ljsmw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_37dxd")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"Rest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h6isn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdwoo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7vtq")
+}],
+"loop": false,
+"name": &"Start",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6aynt"]
+radius = 11.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_767yi"]
+radius = 12.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lwigr"]
+radius = 146.513
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_43jrn"]
+radius = 12.0416
+
+[node name="BerithMinion" node_paths=PackedStringArray("detection_area", "texture", "attack_area", "particula_pedra", "particulas_fogo", "particulas_fogo_morte") groups=["berith_minions"] instance=ExtResource("1_s7jvg")]
+script = ExtResource("2_k55ei")
+detection_area = NodePath("DetectionArea")
+texture = NodePath("Texture")
+attack_area = NodePath("AttackArea")
+particula_pedra = NodePath("ExplosãoEstátuas")
+particulas_fogo = NodePath("PixelFire")
+particulas_fogo_morte = NodePath("FireParticles")
+behavior_mode = 0
+_enemy_health = 5
+_knockback_speed = 10.0
+move_speed = 50.0
+chase_duration = 1.0
+idle_duration = 1.0
+death_jump_force = 100.0
+death_horizontal_force = 150.0
+enable_texture_fire = true
+static_idle_shake_interval = 3.0
+
+[node name="PixelFire" parent="." index="0" instance=ExtResource("3_56hrf")]
+
+[node name="Texture" parent="." index="1"]
+material = SubResource("ShaderMaterial_11pae")
+sprite_frames = SubResource("SpriteFrames_taynd")
+script = null
+
+[node name="Collision" parent="." index="2"]
+shape = SubResource("CircleShape2D_6aynt")
+
+[node name="AttackArea" parent="." index="4"]
+collision_layer = 0
+
+[node name="Collision" parent="AttackArea" index="0"]
+shape = SubResource("CircleShape2D_767yi")
+debug_color = Color(0.949099, 0.146649, 0.438328, 0.42)
+
+[node name="DetectionArea" parent="." index="5"]
+collision_layer = 0
+
+[node name="Collision" parent="DetectionArea" index="0"]
+shape = SubResource("CircleShape2D_lwigr")
+debug_color = Color(0.386508, 0.611931, 0, 0.42)
+
+[node name="ChaseArea" parent="." index="9"]
+collision_layer = 1
+
+[node name="FireParticles" parent="." index="10" instance=ExtResource("6_3dlag")]
+
+[node name="ExplosãoEstátuas" parent="." index="11" instance=ExtResource("7_0d3fv")]
+
+[node name="Hurtbox" parent="." index="17"]
+collision_layer = 72
+collision_mask = 7
+
+[node name="Collision" parent="Hurtbox" index="0"]
+shape = SubResource("CircleShape2D_43jrn")

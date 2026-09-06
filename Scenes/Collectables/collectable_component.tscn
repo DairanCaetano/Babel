@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6fo6wqswlaub"]
+
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_component.gd" id="1_6ira1"]
+[ext_resource type="AudioStream" uid="uid://cn0hrnj72niyn" path="res://Sound/SFX/CollectablesSound/Collected_item_etherium.ogg" id="2_c10vt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5rfg3"]
+
+[node name="CollectableComponent" type="Area2D" node_paths=PackedStringArray("collectable_audio")]
+collision_layer = 16
+script = ExtResource("1_6ira1")
+collectable_audio = NodePath("CollectableAudio")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5rfg3")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+
+[node name="CollectableAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_c10vt")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

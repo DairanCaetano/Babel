@@ -1,0 +1,146 @@
+[gd_scene load_steps=21 format=3 uid="uid://ddwbhoaxlwqtp"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_sia2c"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_ground_roots.gd" id="2_35bue"]
+[ext_resource type="Texture2D" uid="uid://dshy480quw4ac" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_FX_2.png" id="2_v4f2m"]
+[ext_resource type="AudioStream" uid="uid://3834sj5oevrf" path="res://Sound/SFX/EnemiesSound/Roots_crouching_EXPLOSION-Cruncher_HY_PC-003.ogg" id="4_g4jwy"]
+[ext_resource type="AudioStream" uid="uid://cflj24ps5badh" path="res://Sound/SFX/EnemiesSound/Roots_EXPLOSION-Flare Extinguish_HY_PC-003.ogg" id="5_srt1b"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yfs1t"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(0, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jc331"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(120, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmmqd"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(240, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lukut"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(360, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xkxil"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(480, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uj8ap"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(600, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qa8xg"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(720, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8nks"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(840, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aavjb"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(960, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eq86p"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(1080, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsuns"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(1200, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_whd4s"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(1320, 0, 120, 140)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_otitl"]
+atlas = ExtResource("2_v4f2m")
+region = Rect2(1440, 0, 120, 140)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_n77vk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yfs1t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jc331")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmmqd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lukut")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xkxil")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uj8ap")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qa8xg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8nks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8nks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8nks")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aavjb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eq86p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsuns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_whd4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_otitl")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ueih"]
+size = Vector2(87, 85)
+
+[node name="ProjectileGroundRoots" node_paths=PackedStringArray("_texture", "_attack_start_audio", "attack_audio") instance=ExtResource("1_sia2c")]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("2_35bue")
+attack_damage = 25
+_texture = NodePath("Texture")
+_attack_start_audio = NodePath("AttackStartAudio")
+attack_audio = NodePath("AttackAudio")
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_n77vk")
+animation = &"Idle"
+autoplay = "Idle"
+frame = 14
+frame_progress = 1.0
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(-2.5, 13.5)
+shape = SubResource("RectangleShape2D_4ueih")
+debug_color = Color(0.849138, 0.374117, 0, 0.42)
+
+[node name="AttackStartAudio" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource("4_g4jwy")
+
+[node name="AttackAudio" type="AudioStreamPlayer" parent="." index="3"]
+stream = ExtResource("5_srt1b")
+volume_db = 10.0
+
+[connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="." method="_on_texture_frame_changed"]

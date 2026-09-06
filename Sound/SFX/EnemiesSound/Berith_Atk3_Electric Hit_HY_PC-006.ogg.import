@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://nxta0rmshhk4"
+path="res://.godot/imported/Berith_Atk3_Electric Hit_HY_PC-006.ogg-c31f5dcabe0f493a0a9d469744ee5a22.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Berith_Atk3_Electric Hit_HY_PC-006.ogg"
+dest_files=["res://.godot/imported/Berith_Atk3_Electric Hit_HY_PC-006.ogg-c31f5dcabe0f493a0a9d469744ee5a22.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

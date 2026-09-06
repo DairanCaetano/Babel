@@ -1,0 +1,6 @@
+[gd_scene format=3 uid="uid://uvxjgv8itgwo"]
+
+[node name="EnemyStepArea" type="Area2D" groups=["Step"]]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]

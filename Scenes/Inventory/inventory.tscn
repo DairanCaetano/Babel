@@ -1,0 +1,700 @@
+[gd_scene load_steps=35 format=3 uid="uid://nowqrfoi24aq"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/inventory.gd" id="1_xdkls"]
+[ext_resource type="Texture2D" uid="uid://dsixjl526e252" path="res://sprites/UI/MENU_1/Babel_GUI_BG_Pixel Art_v01.png" id="2_efppc"]
+[ext_resource type="Texture2D" uid="uid://byyju5yhjfkth" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Title_Pixel Art_v01.png" id="2_vutjg"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_2kwrh"]
+[ext_resource type="Texture2D" uid="uid://cbmokq7h02eyn" path="res://sprites/UI/MENU_1/Babel_GUI_Invetory_Box_1_Pixel Art_v01.png" id="6_5iry2"]
+[ext_resource type="Texture2D" uid="uid://hapra3s0esqj" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Info_Pixel Art_v01.png" id="7_f4e35"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="8_fdd24"]
+[ext_resource type="Texture2D" uid="uid://b8yr8qx6e26eg" path="res://sprites/UI/MENU_1/Babel_GUI_Invetory_Body_1_Pixel Art_v01.png" id="9_ge4va"]
+[ext_resource type="PackedScene" uid="uid://bxc2dpyvg0112" path="res://Scenes/Inventory/bar_container.tscn" id="10_hpuy1"]
+[ext_resource type="PackedScene" uid="uid://bs1pg1ih68v7o" path="res://Scenes/Inventory/ui_currency_slot.tscn" id="12_3m185"]
+[ext_resource type="PackedScene" uid="uid://c7e3hujuneya4" path="res://Scenes/Inventory/inventory_equipments.tscn" id="12_kv5i1"]
+[ext_resource type="Script" path="res://Scripts/Inventory/archives_page.gd" id="13_pyhnh"]
+[ext_resource type="PackedScene" uid="uid://dl6w15hhx4edp" path="res://Scenes/Inventory/options.tscn" id="15_5p3dj"]
+[ext_resource type="Texture2D" uid="uid://uuqmh5h4bgr3" path="res://sprites/UI/MENU_1/Babel_GUI_Archives_Grid.png" id="16_xsyru"]
+[ext_resource type="Texture2D" uid="uid://dtbvi5gnfsx4d" path="res://sprites/UI/MENU_1/Babel_GUI_Archives_Box.png" id="17_6ti1r"]
+[ext_resource type="Script" path="res://Scripts/Inventory/abilities_page.gd" id="19_6sgbm"]
+[ext_resource type="Texture2D" uid="uid://dmxio525j0fo8" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Select_Pixel Art_v01.png" id="19_guthh"]
+[ext_resource type="Texture2D" uid="uid://c3730b5voofc0" path="res://sprites/UI/MENU_1/Babel_GUI_Abilities_Area.png" id="19_mw46c"]
+[ext_resource type="Texture2D" uid="uid://b1xnn88gxijnl" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_ChangePage_Right.png" id="21_jepnl"]
+[ext_resource type="Texture2D" uid="uid://c0ir2c0abqge5" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_ChangePage_Left.png" id="22_q7kqc"]
+[ext_resource type="AudioStream" uid="uid://r4ukokbmlftd" path="res://Sound/SFX/MenuSound/UI_Navigation.ogg" id="23_5h3ql"]
+[ext_resource type="AudioStream" uid="uid://c0afal5i0hl2p" path="res://Sound/SFX/MenuSound/UI_Select.ogg" id="24_qroa1"]
+[ext_resource type="AudioStream" uid="uid://dhgujw56v5337" path="res://Sound/SFX/MenuSound/Menu_Change_Page.ogg" id="25_a12u6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bex3w"]
+line_spacing = 0.0
+font = ExtResource("3_2kwrh")
+font_size = 14
+shadow_size = 0
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gurdd"]
+font = ExtResource("3_2kwrh")
+font_size = 14
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_g4v0l"]
+font = ExtResource("3_2kwrh")
+font_size = 14
+outline_color = Color(0.973535, 0.973535, 0.973535, 1)
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_k2in3"]
+font = ExtResource("8_fdd24")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_s226i"]
+font = ExtResource("3_2kwrh")
+
+[sub_resource type="LabelSettings" id="LabelSettings_twvky"]
+font = ExtResource("8_fdd24")
+font_size = 9
+
+[sub_resource type="LabelSettings" id="LabelSettings_2hk1b"]
+font = ExtResource("3_2kwrh")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_6o8ko"]
+font = ExtResource("8_fdd24")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_11ywv"]
+font = ExtResource("8_fdd24")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_2uabx"]
+font = ExtResource("8_fdd24")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_pubqu"]
+font = ExtResource("8_fdd24")
+font_size = 8
+
+[node name="Inventory" type="Control" node_paths=PackedStringArray("_slots_container", "_inventory_title", "_abilities_title", "_archives_title", "_options_title", "navigation_audio", "select_audio", "change_page_audio") groups=["bar_container"]]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_xdkls")
+_slots_container = NodePath("InventoryPage/InventoryGrid/SlotsContainer")
+_inventory_title = NodePath("InventoryTexture")
+_abilities_title = NodePath("AbilitiesTexture")
+_archives_title = NodePath("ArchivesTexture")
+_options_title = NodePath("OptionsTexture")
+navigation_audio = NodePath("NavigationAudio")
+select_audio = NodePath("SelectAudio")
+change_page_audio = NodePath("ChangePageAudio")
+
+[node name="Inventory bg" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+texture = ExtResource("2_efppc")
+
+[node name="InventoryTexture" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 41.0
+offset_top = 18.0
+offset_right = 137.0
+offset_bottom = 39.0
+size_flags_horizontal = 4
+texture = ExtResource("2_vutjg")
+
+[node name="Title" type="Label" parent="InventoryTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.5
+offset_top = -11.5
+offset_right = 38.5
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Inventário"
+label_settings = SubResource("LabelSettings_bex3w")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AbilitiesTexture" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 142.0
+offset_top = 18.0
+offset_right = 238.0
+offset_bottom = 39.0
+texture = ExtResource("2_vutjg")
+
+[node name="Title" type="Label" parent="AbilitiesTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -43.0
+offset_top = -10.5
+offset_right = 45.0
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Habilidades"
+label_settings = SubResource("LabelSettings_gurdd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ArchivesTexture" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 243.0
+offset_top = 18.0
+offset_right = 339.0
+offset_bottom = 39.0
+texture = ExtResource("2_vutjg")
+
+[node name="Title" type="Label" parent="ArchivesTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -38.0
+offset_top = -10.5
+offset_right = 38.0
+offset_bottom = 10.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Arquivos"
+label_settings = SubResource("LabelSettings_gurdd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OptionsTexture" type="TextureRect" parent="."]
+layout_mode = 2
+offset_left = 344.0
+offset_top = 18.0
+offset_right = 440.0
+offset_bottom = 39.0
+size_flags_vertical = 4
+texture = ExtResource("2_vutjg")
+
+[node name="Title" type="Label" parent="OptionsTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -24.0
+offset_top = -11.5
+offset_right = 24.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "opções"
+label_settings = SubResource("LabelSettings_g4v0l")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InventoryPage" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="BannerContainer" type="HBoxContainer" parent="InventoryPage"]
+layout_mode = 1
+offset_left = 41.0
+offset_top = 18.0
+offset_right = 137.0
+offset_bottom = 39.0
+
+[node name="InventoryGrid" type="TextureRect" parent="InventoryPage"]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+texture = ExtResource("16_xsyru")
+stretch_mode = 5
+
+[node name="SlotsContainer" type="GridContainer" parent="InventoryPage/InventoryGrid"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 50.0
+offset_right = 324.0
+offset_bottom = 154.0
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 8
+
+[node name="InventoryInfo" type="TextureRect" parent="InventoryPage"]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("6_5iry2")
+stretch_mode = 2
+
+[node name="InventoryText" type="TextureRect" parent="InventoryPage"]
+layout_mode = 0
+offset_right = 480.0
+offset_bottom = 270.0
+mouse_filter = 2
+texture = ExtResource("7_f4e35")
+
+[node name="ItemDescription" type="Label" parent="InventoryPage/InventoryText"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 166.0
+offset_right = 319.0
+offset_bottom = 237.0
+text = "Teste"
+label_settings = SubResource("LabelSettings_k2in3")
+autowrap_mode = 3
+
+[node name="Characterbody" type="TextureRect" parent="InventoryPage"]
+layout_mode = 0
+offset_left = 357.0
+offset_top = 81.0
+offset_right = 409.0
+offset_bottom = 234.0
+texture = ExtResource("9_ge4va")
+
+[node name="BarContainer" parent="InventoryPage" instance=ExtResource("10_hpuy1")]
+offset_left = 305.0
+offset_top = 51.0
+offset_right = 345.0
+offset_bottom = 91.0
+
+[node name="InventoryEquipments" parent="InventoryPage" instance=ExtResource("12_kv5i1")]
+layout_mode = 1
+
+[node name="UICurrencySlot" parent="InventoryPage" instance=ExtResource("12_3m185")]
+layout_mode = 0
+offset_left = 392.0
+offset_top = 203.0
+offset_right = 424.0
+offset_bottom = 235.0
+
+[node name="ArchivesPage" type="Control" parent="." node_paths=PackedStringArray("_archives_container", "_archive_title_label", "_archive_content_label")]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("13_pyhnh")
+_archives_container = NodePath("ArchivesGrid/ArchivesContainer")
+_archive_title_label = NodePath("ArchivesTextBox/VBoxContainer/ArchiveTitle")
+_archive_content_label = NodePath("ArchivesTextBox/VBoxContainer/ArchiveContent")
+
+[node name="BannerArchivesContainer" type="HBoxContainer" parent="ArchivesPage"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 128.0
+offset_top = -2.0
+offset_right = 224.0
+offset_bottom = 19.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="ArchivesGrid" type="TextureRect" parent="ArchivesPage"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("16_xsyru")
+
+[node name="ArchivesContainer" type="GridContainer" parent="ArchivesPage/ArchivesGrid"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 41.0
+offset_top = 51.0
+offset_right = -154.0
+offset_bottom = -41.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 8
+
+[node name="ArchivesTextBox" type="TextureRect" parent="ArchivesPage"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("17_6ti1r")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ArchivesPage/ArchivesTextBox"]
+layout_mode = 0
+offset_left = 334.0
+offset_top = 49.0
+offset_right = 460.0
+offset_bottom = 255.0
+theme_override_constants/separation = 8
+
+[node name="ArchiveTitle" type="Label" parent="ArchivesPage/ArchivesTextBox/VBoxContainer"]
+custom_minimum_size = Vector2(126, 20)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_s226i")
+autowrap_mode = 2
+
+[node name="ArchiveContent" type="Label" parent="ArchivesPage/ArchivesTextBox/VBoxContainer"]
+custom_minimum_size = Vector2(126, 180)
+layout_mode = 2
+label_settings = SubResource("LabelSettings_twvky")
+autowrap_mode = 2
+
+[node name="OptionsPage" parent="." instance=ExtResource("15_5p3dj")]
+
+[node name="AbilitiesPage" type="Control" parent="." node_paths=PackedStringArray("_dash_slot", "_hook_slot", "_wall_jump_slot", "_enemy_step_slot", "_speed_boost_slot", "_ability_title_label", "_ability_description_label")]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("19_6sgbm")
+_dash_slot = NodePath("GridContainer/Dashslot")
+_hook_slot = NodePath("GridContainer/HookSlot")
+_wall_jump_slot = NodePath("GridContainer/WallJumpSlot")
+_enemy_step_slot = NodePath("GridContainer/EnemyStepSlot")
+_speed_boost_slot = NodePath("GridContainer/RunFastSlot")
+_ability_title_label = NodePath("AbilitiesText/AbilityTitle")
+_ability_description_label = NodePath("AbilitiesText/AbilityDescription")
+
+[node name="AbilitiesText" type="TextureRect" parent="AbilitiesPage"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("7_f4e35")
+
+[node name="AbilityTitle" type="Label" parent="AbilitiesPage/AbilitiesText"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 166.0
+offset_right = 319.0
+offset_bottom = 189.0
+label_settings = SubResource("LabelSettings_2hk1b")
+autowrap_mode = 2
+
+[node name="AbilityDescription" type="Label" parent="AbilitiesPage/AbilitiesText"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 190.0
+offset_right = 320.0
+offset_bottom = 237.0
+label_settings = SubResource("LabelSettings_6o8ko")
+autowrap_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="AbilitiesPage"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 88.0
+offset_right = 304.0
+offset_bottom = 232.0
+theme_override_constants/h_separation = 64
+theme_override_constants/v_separation = 40
+columns = 5
+
+[node name="Dashslot" type="Button" parent="AbilitiesPage/GridContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AbilitieSlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/Dashslot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_mw46c")
+stretch_mode = 2
+
+[node name="SlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/Dashslot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="ItemTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/Dashslot/SlotTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="AbilitiesPage/GridContainer/Dashslot"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("19_guthh")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="WallJumpSlot" type="Button" parent="AbilitiesPage/GridContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AbilitieSlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/WallJumpSlot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_mw46c")
+stretch_mode = 2
+
+[node name="SlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/WallJumpSlot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="ItemTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/WallJumpSlot/SlotTexture"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="AbilitiesPage/GridContainer/WallJumpSlot"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("19_guthh")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="HookSlot" type="Button" parent="AbilitiesPage/GridContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AbilitieSlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/HookSlot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_mw46c")
+stretch_mode = 2
+
+[node name="SlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/HookSlot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="ItemTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/HookSlot/SlotTexture"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="SlotSelected" type="TextureRect" parent="AbilitiesPage/GridContainer/HookSlot"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("19_guthh")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="EnemyStepSlot" type="Button" parent="AbilitiesPage/GridContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AbilitieSlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/EnemyStepSlot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_mw46c")
+stretch_mode = 2
+
+[node name="SlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/EnemyStepSlot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="ItemTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/EnemyStepSlot/SlotTexture"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="AbilitiesPage/GridContainer/EnemyStepSlot"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("19_guthh")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="RunFastSlot" type="Button" parent="AbilitiesPage/GridContainer"]
+layout_mode = 2
+flat = true
+
+[node name="AbilitieSlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/RunFastSlot"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("19_mw46c")
+stretch_mode = 2
+
+[node name="SlotTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/RunFastSlot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="ItemTexture" type="TextureRect" parent="AbilitiesPage/GridContainer/RunFastSlot/SlotTexture"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SlotSelected" type="TextureRect" parent="AbilitiesPage/GridContainer/RunFastSlot"]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+texture = ExtResource("19_guthh")
+expand_mode = 1
+stretch_mode = 3
+
+[node name="TextureRect" type="TextureRect" parent="AbilitiesPage"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="PageChangeRight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -34.0
+offset_top = 6.0
+offset_right = -8.0
+offset_bottom = 38.0
+grow_horizontal = 0
+texture = ExtResource("21_jepnl")
+
+[node name="RightButton" type="Label" parent="PageChangeRight"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "RB"
+label_settings = SubResource("LabelSettings_11ywv")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="PageChangeLeft" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 6.0
+offset_right = 36.0
+offset_bottom = 38.0
+texture = ExtResource("22_q7kqc")
+
+[node name="Label" type="Label" parent="PageChangeLeft"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "LB"
+label_settings = SubResource("LabelSettings_2uabx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="NavigationAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("23_5h3ql")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="SelectAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("24_qroa1")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="ChangePageAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("25_a12u6")
+volume_db = -5.0
+bus = &"SFX"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 256.0
+offset_right = 378.0
+offset_bottom = 279.0
+text = "Aperte       para confirmar. Aperte       para sair"
+label_settings = SubResource("LabelSettings_pubqu")

@@ -1,0 +1,168 @@
+[gd_scene load_steps=24 format=3 uid="uid://d13mcg66xpkje"]
+
+[ext_resource type="Texture2D" uid="uid://b5mn0ihkbr1is" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Tree_idle_anim_v01.png" id="1_0qjcq"]
+[ext_resource type="Script" path="res://Scripts/Bosses/berith_tree.gd" id="1_dl2ti"]
+[ext_resource type="PackedScene" uid="uid://igcpwfxh4k3k" path="res://Scenes/Bosses/baal_berith.tscn" id="2_mqthi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f0exm"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(369, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6y5hf"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(738, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7k4ta"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(1107, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qelrb"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(1476, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tagwq"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(1845, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spoy4"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(2214, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fme7u"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(2583, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yodhp"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(2952, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_crly6"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(3321, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffcfb"]
+atlas = ExtResource("1_0qjcq")
+region = Rect2(0, 0, 369, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3f0qh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f0exm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6y5hf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7k4ta")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qelrb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tagwq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spoy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fme7u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yodhp")
+}],
+"loop": false,
+"name": &"Bloom",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_crly6")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffcfb")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f6m38"]
+size = Vector2(257, 109)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_evhwd"]
+size = Vector2(62, 112)
+
+[sub_resource type="Gradient" id="Gradient_uolhm"]
+offsets = PackedFloat32Array(0, 0.0819672, 0.672131)
+colors = PackedColorArray(1, 1, 1, 1, 0.945098, 1, 0.517647, 1, 0.266667, 1, 0.188235, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_p23nn"]
+gradient = SubResource("Gradient_uolhm")
+
+[sub_resource type="Curve" id="Curve_8yg76"]
+_data = [Vector2(0.146667, 0.736264), 0.0, 0.0, 0, 0, Vector2(1, 0.549451), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_uapfb"]
+curve = SubResource("Curve_8yg76")
+
+[sub_resource type="Curve" id="Curve_oav53"]
+_data = [Vector2(0, 1), 0.0, -0.18315, 0, 0, Vector2(1, 0.428571), -2.06044, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_woxir"]
+curve = SubResource("Curve_oav53")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3cmg8"]
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(5, 5, 1)
+emission_shape = 1
+emission_sphere_radius = 1.0
+gravity = Vector3(0, -22, 0)
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_woxir")
+color_ramp = SubResource("GradientTexture1D_p23nn")
+emission_curve = SubResource("CurveTexture_uapfb")
+
+[node name="BerithTree" type="CharacterBody2D" node_paths=PackedStringArray("_collision_detection", "_texture", "_spawn_point", "_berith_particle")]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_dl2ti")
+_collision_detection = NodePath("DetectionArea/CollisionDetection")
+_texture = NodePath("Texture")
+_spawn_point = NodePath("Marker2D")
+enemy_scene = ExtResource("2_mqthi")
+_berith_particle = NodePath("BerithSpirit")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3f0qh")
+animation = &"Bloom"
+autoplay = "Idle"
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="DetectionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionDetection" type="CollisionShape2D" parent="DetectionArea"]
+position = Vector2(-0.5, 47.5)
+shape = SubResource("RectangleShape2D_f6m38")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(21, 46)
+shape = SubResource("RectangleShape2D_evhwd")
+debug_color = Color(0.253059, 0.635063, 3.85046e-07, 0.42)
+
+[node name="BerithSpirit" type="GPUParticles2D" parent="."]
+position = Vector2(-9, 55)
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_3cmg8")
+
+[connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

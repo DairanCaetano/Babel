@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsmp7jyokmchl"]
+
+[ext_resource type="Script" path="res://Scripts/Bosses/boss_base.gd" id="1_ri28b"]
+
+[node name="BossBase" type="CharacterBody2D"]
+script = ExtResource("1_ri28b")

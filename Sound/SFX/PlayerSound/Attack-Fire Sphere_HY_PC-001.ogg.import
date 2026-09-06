@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b0rcvsi8m65fy"
+path="res://.godot/imported/Attack-Fire Sphere_HY_PC-001.ogg-edd5da9479db29154552a059226bfd20.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/PlayerSound/Attack-Fire Sphere_HY_PC-001.ogg"
+dest_files=["res://.godot/imported/Attack-Fire Sphere_HY_PC-001.ogg-edd5da9479db29154552a059226bfd20.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

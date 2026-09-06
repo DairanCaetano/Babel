@@ -1,0 +1,118 @@
+[gd_scene load_steps=10 format=3 uid="uid://b2eoj8y88nr7l"]
+
+[ext_resource type="Script" path="res://Scripts/Menu/dialog_options.gd" id="1_np8se"]
+[ext_resource type="Texture2D" uid="uid://oq0f3fusd7d1" path="res://sprites/UI/MENU_1/Babel_GUI_Invetory_Options_v01.png" id="1_v4e8p"]
+[ext_resource type="Texture2D" uid="uid://br1f5n2jkvjl" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Label_Empty_v01.png" id="2_2e3kt"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_4pd46"]
+[ext_resource type="Texture2D" uid="uid://bcs33wrnmlb15" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Label_Select_v01.png" id="3_fddpq"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="5_ybfbd"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_byfiu"]
+font = ExtResource("3_4pd46")
+font_size = 11
+
+[sub_resource type="LabelSettings" id="LabelSettings_1i2v1"]
+font = ExtResource("5_ybfbd")
+font_size = 14
+
+[sub_resource type="LabelSettings" id="LabelSettings_wrmas"]
+font = ExtResource("5_ybfbd")
+font_size = 14
+
+[node name="DialogOptions" type="Control" node_paths=PackedStringArray("_texture", "_vbox_container", "_options_text", "_dialog_option_1", "_option_1_text", "_select_1", "_dialog_option_2", "_option_2_text", "_select_2")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_np8se")
+_texture = NodePath("Texture")
+_vbox_container = NodePath("Texture/VBoxContainer")
+_options_text = NodePath("Texture/VBoxContainer/OptionsText")
+_dialog_option_1 = NodePath("DialogOption1")
+_option_1_text = NodePath("DialogOption1/OptionText")
+_select_1 = NodePath("DialogOption1/Select")
+_dialog_option_2 = NodePath("DialogOption2")
+_option_2_text = NodePath("DialogOption2/OptionText")
+_select_2 = NodePath("DialogOption2/Select")
+
+[node name="Texture" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -174.5
+offset_top = -37.5
+offset_right = 174.5
+offset_bottom = 37.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_v4e8p")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Texture"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 344.0
+offset_bottom = 58.0
+
+[node name="OptionsText" type="Label" parent="Texture/VBoxContainer"]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_byfiu")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="DialogOption1" type="TextureRect" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 129.0
+offset_top = 160.0
+offset_right = 207.0
+offset_bottom = 200.0
+texture = ExtResource("2_2e3kt")
+stretch_mode = 2
+
+[node name="OptionText" type="Label" parent="DialogOption1"]
+layout_mode = 0
+offset_right = 78.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_1i2v1")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Select" type="TextureRect" parent="DialogOption1"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_fddpq")
+stretch_mode = 2
+
+[node name="DialogOption2" type="TextureRect" parent="."]
+z_index = 1
+layout_mode = 0
+offset_left = 267.0
+offset_top = 160.0
+offset_right = 345.0
+offset_bottom = 200.0
+texture = ExtResource("2_2e3kt")
+stretch_mode = 2
+
+[node name="OptionText" type="Label" parent="DialogOption2"]
+layout_mode = 0
+offset_right = 78.0
+offset_bottom = 23.0
+label_settings = SubResource("LabelSettings_wrmas")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Select" type="TextureRect" parent="DialogOption2"]
+visible = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("3_fddpq")
+stretch_mode = 2

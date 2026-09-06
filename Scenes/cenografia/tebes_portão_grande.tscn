@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2rnd4rkxhbpo"]
+
+[ext_resource type="Texture2D" uid="uid://dw0idh8l22xw0" path="res://sprites/Environment/TEBES/TERRENO/MAPA_1_TEBES_Terreno_PORTÃO_v01.png" id="1_apar6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hkejm"]
+size = Vector2(14, 112)
+
+[node name="PortãoGrande" type="StaticBody2D"]
+collision_layer = 2
+collision_mask = 3
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("1_apar6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_hkejm")
+debug_color = Color(0.982201, 0, 0.36431, 0.42)

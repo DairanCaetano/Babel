@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c8nlhwdtl4nnh"
+path="res://.godot/imported/Berith_flame_IMPACT-Flare Hit_HY_PC-003.ogg-3d8dff443f249c2b852e2aa952e471ef.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Berith_flame_IMPACT-Flare Hit_HY_PC-003.ogg"
+dest_files=["res://.godot/imported/Berith_flame_IMPACT-Flare Hit_HY_PC-003.ogg-3d8dff443f249c2b852e2aa952e471ef.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,199 @@
+[gd_scene load_steps=28 format=3 uid="uid://bx54j734uxuvm"]
+
+[ext_resource type="Texture2D" uid="uid://dsixjl526e252" path="res://sprites/UI/MENU_1/Babel_GUI_BG_Pixel Art_v01.png" id="1_6aw7b"]
+[ext_resource type="Texture2D" uid="uid://hhtnldfarw4m" path="res://sprites/Menu/Babel_Logo_Anim_v01.png" id="1_s0v2a"]
+[ext_resource type="Script" path="res://Scripts/Menu/start_menu.gd" id="1_wg2tv"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_ypd7i"]
+[ext_resource type="PackedScene" uid="uid://dcj4vo3vs0e8t" path="res://Scenes/FX/dust_particles.tscn" id="4_g8s1e"]
+[ext_resource type="AudioStream" uid="uid://caqi8ddx07g5d" path="res://Sound/SFX/MenuSound/BNA_UI8.ogg" id="6_uvf4y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdwx4"]
+atlas = ExtResource("1_s0v2a")
+region = Rect2(0, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1lvuh"]
+atlas = ExtResource("1_s0v2a")
+region = Rect2(480, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_awb80"]
+atlas = ExtResource("1_s0v2a")
+region = Rect2(960, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_71yv3"]
+atlas = ExtResource("1_s0v2a")
+region = Rect2(1440, 0, 480, 270)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o44mu"]
+atlas = ExtResource("1_s0v2a")
+region = Rect2(1920, 0, 480, 270)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dglo0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdwx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdwx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1lvuh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_awb80")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_71yv3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o44mu")
+}],
+"loop": false,
+"name": &"Start",
+"speed": 3.0
+}]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_e0u5s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_1680d"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xlxet"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4qcql"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_13via"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s6xek"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_82mqg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vmuek"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_jg2wi"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wrpku"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fv8am"]
+
+[sub_resource type="Gradient" id="Gradient_n0odu"]
+offsets = PackedFloat32Array(0.0681818, 0.5, 0.757576, 1)
+colors = PackedColorArray(0.803481, 0.134057, 0, 1, 0.992157, 0.956863, 0, 1, 0.998277, 0.990523, 0.780303, 1, 1, 1, 1, 0.0156863)
+
+[sub_resource type="Animation" id="Animation_58mvw"]
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ButtonsContainer/PressStart:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_bv3in"]
+resource_name = "Start"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ButtonsContainer/PressStart:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1.2, 2.93333),
+"transitions": PackedFloat32Array(-2, -2),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ebqbj"]
+_data = {
+"RESET": SubResource("Animation_58mvw"),
+"Start": SubResource("Animation_bv3in")
+}
+
+[node name="StartMenu" type="Control" node_paths=PackedStringArray("_anim", "_start_audio")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_wg2tv")
+_anim = NodePath("Anim")
+_start_audio = NodePath("Audio")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(239, 134)
+scale = Vector2(1.1, 1.1)
+texture = ExtResource("1_6aw7b")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+position = Vector2(240, 127)
+sprite_frames = SubResource("SpriteFrames_dglo0")
+animation = &"Start"
+autoplay = "Start"
+frame = 5
+frame_progress = 1.0
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -66.0
+offset_top = -51.0
+offset_right = 49.0
+offset_bottom = -11.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PressStart" type="Button" parent="ButtonsContainer" groups=["menu_button"]]
+layout_mode = 2
+theme_override_colors/font_disabled_color = Color(0.282353, 0.282353, 0.282353, 1)
+theme_override_colors/font_hover_pressed_color = Color(0.858824, 0.247059, 0, 1)
+theme_override_colors/font_hover_color = Color(0.745098, 0.713726, 0, 1)
+theme_override_colors/font_pressed_color = Color(0.858824, 0.247059, 0, 1)
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.745098, 0.713726, 0, 1)
+theme_override_colors/icon_hover_color = Color(0.745098, 0.713726, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0.745098, 0.713726, 0, 1)
+theme_override_fonts/font = ExtResource("3_ypd7i")
+theme_override_font_sizes/font_size = 14
+theme_override_styles/focus = SubResource("StyleBoxEmpty_e0u5s")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_1680d")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xlxet")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_4qcql")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_13via")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_s6xek")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_82mqg")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_vmuek")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_jg2wi")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_wrpku")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_fv8am")
+flat = true
+
+[node name="DustParticles" parent="." instance=ExtResource("4_g8s1e")]
+position = Vector2(252, 105)
+lifetime = 2.0
+emission_rect_extents = Vector2(200, 200)
+gravity = Vector2(-100, -50)
+linear_accel_min = 0.0
+linear_accel_max = 0.0
+damping_min = 50.0
+scale_amount_max = 2.0
+color_ramp = SubResource("Gradient_n0odu")
+
+[node name="Anim" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ebqbj")
+}
+autoplay = "Start"
+
+[node name="Audio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_uvf4y")

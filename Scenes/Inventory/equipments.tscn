@@ -1,0 +1,325 @@
+[gd_scene load_steps=50 format=3 uid="uid://d4a4lh182eu5t"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/equipments.gd" id="1_62blg"]
+[ext_resource type="Texture2D" uid="uid://bonkyijwngpye" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Slot_Pixel Art_v01.png" id="1_iuaks"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_uw6ac"]
+[ext_resource type="PackedScene" uid="uid://bs1pg1ih68v7o" path="res://Scenes/Inventory/ui_currency_slot.tscn" id="4_j0ccr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_rw0ht"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0fpwj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iatbg"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_aef37"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_lfrpl"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5o48s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oir5y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u2oyb"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uo744"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qggvv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oiggv"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kmd3w"]
+line_spacing = 0.0
+font = ExtResource("3_uw6ac")
+font_size = 11
+shadow_size = 0
+shadow_color = Color(0.137255, 0.137255, 0.137255, 1)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8o8pq"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_u7cm7"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8p3pn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4lm4y"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6lqip"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_kr6ob"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m5p4k"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ac0ue"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_w5hdo"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4mx07"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_71ej0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3bbxf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dix62"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_qp1io"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_imr21"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ohf8c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_n26s1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4h2x6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_s48ur"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yuaru"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gq41c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m6gy4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6le3u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0lgd8"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_xukhs"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_m1ncc"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_sle7f"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojysh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6nv72"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vxhhu"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wq7i5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_gh07h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4je7q"]
+
+[node name="Equipments" type="Control" node_paths=PackedStringArray("_weapon_slot", "_armor_slot", "_offhand_slot", "_consumable_slot", "_fragments_slot")]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_62blg")
+_weapon_slot = NodePath("GridContainer/WeaponSlot")
+_armor_slot = NodePath("GridContainer/ArmorSlot")
+_offhand_slot = NodePath("GridContainer/offhandSlot")
+_consumable_slot = NodePath("GridContainer/ConsumableSlot")
+_fragments_slot = NodePath("VContainer/UICurrencySlot")
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 3.0
+offset_right = 308.0
+offset_bottom = 43.0
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 4
+
+[node name="ConsumableSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_rw0ht")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0fpwj")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_iatbg")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_aef37")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_lfrpl")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_5o48s")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_oir5y")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_u2oyb")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_uo744")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_qggvv")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_oiggv")
+
+[node name="SlotTexture" type="TextureRect" parent="GridContainer/ConsumableSlot"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 0
+offset_right = 27.0
+offset_bottom = 27.0
+texture = ExtResource("1_iuaks")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemTexture" type="TextureRect" parent="GridContainer/ConsumableSlot/SlotTexture"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Amount" type="Label" parent="GridContainer/ConsumableSlot"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 5.0
+offset_bottom = 11.0
+label_settings = SubResource("LabelSettings_kmd3w")
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="WeaponSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 2
+theme_override_constants/outline_size = 0
+theme_override_styles/focus = SubResource("StyleBoxEmpty_8o8pq")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_u7cm7")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_8p3pn")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_4lm4y")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_6lqip")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_kr6ob")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_m5p4k")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_ac0ue")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_w5hdo")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_4mx07")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_71ej0")
+
+[node name="SlotTexture" type="TextureRect" parent="GridContainer/WeaponSlot"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 0
+offset_right = 27.0
+offset_bottom = 27.0
+texture = ExtResource("1_iuaks")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemTexture" type="TextureRect" parent="GridContainer/WeaponSlot/SlotTexture"]
+custom_minimum_size = Vector2(26, 26)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -13.5
+offset_top = -13.5
+offset_right = 13.5
+offset_bottom = 13.5
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="ArmorSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_3bbxf")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_dix62")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_qp1io")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_imr21")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_ohf8c")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_n26s1")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_4h2x6")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_s48ur")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_yuaru")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_gq41c")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_m6gy4")
+
+[node name="SlotTexture" type="TextureRect" parent="GridContainer/ArmorSlot"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 0
+offset_right = 27.0
+offset_bottom = 27.0
+texture = ExtResource("1_iuaks")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemTexture" type="TextureRect" parent="GridContainer/ArmorSlot/SlotTexture"]
+custom_minimum_size = Vector2(29, 29)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="offhandSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6le3u")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0lgd8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xukhs")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_m1ncc")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_sle7f")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ojysh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6nv72")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_vxhhu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wq7i5")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_gh07h")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4je7q")
+
+[node name="SlotTexture" type="TextureRect" parent="GridContainer/offhandSlot"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 0
+offset_right = 27.0
+offset_bottom = 27.0
+texture = ExtResource("1_iuaks")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemTexture" type="TextureRect" parent="GridContainer/offhandSlot/SlotTexture"]
+custom_minimum_size = Vector2(29, 29)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="Hcontainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -80.0
+offset_top = 4.0
+offset_right = 88.0
+offset_bottom = 33.0
+grow_horizontal = 2
+theme_override_constants/separation = 20
+
+[node name="VContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 460.0
+offset_bottom = 32.0
+theme_override_constants/separation = 0
+alignment = 2
+
+[node name="UICurrencySlot" parent="VContainer" instance=ExtResource("4_j0ccr")]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0

@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://5dl2bunggqsn"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/itens_info.gd" id="1_02hoa"]
+[ext_resource type="Texture2D" uid="uid://bsahyfhugg1a5" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Item_Label_v01 - Copia.png" id="1_g2uww"]
+
+[node name="Info" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_02hoa")
+
+[node name="ItemInfoContainer" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(78, 16)
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -40.0
+offset_right = 98.0
+grow_vertical = 0
+texture = ExtResource("1_g2uww")
+stretch_mode = 2
+
+[node name="Text" type="Label" parent="ItemInfoContainer"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0

@@ -1,0 +1,66 @@
+[gd_scene load_steps=10 format=3 uid="uid://bgfpeiwxxphk1"]
+
+[ext_resource type="Texture2D" uid="uid://244wypj34g44" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v01.png" id="1_ntao2"]
+[ext_resource type="Script" path="res://Scripts/Interactables/hazard_blocker.gd" id="1_wnu8t"]
+[ext_resource type="Script" path="res://Scripts/Enemies/Blocker_damage_area.gd" id="3_veq7h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr70p"]
+atlas = ExtResource("1_ntao2")
+region = Rect2(0, 0, 16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ap1q"]
+atlas = ExtResource("1_ntao2")
+region = Rect2(16, 0, 16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yc0hw"]
+atlas = ExtResource("1_ntao2")
+region = Rect2(32, 0, 16, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pmevq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jr70p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ap1q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yc0hw")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ve166"]
+size = Vector2(16, 115)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rlm05"]
+size = Vector2(12.5, 128)
+
+[node name="HazardBlocker" type="AnimatableBody2D"]
+collision_layer = 72
+collision_mask = 3
+script = ExtResource("1_wnu8t")
+patrol_distance = 100.0
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_pmevq")
+animation = &"Idle"
+autoplay = "Idle"
+frame_progress = 0.858036
+
+[node name="DamageArea" type="Area2D" parent="."]
+collision_layer = 0
+script = ExtResource("3_veq7h")
+
+[node name="Collision" type="CollisionShape2D" parent="DamageArea"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_ve166")
+debug_color = Color(0.976013, 0, 0.415076, 0.42)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rlm05")
+
+[connection signal="body_entered" from="DamageArea" to="DamageArea" method="_on_body_entered"]

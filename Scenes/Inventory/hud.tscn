@@ -1,0 +1,275 @@
+[gd_scene load_steps=26 format=3 uid="uid://bfx2s5jfb5uxt"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/hud.gd" id="1_auw5b"]
+[ext_resource type="PackedScene" uid="uid://nowqrfoi24aq" path="res://Scenes/Inventory/inventory.tscn" id="2_dir6c"]
+[ext_resource type="Texture2D" uid="uid://bjrm3mcu1yyle" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Label_Anim_v01.png" id="2_gm2wm"]
+[ext_resource type="Texture2D" uid="uid://cutovqmhjtuct" path="res://sprites/UI/MENU_1/Babel_GUI_Status_bar_v01.png" id="3_2xycu"]
+[ext_resource type="PackedScene" uid="uid://d4a4lh182eu5t" path="res://Scenes/Inventory/equipments.tscn" id="3_4erlk"]
+[ext_resource type="Texture2D" uid="uid://cd2kpot46pgho" path="res://sprites/UI/SAVE/Babel_GUI_SAVE_BAR_Pixel Art_v01.png" id="3_5u41u"]
+[ext_resource type="Texture2D" uid="uid://dwen2uqbmb2l0" path="res://sprites/UI/SAVE/Babel_GUI_SAVE_TEXTE_SPACEPixel Art_v01.png" id="4_v06vc"]
+[ext_resource type="PackedScene" uid="uid://bxc2dpyvg0112" path="res://Scenes/Inventory/bar_container.tscn" id="5_lgudj"]
+[ext_resource type="Texture2D" uid="uid://cf241tqk03kc" path="res://sprites/UI/SAVE/Babel_GUI_SAVE_SELECT_Pixel Art_v01.png" id="5_tpi2h"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="6_ynau1"]
+[ext_resource type="Script" path="res://Scripts/Inventory/save_animation_texture.gd" id="7_bryqx"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="8_u4iqj"]
+[ext_resource type="AudioStream" uid="uid://btuxq57rgdure" path="res://Sound/SFX/MenuSound/PauseMenu.ogg" id="13_5pbej"]
+[ext_resource type="AudioStream" uid="uid://r4ukokbmlftd" path="res://Sound/SFX/MenuSound/UI_Navigation.ogg" id="14_2ry3y"]
+[ext_resource type="AudioStream" uid="uid://c0afal5i0hl2p" path="res://Sound/SFX/MenuSound/UI_Select.ogg" id="15_l6wos"]
+[ext_resource type="AudioStream" uid="uid://c0bqx05u0e12b" path="res://Sound/SFX/MenuSound/save_audio.ogg" id="16_25csw"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2n8hx"]
+font = ExtResource("6_ynau1")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqljw"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(0, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fqhjc"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(78, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gab4b"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(156, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyr1b"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(156, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w04d2"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(78, 0, 78, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mty25"]
+atlas = ExtResource("2_gm2wm")
+region = Rect2(0, 0, 78, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_d730k"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqljw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fqhjc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gab4b")
+}],
+"loop": false,
+"name": &"save_in",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyr1b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w04d2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mty25")
+}],
+"loop": false,
+"name": &"save_out",
+"speed": 10.0
+}]
+
+[sub_resource type="LabelSettings" id="LabelSettings_kp3g3"]
+font = ExtResource("8_u4iqj")
+font_size = 12
+
+[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("_ui_inventory", "_bar_container", "_equipments", "_interfacebar", "inventory_open_audio", "inventory_close_audio", "save_menu_open_audio", "save_menu_close_audio", "save_menu_navigation_audio", "save_menu_select_audio", "save_audio") groups=["hud"]]
+process_mode = 3
+script = ExtResource("1_auw5b")
+_ui_inventory = NodePath("Inventory")
+_bar_container = NodePath("BarContainer")
+_equipments = NodePath("Equipments")
+_interfacebar = NodePath("interfaceBar")
+inventory_open_audio = NodePath("PauseMenuAudio")
+inventory_close_audio = NodePath("PauseMenuAudio")
+save_menu_open_audio = NodePath("SaveMenuOpenAudio")
+save_menu_close_audio = NodePath("SaveMenuOpenAudio")
+save_menu_navigation_audio = NodePath("SaveMenuNavigationAudio")
+save_menu_select_audio = NodePath("SaveMenuSelectAudio")
+save_audio = NodePath("saveAudio")
+
+[node name="SaveContainer" type="TextureRect" parent="."]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ButtonsBackground" type="TextureRect" parent="SaveContainer"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -118.0
+offset_top = -97.5
+offset_right = -20.0
+offset_bottom = 97.5
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("3_5u41u")
+
+[node name="ButtonsContainer" type="VBoxContainer" parent="SaveContainer/ButtonsBackground"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -39.0
+offset_top = 10.0
+offset_right = 39.0
+offset_bottom = 31.0
+grow_horizontal = 2
+theme_override_constants/separation = 16
+
+[node name="SaveButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_v06vc")
+texture_hover = ExtResource("5_tpi2h")
+
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/SaveButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Save"
+label_settings = SubResource("LabelSettings_2n8hx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TravelButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_v06vc")
+texture_hover = ExtResource("5_tpi2h")
+
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TravelButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Travel"
+label_settings = SubResource("LabelSettings_2n8hx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TalkButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_v06vc")
+texture_hover = ExtResource("5_tpi2h")
+
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TalkButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Talk"
+label_settings = SubResource("LabelSettings_2n8hx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="QuitButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+layout_mode = 2
+texture_normal = ExtResource("4_v06vc")
+texture_hover = ExtResource("5_tpi2h")
+
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/QuitButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 3.5
+offset_bottom = 3.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit"
+label_settings = SubResource("LabelSettings_2n8hx")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Texture" type="AnimatedSprite2D" parent="SaveContainer"]
+visible = false
+position = Vector2(240, 135)
+sprite_frames = SubResource("SpriteFrames_d730k")
+animation = &"save_in"
+autoplay = "save_in"
+script = ExtResource("7_bryqx")
+
+[node name="Label" type="Label" parent="SaveContainer/Texture"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.5
+offset_top = -19.0
+offset_right = -2.5
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "jogo salvo"
+label_settings = SubResource("LabelSettings_kp3g3")
+horizontal_alignment = 1
+
+[node name="Inventory" parent="." instance=ExtResource("2_dir6c")]
+visible = false
+
+[node name="interfaceBar" type="TextureRect" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+texture = ExtResource("3_2xycu")
+
+[node name="Equipments" parent="." instance=ExtResource("3_4erlk")]
+
+[node name="BarContainer" parent="." instance=ExtResource("5_lgudj")]
+
+[node name="Notifications" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PauseMenuAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_5pbej")
+
+[node name="SaveMenuOpenAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_5pbej")
+
+[node name="SaveMenuNavigationAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_2ry3y")
+volume_db = -10.0
+
+[node name="SaveMenuSelectAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_l6wos")
+volume_db = -10.0
+
+[node name="saveAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_25csw")
+
+[connection signal="pressed" from="SaveContainer/ButtonsBackground/ButtonsContainer/SaveButton" to="." method="_on_save_button_pressed"]
+[connection signal="pressed" from="SaveContainer/ButtonsBackground/ButtonsContainer/QuitButton" to="." method="_on_quit_button_pressed"]

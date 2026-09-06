@@ -1,0 +1,93 @@
+[gd_scene load_steps=9 format=3 uid="uid://bv36np20gw6sp"]
+
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_item.gd" id="1_7g0ob"]
+[ext_resource type="AudioStream" uid="uid://dpidfaq7k64g" path="res://Sound/SFX/CollectablesSound/Collect_Shards_audio.ogg" id="2_1ypfh"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_v2185"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r52f8"]
+size = Vector2(10, 4)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qa284"]
+radius = 15.0
+
+[sub_resource type="Animation" id="Animation_2orld"]
+resource_name = "Lost"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.6),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_redraw"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_dyq3t"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_k7g46"]
+_data = {
+"Lost": SubResource("Animation_2orld"),
+"RESET": SubResource("Animation_dyq3t")
+}
+
+[node name="BaseCollectableItem" type="RigidBody2D" node_paths=PackedStringArray("_item_sprite", "_animation", "_collectable_audio")]
+collision_mask = 18
+physics_material_override = SubResource("PhysicsMaterial_v2185")
+script = ExtResource("1_7g0ob")
+_item_sprite = NodePath("Texture")
+_animation = NodePath("LifetimeAnimation")
+_collectable_audio = NodePath("BaseCollectableAudio")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_r52f8")
+
+[node name="Texture" type="Sprite2D" parent="."]
+
+[node name="CollectableArea" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="CollectableArea"]
+shape = SubResource("CircleShape2D_qa284")
+debug_color = Color(0.980563, 0, 0.37861, 0.42)
+
+[node name="LifetimeAnimation" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_k7g46")
+}
+
+[node name="BaseCollectableAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_1ypfh")
+volume_db = -10.0
+
+[connection signal="body_entered" from="CollectableArea" to="." method="_on_collectable_area_body_entered"]

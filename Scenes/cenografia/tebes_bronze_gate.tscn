@@ -1,0 +1,154 @@
+[gd_scene load_steps=21 format=3 uid="uid://dvgucgx2p886"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/bronze_gate.gd" id="1_6kxdn"]
+[ext_resource type="Texture2D" uid="uid://dw0idh8l22xw0" path="res://sprites/Environment/TEBES/TERRENO/MAPA_1_TEBES_Terreno_PORTÃO_v01.png" id="1_0678w"]
+[ext_resource type="AudioStream" uid="uid://dd5j54fc0yvyy" path="res://Sound/SFX/InteractablesSound/metal_gate.ogg" id="3_p7dx6"]
+[ext_resource type="AudioStream" uid="uid://cl1c7ui24atnh" path="res://Sound/SFX/InteractablesSound/Hidden_Area.ogg" id="4_u4ulv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v5rb7"]
+atlas = ExtResource("1_0678w")
+region = Rect2(0, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c3wqh"]
+atlas = ExtResource("1_0678w")
+region = Rect2(0, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s8q37"]
+atlas = ExtResource("1_0678w")
+region = Rect2(147, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k61rj"]
+atlas = ExtResource("1_0678w")
+region = Rect2(294, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bu4d1"]
+atlas = ExtResource("1_0678w")
+region = Rect2(441, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w7qn5"]
+atlas = ExtResource("1_0678w")
+region = Rect2(588, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rm4j5"]
+atlas = ExtResource("1_0678w")
+region = Rect2(735, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_67jts"]
+atlas = ExtResource("1_0678w")
+region = Rect2(882, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lix6x"]
+atlas = ExtResource("1_0678w")
+region = Rect2(1029, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_56sog"]
+atlas = ExtResource("1_0678w")
+region = Rect2(1176, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_edxkj"]
+atlas = ExtResource("1_0678w")
+region = Rect2(1323, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa3sf"]
+atlas = ExtResource("1_0678w")
+region = Rect2(1470, 0, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ew5v"]
+atlas = ExtResource("1_0678w")
+region = Rect2(1617, 0, 147, 112)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ef7jf"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v5rb7")
+}],
+"loop": true,
+"name": &"Closed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c3wqh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s8q37")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k61rj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bu4d1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w7qn5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rm4j5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_67jts")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lix6x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_56sog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_edxkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa3sf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3ew5v")
+}],
+"loop": false,
+"name": &"Open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwe72"]
+size = Vector2(15, 112)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kgdyn"]
+size = Vector2(78, 96)
+
+[node name="BronzeGate" type="Node2D" node_paths=PackedStringArray("texture", "door_collision", "interaction_area", "open_gate_audio", "hidden_area_audio")]
+script = ExtResource("1_6kxdn")
+texture = NodePath("Texture")
+door_collision = NodePath("GateCollision")
+interaction_area = NodePath("InteractionArea")
+open_gate_audio = NodePath("OpenGateAudio")
+hidden_area_audio = NodePath("HiddenAreaAudio")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_ef7jf")
+animation = &"Open"
+autoplay = "Closed"
+
+[node name="GateCollision" type="StaticBody2D" parent="."]
+collision_layer = 16
+
+[node name="Collision" type="CollisionShape2D" parent="GateCollision"]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_fwe72")
+
+[node name="InteractionArea" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="Collision" type="CollisionShape2D" parent="InteractionArea"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_kgdyn")
+debug_color = Color(0.822719, 0.400461, 3.85046e-07, 0.42)
+
+[node name="OpenGateAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_p7dx6")
+volume_db = -15.0
+
+[node name="HiddenAreaAudio" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_u4ulv")
+
+[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
+[connection signal="body_exited" from="InteractionArea" to="." method="_on_interaction_area_body_exited"]

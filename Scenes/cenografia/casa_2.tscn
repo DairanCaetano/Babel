@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bes023bdvf24x"]
+
+[ext_resource type="Texture2D" uid="uid://chtfwwovwrp4x" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_CASAS_sprites_v01_0000s_0000_Layer-889.png" id="1_2ne8v"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x56xl"]
+size = Vector2(99, 5)
+
+[node name="casa_2" type="Sprite2D"]
+texture = ExtResource("1_2ne8v")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+light_mask = 2
+position = Vector2(11.5, -37.5)
+shape = SubResource("RectangleShape2D_x56xl")
+one_way_collision = true

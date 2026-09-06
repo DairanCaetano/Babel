@@ -1,0 +1,205 @@
+[gd_scene load_steps=15 format=4 uid="uid://bo5aolhqgnt3x"]
+
+[ext_resource type="Script" path="res://Scripts/Interactables/giant_bull_head.gd" id="1_o744x"]
+[ext_resource type="Script" path="res://Scripts/Interactables/bull_head_physics.gd" id="2_pctt8"]
+[ext_resource type="Script" path="res://Scripts/Interactables/old_wooden_support.gd" id="3_gv17i"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="3_mp5n6"]
+[ext_resource type="AudioStream" uid="uid://rclsfa1qpe2g" path="res://Sound/SFX/EnemiesSound/Hit_Slam.ogg" id="4_6xo71"]
+[ext_resource type="Texture2D" uid="uid://cqa0sdow6b5bh" path="res://sprites/Environment/TEBES/DECORAÇÃO/MAPA_1_TEBES_BG_Tabuas_v01.png" id="4_beyo1"]
+[ext_resource type="Texture2D" uid="uid://bt66ddcpef1hr" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_Berith_Statues_1.png" id="7_4frtk"]
+[ext_resource type="Texture2D" uid="uid://dhdgtcwa4gcpb" path="res://sprites/Environment/TEBES/DECORAÇÃO/Berith_Statues_2.png" id="8_5cu6n"]
+[ext_resource type="AudioStream" uid="uid://dnikm5vkfye25" path="res://Sound/SFX/EnemiesSound/Great_Impact Crumbling.ogg" id="8_ccmgu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ttk4f"]
+shader = ExtResource("3_mp5n6")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 1.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_gn6kw"]
+texture = ExtResource("4_beyo1")
+3:1/0 = 0
+3:1/0/terrain_set = 0
+3:1/0/terrain = 0
+3:1/0/terrains_peering_bit/right_side = 0
+3:1/0/terrains_peering_bit/bottom_right_corner = 0
+3:1/0/terrains_peering_bit/bottom_side = 0
+4:1/0 = 0
+4:1/0/terrain_set = 0
+4:1/0/terrain = 0
+4:1/0/terrains_peering_bit/right_side = 0
+4:1/0/terrains_peering_bit/bottom_right_corner = 0
+4:1/0/terrains_peering_bit/bottom_side = 0
+4:1/0/terrains_peering_bit/bottom_left_corner = 0
+4:1/0/terrains_peering_bit/left_side = 0
+5:1/0 = 0
+5:1/0/terrain_set = 0
+5:1/0/terrain = 0
+5:1/0/terrains_peering_bit/bottom_side = 0
+5:1/0/terrains_peering_bit/bottom_left_corner = 0
+5:1/0/terrains_peering_bit/left_side = 0
+7:1/0 = 0
+7:1/0/terrain_set = 0
+7:1/0/terrain = 0
+7:1/0/terrains_peering_bit/bottom_side = 0
+12:1/0 = 0
+12:1/0/terrain_set = 0
+12:1/0/terrain = 0
+12:1/0/terrains_peering_bit/left_side = 0
+12:1/0/terrains_peering_bit/top_side = 0
+13:1/0 = 0
+13:1/0/terrain_set = 0
+13:1/0/terrain = 0
+13:1/0/terrains_peering_bit/right_side = 0
+13:1/0/terrains_peering_bit/top_side = 0
+18:1/0 = 0
+18:1/0/terrain_set = 0
+18:1/0/terrain = 0
+18:1/0/terrains_peering_bit/right_side = 0
+18:1/0/terrains_peering_bit/bottom_side = 0
+18:1/0/terrains_peering_bit/left_side = 0
+18:1/0/terrains_peering_bit/top_side = 0
+3:2/0 = 0
+3:2/0/terrain_set = 0
+3:2/0/terrain = 0
+3:2/0/terrains_peering_bit/right_side = 0
+3:2/0/terrains_peering_bit/bottom_right_corner = 0
+3:2/0/terrains_peering_bit/bottom_side = 0
+3:2/0/terrains_peering_bit/top_side = 0
+3:2/0/terrains_peering_bit/top_right_corner = 0
+5:2/0 = 0
+5:2/0/terrain_set = 0
+5:2/0/terrain = 0
+5:2/0/terrains_peering_bit/bottom_side = 0
+5:2/0/terrains_peering_bit/bottom_left_corner = 0
+5:2/0/terrains_peering_bit/left_side = 0
+5:2/0/terrains_peering_bit/top_left_corner = 0
+5:2/0/terrains_peering_bit/top_side = 0
+7:2/0 = 0
+7:2/0/terrain_set = 0
+7:2/0/terrain = 0
+7:2/0/terrains_peering_bit/bottom_side = 0
+7:2/0/terrains_peering_bit/top_side = 0
+12:2/0 = 0
+12:2/0/terrain_set = 0
+12:2/0/terrain = 0
+12:2/0/terrains_peering_bit/bottom_side = 0
+12:2/0/terrains_peering_bit/left_side = 0
+13:2/0 = 0
+13:2/0/terrain_set = 0
+13:2/0/terrain = 0
+13:2/0/terrains_peering_bit/right_side = 0
+13:2/0/terrains_peering_bit/bottom_side = 0
+3:3/0 = 0
+3:3/0/terrain_set = 0
+3:3/0/terrain = 0
+3:3/0/terrains_peering_bit/right_side = 0
+3:3/0/terrains_peering_bit/top_side = 0
+3:3/0/terrains_peering_bit/top_right_corner = 0
+4:3/0 = 0
+4:3/0/terrain_set = 0
+4:3/0/terrain = 0
+4:3/0/terrains_peering_bit/right_side = 0
+4:3/0/terrains_peering_bit/left_side = 0
+4:3/0/terrains_peering_bit/top_left_corner = 0
+4:3/0/terrains_peering_bit/top_side = 0
+4:3/0/terrains_peering_bit/top_right_corner = 0
+5:3/0 = 0
+5:3/0/terrain_set = 0
+5:3/0/terrain = 0
+5:3/0/terrains_peering_bit/left_side = 0
+5:3/0/terrains_peering_bit/top_left_corner = 0
+5:3/0/terrains_peering_bit/top_side = 0
+7:3/0 = 0
+7:3/0/terrain_set = 0
+7:3/0/terrain = 0
+7:3/0/terrains_peering_bit/top_side = 0
+3:5/0 = 0
+3:5/0/terrain_set = 0
+3:5/0/terrain = 0
+3:5/0/terrains_peering_bit/right_side = 0
+4:5/0 = 0
+4:5/0/terrain_set = 0
+4:5/0/terrain = 0
+4:5/0/terrains_peering_bit/right_side = 0
+4:5/0/terrains_peering_bit/left_side = 0
+5:5/0 = 0
+5:5/0/terrain_set = 0
+5:5/0/terrain = 0
+5:5/0/terrains_peering_bit/left_side = 0
+7:5/0 = 0
+7:5/0/terrain_set = 0
+7:5/0/terrain = 0
+
+[sub_resource type="TileSet" id="TileSet_lfykl"]
+terrain_set_0/mode = 0
+terrain_set_0/terrain_0/name = "OldWooden"
+terrain_set_0/terrain_0/color = Color(0.796078, 0.176471, 0.25098, 1)
+sources/0 = SubResource("TileSetAtlasSource_gn6kw")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xfgjv"]
+size = Vector2(38, 130)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dus8i"]
+radius = 41.0
+height = 102.0
+
+[node name="GiantBullHead" type="Node2D" node_paths=PackedStringArray("bull_head", "old_wooden_support") groups=["breakable_wall"]]
+script = ExtResource("1_o744x")
+bull_head = NodePath("BullHeadPhysics")
+old_wooden_support = NodePath("OldWoodenSupport")
+
+[node name="OldWoodenSupport" type="Node2D" parent="." node_paths=PackedStringArray("tilemap_layer", "bull_head", "hit_box", "collision", "hit_audio", "break_audio")]
+script = ExtResource("3_gv17i")
+tilemap_layer = NodePath("TileMapLayer")
+bull_head = NodePath("../BullHeadPhysics")
+hit_box = NodePath("Hitbox")
+collision = NodePath("Hitbox/Collision")
+hit_audio = NodePath("HitAudio")
+break_audio = NodePath("BreakAudio")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="OldWoodenSupport"]
+material = SubResource("ShaderMaterial_ttk4f")
+tile_map_data = PackedByteArray("AAD6/wEAAAAEAAUAAAD7/wEAAAASAAEAAAD8/wEAAAAEAAUAAAD9/wEAAAAEAAUAAAD+/wEAAAAEAAUAAAD//wEAAAAEAAUAAAAAAAEAAAAMAAEAAAD6////AAAEAAUAAAD7////AAASAAEAAAD8////AAAEAAUAAAD9////AAAEAAUAAAD+////AAAEAAUAAAD/////AAAEAAUAAAAAAP//AAAMAAIAAAD7/wAAAAAHAAIAAAAAAAAAAAAHAAIAAAD5////AAANAAEAAAD5/wEAAAANAAEAAAD5/wMAAAASAAEAAAD5/wQAAAAHAAIAAAD5/wUAAAAHAAIAAAD5/wYAAAAHAAIAAAD5/wcAAAAHAAIAAAD5/wgAAAAHAAIAAAD5/wkAAAAHAAMAAAD7/wIAAAAHAAIAAAD7/wMAAAASAAEAAAD7/wQAAAAHAAIAAAD7/wUAAAAHAAIAAAD7/wYAAAAHAAIAAAD7/wcAAAAHAAIAAAD7/wgAAAAHAAIAAAD7/wkAAAAHAAMAAAD5/wAAAAAHAAIAAAD5/wIAAAAHAAIAAAD6/wMAAAAEAAUAAAD7//7/AAAHAAIAAAD7//3/AAANAAIAAAD8//3/AAAEAAUAAAD9//3/AAAEAAUAAAD+//3/AAAEAAUAAAD///3/AAAEAAUAAAAAAP3/AAAEAAUAAAABAP3/AAAEAAUAAAACAP3/AAAEAAUAAAADAP3/AAAMAAIAAAADAP7/AAAHAAIAAAADAP//AAAHAAIAAAADAAAAAAAHAAIAAAADAAEAAAASAAEAAAACAAEAAAADAAUAAAADAAIAAAAHAAMAAAA=")
+tile_set = SubResource("TileSet_lfykl")
+
+[node name="Hitbox" type="Area2D" parent="OldWoodenSupport"]
+collision_layer = 16
+collision_mask = 4
+
+[node name="Collision" type="CollisionShape2D" parent="OldWoodenSupport/Hitbox"]
+position = Vector2(-88, 80)
+shape = SubResource("RectangleShape2D_xfgjv")
+debug_color = Color(1, 0, 0.0901159, 0.42)
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="OldWoodenSupport"]
+stream = ExtResource("4_6xo71")
+
+[node name="BreakAudio" type="AudioStreamPlayer" parent="OldWoodenSupport"]
+
+[node name="BullHeadPhysics" type="RigidBody2D" parent="."]
+collision_layer = 16
+collision_mask = 18
+script = ExtResource("2_pctt8")
+
+[node name="Sprite2D2" type="Sprite2D" parent="BullHeadPhysics"]
+visible = false
+position = Vector2(121, -57)
+texture = ExtResource("7_4frtk")
+
+[node name="Sprite2D" type="Sprite2D" parent="BullHeadPhysics"]
+texture = ExtResource("8_5cu6n")
+
+[node name="Collision" type="CollisionShape2D" parent="BullHeadPhysics"]
+position = Vector2(0, -1)
+shape = SubResource("CapsuleShape2D_dus8i")
+debug_color = Color(0, 0.643114, 0.305885, 0.42)
+
+[node name="HitAudio" type="AudioStreamPlayer" parent="BullHeadPhysics"]
+stream = ExtResource("4_6xo71")
+
+[node name="BreakAudio" type="AudioStreamPlayer" parent="BullHeadPhysics"]
+stream = ExtResource("8_ccmgu")

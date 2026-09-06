@@ -1,0 +1,60 @@
+[gd_scene load_steps=10 format=3 uid="uid://dfgdebojiq00t"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_1b7qr"]
+[ext_resource type="Texture2D" uid="uid://bv1x4ol13wy3b" path="res://sprites/FX/POEIRA/FALL FX/Tola_Pouso_Efeito_v02.png" id="2_7pi47"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2yhnj"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1j2bl"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u763c"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4sel7"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nq0nt"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7uimm"]
+atlas = ExtResource("2_7pi47")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5uy27"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2yhnj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1j2bl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u763c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4sel7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nq0nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7uimm")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="FallEffect" instance=ExtResource("1_1b7qr")]
+z_index = 1
+sprite_frames = SubResource("SpriteFrames_5uy27")
+frame = 5
+frame_progress = 1.0

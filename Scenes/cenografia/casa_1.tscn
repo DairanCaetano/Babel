@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://dtj0qgyejphp2"]
+
+[ext_resource type="Texture2D" uid="uid://dlg68fg2gnkns" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_CASAS_sprites_v01.png" id="1_pxgf1"]
+
+[node name="casa_1" type="Sprite2D"]
+texture = ExtResource("1_pxgf1")
+hframes = 4

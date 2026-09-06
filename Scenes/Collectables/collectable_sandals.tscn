@@ -1,0 +1,35 @@
+[gd_scene load_steps=7 format=3 uid="uid://dk883iyn443so"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_0hmgs"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_sandals.gd" id="2_vn0ek"]
+[ext_resource type="Texture2D" uid="uid://cux21seuwqgw5" path="res://sprites/Equipments/sandals.png" id="3_j3fj2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uk1ow"]
+atlas = ExtResource("3_j3fj2")
+region = Rect2(0, 0, 15, 15)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_twp8s"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uk1ow")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cuig1"]
+
+[node name="CollectableSandals" instance=ExtResource("1_0hmgs")]
+script = ExtResource("2_vn0ek")
+ability_icon_path = "res://sprites/Equipments/sandals.png"
+ability_title = "Sandálias Aladas"
+ability_description = "Sandálias leves e encantadas. Aumentam significativamente a velocidade de movimento."
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_twp8s")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_cuig1")

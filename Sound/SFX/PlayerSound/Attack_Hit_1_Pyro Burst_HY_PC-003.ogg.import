@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://5i4e2aer76e1"
+path="res://.godot/imported/Attack_Hit_1_Pyro Burst_HY_PC-003.ogg-97d36a40f794261faa12805f00cceacf.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/PlayerSound/Attack_Hit_1_Pyro Burst_HY_PC-003.ogg"
+dest_files=["res://.godot/imported/Attack_Hit_1_Pyro Burst_HY_PC-003.ogg-97d36a40f794261faa12805f00cceacf.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

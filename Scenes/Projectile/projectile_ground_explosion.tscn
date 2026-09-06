@@ -1,0 +1,102 @@
+[gd_scene load_steps=13 format=3 uid="uid://brl7ooo5ye4xp"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_aj0hk"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_ground_explosion.gd" id="2_3lsau"]
+[ext_resource type="Texture2D" uid="uid://dxl3ssx1i8f6o" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_Ataque_1_FX_v02.png" id="3_rdm7f"]
+[ext_resource type="AudioStream" uid="uid://ctmjkpmdd827l" path="res://Sound/SFX/EnemiesSound/GroundSpikeBreak_EXPLOSION-Cruncher_HY_PC-003.ogg" id="4_jo687"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iutrc"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3mtcq"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rynuj"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(100, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmwk4"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(150, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4fkgl"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(200, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84vhr"]
+atlas = ExtResource("3_rdm7f")
+region = Rect2(250, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k5uev"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iutrc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3mtcq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rynuj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmwk4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4fkgl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84vhr")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iqo1t"]
+size = Vector2(30, 33)
+
+[node name="ProjectileGroundExplosion" node_paths=PackedStringArray("texture", "ground_ray", "wall_ray", "attack_audio") instance=ExtResource("1_aj0hk")]
+collision_layer = 8
+collision_mask = 1
+script = ExtResource("2_3lsau")
+move_speed = 128.0
+attack_damage = 10
+movement_distance = 32.0
+texture = NodePath("Texture")
+ground_ray = NodePath("GroundRay")
+wall_ray = NodePath("WallRay")
+attack_audio = NodePath("AttackAudio")
+spawn_child_on_frame = true
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_k5uev")
+animation = &"Idle"
+autoplay = "Idle"
+frame = 2
+frame_progress = 0.594439
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(0, 8.5)
+shape = SubResource("RectangleShape2D_iqo1t")
+debug_color = Color(0.985538, 0.118031, 5.77569e-07, 0.42)
+
+[node name="GroundRay" type="RayCast2D" parent="." index="2"]
+position = Vector2(-20, 21)
+target_position = Vector2(0, 10)
+collision_mask = 2
+
+[node name="WallRay" type="RayCast2D" parent="." index="3"]
+position = Vector2(0, 15)
+rotation = 1.56781
+target_position = Vector2(0, 30)
+collision_mask = 2
+
+[node name="AttackAudio" type="AudioStreamPlayer" parent="." index="4"]
+stream = ExtResource("4_jo687")
+volume_db = -10.0
+
+[connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]
+[connection signal="frame_changed" from="Texture" to="." method="_on_texture_frame_changed"]

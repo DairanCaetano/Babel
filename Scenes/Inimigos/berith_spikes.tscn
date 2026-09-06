@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://dg6xtr6f4a20p"]
+
+[ext_resource type="PackedScene" uid="uid://cwj7om58uaqop" path="res://Scenes/Inimigos/base_hazard.tscn" id="1_bqcrl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sjsdl"]
+size = Vector2(32, 29)
+
+[node name="BerithSpikes" instance=ExtResource("1_bqcrl")]
+dano = 10
+
+[node name="Texture" parent="." index="0"]
+animation = &""
+autoplay = "Idle"
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_sjsdl")
+debug_color = Color(0.961531, 0.167772, 0.268859, 0.42)
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

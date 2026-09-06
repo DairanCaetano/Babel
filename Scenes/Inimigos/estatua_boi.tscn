@@ -1,0 +1,146 @@
+[gd_scene load_steps=21 format=3 uid="uid://dt3k2hsdvwmc7"]
+
+[ext_resource type="PackedScene" uid="uid://6063j6olpca3" path="res://Scenes/Inimigos/base_enemy.tscn" id="1_fbrat"]
+[ext_resource type="Script" path="res://Scripts/Enemies/estatuas.gd" id="2_f8i2a"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_ony30"]
+[ext_resource type="Texture2D" uid="uid://rmfh330s45nb" path="res://sprites/Enemies/Estátua Boi/Babel_Personagens_Estatua_Boi_Pixel Art_v01.png" id="3_1xhk3"]
+[ext_resource type="PackedScene" uid="uid://n2pcr2ojecgp" path="res://Scenes/FX/pixel_fire_2D.tscn" id="3_l3sdx"]
+[ext_resource type="PackedScene" uid="uid://domirasqwif0f" path="res://Scenes/FX/estatues_explosion.tscn" id="5_bb743"]
+[ext_resource type="PackedScene" uid="uid://dgpwp15keh4uo" path="res://Scenes/FX/realistic_fire_particle_2d.tscn" id="7_5aany"]
+[ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="8_pxb57"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="9_bucg1"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tydhi"]
+resource_local_to_scene = true
+shader = ExtResource("2_ony30")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cm8oc"]
+atlas = ExtResource("3_1xhk3")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oskmb"]
+atlas = ExtResource("3_1xhk3")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4tme"]
+atlas = ExtResource("3_1xhk3")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gqllf"]
+atlas = ExtResource("3_1xhk3")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_deyja"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cm8oc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oskmb")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4tme")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gqllf")
+}],
+"loop": true,
+"name": &"Rest",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_msnbj"]
+radius = 8.0
+height = 24.0
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oc6yx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onh2t"]
+radius = 113.071
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3ntby"]
+size = Vector2(20, 4)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3if64"]
+
+[node name="EstátuaBoi" node_paths=PackedStringArray("detection_area", "texture", "attack_area", "particula_pedra", "particulas_fogo", "particulas_fogo_realistica", "particulas_fogo_morte") instance=ExtResource("1_fbrat")]
+position = Vector2(0, 10)
+collision_mask = 4
+up_direction = Vector2(0, 1)
+script = ExtResource("2_f8i2a")
+detection_area = NodePath("DetectionArea")
+texture = NodePath("Texture")
+attack_area = NodePath("AttackArea")
+particula_pedra = NodePath("ExplosãoEstátuas")
+particulas_fogo = NodePath("FireParticles")
+particulas_fogo_realistica = NodePath("PixelFire")
+particulas_fogo_morte = NodePath("FireParticles")
+behavior_mode = 0
+_knockback_speed = 100.0
+move_speed = 60.0
+chase_duration = 1.0
+idle_duration = 0.5
+death_jump_force = 100.0
+death_horizontal_force = 150.0
+enable_texture_fire = true
+static_idle_shake_interval = 3.0
+
+[node name="RealisticFire" parent="." index="0" instance=ExtResource("7_5aany")]
+
+[node name="PixelFire" parent="." index="1" instance=ExtResource("3_l3sdx")]
+
+[node name="Texture" parent="." index="2"]
+material = SubResource("ShaderMaterial_tydhi")
+sprite_frames = SubResource("SpriteFrames_deyja")
+animation = &"Rest"
+autoplay = "Rest"
+script = null
+
+[node name="Collision" parent="." index="3"]
+shape = SubResource("CapsuleShape2D_msnbj")
+
+[node name="Collision" parent="AttackArea" index="0"]
+shape = SubResource("CapsuleShape2D_oc6yx")
+debug_color = Color(0.940196, 0.186115, 0.409425, 0.42)
+
+[node name="Collision" parent="DetectionArea" index="0"]
+shape = SubResource("CircleShape2D_onh2t")
+debug_color = Color(0.623188, 0.53205, 0.0762246, 0.42)
+
+[node name="ExplosãoEstátuas" parent="." index="11" instance=ExtResource("5_bb743")]
+visible = false
+
+[node name="FireParticles" parent="." index="12" instance=ExtResource("8_pxb57")]
+
+[node name="ExplosãoEstátuas2" parent="." index="13" instance=ExtResource("5_bb743")]
+
+[node name="EnemyStepArea2" parent="." index="19" instance=ExtResource("9_bucg1")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea2" index="1"]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_3ntby")
+debug_color = Color(0.862558, 0.359405, 0, 0.42)
+
+[node name="Hurtbox" parent="." index="20"]
+collision_layer = 72
+collision_mask = 5
+
+[node name="Collision" parent="Hurtbox" index="0"]
+shape = SubResource("CapsuleShape2D_3if64")

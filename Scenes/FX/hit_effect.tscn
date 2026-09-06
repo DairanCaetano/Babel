@@ -1,0 +1,41 @@
+[gd_scene load_steps=8 format=3 uid="uid://d12wl4cf68gl4"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_ow2kf"]
+[ext_resource type="Texture2D" uid="uid://viqkw55p7hqv" path="res://sprites/FX/COMBATE/Hit_impact_v01.png" id="2_kg0vb"]
+[ext_resource type="Script" path="res://Scripts/FX/hit_effect.gd" id="3_0wyki"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgjar"]
+atlas = ExtResource("2_kg0vb")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1dk8p"]
+atlas = ExtResource("2_kg0vb")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vghaq"]
+atlas = ExtResource("2_kg0vb")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_og6xl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgjar")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1dk8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vghaq")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="HitEffect" instance=ExtResource("1_ow2kf")]
+sprite_frames = SubResource("SpriteFrames_og6xl")
+animation = &"default"
+frame = 2
+frame_progress = 1.0
+script = ExtResource("3_0wyki")

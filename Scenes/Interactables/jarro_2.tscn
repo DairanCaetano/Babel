@@ -1,0 +1,94 @@
+[gd_scene load_steps=15 format=3 uid="uid://4vpsl3s44b5d"]
+
+[ext_resource type="PackedScene" uid="uid://bls514774qst8" path="res://Scenes/Interactables/interactable_component.tscn" id="1_1h7i1"]
+[ext_resource type="Script" path="res://Scripts/Interactables/jarro_1.gd" id="2_vthe3"]
+[ext_resource type="Texture2D" uid="uid://c8d8o5acfotn3" path="res://sprites/Interactables/Babel_Interactables_Jarro_Pixel_art_v01.png" id="3_ho6gj"]
+[ext_resource type="AudioStream" uid="uid://d1n2wn0ml8vw8" path="res://Sound/SFX/InteractablesSound/Ceramic Pot Breaking 2.ogg" id="4_0abeg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vyb42"]
+size = Vector2(15, 25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sqfux"]
+size = Vector2(13, 23)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ydtt1"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(128, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyyv2"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(160, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rj8oy"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(192, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhm4r"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(224, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oaevq"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(256, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cfmua"]
+atlas = ExtResource("3_ho6gj")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6848y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ydtt1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyyv2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rj8oy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhm4r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oaevq")
+}],
+"loop": false,
+"name": &"Destroyed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cfmua")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkouo"]
+size = Vector2(114, 20)
+
+[node name="Jarro_2" instance=ExtResource("1_1h7i1")]
+collision_mask = 7
+script = ExtResource("2_vthe3")
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0.5, 8.5)
+shape = SubResource("RectangleShape2D_vyb42")
+
+[node name="Collision" parent="Body" index="0"]
+position = Vector2(0.5, 8.5)
+shape = SubResource("RectangleShape2D_sqfux")
+debug_color = Color(0.94874, 4.04298e-06, 0.576862, 0.42)
+
+[node name="Texture" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_6848y")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="BrokenAudio" parent="." index="3"]
+stream = ExtResource("4_0abeg")
+
+[node name="Collision" parent="InteractionArea" index="0"]
+shape = SubResource("RectangleShape2D_mkouo")

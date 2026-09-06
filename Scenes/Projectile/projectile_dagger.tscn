@@ -1,0 +1,53 @@
+[gd_scene load_steps=8 format=3 uid="uid://bojkwujexwshy"]
+
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_dagger.gd" id="1_ruvs8"]
+[ext_resource type="Texture2D" uid="uid://b524ohnassete" path="res://sprites/Weapons/Babel_Armas_Adaga_Pixel Art_v02.png" id="2_ai1kw"]
+[ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="2_t04mn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_be4fg"]
+atlas = ExtResource("2_ai1kw")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3jbn7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_be4fg")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_6bkr3"]
+radius = 11.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_64pwt"]
+radius = 11.0
+
+[node name="ProjectileDagger" type="CharacterBody2D" node_paths=PackedStringArray("_texture", "_collision_shape", "attack_area")]
+z_index = 1
+collision_layer = 4
+collision_mask = 76
+script = ExtResource("1_ruvs8")
+move_speed = 100.0
+rotation_speed = 680.0
+_texture = NodePath("Texture")
+_collision_shape = NodePath("Collision")
+attack_area = NodePath("Hitbox")
+ghost_trail_scene = ExtResource("2_t04mn")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_3jbn7")
+autoplay = "default"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_6bkr3")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 76
+
+[node name="Collision" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_64pwt")
+debug_color = Color(0.984372, 0, 0.344192, 0.42)

@@ -1,0 +1,89 @@
+[gd_scene load_steps=14 format=3 uid="uid://bv8ijvrawwdce"]
+
+[ext_resource type="PackedScene" uid="uid://bls514774qst8" path="res://Scenes/Interactables/interactable_component.tscn" id="1_kej6p"]
+[ext_resource type="Texture2D" uid="uid://n4oqg5mly85q" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_Interativos_Itens_sprites_v01.png" id="2_6wl81"]
+[ext_resource type="Texture2D" uid="uid://gt4yborl8sqh" path="res://sprites/FX/POEIRA/INTERACTABLES FX/Interativos_Destruição_FX_v01.png" id="2_xmp2s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mcfi1"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wtlk8"]
+size = Vector2(14, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g34vc"]
+atlas = ExtResource("2_xmp2s")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n06qe"]
+atlas = ExtResource("2_xmp2s")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tknb0"]
+atlas = ExtResource("2_xmp2s")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lned"]
+atlas = ExtResource("2_xmp2s")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cnbh8"]
+atlas = ExtResource("2_xmp2s")
+region = Rect2(128, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fnxx2"]
+atlas = ExtResource("2_6wl81")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kxubo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g34vc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n06qe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tknb0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lned")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cnbh8")
+}],
+"loop": false,
+"name": &"Destroyed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fnxx2")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aui3t"]
+size = Vector2(70, 22)
+
+[node name="Mesa_1" instance=ExtResource("1_kej6p")]
+collision_mask = 3
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(-4, 13)
+shape = SubResource("RectangleShape2D_mcfi1")
+
+[node name="Collision" parent="Body" index="0"]
+position = Vector2(-4, 5.5)
+shape = SubResource("RectangleShape2D_wtlk8")
+
+[node name="Texture" parent="." index="2"]
+sprite_frames = SubResource("SpriteFrames_kxubo")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Collision" parent="InteractionArea" index="0"]
+position = Vector2(-3, 10)
+shape = SubResource("RectangleShape2D_aui3t")

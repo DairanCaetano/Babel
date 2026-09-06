@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://domirasqwif0f"]
+
+[ext_resource type="Texture2D" uid="uid://mtka6spos6ri" path="res://sprites/Enemies/Estátua Boi/Babel_Personagens_Estatua_Piece_Pixel Art_v01.png" id="1_5mkfy"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_w5x2y"]
+particle_flag_disable_z = true
+direction = Vector3(1, 10, 0)
+spread = 100.0
+initial_velocity_min = 20.0
+initial_velocity_max = 100.0
+angular_velocity_min = -124.8
+angular_velocity_max = -124.8
+radial_velocity_min = 70.0
+radial_velocity_max = 100.0
+gravity = Vector3(0, 300, 0)
+radial_accel_min = -2.23517e-06
+radial_accel_max = -2.23517e-06
+tangential_accel_min = -2.23517e-06
+tangential_accel_max = -2.23517e-06
+
+[node name="ExplosãoEstátuas" type="Node2D"]
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+emitting = false
+amount = 6
+process_material = SubResource("ParticleProcessMaterial_w5x2y")
+texture = ExtResource("1_5mkfy")
+one_shot = true
+explosiveness = 1.0

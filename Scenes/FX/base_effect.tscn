@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bmbowctcowdx7"]
+
+[ext_resource type="Script" path="res://Scripts/FX/base_effect.gd" id="1_q04kv"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3p2la"]
+animations = [{
+"frames": [],
+"loop": false,
+"name": &"ParryFX",
+"speed": 10.0
+}]
+
+[node name="BaseEffect" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_3p2la")
+animation = &"ParryFX"
+autoplay = "default"
+script = ExtResource("1_q04kv")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

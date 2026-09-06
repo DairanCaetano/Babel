@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://bs1pg1ih68v7o"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/ui_currency_slot.gd" id="1_n60qj"]
+[ext_resource type="Texture2D" uid="uid://1suskrh7ewxr" path="res://sprites/Items/small_fragment.png" id="2_0reuv"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="2_al0me"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_ltkwa"]
+line_spacing = 0.0
+font = ExtResource("2_al0me")
+font_size = 11
+shadow_size = 0
+shadow_color = Color(0.137255, 0.137255, 0.137255, 1)
+shadow_offset = Vector2(0, 1)
+
+[node name="UICurrencySlot" type="Button" node_paths=PackedStringArray("currency_icon", "currency_label")]
+custom_minimum_size = Vector2(32, 32)
+offset_right = 32.0
+offset_bottom = 32.0
+flat = true
+script = ExtResource("1_n60qj")
+currency_icon = NodePath("Texture")
+currency_label = NodePath("Amount")
+
+[node name="Texture" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("2_0reuv")
+stretch_mode = 3
+
+[node name="Amount" type="Label" parent="."]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 32.0
+text = "1"
+label_settings = SubResource("LabelSettings_ltkwa")
+horizontal_alignment = 2
+vertical_alignment = 2

@@ -1,0 +1,94 @@
+[gd_scene load_steps=3 format=3 uid="uid://cl3wt0sr6ss21"]
+
+[ext_resource type="Texture2D" uid="uid://b17it3qyq573x" path="res://sprites/Interactables/Babel_Interativos_Corda_v01.png" id="1_crrgr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_acdp4"]
+size = Vector2(4, 5)
+
+[node name="Rope" type="Node2D"]
+
+[node name="Anchor" type="RigidBody2D" parent="."]
+freeze = true
+
+[node name="Rope1" type="RigidBody2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope1"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope1"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope1"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Anchor")
+
+[node name="Rope2" type="RigidBody2D" parent="."]
+position = Vector2(0, 5)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope2"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope2"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope2"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Rope1")
+
+[node name="Rope3" type="RigidBody2D" parent="."]
+position = Vector2(0, 10)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope3"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope3"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope3"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Rope2")
+
+[node name="Rope4" type="RigidBody2D" parent="."]
+position = Vector2(0, 15)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope4"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope4"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope4"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Rope3")
+
+[node name="Rope5" type="RigidBody2D" parent="."]
+position = Vector2(0, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope5"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope5"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope5"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Rope4")
+
+[node name="Rope6" type="RigidBody2D" parent="."]
+position = Vector2(0, 25)
+
+[node name="Sprite2D" type="Sprite2D" parent="Rope6"]
+texture = ExtResource("1_crrgr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Rope6"]
+shape = SubResource("RectangleShape2D_acdp4")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="Rope6"]
+position = Vector2(0, -2.5)
+node_a = NodePath("..")
+node_b = NodePath("../../Rope5")

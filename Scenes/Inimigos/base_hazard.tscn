@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cwj7om58uaqop"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/base_hazard.gd" id="1_4d6bk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5501f"]
+
+[node name="BaseHazard" type="Area2D" node_paths=PackedStringArray("_texture", "_collision")]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1_4d6bk")
+_texture = NodePath("Texture")
+_collision = NodePath("Collision")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_5501f")
+debug_color = Color(0.986879, 0, 0.318983, 0.42)

@@ -1,0 +1,85 @@
+[gd_scene load_steps=11 format=3 uid="uid://bf8a8ysbhgt30"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_f57ai"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_hook.gd" id="2_drmia"]
+[ext_resource type="PackedScene" uid="uid://cmjsoap2ln5gd" path="res://Scenes/FX/skill_fx_particle.tscn" id="3_xf0h2"]
+[ext_resource type="Texture2D" uid="uid://drp00veeastn0" path="res://sprites/Items/Skills_Hook.png" id="3_yksgr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ep782"]
+atlas = ExtResource("3_yksgr")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_m7exw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ep782")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ja23r"]
+size = Vector2(25, 21)
+
+[sub_resource type="Animation" id="Animation_6bytp"]
+resource_name = "Idle"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -2)]
+}
+
+[sub_resource type="Animation" id="Animation_4bjtr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Texture:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_rliry"]
+_data = {
+"Idle": SubResource("Animation_6bytp"),
+"RESET": SubResource("Animation_4bjtr")
+}
+
+[node name="CollectableHook" groups=["collectibles"] instance=ExtResource("1_f57ai")]
+script = ExtResource("2_drmia")
+ability_icon_path = "res://sprites/Items/Skills_Hook.png"
+ability_title = "Garra Mística"
+ability_description = "Uma luva mística que dispara uma garra para alcançar lugares distantes."
+collectible_id = "hook_glove_1"
+has_post_dialog = true
+
+[node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_xf0h2")]
+
+[node name="Texture" parent="." index="1" groups=["collectibles"]]
+sprite_frames = SubResource("SpriteFrames_m7exw")
+
+[node name="Collision" parent="." index="2"]
+position = Vector2(-0.5, -1.5)
+shape = SubResource("RectangleShape2D_ja23r")
+
+[node name="Anim" type="AnimationPlayer" parent="." index="3"]
+libraries = {
+"": SubResource("AnimationLibrary_rliry")
+}
+autoplay = "Idle"

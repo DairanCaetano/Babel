@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cr0au8gd8wytg"
+path="res://.godot/imported/Building Castle wall or Parapet - Impact Crumbling.ogg-bb6c504cac3792871fa8a70fbc1facf7.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Building Castle wall or Parapet - Impact Crumbling.ogg"
+dest_files=["res://.godot/imported/Building Castle wall or Parapet - Impact Crumbling.ogg-bb6c504cac3792871fa8a70fbc1facf7.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

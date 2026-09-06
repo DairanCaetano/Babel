@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c1e6hq50o4hiy"
+path="res://.godot/imported/Egito_2 Moonlit Dunes - Blue Lava.ogg-5b37a1f2bc1cb3bb0e5b98f86599c7e9.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/Music/LevelSound/Egito_2 Moonlit Dunes - Blue Lava.ogg"
+dest_files=["res://.godot/imported/Egito_2 Moonlit Dunes - Blue Lava.ogg-5b37a1f2bc1cb3bb0e5b98f86599c7e9.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

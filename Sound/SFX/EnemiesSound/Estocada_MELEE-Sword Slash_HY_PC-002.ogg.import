@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://b1tu2tw7bwoqd"
+path="res://.godot/imported/Estocada_MELEE-Sword Slash_HY_PC-002.ogg-a4912c1526d4f8ea35fb466ecb26f436.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Estocada_MELEE-Sword Slash_HY_PC-002.ogg"
+dest_files=["res://.godot/imported/Estocada_MELEE-Sword Slash_HY_PC-002.ogg-a4912c1526d4f8ea35fb466ecb26f436.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

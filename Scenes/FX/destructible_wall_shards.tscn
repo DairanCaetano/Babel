@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://ocb4jn2hideq"]
+
+[ext_resource type="Texture2D" uid="uid://dk0xncs0gt5kg" path="res://sprites/Interactables/DestructableRock_FX.png" id="1_1c375"]
+[ext_resource type="Script" path="res://Scripts/FX/destructible_wall_shards.gd" id="1_d166p"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3pads"]
+friction = 0.5
+bounce = 0.2
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1a163"]
+radius = 7.0
+height = 14.0
+
+[node name="DestructibleWallShards" type="RigidBody2D" node_paths=PackedStringArray("_texture")]
+collision_layer = 0
+collision_mask = 2
+mass = 0.5
+physics_material_override = SubResource("PhysicsMaterial_3pads")
+linear_damp = 1.0
+angular_damp = 1.0
+script = ExtResource("1_d166p")
+_texture = NodePath("Texture")
+
+[node name="Texture" type="Sprite2D" parent="."]
+scale = Vector2(0.9, 0.9)
+texture = ExtResource("1_1c375")
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CapsuleShape2D_1a163")

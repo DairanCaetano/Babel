@@ -1,0 +1,66 @@
+[gd_scene load_steps=11 format=3 uid="uid://d0ookqlvln7hj"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_0k167"]
+[ext_resource type="Texture2D" uid="uid://cvyftv6rjhonk" path="res://sprites/FX/FOGO/Fire_FX_v04.png" id="2_tk065"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5kto"]
+atlas = ExtResource("2_tk065")
+region = Rect2(0, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ewy7"]
+atlas = ExtResource("2_tk065")
+region = Rect2(20, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idg1j"]
+atlas = ExtResource("2_tk065")
+region = Rect2(40, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0x4mg"]
+atlas = ExtResource("2_tk065")
+region = Rect2(60, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8yhxh"]
+atlas = ExtResource("2_tk065")
+region = Rect2(80, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0std2"]
+atlas = ExtResource("2_tk065")
+region = Rect2(100, 0, 20, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwepp"]
+atlas = ExtResource("2_tk065")
+region = Rect2(120, 0, 20, 40)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kviwr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5kto")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ewy7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_idg1j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0x4mg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8yhxh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0std2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwepp")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="FlameEffect" instance=ExtResource("1_0k167")]
+sprite_frames = SubResource("SpriteFrames_kviwr")
+frame = 6
+frame_progress = 1.0

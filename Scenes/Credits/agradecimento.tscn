@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=3 uid="uid://07w2oip61vls"]
+
+[ext_resource type="Script" path="res://Scripts/Menu/agradecimento.gd" id="1_2p2d6"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="1_5qomn"]
+[ext_resource type="AudioStream" uid="uid://c0drsl4qclft8" path="res://Sound/SFX/MenuSound/Unholy UI - Souls (7).ogg" id="3_b482n"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_qh5l7"]
+font = ExtResource("1_5qomn")
+font_size = 11
+
+[node name="Agradecimento" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2p2d6")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = -11.0
+offset_top = -3.0
+offset_right = 485.0
+offset_bottom = 282.0
+color = Color(0, 0, 0, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect"]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 4.0
+offset_right = 443.0
+offset_bottom = 275.0
+text = "Obrigado por jogar!
+
+Se você gostou do seu tempo com Babel, considere adicionar na sua lista de desejos na Steam! Muito obrigado a todos que continuam a me apoiar ao longo dos anos!
+
+Dairan"
+label_settings = SubResource("LabelSettings_qh5l7")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="SelectAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_b482n")

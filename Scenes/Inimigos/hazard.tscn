@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5ihxflelv7qg"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/hazard.gd" id="1_871nm"]
+
+[node name="Hazard" type="Area2D"]
+script = ExtResource("1_871nm")
+
+[node name="Texture" type="Sprite2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="."]

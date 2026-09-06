@@ -1,0 +1,62 @@
+[gd_scene load_steps=11 format=3 uid="uid://bgenjweqoym3c"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_2oaqc"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_axe.gd" id="2_qrk0w"]
+[ext_resource type="Texture2D" uid="uid://bj2a4xwt75e6y" path="res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v01.png" id="2_wo3ac"]
+[ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="3_anx3e"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wnq2"]
+atlas = ExtResource("2_wo3ac")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3ax8"]
+atlas = ExtResource("2_wo3ac")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_loiyx"]
+atlas = ExtResource("2_wo3ac")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1l7sm"]
+atlas = ExtResource("2_wo3ac")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_u6v57"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wnq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3ax8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_loiyx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1l7sm")
+}],
+"loop": true,
+"name": &"Throw",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pvqpc"]
+
+[node name="ProjectileAxe" node_paths=PackedStringArray("_texture") instance=ExtResource("1_2oaqc")]
+collision_mask = 10
+script = ExtResource("2_qrk0w")
+_attack_damage = 4
+_texture = NodePath("Texture")
+ghost_trail_scene = ExtResource("3_anx3e")
+_move_speed = 250.0
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_u6v57")
+animation = &"Throw"
+autoplay = "Throw"
+frame = 3
+frame_progress = 0.736537
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("CircleShape2D_pvqpc")

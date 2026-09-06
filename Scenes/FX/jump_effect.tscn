@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://dlsjn3vlfncvo"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_g1emg"]
+[ext_resource type="Texture2D" uid="uid://dvciwpeaj0f2r" path="res://sprites/FX/POEIRA/JUMP FX/Tola_Pulo_FX_v01.png" id="2_88eaq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3euu4"]
+atlas = ExtResource("2_88eaq")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jqdew"]
+atlas = ExtResource("2_88eaq")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hi7me"]
+atlas = ExtResource("2_88eaq")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qk4vl"]
+atlas = ExtResource("2_88eaq")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_osio1"]
+atlas = ExtResource("2_88eaq")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wko5w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3euu4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jqdew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hi7me")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qk4vl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_osio1")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="JumpEffect" instance=ExtResource("1_g1emg")]
+sprite_frames = SubResource("SpriteFrames_wko5w")
+frame = 4
+frame_progress = 1.0

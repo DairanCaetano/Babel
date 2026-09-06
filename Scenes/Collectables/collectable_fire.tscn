@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=3 uid="uid://dlgqy4g7ikx33"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_60ft4"]
+[ext_resource type="Script" path="res://Scenes/Collectables/collectable_fire.gd" id="2_bfj8h"]
+[ext_resource type="Texture2D" uid="uid://c5mhl8kgh25pq" path="res://sprites/FX/FOGO/Fire_FX_v01.png" id="3_4mp8o"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsthv"]
+atlas = ExtResource("3_4mp8o")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7inws"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dsthv")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1rppi"]
+
+[node name="CollectableFire" instance=ExtResource("1_60ft4")]
+script = ExtResource("2_bfj8h")
+ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Fogo_ICON_v01.png"
+ability_title = "Bálsamo Ígneo"
+ability_description = "Poder de fogo ancestral."
+collectible_id = "fire_1"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_7inws")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="Collision" parent="." index="1"]
+rotation = 1.5708
+shape = SubResource("RectangleShape2D_1rppi")

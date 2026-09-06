@@ -1,0 +1,176 @@
+[gd_scene load_steps=25 format=3 uid="uid://1jxn7voqkv8o"]
+
+[ext_resource type="Texture2D" uid="uid://bs6rk6ash0gcm" path="res://sprites/Npcs/Samyaza_NPC/IDLE/Samyaza_Idle_v01.png" id="1_hr8nc"]
+[ext_resource type="Script" path="res://Scripts/Npcs/samyaza_npc.gd" id="1_kj0nt"]
+[ext_resource type="PackedScene" uid="uid://85t5tf8mwf7h" path="res://Scenes/Npcs/azazel_npc.tscn" id="2_3kypc"]
+[ext_resource type="Texture2D" uid="uid://cjwqviol6ixb8" path="res://sprites/Npcs/Samyaza_NPC/TURN/Samyaza_Turn_v01.png" id="2_c5wnv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s78ji"]
+atlas = ExtResource("1_hr8nc")
+region = Rect2(0, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q6ug5"]
+atlas = ExtResource("1_hr8nc")
+region = Rect2(55, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vaufo"]
+atlas = ExtResource("1_hr8nc")
+region = Rect2(110, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv3ec"]
+atlas = ExtResource("1_hr8nc")
+region = Rect2(165, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8anlg"]
+atlas = ExtResource("1_hr8nc")
+region = Rect2(220, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwads"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(0, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ubvup"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(0, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7tuk"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(55, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_udm5x"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(110, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4th2p"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(165, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8jkb"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(220, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbg6k"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(275, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sv66r"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(330, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_on2rf"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(385, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dfklk"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(440, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kj2ru"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(495, 0, 55, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1p6lb"]
+atlas = ExtResource("2_c5wnv")
+region = Rect2(550, 0, 55, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lm1ia"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s78ji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q6ug5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vaufo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv3ec")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8anlg")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 4.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwads")
+}],
+"loop": true,
+"name": &"Rest",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ubvup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7tuk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_udm5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4th2p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8jkb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbg6k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sv66r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_on2rf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dfklk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kj2ru")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1p6lb")
+}],
+"loop": false,
+"name": &"Turn",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_00h4t"]
+size = Vector2(13, 37)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8h8gf"]
+size = Vector2(58, 106)
+
+[node name="SamyazaNPC" type="CharacterBody2D" node_paths=PackedStringArray("trigger_area", "animated_sprite", "azazel_spawn_point")]
+script = ExtResource("1_kj0nt")
+trigger_area = NodePath("TriggeredArea")
+animated_sprite = NodePath("Texture")
+azazel_scene = ExtResource("2_3kypc")
+azazel_spawn_point = NodePath("Azazel Spawn")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_lm1ia")
+animation = &"Turn"
+frame = 10
+frame_progress = 1.0
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(1.5, 1.5)
+shape = SubResource("RectangleShape2D_00h4t")
+
+[node name="TriggeredArea" type="Area2D" parent="."]
+
+[node name="Collision" type="CollisionShape2D" parent="TriggeredArea"]
+position = Vector2(-88, -32)
+shape = SubResource("RectangleShape2D_8h8gf")
+debug_color = Color(4.33177e-07, 0.641839, 0.327788, 0.42)
+
+[node name="Azazel Spawn" type="Marker2D" parent="."]
+position = Vector2(-62, 0)

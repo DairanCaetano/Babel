@@ -1,0 +1,73 @@
+[gd_scene load_steps=10 format=3 uid="uid://htfv7bcny81h"]
+
+[ext_resource type="PackedScene" uid="uid://dt3k2hsdvwmc7" path="res://Scenes/Inimigos/estatua_boi.tscn" id="1_cvxa8"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_etogc"]
+[ext_resource type="Texture2D" uid="uid://c14e6i65n3u8c" path="res://sprites/Enemies/Estátua Busto Guerreiro/Babel_Personagens_Estatua_Guerreiro_Pixel Art_v01.png" id="3_sdgr3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ea4fn"]
+resource_local_to_scene = true
+shader = ExtResource("2_etogc")
+shader_parameter/blink_active = false
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
+shader_parameter/fire_active = false
+shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
+shader_parameter/fire_intensity = 0.4
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ww4m7"]
+atlas = ExtResource("3_sdgr3")
+region = Rect2(192, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3aohx"]
+atlas = ExtResource("3_sdgr3")
+region = Rect2(240, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u50qp"]
+atlas = ExtResource("3_sdgr3")
+region = Rect2(0, 0, 48, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_appia"]
+atlas = ExtResource("3_sdgr3")
+region = Rect2(144, 0, 48, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_11woy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ww4m7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3aohx")
+}],
+"loop": false,
+"name": &"Dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u50qp")
+}],
+"loop": false,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_appia")
+}],
+"loop": true,
+"name": &"Rest",
+"speed": 5.0
+}]
+
+[node name="EstátuaGuerreiro" instance=ExtResource("1_cvxa8")]
+chase_duration = 2.0
+idle_duration = 0.8
+
+[node name="Texture" parent="." index="2"]
+material = SubResource("ShaderMaterial_ea4fn")
+sprite_frames = SubResource("SpriteFrames_11woy")
+animation = &"Idle"
+
+[node name="CollisionShape2D2" parent="EnemyStepArea2" index="1"]
+position = Vector2(1, -24)

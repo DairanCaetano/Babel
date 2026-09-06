@@ -1,0 +1,57 @@
+[gd_scene load_steps=10 format=3 uid="uid://dpcj62mk7k4ky"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_x7007"]
+[ext_resource type="Texture2D" uid="uid://ct0t5nyarvm52" path="res://sprites/FX/POEIRA/WALL SLIDE FX/Tola_Wall_Slide_FX_v01.png" id="2_ucgdt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5utyy"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rgqy"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uwigw"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_he2yc"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i0nh6"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sgdw0"]
+atlas = ExtResource("2_ucgdt")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lhqea"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5utyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rgqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uwigw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_he2yc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i0nh6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sgdw0")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="WallSlideEffect" instance=ExtResource("1_x7007")]
+sprite_frames = SubResource("SpriteFrames_lhqea")
