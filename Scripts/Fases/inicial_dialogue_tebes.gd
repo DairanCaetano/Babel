@@ -27,6 +27,7 @@ func _ready() -> void:
 	
 	var char_texture = _player.get_node_or_null("Texture")
 	if char_texture:
+		_face_player_towards_npc(char_texture)
 		char_texture._is_on_action = true
 		char_texture.play("Rise")
 		char_texture.frame = 0
@@ -50,11 +51,27 @@ func _play_rise_animation() -> void:
 		push_error("⚠️ [IntroSequencer] Texture não encontrado!")
 		return
 	
+	# ✅ Reforça a direção (o player pode ter sido posicionado no spawn depois do _ready)
+	_face_player_towards_npc(char_texture)
 	char_texture._is_on_action = true
 	char_texture.play("Rise")
 	char_texture.frame = 0
 	var rise_duration = _get_animation_duration(char_texture, "Rise")
 	await get_tree().create_timer(rise_duration, true).timeout
+
+func _face_player_towards_npc(char_texture: AnimatedSprite2D) -> void:
+	"""Vira o Tola para o lado onde o Azazel vai aparecer"""
+	if not npc_spawn_point or not _player:
+		return
+	
+	var face_right: bool = npc_spawn_point.global_position.x >= _player.global_position.x
+	char_texture.facing_right = face_right
+	char_texture.flip_h = not face_right
+	
+	if face_right and char_texture.has_method("_update_positions_for_right"):
+		char_texture._update_positions_for_right()
+	elif not face_right and char_texture.has_method("_update_positions_for_left"):
+		char_texture._update_positions_for_left()
 
 func _get_animation_duration(sprite: AnimatedSprite2D, anim_name: String) -> float:
 	var frames = sprite.sprite_frames
@@ -72,7 +89,10 @@ func _spawn_npc() -> void:
 	_npc.global_position = npc_spawn_point.global_position
 	
 	if _npc.has_method("play_arrive"):
-		await _npc.play_arrive()
+		# ✅ Sprite do Azazel olha para a DIREITA por padrão:
+		# se ele estiver à direita do Tola, precisa virar (flip) para olhar para ele
+		var npc_is_right_of_player: bool = _npc.global_position.x > _player.global_position.x
+		await _npc.play_arrive(npc_is_right_of_player)
 	else:
 		push_error("⚠️ [IntroSequencer] NPC não tem método play_arrive!")
 

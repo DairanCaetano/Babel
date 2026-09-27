@@ -29,6 +29,9 @@ shader_parameter/blink_intensity = 1.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hxlrx"]
 atlas = ExtResource("4_myw0n")
@@ -734,7 +737,7 @@ debug_color = Color(0.96681, 0.183478, 0, 0.42)
 [node name="ChaseArea" type="Area2D" parent="."]
 
 [node name="Collision" type="CollisionShape2D" parent="ChaseArea"]
-position = Vector2(-35, 0.499963)
+position = Vector2(0, 0.5)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_6whcr")
 debug_color = Color(0.581241, 0.55151, 0, 0.42)

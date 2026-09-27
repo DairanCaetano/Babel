@@ -26,6 +26,7 @@ func _consume(_body: BaseCharacter) -> void:
 	_body._skills.update_dash_state(true)
 
 	var skill_data = {
+		"key": "ITEM_DASH_NAME",
 		"name": tr("ITEM_DASH_NAME"),
 		"path": "res://sprites/Items/Skills_Dash.png",
 		"type": "skill",

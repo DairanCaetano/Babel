@@ -72,13 +72,13 @@ func use_consumable() -> void:
 	if _equipments_inventory["consumable"].is_empty():
 		return
 	
-	# ✅ VERIFICAR SE É POÇÃO VAZIA (em português)
-	if _equipments_inventory["consumable"].get("key", "") == "ITEM_POTION_EMPTY":
-		print("⚠️ Poção vazia - não pode usar!")
+	# ✅ VERIFICAR SE É PENA APAGADA (sem usos)
+	if CollectablePotion.is_empty_feather(_equipments_inventory["consumable"]):
+		print("⚠️ Pena de Azazel apagada - não pode usar!")
 		return
 	
-	# ✅ VERIFICAR SE É POÇÃO MÁXIMA
-	var is_max_potion = _equipments_inventory["consumable"].get("is_max_potion", false)
+	# ✅ VERIFICAR SE É PENA DE AZAZEL (cura recarregável)
+	var is_max_potion = CollectablePotion.is_feather(_equipments_inventory["consumable"])
 	
 	# ✅ DECREMENTAR
 	_equipments_inventory["consumable"]["amount"] -= 1
@@ -87,19 +87,20 @@ func use_consumable() -> void:
 	# ✅ SE ZEROU
 	if _equipments_inventory["consumable"]["amount"] <= 0:
 		if is_max_potion:
-			# ✅ TRANSFORMAR EM POÇÃO VAZIA (não remove)
-			_equipments_inventory["consumable"]["name"] = tr("ITEM_POTION_EMPTY")
-			_equipments_inventory["consumable"]["key"] = "ITEM_POTION_EMPTY"
-			_equipments_inventory["consumable"]["path"] = "res://sprites/Items/empty_health_potion.png"
-			_equipments_inventory["consumable"]["amount"] = 0
+			# ✅ TRANSFORMAR EM PENA APAGADA (não remove)
+			var _feather: Dictionary = _equipments_inventory["consumable"]
+			var _empty_path: String = CollectablePotion.empty_path(_feather)
+			_feather["path_full"] = CollectablePotion.full_path(_feather)
+			_feather["name"] = tr(CollectablePotion.KEY_EMPTY)
+			_feather["key"] = CollectablePotion.KEY_EMPTY
+			_feather["path"] = _empty_path
+			_feather["amount"] = 0
 			
 			# ✅ ATUALIZAR SPRITE
-			_get_item_texture(_consumable_slot).texture = load(
-				"res://sprites/Items/empty_health_potion.png"
-			)
+			_get_item_texture(_consumable_slot).texture = load(_empty_path)
 			_get_amount_label(_consumable_slot).text = ""
 			
-			print("🍶 Águas de Cura zeradas - sprite alterado para vazio")
+			print("🪶 Pena de Azazel sem usos - sprite alterado para apagada")
 		else:
 			# ✅ CONSUMÍVEL NORMAL - REMOVE COMPLETAMENTE
 			_equipments_inventory["consumable"] = {}
@@ -145,12 +146,17 @@ func equip_item(_item: Dictionary) -> void:
 		return
 	
 	var _item_amount: int = 0
-	if not _equipments_inventory[_item_copy["type"]].is_empty():
-		if _equipments_inventory[_item_copy["type"]]["name"] == _item_copy["name"]:
-			_item_amount = _equipments_inventory[_item_copy["type"]]["amount"]
+	var _current_equipped: Dictionary = _equipments_inventory[_item_copy["type"]]
+	if not _current_equipped.is_empty():
+		# ✅ Penas de Azazel se juntam mesmo se a equipada estiver apagada
+		var _same_item: bool = _current_equipped["name"] == _item_copy["name"]
+		if CollectablePotion.is_feather(_current_equipped) and CollectablePotion.is_feather(_item_copy):
+			_same_item = true
 		
-		if _item_amount == 0:
-			global.inventory.add_item(_equipments_inventory[_item_copy["type"]])
+		if _same_item:
+			_item_amount = _current_equipped["amount"]
+		else:
+			global.inventory.add_item(_current_equipped)
 	
 	_item_copy["amount"] += _item_amount
 	_equipments_inventory[_item_copy["type"]] = _item_copy
@@ -161,10 +167,15 @@ func equip_item(_item: Dictionary) -> void:
 	else:
 		_atributes_increased[_item_copy["type"]] = {}
 	
-	# ✅ ATUALIZAR PARA RECONHECER "Águas de Cura"
-	if _item_copy.get("key", "") == "ITEM_POTION_NAME":
-		serialization.game_data["max_potions"] = _item_copy["amount"]
+	# ✅ PENA DE AZAZEL: o máximo é incrementado na coleta (CollectablePotion)
+	if CollectablePotion.is_feather(_item_copy):
+		if _item_copy["amount"] > 0:
+			_item_copy["key"] = CollectablePotion.KEY_NAME
+			_item_copy["name"] = tr(CollectablePotion.KEY_NAME)
+			_item_copy["path"] = CollectablePotion.full_path(_item_copy)
 		serialization.game_data["current_potions"] = _item_copy["amount"]
+		if _item_copy["amount"] > int(serialization.game_data.get("max_potions", 0)):
+			serialization.game_data["max_potions"] = _item_copy["amount"]
 	
 	if global.character and global.character.has_node("CharacterSubweapon"):
 		var subweapon = global.character.get_node("CharacterSubweapon")
@@ -191,7 +202,7 @@ func equip_item(_item: Dictionary) -> void:
 	
 	if _target_slot == _consumable_slot:
 		_get_amount_label(_target_slot).text = str(_item_copy["amount"])
-		if _equipments_inventory["consumable"].get("key", "") == "ITEM_POTION_EMPTY":
+		if CollectablePotion.is_empty_feather(_equipments_inventory["consumable"]):
 			_get_amount_label(_target_slot).text = ""
 	
 	_get_item_texture(_target_slot).texture = load(_item_copy["path"])

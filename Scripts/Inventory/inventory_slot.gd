@@ -44,8 +44,13 @@ func get_item_data() -> Dictionary:
 func get_item_description() -> String:
 	if _data.is_empty():
 		return ""
-		
-	return _data["description"]
+	
+	# ✅ Pena de Azazel: sempre usar o texto atual do CSV
+	if CollectablePotion.is_feather(_data):
+		return tr(CollectablePotion.KEY_DESC)
+	
+	# ✅ tr() traduz se for chave; se já for texto pronto, retorna igual
+	return tr(_data.get("description", ""))
 	
 	
 func _on_pressed() -> void:

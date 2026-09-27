@@ -45,7 +45,7 @@ func _update_slot(slot: Button, item: Dictionary) -> void:
 	if slot == _consumable_slot:
 		var amount_label = slot.get_node_or_null("Amount")
 		if amount_label:
-			if item.is_empty() or item.get("name") == "Empty Health Potions":
+			if item.is_empty() or CollectablePotion.is_empty_feather(item):
 				amount_label.text = ""
 			else:
 				amount_label.text = str(item.get("amount", 0))

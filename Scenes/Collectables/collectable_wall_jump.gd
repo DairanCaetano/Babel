@@ -14,7 +14,8 @@ func _consume(_body: BaseCharacter) -> void:
 	_body._skills.update_wall_jump_state(true)
 	
 	var skill_data = {
-		"name": "Wall Jump",
+		"key": "ITEM_WALL_JUMP_NAME",
+		"name": tr("ITEM_WALL_JUMP_NAME"),
 		"path": "res://sprites/Items/Skills_Wall_Jump.png",
 		"type": "skill",
 		"description": tr("ITEM_WALL_JUMP_DESC")

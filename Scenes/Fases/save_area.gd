@@ -52,6 +52,12 @@ func _on_body_entered(body: Node2D) -> void:
 		is_player_inside = true
 		can_save = true
 		
+		# ✅ Não mostrar o ícone se o menu de save já estiver aberto
+		# (acontece quando a fase é recarregada pelo botão Salvar)
+		var hud = get_tree().get_first_node_in_group("hud")
+		if hud and hud.has_node("SaveContainer") and hud.get_node("SaveContainer").visible:
+			return
+		
 		# ✅ MOSTRAR APENAS O ÍCONE DE INTERAÇÃO
 		if _interaction_icon:
 			_interaction_icon.visible = true
@@ -73,12 +79,15 @@ func _input(event: InputEvent) -> void:
 	if not is_player_inside or not can_save:
 		return
 	
+	# ← NOVO: se o menu de save já estiver aberto, esse input pertence à navegação do HUD, não a nós
+	var hud = get_tree().get_first_node_in_group("hud")
+	if hud and hud.has_node("SaveContainer") and hud.get_node("SaveContainer").visible:
+		return
+	
 	if event.is_action_pressed("move_up"):
-		# ✅ Só permite salvar se o player estiver no chão
 		var player = get_tree().get_first_node_in_group("player")
 		if player and player.is_on_floor():
 			_trigger_save()
-
 # ========== SAVE - LÓGICA PRINCIPAL ==========
 func _trigger_save() -> void:
 	"""Salva o jogo quando player interage - ABRE O MENU DE SAVE"""

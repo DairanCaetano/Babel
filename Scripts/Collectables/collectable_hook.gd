@@ -14,6 +14,7 @@ func _consume(_body: BaseCharacter) -> void:
 	_body._skills.update_hook_state(true)
 
 	var skill_data = {
+		"key": "ITEM_HOOK_NAME",
 		"name": tr("ITEM_HOOK_NAME"),
 		"path": "res://sprites/Items/Skills_Hook.png",
 		"type": "skill",

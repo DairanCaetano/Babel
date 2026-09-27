@@ -1,4 +1,4 @@
-[gd_scene load_steps=342 format=3 uid="uid://g78ro8nvelp1"]
+[gd_scene load_steps=353 format=3 uid="uid://g78ro8nvelp1"]
 
 [ext_resource type="Texture2D" uid="uid://cbkha78rr2bub" path="res://sprites/Player/Tola/IDLE/Tola_Idle_v01.png" id="1_01e4a"]
 [ext_resource type="Script" path="res://Scenes/Player/Tola/player.gd" id="1_vgr8b"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://Scenes/Player/Tola/character_texture.gd" id="6_bcpfw"]
 [ext_resource type="Texture2D" uid="uid://c42bk7ltnujsp" path="res://sprites/Player/Tola/CONTRA ATAQUE/Tola_Contra_Ataque_v03.png" id="6_bmvd2"]
 [ext_resource type="Texture2D" uid="uid://br2a8e03sfs48" path="res://sprites/Player/Tola/DANO/Tola_Dano_v02.png" id="6_i38qe"]
+[ext_resource type="Texture2D" uid="uid://c2s7k0icyowqq" path="res://sprites/Player/Tola/ATAQUE MACHADO/Tola_Ataque_Machado_v01.png" id="8_b1tea"]
 [ext_resource type="Texture2D" uid="uid://b1fppjsxpkine" path="res://sprites/Player/Tola/ABAIXADO/Tola_Crounch_v01.png" id="8_g8ccq"]
 [ext_resource type="Texture2D" uid="uid://8dwystoprdv4" path="res://sprites/Player/Tola/ESCALADA/Tola_Climb_v02.png" id="9_6qlvx"]
 [ext_resource type="Texture2D" uid="uid://w5k2j8wc87qq" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_v01.png" id="9_c6cqp"]
@@ -90,6 +91,9 @@ shader_parameter/blink_intensity = 1.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frix6"]
 shader = ExtResource("2_ryd4d")
@@ -99,6 +103,9 @@ shader_parameter/blink_intensity = 1.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cj8ab"]
 atlas = ExtResource("2_uh38f")
@@ -183,6 +190,46 @@ region = Rect2(180, 0, 90, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ngryw"]
 atlas = ExtResource("6_b6r8e")
 region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_metjh"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fkcm8"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pdt8s"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdt1x"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6uco1"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yb1p7"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6unl0"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(540, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o6cf8"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(630, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyuoc"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(720, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5jwti"]
+atlas = ExtResource("8_b1tea")
+region = Rect2(810, 0, 90, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0otj0"]
 atlas = ExtResource("5_4oc1h")
@@ -1115,6 +1162,41 @@ animations = [{
 }],
 "loop": false,
 "name": &"Attack_wall",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_metjh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fkcm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pdt8s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdt1x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6uco1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yb1p7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6unl0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o6cf8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyuoc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5jwti")
+}],
+"loop": false,
+"name": &"Axe_Attack",
 "speed": 10.0
 }, {
 "frames": [{
@@ -2242,8 +2324,7 @@ process_mode = 3
 z_index = 10
 material = SubResource("ShaderMaterial_frix6")
 sprite_frames = SubResource("SpriteFrames_3x06b")
-animation = &"Back_Dash"
-flip_h = true
+animation = &"Axe_Attack"
 script = ExtResource("6_bcpfw")
 _character = NodePath("..")
 _attack_area_collision = NodePath("../AttackArea/Collision")

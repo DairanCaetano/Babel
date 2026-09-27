@@ -1,12 +1,12 @@
 [gd_scene load_steps=7 format=3 uid="uid://bnl0q0qbr5co1"]
 
 [ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_qld07"]
-[ext_resource type="Texture2D" uid="uid://8tfhjg3ui18b" path="res://sprites/Items/health_potion.png" id="2_2ehsb"]
+[ext_resource type="Texture2D" uid="uid://dy7yp0ohvaigp" path="res://sprites/Items/Azazel_feather.png" id="2_2ehsb"]
 [ext_resource type="Script" path="res://Scenes/Collectables/collectable_potion.gd" id="2_cctac"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_an60v"]
 atlas = ExtResource("2_2ehsb")
-region = Rect2(0, 0, 32, 24)
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_noj3q"]
 animations = [{
@@ -23,9 +23,6 @@ animations = [{
 
 [node name="CollectablePotion" instance=ExtResource("1_qld07")]
 script = ExtResource("2_cctac")
-ability_icon_path = "res://sprites/Items/health_potion.png"
-ability_title = "Águas de Cura"
-ability_description = "Águas sagradas que recuperam o corpo e o espírito. Aumenta a capacidade máxima de vida."
 collectible_id = "Potion_1"
 has_post_dialog = true
 

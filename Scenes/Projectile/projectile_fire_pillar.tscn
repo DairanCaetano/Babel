@@ -1,0 +1,124 @@
+[gd_scene load_steps=16 format=3 uid="uid://bpwdpfiv6oq23"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_igp1q"]
+[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_fire_pillar.gd" id="2_aua40"]
+[ext_resource type="Texture2D" uid="uid://m2n0g16y64na" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v02.png" id="3_ndm64"]
+[ext_resource type="Texture2D" uid="uid://244wypj34g44" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v01.png" id="3_wipip"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odat2"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(32, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx24x"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(16, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ak2jf"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(0, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5vaw6"]
+atlas = ExtResource("3_wipip")
+region = Rect2(0, 0, 16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4i8t2"]
+atlas = ExtResource("3_wipip")
+region = Rect2(16, 0, 16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_onn4r"]
+atlas = ExtResource("3_wipip")
+region = Rect2(32, 0, 16, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nih58"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(0, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrplr"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(16, 0, 16, 90)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_78371"]
+atlas = ExtResource("3_ndm64")
+region = Rect2(32, 0, 16, 90)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sdsy1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odat2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx24x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ak2jf")
+}],
+"loop": false,
+"name": &"Fade",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5vaw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4i8t2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_onn4r")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nih58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrplr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_78371")
+}],
+"loop": false,
+"name": &"Rise",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_705qr"]
+size = Vector2(20, 149)
+
+[node name="ProjectileFirePillar" node_paths=PackedStringArray("texture", "ground_ray", "wall_ray", "attack_audio") instance=ExtResource("1_igp1q")]
+collision_layer = 72
+collision_mask = 1
+script = ExtResource("2_aua40")
+attack_damage = 10
+_lifetime_after_rise = 2.0
+texture = NodePath("Texture")
+ground_ray = NodePath("GroundRay")
+wall_ray = NodePath("WallRay")
+attack_audio = NodePath("FirePilarAudio")
+
+[node name="Texture" parent="." index="0"]
+position = Vector2(0, -65)
+sprite_frames = SubResource("SpriteFrames_sdsy1")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+position = Vector2(0, -74.5)
+shape = SubResource("RectangleShape2D_705qr")
+debug_color = Color(0.96256, 0.195023, 1.92523e-07, 0.42)
+
+[node name="GroundRay" type="RayCast2D" parent="." index="2"]
+position = Vector2(-11, 0)
+target_position = Vector2(0, 10)
+collision_mask = 2
+hit_from_inside = true
+
+[node name="WallRay" type="RayCast2D" parent="." index="3"]
+position = Vector2(0, -80)
+target_position = Vector2(-30, 0)
+collision_mask = 2
+
+[node name="FirePilarAudio" type="AudioStreamPlayer" parent="." index="4"]

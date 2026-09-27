@@ -40,46 +40,55 @@ func _save_inventory_to_serialization() -> void:
 	serialization.save_data()
 	print("	💾 Inventário serializado e salvo (itens: ", arr.size(), ")")
 
+# ✅ IDENTIFICAÇÃO DE SUB-ARMAS PELA "key" (nunca pelo nome traduzido)
+const SUBWEAPON_KEYS: Dictionary = {
+	"ITEM_AXE_NAME": "axe",
+	"ITEM_SPEAR_NAME": "spear",
+	"ITEM_CHAKRAM_NAME": "chakram",
+	"ITEM_FIRE_NAME": "fire"
+}
+
+# Nomes antigos (saves feitos antes dos itens terem "key")
+const LEGACY_SUBWEAPON_NAMES: Dictionary = {
+	"Machado Leve": "axe",
+	"Lança de Arremesso": "spear",
+	"Chakram": "chakram",
+	"Chakram Arremessável": "chakram",
+	"Fire Power": "fire",
+	"Bálsamo Ígneo": "fire"
+}
+
+static func get_subweapon_type(item: Dictionary) -> String:
+	"""Retorna 'axe', 'spear', 'chakram', 'fire' ou '' """
+	if item.is_empty():
+		return ""
+	var key: String = item.get("key", "")
+	if SUBWEAPON_KEYS.has(key):
+		return SUBWEAPON_KEYS[key]
+	return LEGACY_SUBWEAPON_NAMES.get(item.get("name", ""), "")
+
 func _update_subweapon_flags() -> void:
 	"""Atualiza as flags de sub-armas baseado no inventário + equipamentos"""
-	var has_axe = false
-	var has_spear = false
-	var has_chakram = false
-	var has_fire = false
+	var found: Dictionary = {"axe": false, "spear": false, "chakram": false, "fire": false}
 	
 	for slot in _inventory_data.values():
-		if slot.is_empty():
-			continue
-		
-		match slot.get("name", ""):
-			"Machado Leve":  # ← JÁ ATUALIZADO
-				has_axe = true
-			"Lança de Arremesso":  # ← JÁ ATUALIZADO
-				has_spear = true
-			"Chakram":  # ← MUDOU
-				has_chakram = true
-			"Fire Power":
-				has_fire = true
+		var weapon_type: String = get_subweapon_type(slot)
+		if weapon_type != "":
+			found[weapon_type] = true
 	
 	if global.ui_equipments:
 		var equipped = global.ui_equipments._equipments_inventory
 		
 		for slot_type in ["weapon", "armor", "offhand", "consumable"]:
-			if equipped.has(slot_type) and not equipped[slot_type].is_empty():
-				match equipped[slot_type].get("name", ""):
-					"Machado Leve":  # ← JÁ ATUALIZADO
-						has_axe = true
-					"Lança de Arremesso":  # ← JÁ ATUALIZADO
-						has_spear = true
-					"Chakram":  # ← MUDOU
-						has_chakram = true
-					"Fire Power":
-						has_fire = true
+			if equipped.has(slot_type):
+				var weapon_type: String = get_subweapon_type(equipped[slot_type])
+				if weapon_type != "":
+					found[weapon_type] = true
 	
-	serialization.game_data["has_axe"] = has_axe
-	serialization.game_data["has_spear"] = has_spear
-	serialization.game_data["has_chakram"] = has_chakram
-	serialization.game_data["has_fire"] = has_fire
+	serialization.game_data["has_axe"] = found["axe"]
+	serialization.game_data["has_spear"] = found["spear"]
+	serialization.game_data["has_chakram"] = found["chakram"]
+	serialization.game_data["has_fire"] = found["fire"]
 
 func _sync_subweapon_state(_item: Dictionary) -> void:
 	"""Sincroniza estado da sub-arma quando coletada/equipada"""
@@ -89,20 +98,17 @@ func _sync_subweapon_state(_item: Dictionary) -> void:
 	
 	var subweapon = global.character.get_node("CharacterSubweapon")
 	
-	match _item["name"]:
-		"Machado Leve":  # ← JÁ ATUALIZADO
+	match get_subweapon_type(_item):
+		"axe":
 			subweapon.update_axe_state(true)
 			print("🪓 Axe sincronizado com CharacterSubweapon!")
-			
-		"Lança de Arremesso":  # ← JÁ ATUALIZADO
+		"spear":
 			subweapon.update_spear_state(true)
 			print("🗡️ Spear sincronizado com CharacterSubweapon!")
-			
-		"Chakram":  # ← MUDOU
+		"chakram":
 			subweapon.update_chakram_state(true)
 			print("🌀 Chakram sincronizado com CharacterSubweapon!")
-			
-		"Fire Power":
+		"fire":
 			subweapon.update_fire_state(true)
 			print("🔥 Fire Power sincronizado com CharacterSubweapon!")
 
@@ -120,8 +126,8 @@ func add_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 		"consumable":
 			var _equiped_item_data = global.ui_equipments._equipments_inventory["consumable"]
 			if not _equiped_item_data.is_empty():
-				if _item_copy["name"].contains("Health"):
-					if _equiped_item_data["name"].contains("Health"):
+				if CollectablePotion.is_feather(_item_copy):
+					if CollectablePotion.is_feather(_equiped_item_data):
 						_equip_directly = true
 	
 	for _slot in _inventory_data:
@@ -225,73 +231,63 @@ func serialize_inventory() -> void:
 	"""Alias público para _save_inventory_to_serialization()"""
 	_save_inventory_to_serialization()
 
-# ✅ ADICIONAR NO FINAL DO ARQUIVO
+# ✅ RECARGA DAS PENAS DE AZAZEL (save point)
 func refill_max_potions() -> void:
-	"""Recarrega todas as poções máximas ao interagir com save point"""
-	print("🔄 Recarregando Águas de Cura...")
+	"""Recarrega todas as Penas de Azazel ao descansar com Azazel no save point"""
+	print("🔄 Recarregando Penas de Azazel...")
 	
-	var max_potions = serialization.game_data.get("max_potions", 0)
+	var max_potions: int = int(serialization.game_data.get("max_potions", 0))
 	
 	# ✅ 1. RECARREGAR NO INVENTÁRIO
 	for _slot in _inventory_data:
 		var item = _inventory_data[_slot]
-		if item.is_empty():
+		if not CollectablePotion.is_feather(item):
 			continue
 		
-		if item.get("is_max_potion", false):
-			# ✅ Detectar max_potions se ainda não foi salvo
-			if max_potions == 0:
-				max_potions = item.get("amount_to_drop", 1)
-				serialization.game_data["max_potions"] = max_potions
-			
-			item["amount"] = max_potions
-			
-			# ✅ Se estava vazia, restaurar nome e sprite
-			if item["name"] == "Águas de Cura (Vazia)":
-				item["name"] = "Águas de Cura"
-				item["path"] = "res://sprites/Items/health_potion.png"
-			
-			global.ui_inventory.update_slot(_slot, item)
-			print("	✓ Águas de Cura recarregadas no inventário (slot ", _slot, ")")
+		# ✅ Detectar max_potions se ainda não foi salvo
+		if max_potions == 0:
+			max_potions = item.get("amount_to_drop", 1)
+			serialization.game_data["max_potions"] = max_potions
+		
+		_restore_feather(item, max_potions)
+		global.ui_inventory.update_slot(_slot, item)
+		print("	✓ Pena de Azazel recarregada no inventário (slot ", _slot, ")")
 	
 	# ✅ 2. RECARREGAR SE ESTIVER EQUIPADA
 	if global.ui_equipments:
 		var equipped = global.ui_equipments._equipments_inventory.get("consumable", {})
 		
-		if not equipped.is_empty():
-			var is_max_potion = equipped.get("is_max_potion", false)
+		if CollectablePotion.is_feather(equipped):
+			# ✅ Detectar max_potions se ainda não foi salvo
+			if max_potions == 0:
+				max_potions = equipped.get("amount_to_drop", 1)
+				serialization.game_data["max_potions"] = max_potions
 			
-			# ✅ Também aceitar nome "Águas de Cura (Vazia)" como indicador
-			var potion_name = equipped.get("name", "")
-			if potion_name == "Águas de Cura" or potion_name == "Águas de Cura (Vazia)":
-				is_max_potion = true
+			_restore_feather(equipped, max_potions)
 			
-			if is_max_potion:
-				# ✅ Detectar max_potions se ainda não foi salvo
-				if max_potions == 0:
-					max_potions = equipped.get("amount_to_drop", 1)
-					serialization.game_data["max_potions"] = max_potions
-				
-				# ✅ Restaurar dados
-				equipped["amount"] = max_potions
-				equipped["name"] = "Águas de Cura"
-				equipped["path"] = "res://sprites/Items/health_potion.png"
-				
-				# ✅ Atualizar UI
-				var consumable_slot = global.ui_equipments._consumable_slot
-				if consumable_slot:
-					global.ui_equipments._get_item_texture(consumable_slot).texture = load(
-						"res://sprites/Items/health_potion.png"
-					)
-					global.ui_equipments._get_amount_label(consumable_slot).text = str(max_potions)
-				
-				# ✅ Atualizar serialização
-				serialization.game_data["current_potions"] = max_potions
-				
-				print("	✓ Águas de Cura equipadas recarregadas")
+			# ✅ Atualizar UI
+			var consumable_slot = global.ui_equipments._consumable_slot
+			if consumable_slot:
+				global.ui_equipments._get_item_texture(consumable_slot).texture = load(equipped["path"])
+				global.ui_equipments._get_amount_label(consumable_slot).text = str(max_potions)
+			
+			# ✅ Atualizar serialização
+			serialization.game_data["current_potions"] = max_potions
+			
+			print("	✓ Pena de Azazel equipada recarregada")
 	
 	_save_inventory_to_serialization()
-	print("✅ Recarga de Águas de Cura concluída!")
+	print("✅ Recarga das Penas de Azazel concluída!")
+
+func _restore_feather(item: Dictionary, amount: int) -> void:
+	"""Volta a pena para o estado cheio (key, nome, sprite e quantidade)"""
+	item["amount"] = amount
+	item["key"] = CollectablePotion.KEY_NAME
+	item["name"] = tr(CollectablePotion.KEY_NAME)
+	item["is_max_potion"] = true
+	item["path_full"] = CollectablePotion.ICON_FULL_PATH
+	item["path_empty"] = CollectablePotion.ICON_EMPTY_PATH
+	item["path"] = CollectablePotion.ICON_FULL_PATH
 
 func collect_item(_item: Dictionary) -> void:
 	# ✅ VERIFICAR SE É UM RECURSO (MOEDA)

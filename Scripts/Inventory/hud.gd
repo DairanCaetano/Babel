@@ -260,7 +260,7 @@ func toggle_save_container() -> void:
 		# ✅ RESTAURAR POÇÕES (CÓDIGO NOVO - SIMPLIFICADO)
 		if global.inventory and global.inventory.has_method("refill_max_potions"):
 			global.inventory.refill_max_potions()
-			print("🍶 Águas de Cura recarregadas via CharacterInventory")
+			print("🪶 Penas de Azazel recarregadas via CharacterInventory")
 		
 		player_character._is_in_cinematic = true
 		_pause(true)
@@ -464,47 +464,14 @@ func _on_save_button_pressed() -> void:
 		
 		var consumable = serialization.game_data["equipments"].get("consumable", {})
 		if not consumable.is_empty():
-			var potion_name = consumable.get("name", "")
-			if potion_name == "Health Potions" or potion_name == "Empty Health Potions":
+			if CollectablePotion.is_feather(consumable):
 				var current_amount = consumable.get("amount", 0)
 				if current_amount > serialization.game_data.get("max_potions", 0):
 					serialization.game_data["max_potions"] = current_amount
 	
-	var has_axe = false
-	var has_spear = false
-	var has_chakram = false
-	var has_fire = false
-	
-	for item_entry in serialization.game_data["inventory"]:
-		var item = item_entry["item"]
-		match item.get("name", ""):
-			"Machado Leve":
-				has_axe = true
-			"Lança de Arremesso":
-				has_spear = true
-			"Chakram":
-				has_chakram = true
-			"Bálsamo Ígneo", "Fire Power":
-				has_fire = true
-	
-	if global.ui_equipments:
-		for slot_type in ["weapon", "armor", "offhand", "consumable"]:
-			var eq = serialization.game_data["equipments"][slot_type]
-			if not eq.is_empty():
-				match eq.get("name", ""):
-					"Machado Leve":
-						has_axe = true
-					"Lança de Arremesso":
-						has_spear = true
-					"Chakram":
-						has_chakram = true
-					"Bálsamo Ígneo", "Fire Power":
-						has_fire = true
-	
-	serialization.game_data["has_axe"] = has_axe
-	serialization.game_data["has_spear"] = has_spear
-	serialization.game_data["has_chakram"] = has_chakram
-	serialization.game_data["has_fire"] = has_fire
+	# ✅ Flags de sub-armas calculadas pela "key" do item (ver CharacterInventory)
+	if global.inventory and is_instance_valid(global.inventory):
+		global.inventory._update_subweapon_flags()
 	
 	serialization.save_data()
 	
@@ -512,8 +479,26 @@ func _on_save_button_pressed() -> void:
 	var game_main = get_tree().get_first_node_in_group("game_main")
 	if game_main and game_main.has_method("reload_current_level"):
 		await game_main.reload_current_level()
+		# ✅ O reload recria a fase inteira (inclusive o SaveArea e o Azazel),
+		# e o Azazel novo nasce em "Await". Se o menu ainda está aberto, volta pra Idle.
+		_restore_save_point_after_reload()
 	
 	print("✅ Save concluído com sucesso!")
+
+func _restore_save_point_after_reload() -> void:
+	"""Reconecta o HUD ao SaveArea novo e mantém o Azazel presente enquanto o menu está aberto"""
+	_find_references()
+	
+	if not _is_save_menu_open:
+		return
+	
+	if save_area and is_instance_valid(save_area):
+		if save_area._azazel_texture:
+			save_area._azazel_texture.play("Idle")
+		if save_area._interaction_icon:
+			save_area._interaction_icon.visible = false
+		save_area.is_save_visible = true
+		print("🎬 Azazel mantido em Idle após o reload do save")
 
 
 func _on_travel_button_pressed() -> void:

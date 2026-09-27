@@ -14,7 +14,8 @@ func _consume(_body: BaseCharacter) -> void:
 	_body._skills.update_enemy_step_state(true)
 
 	var skill_data = {
-		"name": "Enemy Step",
+		"key": "ITEM_ENEMY_STEP_NAME",
+		"name": tr("ITEM_ENEMY_STEP_NAME"),
 		"path": "res://sprites/Items/Skills_Enemy_Step.png",
 		"type": "skill",
 		"description": tr("ITEM_ENEMY_STEP_DESC")

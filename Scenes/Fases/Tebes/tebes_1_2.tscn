@@ -1,4 +1,4 @@
-[gd_scene load_steps=75 format=4 uid="uid://bnnac43rvbiic"]
+[gd_scene load_steps=78 format=4 uid="uid://bnnac43rvbiic"]
 
 [ext_resource type="PackedScene" uid="uid://ccouueqg3d8hg" path="res://Scenes/Fases/base_level.tscn" id="1_iapco"]
 [ext_resource type="Texture2D" uid="uid://5icw0ukrm1k4" path="res://sprites/Environment/TEBES/DECORAÇÃO/MAPA_1_TEBES_Decoração_Cavernas_v01.png" id="2_7n68r"]
@@ -16,10 +16,13 @@
 [ext_resource type="Texture2D" uid="uid://2sevgynfh1gv" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_Spikes_v01.png" id="11_stnag"]
 [ext_resource type="PackedScene" uid="uid://byq7euoohum3y" path="res://Scenes/Interactables/ladder_area.tscn" id="13_ediko"]
 [ext_resource type="PackedScene" uid="uid://cwj7om58uaqop" path="res://Scenes/Inimigos/base_hazard.tscn" id="13_fst7d"]
+[ext_resource type="PackedScene" uid="uid://bnl0q0qbr5co1" path="res://Scenes/Collectables/collectable_potion.tscn" id="13_fvia3"]
+[ext_resource type="PackedScene" uid="uid://melnng4jallh" path="res://Scenes/Collectables/collectable_dash.tscn" id="14_uf1ul"]
 [ext_resource type="PackedScene" uid="uid://c87puwj1bd1ov" path="res://Scenes/Collectables/collectable_spear.tscn" id="15_fcqjb"]
 [ext_resource type="PackedScene" uid="uid://bvsyr4betmfg3" path="res://Scenes/Interactables/hidden_area_detection.tscn" id="16_0cdsu"]
 [ext_resource type="PackedScene" uid="uid://mwkijkbkb2c" path="res://Scenes/Inimigos/snake.tscn" id="16_a1e7f"]
 [ext_resource type="PackedScene" uid="uid://dcceeq1qdewok" path="res://Scenes/Interactables/jarro_1.tscn" id="16_c5kgw"]
+[ext_resource type="PackedScene" uid="uid://ccp53jteh7db8" path="res://Scenes/Collectables/collectable_axe.tscn" id="16_q80g0"]
 [ext_resource type="PackedScene" uid="uid://cqoit6rd0yko5" path="res://Scenes/Inimigos/zumbi_arqueiro.tscn" id="17_fimmr"]
 [ext_resource type="PackedScene" uid="uid://c0vkdv8ll8cuh" path="res://Scenes/Interactables/destructible_wall.tscn" id="17_ie4co"]
 [ext_resource type="PackedScene" uid="uid://4vpsl3s44b5d" path="res://Scenes/Interactables/jarro_2.tscn" id="17_wf5y6"]
@@ -1791,6 +1794,23 @@ tile_set = SubResource("TileSet_wubqu")
 tile_map_data = PackedByteArray("AACTADAAAAAHAAIAAACTADEAAAAHAAIAAACTADIAAAAHAAIAAACTADMAAAAHAAIAAACTADQAAAAHAAIAAACTADUAAAAHAAIAAACTADYAAAAHAAIAAACTADcAAAAHAAIAAACTADgAAAAHAAIAAACTADkAAAAHAAIAAACTADoAAAAHAAIAAACTADsAAAAHAAIAAACTADwAAAAHAAIAAACTAD0AAAAHAAIAAACTAD4AAAAHAAIAAACTAD8AAAAHAAIAAACTAEAAAAAHAAIAAACTAEEAAAAHAAIAAACTAEIAAAAHAAIAAACTAEMAAAAHAAMAAABiAFYAAAAHAAIAAABiAFcAAAAHAAIAAABiAFgAAAAHAAIAAABiAFkAAAAHAAIAAABiAFoAAAAHAAIAAABiAFsAAAAHAAIAAABiAFwAAAAHAAMAAABiAFUAAAAHAAIAAABiAFQAAAAHAAIAAABiAFMAAAAHAAEAAAB5AFsAAAAHAAMAAAB5AFoAAAAHAAIAAAB5AFkAAAAHAAIAAAB5AFgAAAAHAAIAAAB5AFcAAAAHAAIAAAB5AFYAAAAHAAIAAAB5AFUAAAAHAAIAAAB5AFQAAAAHAAIAAAB5AFMAAAAHAAIAAACmAEsAAAADAAUAAACnAEsAAAAEAAUAAACoAEsAAAAFAAUAAAB5AFAAAAAHAAEAAAB5AFEAAAAHAAIAAAB5AFIAAAAHAAIAAACTAC4AAAAHAAIAAACTAC8AAAAHAAIAAACTAC0AAAAHAAIAAACTACwAAAAHAAIAAACTACsAAAAHAAEAAABEASkAAAADAAUAAABFASkAAAAEAAUAAABGASkAAAAFAAUAAAA=")
 tile_set = SubResource("TileSet_smjs5")
 
+[node name="CollectablePotion" parent="Plataforms" index="0" instance=ExtResource("13_fvia3")]
+position = Vector2(3453, 893)
+has_post_dialog = false
+
+[node name="CollectablePotion2" parent="Plataforms" index="1" instance=ExtResource("13_fvia3")]
+position = Vector2(3482, 892)
+has_post_dialog = false
+
+[node name="CollectableDash" parent="Plataforms" index="2" instance=ExtResource("14_uf1ul")]
+position = Vector2(3742, 877)
+
+[node name="CollectableWallJump" parent="Plataforms" index="3" instance=ExtResource("24_xwa5v")]
+position = Vector2(3805, 866)
+
+[node name="CollectableAxe" parent="Plataforms" index="4" instance=ExtResource("16_q80g0")]
+position = Vector2(3512, 894)
+
 [node name="CentralZone" parent="CameraZones" index="0" instance=ExtResource("3_5erdf")]
 draw_bounds = false
 
@@ -1875,13 +1895,13 @@ target_spawn = "SpawnImpulse"
 position = Vector2(56, 288)
 
 [node name="Default" type="Marker2D" parent="SpawnPoints" index="1"]
-position = Vector2(2818, 911)
+position = Vector2(3396, 896)
 
 [node name="SpawnTop" type="Marker2D" parent="SpawnPoints" index="2"]
 position = Vector2(2589, -98)
 
 [node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" index="3"]
-position = Vector2(3589, 896)
+position = Vector2(3569, 899)
 
 [node name="RespawnPoint1" type="Marker2D" parent="HazardZone" index="0"]
 position = Vector2(1234, 1472)

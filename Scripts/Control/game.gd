@@ -47,8 +47,9 @@ func _load_initial_level() -> void:
 		load_level(initial_level_path, "continue")
 		
 		await get_tree().create_timer(0.2).timeout
-		serialization.apply_loaded_data()
+		await serialization.apply_loaded_data()
 		global.should_load_save = false
+		serialization.should_apply_save = false
 		return
 	
 	if initial_level_override != "":

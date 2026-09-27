@@ -14,6 +14,8 @@ var post_dialog_data: Dictionary = {}
 @export var collectable_audio: AudioStreamPlayer
 
 func _ready() -> void:
+	print("🔎 Collectable '", name, "' | ID: '", collectible_id, "' | já coletado: ", _is_already_collected())
+	
 	if collectible_id == "" and not self is CollectablePotion:
 		push_warning("⚠️ Collectible sem ID configurado: ", name)
 	
@@ -22,6 +24,7 @@ func _ready() -> void:
 		return
 	
 	add_to_group("collectible")
+
 
 func _is_already_collected() -> bool:
 	return collectible_id in serialization.game_data["collected_items"]

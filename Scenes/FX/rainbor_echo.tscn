@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bordlymgbhfmm"]
+
+[ext_resource type="Script" path="res://Scripts/FX/rainbor_echo.gd" id="1_18jqc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_yv8c5"]
+
+[node name="RainborEcho" type="Node2D" node_paths=PackedStringArray("_texture")]
+script = ExtResource("1_18jqc")
+_texture = NodePath("Texture")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_yv8c5")

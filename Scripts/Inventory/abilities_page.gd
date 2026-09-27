@@ -9,6 +9,24 @@ var _skills_inventory: Dictionary = {
 	"speed_boost": {}
 }
 
+# ✅ Prefixo das chaves do CSV de cada slot (_NAME / _DESC)
+const SKILL_KEYS: Dictionary = {
+	"dash": "ITEM_DASH",
+	"hook": "ITEM_HOOK",
+	"wall_jump": "ITEM_WALL_JUMP",
+	"enemy_step": "ITEM_ENEMY_STEP",
+	"speed_boost": "ITEM_SPEED_BOOST"
+}
+
+# Nomes antigos (saves feitos antes das skills terem "key")
+const LEGACY_SKILL_NAMES: Dictionary = {
+	"Dash": "dash",
+	"Hook": "hook",
+	"Wall Jump": "wall_jump",
+	"Enemy Step": "enemy_step",
+	"Aceleração": "speed_boost"
+}
+
 var _current_index: int = 0
 var _previous_index: int = -1
 var _skill_slots: Array[Button] = []
@@ -56,10 +74,44 @@ func _update_selection(new_index: int) -> void:
 		_ability_title_label.text = ""  # ← VAZIO ao invés de "---"
 		_ability_description_label.text = ""  # ← VAZIO ao invés de mensagem
 	else:
-		_ability_title_label.text = tr(skill_data.get("name", "???"))
-		_ability_description_label.text = tr(skill_data.get("description", ""))
+		# ✅ Texto sempre vem do CSV pelo tipo do slot (funciona em qualquer idioma e em saves antigos)
+		var slot_type: String = _get_slot_type(current_slot)
+		if SKILL_KEYS.has(slot_type):
+			_ability_title_label.text = tr(SKILL_KEYS[slot_type] + "_NAME")
+			_ability_description_label.text = tr(SKILL_KEYS[slot_type] + "_DESC")
+		else:
+			_ability_title_label.text = tr(skill_data.get("name", "???"))
+			_ability_description_label.text = tr(skill_data.get("description", ""))
 	
 	_current_index = new_index
+
+func _get_slot_type(slot: Button) -> String:
+	match slot:
+		_dash_slot:
+			return "dash"
+		_hook_slot:
+			return "hook"
+		_wall_jump_slot:
+			return "wall_jump"
+		_enemy_step_slot:
+			return "enemy_step"
+		_speed_boost_slot:
+			return "speed_boost"
+	return ""
+
+func _get_slot_type_for_skill(skill_data: Dictionary) -> String:
+	"""Descobre o slot da skill pela "key"; se não tiver, tenta nomes antigos/traduzidos"""
+	var key: String = skill_data.get("key", "")
+	var skill_name: String = skill_data.get("name", "")
+	for slot_type in SKILL_KEYS:
+		if key == SKILL_KEYS[slot_type] + "_NAME":
+			return slot_type
+	if LEGACY_SKILL_NAMES.has(skill_name):
+		return LEGACY_SKILL_NAMES[skill_name]
+	for slot_type in SKILL_KEYS:
+		if skill_name == tr(SKILL_KEYS[slot_type] + "_NAME"):
+			return slot_type
+	return ""
 
 func _get_skill_data_from_slot(slot: Button) -> Dictionary:
 	"""Retorna os dados da skill do slot"""
@@ -130,23 +182,20 @@ func equip_skill(_skill_data: Dictionary) -> void:
 	var _target_slot: Button = null
 	var _slot_type: String = ""
 	
-	# ✅ DETERMINAR O SLOT CORRETO BASEADO NO NOME
-	match _skill_name:
-		"Dash":
+	# ✅ DETERMINAR O SLOT CORRETO PELA "key" DA SKILL
+	_slot_type = _get_slot_type_for_skill(_skill_copy)
+	match _slot_type:
+		"dash":
 			_target_slot = _dash_slot
-			_slot_type = "dash"
-		"Hook":
+		"hook":
 			_target_slot = _hook_slot
-			_slot_type = "hook"
-		"Wall Jump":
+		"wall_jump":
 			_target_slot = _wall_jump_slot
-			_slot_type = "wall_jump"
-		"Enemy Step":
+		"enemy_step":
 			_target_slot = _enemy_step_slot
-			_slot_type = "enemy_step"
-		"Aceleração":
-				_target_slot = _speed_boost_slot
-				_slot_type = "speed_boost"
+		"speed_boost":
+			_target_slot = _speed_boost_slot
+
 
 
 	if _target_slot == null:

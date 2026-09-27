@@ -10,19 +10,26 @@ class_name BarContainer
 @export var stamina_border: NinePatchRect
 
 @export_category("Growth Animation")
-@export var growth_tween_duration: float = 0.9  # ← Testável direto no Inspector
+@export var growth_tween_duration: float = 0.9
 
 var current_health: int
 var current_stamina: int
 
 var _base_health_width: float
 var _base_stamina_width: float
+var _base_health_border_width: float  # ← NOVO
+var _base_stamina_border_width: float  # ← NOVO
 
 func _ready() -> void:
 	global.ui_bars = self
 	
 	_base_health_width = health_bar.size.x
 	_base_stamina_width = stamina_bar.size.x
+	
+	if health_border:
+		_base_health_border_width = health_border.size.x
+	if stamina_border:
+		_base_stamina_border_width = stamina_border.size.x
 	
 	health_bar.grow_horizontal = Control.GROW_DIRECTION_END
 	stamina_bar.grow_horizontal = Control.GROW_DIRECTION_END
@@ -57,10 +64,6 @@ func init_bar(health: int, stamina: int) -> void:
 	
 	current_health = health
 	current_stamina = stamina
-	
-	print(health_bar.max_value)
-	print(health_bar.value)
-	print(current_health)
 
 func increase_max_value(type: String, max_value: int, value: int, growth_ratio: float = 1.0, animate: bool = true) -> void:
 	match type:
@@ -73,7 +76,7 @@ func increase_max_value(type: String, max_value: int, value: int, growth_ratio: 
 				trail_bar.max_value = max_value
 				trail_bar.value = value
 			
-			_grow_bar_width(health_bar, trail_bar, health_border, _base_health_width, growth_ratio, animate)
+			_grow_bar_width(health_bar, trail_bar, health_border, _base_health_width, _base_health_border_width, growth_ratio, animate)
 			
 		"stamina":
 			stamina_bar.max_value = max_value
@@ -84,18 +87,17 @@ func increase_max_value(type: String, max_value: int, value: int, growth_ratio: 
 				trail_stamina_bar.max_value = max_value
 				trail_stamina_bar.value = value
 			
-			_grow_bar_width(stamina_bar, trail_stamina_bar, stamina_border, _base_stamina_width, growth_ratio, animate)
+			_grow_bar_width(stamina_bar, trail_stamina_bar, stamina_border, _base_stamina_width, _base_stamina_border_width, growth_ratio, animate)
 
-func _grow_bar_width(bar: TextureProgressBar, trail: TextureProgressBar, border: NinePatchRect, base_width: float, growth_ratio: float, animate: bool = true) -> void:
+func _grow_bar_width(bar: TextureProgressBar, trail: TextureProgressBar, border: NinePatchRect, base_width: float, base_border_width: float, growth_ratio: float, animate: bool = true) -> void:
 	if growth_ratio == 1.0:
 		return
 	
 	var new_width: float = base_width * growth_ratio
-	var width_delta: float = new_width - base_width
 	var duration: float = growth_tween_duration if animate else 0.0
 	
 	var tween = create_tween()
-	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)  # ← Era TRANS_BACK, agora sem overshoot
+	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
 	tween.tween_property(bar, "custom_minimum_size:x", new_width, duration)
 	tween.parallel().tween_property(bar, "size:x", new_width, duration)
 	
@@ -104,7 +106,10 @@ func _grow_bar_width(bar: TextureProgressBar, trail: TextureProgressBar, border:
 		tween.parallel().tween_property(trail, "size:x", new_width, duration)
 	
 	if border:
-		var border_new_width: float = border.size.x + width_delta
+		# ← CORREÇÃO: alvo absoluto baseado na largura ORIGINAL da moldura,
+		# não somando em cima do tamanho atual (que já causava crescimento composto)
+		var width_delta: float = new_width - base_width
+		var border_new_width: float = base_border_width + width_delta
 		tween.parallel().tween_property(border, "custom_minimum_size:x", border_new_width, duration)
 		tween.parallel().tween_property(border, "size:x", border_new_width, duration)
 
@@ -144,8 +149,6 @@ func call_tween_delayed(bar: TextureProgressBar, _initial_value: int, final_valu
 		0.6
 	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT_IN).set_delay(delay)
 
-# ← NOVA FUNÇÃO: atualiza max_value/value SEM esticar a barra visualmente
-# Usada pelo bônus de vida de equipamento, que não deve mudar o tamanho da barra
 func update_max_value_only(type: String, max_value: int, value: int) -> void:
 	match type:
 		"health":

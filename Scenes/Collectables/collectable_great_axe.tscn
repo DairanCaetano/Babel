@@ -1,0 +1,37 @@
+[gd_scene load_steps=7 format=3 uid="uid://bojobudcf14k5"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_b48ab"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_great_axe.gd" id="2_p3tsq"]
+[ext_resource type="Texture2D" uid="uid://bjsnl4vi0tf2q" path="res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png" id="3_amhn2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oykrl"]
+atlas = ExtResource("3_amhn2")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t0rcu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oykrl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mnsrn"]
+size = Vector2(22, 22)
+
+[node name="CollectableGreatAxe" instance=ExtResource("1_b48ab")]
+script = ExtResource("2_p3tsq")
+ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png"
+ability_title = "Machado de Guerra"
+ability_description = "Um machado pesado de duas mãos. Lento, mas devastador."
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_t0rcu")
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_mnsrn")
+
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

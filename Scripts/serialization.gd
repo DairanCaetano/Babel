@@ -13,46 +13,80 @@ var settings_data: Dictionary = {
 	"language": "pt_BR"
 }
 
-var game_data: Dictionary = {
-	"intro_played": false,
-	"has_axe": false,
-	"has_spear": false,
-	"has_chakram": false,
-	"has_fire": false,
-	"has_dagger": false,
-	"has_whip": false,
-	"has_dash": false,
-	"has_hook": false,
-	"has_wall_jump": false,
-	"has_enemy_step": false,
-	"has_speed_boost": false,
-	"position": Vector2.ZERO,
-	"current_scene": "",
-	"save_area_id": "",
-	"inventory": [],
-	"collected_items": [],
-	"equipments": {},
-	"skills": {
-		"dash": {},
-		"hook": {},
-		"wall_jump": {},
-		"enemy_step": {}
-	},
-	"destroyed_objects": {},
-	"defeated_bosses": [],
-	"collected_archives": [],
-	"destroyed_walls": [],
-	"currencies": {"shards": 0},
-	"music_volume": 1.0,
-	"sfx_volume": 1.0,
-	"egito_intro_played": false,
-	"samyaza_egito_met": false,
-	"has_map": false,
-	"bonus_health_total": 0,       # ← NOVO: precisa estar aqui pra sobreviver ao load_data()
-	"bonus_stamina_total": 0,  
-	"collected_abilities": []      # ← NOVO: corrige o mesmo bug que já afetava fogo/sandálias/poção
-}
+# ✅ Estado atual do jogo. Sempre nasce dos valores padrão.
+var game_data: Dictionary = _default_game_data()
 
+# ✅ ÚNICA fonte dos valores padrão (usada no início, no load e no Novo Jogo)
+# Toda chave nova que o jogo salvar deve ser adicionada aqui.
+func _default_game_data() -> Dictionary:
+	return {
+		"intro_played": false,
+		"has_axe": false,
+		"has_spear": false,
+		"has_chakram": false,
+		"has_fire": false,
+		"has_dagger": false,
+		"has_whip": false,
+		"has_great_axe": false,
+		"has_dash": false,
+		"has_hook": false,
+		"has_wall_jump": false,
+		"has_enemy_step": false,
+		"has_speed_boost": false,
+		"has_map": false,
+		"position": Vector2.ZERO,
+		"current_scene": "",
+		"save_area_id": "",
+		"spawn_point": "default",
+		"inventory": [],
+		"collected_items": [],
+		"collected_archives": [],
+		"collected_abilities": [],
+		"destroyed_walls": [],
+		"destroyed_objects": {},
+		"defeated_bosses": [],
+		"currencies": {"shards": 0},
+		"equipments": {
+			"weapon": {},
+			"armor": {},
+			"offhand": {},
+			"consumable": {}
+		},
+		"skills": {
+			"dash": {},
+			"hook": {},
+			"wall_jump": {},
+			"enemy_step": {},
+			"speed_boost": {}
+		},
+		# Penas de Azazel
+		"max_potions": 0,
+		"current_potions": 0,
+		# Status bônus
+		"bonus_health_total": 0,
+		"bonus_stamina_total": 0,
+		# Progresso de história
+		"egito_intro_played": false,
+		"samyaza_egito_met": false,
+		"has_ceremonial_branch": false,
+		"baal_berith_alliance": false,
+		# Legado (volume agora fica em settings.dat)
+		"music_volume": 1.0,
+		"sfx_volume": 1.0
+	}
+
+# ✅ Lê um arquivo de save. Retorna {} se não existir ou estiver corrompido.
+func _read_save_file(path: String) -> Dictionary:
+	if not FileAccess.file_exists(path):
+		return {}
+	var _file: FileAccess = FileAccess.open(path, FileAccess.READ)
+	if _file == null:
+		return {}
+	var data = _file.get_var()
+	_file.close()
+	if data is Dictionary:
+		return data
+	return {}
 
 
 func save_data() -> void:
@@ -61,10 +95,36 @@ func save_data() -> void:
 	game_data["destroyed_objects"] = global.destroyed_objects
 	game_data["defeated_bosses"] = global.defeated_bosses
 	
-	var _file: FileAccess = FileAccess.open(save_path, FileAccess.WRITE)
-	if _file:
-		_file.store_var(game_data)
-		_file.close()
+	# ✅ SAVE SEGURO:
+	# 1) grava num arquivo temporário
+	# 2) confere se ele pode ser lido de volta
+	# 3) guarda o save anterior como .bak
+	# 4) troca o temporário pelo save principal
+	# Se o jogo fechar no meio, o save antigo continua intacto.
+	var tmp_path: String = save_path + ".tmp"
+	var bak_path: String = save_path + ".bak"
+	
+	var _file: FileAccess = FileAccess.open(tmp_path, FileAccess.WRITE)
+	if _file == null:
+		push_error("Falha ao abrir arquivo temporário para salvar: " + tmp_path)
+		return
+	_file.store_var(game_data)
+	var write_error: Error = _file.get_error()
+	_file.close()
+	
+	if write_error != OK or _read_save_file(tmp_path).is_empty():
+		push_error("Falha ao gravar o save (erro " + str(write_error) + ") - save anterior mantido")
+		return
+	
+	if FileAccess.file_exists(save_path):
+		DirAccess.copy_absolute(save_path, bak_path)
+	
+	var rename_error: Error = DirAccess.rename_absolute(tmp_path, save_path)
+	if rename_error != OK:
+		DirAccess.remove_absolute(save_path)
+		rename_error = DirAccess.rename_absolute(tmp_path, save_path)
+	
+	if rename_error == OK:
 		print("💾 Dados salvos com sucesso!")
 		print("	- Cena atual: ", game_data.get("current_scene", "desconhecida"))
 		print("	- Save Area ID: ", game_data.get("save_area_id", "nenhuma"))
@@ -90,22 +150,24 @@ func save_data() -> void:
 		print("	- has_whip: ", game_data.get("has_whip", false))
 		print("	- bonus_health_total: ", game_data.get("bonus_health_total", 0))
 	else:
-		push_error("Falha ao abrir arquivo para salvar: " + str(save_path))
+		push_error("Falha ao substituir o save (erro " + str(rename_error) + ") - backup em " + bak_path)
 
 func load_data() -> void:
 	"""Carrega os dados do arquivo"""
-	if FileAccess.file_exists(save_path):
-		var _file: FileAccess = FileAccess.open(save_path, FileAccess.READ)
-		var loaded_data = _file.get_var()
-		_file.close()
-		
-		if loaded_data == null or not loaded_data is Dictionary:
-			print("⚠️ Save corrompido - usando valores padrão")
-			return
-		
-		for key in game_data.keys():
-			if loaded_data.has(key):
-				game_data[key] = loaded_data[key]
+	var loaded_data: Dictionary = _read_save_file(save_path)
+	
+	# ✅ Save principal corrompido? Tenta o backup
+	if loaded_data.is_empty() and FileAccess.file_exists(save_path + ".bak"):
+		loaded_data = _read_save_file(save_path + ".bak")
+		if not loaded_data.is_empty():
+			push_warning("⚠️ Save principal ilegível - carregado o backup (.bak)")
+	
+	if not loaded_data.is_empty():
+		# ✅ Começa dos padrões e aplica TUDO que veio do arquivo
+		# (antes: chaves fora do padrão, como max_potions, eram descartadas)
+		game_data = _default_game_data()
+		for key in loaded_data.keys():
+			game_data[key] = loaded_data[key]
 		
 		# Validar inventário
 		if game_data["inventory"] == null or not game_data["inventory"] is Array:
@@ -193,7 +255,7 @@ func load_data() -> void:
 		print("	- has_whip: ", game_data.get("has_whip", false))
 		print("	- bonus_health_total: ", game_data["bonus_health_total"])
 	else:
-		print("📁 Nenhum save encontrado")
+		print("📁 Nenhum save válido encontrado")
 
 func apply_loaded_data() -> void:
 	"""Aplica os dados carregados aos sistemas do jogo"""
@@ -270,6 +332,9 @@ func apply_loaded_data() -> void:
 				continue
 			
 			print("      → Slot ", slot_index, ": ", item_data["name"])
+			# ✅ Saves antigos (Águas de Cura) → Pena de Azazel
+			if CollectablePotion.is_feather(item_data):
+				item_data = CollectablePotion.migrate(item_data)
 			global.inventory._inventory_data[slot_index] = item_data.duplicate()
 			global.ui_inventory.initialize_slot(slot_index, item_data)
 		
@@ -288,6 +353,9 @@ func apply_loaded_data() -> void:
 			
 			if eq_data.has(slot) and not eq_data[slot].is_empty():
 				var item = eq_data[slot]
+				# ✅ Saves antigos (Águas de Cura) → Pena de Azazel
+				if CollectablePotion.is_feather(item):
+					item = CollectablePotion.migrate(item)
 				print("    - Restaurando ", slot, ": ", item.get("name", "sem nome"))
 				
 				global.ui_equipments._equipments_inventory[slot] = item.duplicate()
@@ -315,7 +383,7 @@ func apply_loaded_data() -> void:
 						if slot == "consumable" and item.has("amount"):
 							var amount_label = target_button.get_node_or_null("Amount")
 							if amount_label:
-								if item["name"] == "Empty Health Potions":
+								if CollectablePotion.is_empty_feather(item):
 									amount_label.text = ""
 								else:
 									amount_label.text = str(item["amount"])
@@ -475,50 +543,13 @@ func apply_loaded_data() -> void:
 
 func reset_to_new_game() -> void:
 	"""Reseta todos os dados para um novo jogo"""
-	game_data = {
-		"intro_played": false,
-		"has_axe": false,
-		"has_spear": false,
-		"has_chakram": false,
-		"has_fire": false,
-		"has_dagger": false,
-		"has_whip": false,
-		"has_dash": false,
-		"has_hook": false,
-		"has_wall_jump": false,
-		"has_enemy_step": false,
-		"has_speed_boost": false,
-		"position": Vector2.ZERO,
-		"current_scene": "",
-		"save_area_id": "",
-		"spawn_point": "default",
-		"egito_intro_played": false,
-		"samyaza_egito_met": false,
-		"has_map": false,
-		"inventory": [],
-		"collected_items": [],
-		"collected_archives": [],
-		"destroyed_walls": [],
-		"destroyed_objects": {},
-		"defeated_bosses": [],
-		"currencies": {"shards": 0},
-		"bonus_health_total": 0,       # ← NOVO
-		"bonus_stamina_total": 0,  
-		"collected_abilities": [],     # ← NOVO
-		"equipments": {
-			"weapon": {},
-			"armor": {},
-			"offhand": {},
-			"consumable": {}
-		},
-		"skills": {
-			"dash": {},
-			"hook": {},
-			"wall_jump": {},
-			"enemy_step": {},
-			"speed_boost": {}
-		}
-	}
+	game_data = _default_game_data()
+	should_apply_save = false
+	
+	# ✅ Limpa também o que fica guardado no global
+	# (antes: jarros quebrados e chefes derrotados vazavam para o jogo novo)
+	global.reset_all_persistence()
+	global.should_load_save = false
 	
 	global.currencies = {"shards": 0}
 	global.currency_changed.emit("shards", 0)

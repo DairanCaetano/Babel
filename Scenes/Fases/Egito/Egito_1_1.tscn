@@ -1036,6 +1036,9 @@ position = Vector2(2313, 198)
 [node name="SpawnDefault" type="Marker2D" parent="SpawnPoints" index="2"]
 position = Vector2(2414, 1518)
 
+[node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" index="3"]
+position = Vector2(3573, 595)
+
 [node name="HazardBlocker" parent="HazardZone" index="0" instance=ExtResource("8_mpu01")]
 position = Vector2(4277, 160)
 moves = false

@@ -3188,7 +3188,6 @@ tile_set = SubResource("TileSet_c02a8")
 
 [node name="CollectableLife" parent="Plataforms" index="0" instance=ExtResource("21_t05e5")]
 position = Vector2(463, 273)
-custom_effect_path = ""
 
 [node name="Zone_0" parent="CameraZones" index="0" instance=ExtResource("5_8vgrq")]
 
@@ -3263,7 +3262,7 @@ position = Vector2(5794, 347)
 position = Vector2(265, 272)
 
 [node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" index="4"]
-position = Vector2(3581, 578)
+position = Vector2(4742, 771)
 
 [node name="NpcSpawnPoint" type="Marker2D" parent="SpawnPoints" index="5"]
 position = Vector2(309, 272)
@@ -3443,9 +3442,6 @@ material = SubResource("ShaderMaterial_rv4jd")
 position = Vector2(240, 169.5)
 scale = Vector2(482, 339)
 mesh = SubResource("QuadMesh_hkmcy")
-
-[node name="SaveArea" parent="." index="12"]
-visible = false
 
 [node name="SaveArea" parent="SaveArea" index="0" node_paths=PackedStringArray("continue_spawn_marker") instance=ExtResource("41_dq2ke")]
 z_index = 0

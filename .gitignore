@@ -1,2 +1,9 @@
 # Godot 4+ specific ignores
 .godot/
+
+# Backups criados durante edições com o Claude
+_backup*/
+_to_delete/
+
+# Arquivos temporários do Godot
+*.tmp

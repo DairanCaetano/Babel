@@ -9,6 +9,9 @@ var _item_data: Dictionary = {}
 # ✅ NOVO: Armazenar direção do último ataque
 var _last_attack_direction: float = 0.0
 
+# ✅ Evita destruir duas vezes (dois hits no mesmo frame)
+var _is_destroyed: bool = false
+
 @export_category("Variables")
 @export var _health: int = 5
 @export var _is_static: bool = true
@@ -93,7 +96,9 @@ func _ready() -> void:
 func _get_interactable_items() -> Dictionary:
 	return {}
 
-func _drop_items():
+func _drop_items(_spawn_position: Vector2, _level: Node) -> void:
+	# ✅ SEM await: o jarro é destruído logo depois, e um await aqui
+	# faria a função morrer no meio (só o primeiro item nascia)
 	for _item in _item_data:
 		var _randf: float = randf()
 		if _randf < _item_data[_item]["spawn_probability"]:
@@ -104,12 +109,11 @@ func _drop_items():
 				var _collectable: CollectableItem = _COLLECTABLE_ITEM.instantiate()
 				_collectable.item_texture = _item_data[_item]["path"]
 				_collectable.item_data = _item_data[_item]
-				_collectable.global_position = global_position
 				
-				_get_current_level().call_deferred("add_child", _collectable)
-				
-				# ✅ NOVO: Aplicar física aos itens dropados também
-				await get_tree().process_frame
+				# ✅ PRIMEIRO entra na árvore, DEPOIS define a posição global
+				# (antes: a posição era aplicada como local e somava o offset do level)
+				_level.add_child(_collectable)
+				_collectable.global_position = _spawn_position
 				_apply_item_physics(_collectable)
 
 func _on_interactable_area_entered(_area: Area2D) -> void:
@@ -134,10 +138,16 @@ func _interact(_area) -> void:
 		if not subweapons.is_fire_active():
 			return
 	
+	if _is_destroyed:
+		return
+	
 	_health -= _damage
 	if _health <= 0:
+		_is_destroyed = true
 		_sprite.play("Destroyed")
-		_destroyed()
+		# ✅ Deferred: estamos dentro de um sinal de física (area_entered),
+		# e adicionar RigidBody2D aqui gera erro de "flushing queries"
+		call_deferred("_destroyed")
 
 # ✅ NOVA FUNÇÃO: Calcular direção do ataque
 func _calculate_attack_direction(_area: Area2D) -> void:
@@ -171,16 +181,18 @@ func _destroyed() -> void:
 	
 	var shards_to_spawn = _get_shard_textures()
 	var level = _get_current_level()
+	var spawn_position: Vector2 = global_position
 	
 	for _piece in shards_to_spawn:
 		var shard = _NON_COLLECTABLE_ITEM.instantiate()
 		shard.is_collectable = false
 		shard.item_texture = _piece
-		shard.global_position = global_position
-		level.add_child(shard)  # direto, sem call_deferred
-		_apply_shard_physics(shard)  # imediato, sem await
+		# ✅ PRIMEIRO entra na árvore, DEPOIS define a posição global
+		level.add_child(shard)
+		shard.global_position = spawn_position
+		_apply_shard_physics(shard)
 	
-	_drop_items()
+	_drop_items(spawn_position, level)
 	
 	if _broken_audio:
 		_broken_audio.play()

@@ -51,6 +51,8 @@ var _is_crouching: bool = false
 var _attack_index: int = 1
 var _attack_air_count: int = 0
 
+var _is_frozen_by_effect: bool = false
+
 signal attack_started
 
 var jump_origin: Vector2 = Vector2.ZERO
@@ -135,18 +137,19 @@ func _ready() -> void:
 	
 	_in_combat_stance = false
 	
-	# ✅ APLICAR SAVE SE A FLAG ESTIVER ATIVA
-	if serialization.should_apply_save:
-		await get_tree().process_frame
-		await get_tree().process_frame
-		serialization.apply_loaded_data()
-		serialization.should_apply_save = false
+	# ✅ O save é aplicado APENAS pelo game.gd (_load_initial_level),
+	# depois que a fase carrega. Antes rodava aqui também, em paralelo.
 	
 	await get_tree().process_frame
 	jump_origin = global_position
 
 func _physics_process(_delta: float) -> void:
 	_delta_cache = _delta
+
+	if _is_frozen_by_effect:
+		velocity = Vector2.ZERO
+		move_and_slide()
+		return
 
 	if is_nan(global_position.x) or is_nan(global_position.y):
 		print("🚨🚨🚨 POSITION VIROU NaN! 🚨🚨🚨")
@@ -303,6 +306,13 @@ func _physics_process(_delta: float) -> void:
 		_in_combat_stance = true
 		_combat_stance_timer.stop()
 		_combat_stance_timer.start()
+
+func freeze() -> void:
+	_is_frozen_by_effect = true
+	velocity = Vector2.ZERO
+
+func unfreeze() -> void:
+	_is_frozen_by_effect = false
 
 
 func apply_dash_impulse(direction_aux: Vector2) -> void:
@@ -1264,3 +1274,27 @@ func update_map_state(state: bool) -> void:
 func update_dagger_state(_state: bool) -> void:
 	if _subweapons:
 		_subweapons.update_dagger_state(_state)
+
+func trigger_rainbow_shine(duration: float = 1.0) -> void:
+	_activate_rainbow_shine(duration)
+	RainbowEcho.spawn(_character_texture, get_tree().current_scene)
+
+func _activate_rainbow_shine(duration: float) -> void:
+	if not _character_texture or not _character_texture.material:
+		return
+	
+	if not _character_texture.material.shader:
+		return
+	
+	_character_texture.material.set_shader_parameter("rainbow_active", true)
+	
+	var tween := create_tween()
+	tween.tween_interval(duration)
+	tween.tween_callback(_end_rainbow_shine)
+
+func _end_rainbow_shine() -> void:
+	if not is_instance_valid(self):
+		return
+	
+	if _character_texture and _character_texture.material:
+		_character_texture.material.set_shader_parameter("rainbow_active", false)

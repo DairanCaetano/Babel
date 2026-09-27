@@ -6,6 +6,7 @@ const _SPEAR_PROJECTILE: PackedScene = preload("res://Scenes/Projectile/projecti
 const _CHAKRAM_PROJECTILE: PackedScene = preload("res://Scenes/Projectile/projectile_chakram.tscn")
 const _DAGGER_PROJECTILE: PackedScene = preload("res://Scenes/Projectile/projectile_dagger.tscn")
 const _WHIP_SCENE: PackedScene = preload("res://Scenes/Projectile/whip_attack.tscn")
+const _GREAT_AXE_SCENE: PackedScene = preload("res://Scenes/Projectile/great_axe_melee.tscn")
 
 # Referências
 @export var _character: BaseCharacter
@@ -56,6 +57,21 @@ var _current_whip_spin: WhipAttack = null
 @onready var fire_stamina_timer: Timer
 @onready var throw_cooldown_timer: Timer
 @onready var whip_spin_stamina_timer: Timer
+
+# ========== MACHADO DE GUERRA (corpo a corpo) ==========
+@export_category("Great Axe")
+@export var _great_axe_stamina_cost: int = 5
+@export var _great_axe_cooldown: float = 1.2 # conta a partir do FIM do golpe (chão ou pouso)
+@export var _great_axe_dive_frame: int = 7 # no ar: a partir deste frame o Tola despenca
+@export var _great_axe_hold_frame: int = 9 # último frame: segurado durante a queda até tocar o chão
+@export var _great_axe_dive_gravity_mult: float = 2.0
+@export var _great_axe_max_fall_speed: float = 900.0
+
+var _great_axe_ready: bool = true
+var _current_great_axe: GreatAxeAttack = null
+var _great_axe_active: bool = false # ✅ estado explícito (não depende de comparar referência com null)
+var _great_axe_in_air: bool = false
+var _great_axe_diving: bool = false
 
 # Timers fixos na cena (atribuir no Inspector)
 @export_category("Cooldown Timers")
@@ -137,6 +153,10 @@ func handle_sub_weapon_input() -> bool:
 	
 	if can_throw_dagger():
 		execute_dagger_throw()
+		return true
+
+	if can_use_great_axe():
+		_execute_great_axe()
 		return true
 
 	if can_use_whip():
@@ -614,3 +634,122 @@ func update_dagger_state(state: bool) -> void:
 
 func has_dagger() -> bool:
 	return _has_dagger
+
+
+# ========== LÓGICA DO MACHADO DE GUERRA ==========
+# No chão: golpe pesado parado (o player fica sem physics como nas outras sub-armas).
+# No ar: o Tola fica suspenso até o frame 7; aí despenca com gravidade 2x,
+# segurando o frame 8 (lâmina pra baixo) até tocar o chão → impacto + tremida.
+
+func can_use_great_axe() -> bool:
+	return (
+		_great_axe_ready and
+		not _great_axe_active and
+		_stats.current_stamina >= _great_axe_stamina_cost and
+		not global.ui_equipments._equipments_inventory["weapon"].is_empty() and
+		global.ui_equipments._equipments_inventory["weapon"].get("key", "") == "ITEM_GREAT_AXE_NAME"
+	)
+
+func _execute_great_axe() -> void:
+	_stats.update_stamina("decrease", _great_axe_stamina_cost)
+	
+	_great_axe_in_air = not _character.is_on_floor()
+	_great_axe_diving = false
+	_character.velocity = Vector2.ZERO
+	
+	_character_texture.action_animation("Axe_Attack")
+	
+	var facing_direction: float = -1.0 if _character_texture.flip_h else 1.0
+	var axe: GreatAxeAttack = _GREAT_AXE_SCENE.instantiate()
+	axe.direction = Vector2(facing_direction, 0)
+	axe.base_position = _character.global_position
+	axe.follow_target = _character
+	axe.frame_source = _character_texture
+	axe.delay_impact_until_landing = _great_axe_in_air
+	_current_great_axe = axe
+	_great_axe_active = true
+	get_tree().root.call_deferred("add_child", axe)
+	
+	if _audio:
+		_audio.play_attack_voice()
+	
+	# ✅ Bloqueia até o golpe terminar; o cooldown começa só no fim (ver _update_great_axe)
+	_great_axe_ready = false
+
+func _start_great_axe_cooldown() -> void:
+	"""Cooldown sempre igual, contado depois que o golpe acaba (no chão ou após o pouso)"""
+	get_tree().create_timer(_great_axe_cooldown, false).timeout.connect(_on_great_axe_cooldown_timeout)
+
+func _on_great_axe_cooldown_timeout() -> void:
+	_great_axe_ready = true
+
+func _physics_process(delta: float) -> void:
+	_update_great_axe(delta)
+
+func _update_great_axe(delta: float) -> void:
+	if not _great_axe_active:
+		return
+	
+	# ✅ Golpe acabou (terminou, foi cancelado ou a cena já foi liberada)
+	# Obs.: no Godot 4 um objeto liberado compara igual a null, por isso
+	# o controle é feito pelo bool _great_axe_active, não pela referência.
+	if not is_instance_valid(_current_great_axe) or _current_great_axe.is_finished():
+		_end_great_axe_dive()
+		_current_great_axe = null
+		_great_axe_active = false
+		_start_great_axe_cooldown()
+		return
+	
+	if not _great_axe_in_air:
+		return
+	
+	# ✅ Interrompido (dano, etc.)
+	if _character_texture.animation != "Axe_Attack":
+		_end_great_axe_dive()
+		return
+	
+	if not _great_axe_diving:
+		if _character_texture.frame < _great_axe_dive_frame:
+			return # ainda suspenso no ar
+		_great_axe_diving = true
+	
+	# ✅ A animação roda até o último frame e fica parada nele enquanto cai
+	if _character_texture.frame >= _great_axe_hold_frame and _character_texture.is_playing():
+		_character_texture.frame = _great_axe_hold_frame
+		_character_texture.pause()
+		if is_instance_valid(_current_great_axe):
+			_current_great_axe.holding = true
+	
+	var dive_gravity: float = _character._gravity * _great_axe_dive_gravity_mult
+	_character.velocity.x = 0.0
+	_character.velocity.y = min(_character.velocity.y + dive_gravity * delta, _great_axe_max_fall_speed)
+	_character.move_and_slide()
+	
+	if _character.is_on_floor():
+		_land_great_axe()
+
+func _land_great_axe() -> void:
+	_great_axe_diving = false
+	_great_axe_in_air = false
+	_character.velocity = Vector2.ZERO
+	
+	if is_instance_valid(_current_great_axe):
+		_current_great_axe.holding = false
+		_current_great_axe.trigger_landing_impact()
+	
+	global.spawn_effect(
+		"res://Scenes/FX/fall_effect.tscn",
+		Vector2(0, 0), _character.global_position, false
+	)
+	
+	# ✅ Retoma a animação: frame 9 → fim → CharacterTexture devolve o controle
+	if _character_texture.animation == "Axe_Attack" and not _character_texture.is_playing():
+		_character_texture.play()
+
+func _end_great_axe_dive() -> void:
+	if is_instance_valid(_current_great_axe):
+		_current_great_axe.holding = false
+	if _great_axe_diving and _character_texture.animation == "Axe_Attack" and not _character_texture.is_playing():
+		_character_texture.play()
+	_great_axe_diving = false
+	_great_axe_in_air = false

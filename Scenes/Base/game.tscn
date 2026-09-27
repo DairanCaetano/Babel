@@ -13,7 +13,7 @@ player_root = NodePath("Player")
 character = NodePath("Player/Character")
 camera = NodePath("CharacterCamera")
 hud = NodePath("HUD")
-initial_level_override = "res://Scenes/Fases/Tebes/tebes_1_2.tscn"
+initial_level_override = "res://Scenes/Fases/Egito/Egito_1_2.tscn"
 
 [node name="LevelContainer" type="Node2D" parent="."]
 script = ExtResource("1_7wqso")

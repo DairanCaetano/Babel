@@ -8,7 +8,7 @@ const BODY_DEFAULT_POS: Vector2 = Vector2(0, 11)
 const HURTBOX_DEFAULT_POS: Vector2 = Vector2(0, 5)
 const ATTACK_AREA_DEFAULT_POS: Vector2 = Vector2(-19, 9)
 const ATTACK_AREA_DEFAULT_ROT: float = 90.0
-const CHASE_AREA_DEFAULT_POS: Vector2 = Vector2(-25, 0)
+const CHASE_AREA_DEFAULT_POS: Vector2 = Vector2(-35, 0)
 const DETECTION_COLLISION_DEFAULT_POS: Vector2 = Vector2(-38, 8)
 const BLOOD_PARTICLES_POS: Vector2 = Vector2(13, 2)
 const BLOOD_PARTICLES_2_POS: Vector2 = Vector2(0, 7)
@@ -32,6 +32,12 @@ const ATTACK_2_AREA_ROT: float = 0.0
 const ATTACK_3_BODY_POS: Vector2 = Vector2(-6, 11)
 const ATTACK_3_HURTBOX_POS: Vector2 = Vector2(-6, 11)
 const ATTACK_3_AREA_POS: Vector2 = Vector2(-20, 13)
+
+# --- Direção inicial (controlável no Inspector) ---
+enum StartingDirection { LEFT, RIGHT }
+
+@export_category("Direção Inicial")
+@export var _starting_direction: StartingDirection = StartingDirection.LEFT
 
 @export_category("Objects")
 @export var _texture: AnimatedSprite2D
@@ -89,6 +95,7 @@ const ATTACK_3_AREA_POS: Vector2 = Vector2(-20, 13)
 @export var _voice_attack_audio: AudioStreamPlayer
 @export var _attack_3_audio: AudioStreamPlayer
 
+# Valor padrão aqui não importa muito: é sobrescrito em _ready() com base em _starting_direction.
 var _direction: float = -1.0
 
 var _chase_target: BaseCharacter = null
@@ -115,6 +122,9 @@ var _wall_ray_default_target: Vector2 = Vector2.ZERO
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_PAUSABLE
+
+	# Define a direção inicial de acordo com a opção escolhida no Inspector.
+	_direction = 1.0 if _starting_direction == StartingDirection.RIGHT else -1.0
 
 	if _hurtbox_detection:
 		_hurtbox_detection.add_to_group("enemy_hitbox")

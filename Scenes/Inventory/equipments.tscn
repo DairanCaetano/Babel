@@ -118,9 +118,9 @@ _fragments_slot = NodePath("VContainer/UICurrencySlot")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 140.0
+offset_left = 200.0
 offset_top = 3.0
-offset_right = 308.0
+offset_right = 368.0
 offset_bottom = 43.0
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20

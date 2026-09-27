@@ -1,18 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://bokksqg1ycegp"]
+[gd_scene load_steps=8 format=3 uid="uid://bokksqg1ycegp"]
 
 [ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_c30vb"]
 [ext_resource type="Script" path="res://Scripts/Collectables/collectable_stamina_max.gd" id="2_p5vtl"]
-[ext_resource type="Texture2D" uid="uid://dwr2lksbirtss" path="res://sprites/Items/empty_health_potion.png" id="3_yerrm"]
+[ext_resource type="Texture2D" uid="uid://ckiybj56ndp7k" path="res://sprites/Items/Stamina_Max_Item.png" id="3_p6a88"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_yatrv"]
-atlas = ExtResource("3_yerrm")
-region = Rect2(0, 0, 32, 24)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b3mw8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3opq"]
+atlas = ExtResource("3_p6a88")
+region = Rect2(0, 0, 32, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hotmm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_yatrv")
+"texture": SubResource("AtlasTexture_w3opq")
 }],
 "loop": true,
 "name": &"default",
@@ -22,14 +24,17 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y552r"]
 
 [node name="CollectableStaminaMax" instance=ExtResource("1_c30vb")]
+z_index = 10
 script = ExtResource("2_p5vtl")
-ability_icon_path = "res://sprites/Items/staminamax_icon.png"
+ability_icon_path = "res://sprites/Items/Stamina_Max_Item.png"
 ability_title = "Fôlego Ancestral"
 ability_description = "Uma essência que expande permanentemente sua reserva de energia."
 bonus_amount = 3
 custom_effect_path = ""
 
 [node name="Texture" parent="." index="0"]
+z_index = 10
+material = SubResource("ShaderMaterial_b3mw8")
 sprite_frames = SubResource("SpriteFrames_hotmm")
 
 [node name="Collision" parent="." index="1"]

@@ -14,7 +14,8 @@ func _consume(_body: BaseCharacter) -> void:
 	_body._skills.update_speed_boost_state(true)
 
 	var skill_data = {
-		"name": "Aceleração",
+		"key": "ITEM_SPEED_BOOST_NAME",
+		"name": tr("ITEM_SPEED_BOOST_NAME"),
 		"path": "res://sprites/Items/Skills_Speed_Boost.png",
 		"type": "skill",
 		"description": tr("ITEM_SPEED_BOOST_DESC")

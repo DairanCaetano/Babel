@@ -1,0 +1,29 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5lv4vxiwrjk1"]
+
+[ext_resource type="Script" path="res://Scripts/FX/item_glow.gd" id="1_w41d4"]
+[ext_resource type="Shader" path="res://Shaders/item_glow.gdshader" id="2_31d1s"]
+[ext_resource type="Texture2D" uid="uid://c6u8ena1nrys2" path="res://sprites/FX/DIVERSOS/FX_Item_Glow_BG.png" id="3_hrdwa"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_uvh2e"]
+shader = ExtResource("2_31d1s")
+shader_parameter/icon_scale = 0.432
+shader_parameter/wave_amount = 0.067
+shader_parameter/wave_speed = 1.5
+shader_parameter/rainbow_speed = 2.999
+shader_parameter/saturation = 0.849
+shader_parameter/brightness = 1.506
+shader_parameter/alpha_min = 0.649
+shader_parameter/alpha_max = 0.783
+shader_parameter/alpha_speed = 2.373
+shader_parameter/blur_radius = 0.015
+shader_parameter/blur_samples = 8
+
+[node name="ItemGlow" type="Node2D" node_paths=PackedStringArray("_canvas")]
+z_index = 1
+script = ExtResource("1_w41d4")
+_canvas = NodePath("Texture")
+
+[node name="Texture" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.372549)
+material = SubResource("ShaderMaterial_uvh2e")
+texture = ExtResource("3_hrdwa")

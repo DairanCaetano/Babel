@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://c85ppmgl7v0ve"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_lnpoy"]
+[ext_resource type="Texture2D" uid="uid://dgu4yr75wlson" path="res://sprites/FX/POEIRA/AXE FX/Tola_Ataque_Machado_Fumaça_FXv01.png" id="2_vmfhp"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1iwx"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hty3k"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2uxmk"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2bdmg"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b28vg"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5ct0"]
+atlas = ExtResource("2_vmfhp")
+region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_judti"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1iwx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hty3k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2uxmk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2bdmg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b28vg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5ct0")
+}],
+"loop": false,
+"name": &"AxeFX",
+"speed": 10.0
+}]
+
+[node name="BaseEffect" instance=ExtResource("1_lnpoy")]
+sprite_frames = SubResource("SpriteFrames_judti")
+animation = &"AxeFX"
+autoplay = ""

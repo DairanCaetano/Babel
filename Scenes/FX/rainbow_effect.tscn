@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://dcmq2q1sy7vvw"]
+
+[ext_resource type="Script" path="res://Scripts/FX/rainbow_effect.gd" id="1_714pg"]
+[ext_resource type="Shader" path="res://Shaders/rainbow_effect.gdshader" id="2_8xcgf"]
+[ext_resource type="Texture2D" uid="uid://0chcdt7g5n85" path="res://sprites/FX/DIVERSOS/FX_GENERIC_BG_BRANCO.png" id="3_gtx57"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5grfe"]
+shader = ExtResource("2_8xcgf")
+shader_parameter/radius = 0.361
+shader_parameter/thickness = 0.438
+shader_parameter/softness = 0.161
+shader_parameter/hue_speed = -0.258
+shader_parameter/noise_scale = 6.775
+shader_parameter/noise_strength = 0.37
+shader_parameter/global_alpha = 0.99
+shader_parameter/saturation = 0.754
+shader_parameter/brightness = 1.476
+
+[node name="RainbowEffect" type="Node2D" node_paths=PackedStringArray("sprite")]
+z_index = 10
+script = ExtResource("1_714pg")
+sprite = NodePath("Texture")
+
+[node name="Texture" type="Sprite2D" parent="."]
+z_index = 10
+material = SubResource("ShaderMaterial_5grfe")
+texture = ExtResource("3_gtx57")

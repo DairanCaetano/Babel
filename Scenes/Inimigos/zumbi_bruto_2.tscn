@@ -26,6 +26,9 @@ shader_parameter/blink_intensity = 1.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oaepf"]
 atlas = ExtResource("1_e4isj")

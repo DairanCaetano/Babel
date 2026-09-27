@@ -1,0 +1,35 @@
+[gd_scene load_steps=4 format=3 uid="uid://dli4slogcf0r1"]
+
+[ext_resource type="Script" path="res://Scripts/Projectiles/great_axe_melee.gd" id="1_d77vv"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rfals"]
+radius = 26.0192
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ur2wk"]
+
+[node name="GreatAxeMelee" type="Node2D" node_paths=PackedStringArray("attack_area", "collision_1", "collision_2", "_axe_attack_audio", "impact_fx_marker")]
+script = ExtResource("1_d77vv")
+attack_area = NodePath("Attack")
+collision_1 = NodePath("Attack/Collision_1")
+collision_2 = NodePath("Attack/Collision_2")
+_axe_attack_audio = NodePath("GreatAxeAudio")
+impact_fx_marker = NodePath("ImpactFXMaker")
+
+[node name="Attack" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 88
+
+[node name="Collision_1" type="CollisionShape2D" parent="Attack"]
+position = Vector2(6, -3)
+shape = SubResource("CircleShape2D_rfals")
+disabled = true
+
+[node name="Collision_2" type="CollisionShape2D" parent="Attack"]
+position = Vector2(19, 10)
+shape = SubResource("CircleShape2D_ur2wk")
+disabled = true
+
+[node name="GreatAxeAudio" type="AudioStreamPlayer" parent="."]
+
+[node name="ImpactFXMaker" type="Marker2D" parent="."]
+position = Vector2(15, 4)

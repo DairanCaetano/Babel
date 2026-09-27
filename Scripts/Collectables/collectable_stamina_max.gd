@@ -1,16 +1,26 @@
 extends Collectables
 class_name CollectableStaminaMax
 
+const ITEM_GLOW := preload("res://Scenes/FX/item_glow.tscn")
+
 @export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Items/staminamax_icon.png"
+@export var ability_icon_path: String = "res://sprites/Items/Stamina_Max_Item.png"
 @export var ability_title: String = "Fôlego Ancestral"
 @export_multiline var ability_description: String = "Uma essência que expande permanentemente sua reserva de energia."
-
 @export_group("Stamina Bonus")
 @export var bonus_amount: int = 3
-
 @export_group("Custom Effect")
 @export var custom_effect_path: String = ""  # ← NOVO
+
+func _ready() -> void:
+	super._ready()
+	
+	if collectible_id != "" and collectible_id in serialization.game_data["collected_items"]:
+		return
+	
+	var glow: Node2D = ITEM_GLOW.instantiate()
+	add_child(glow)
+	glow.setup(load(ability_icon_path))
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -37,5 +47,18 @@ func _consume(_body: BaseCharacter) -> void:
 	
 	print("⚡ Stamina máxima aumentada em +", bonus_amount, "! (ID: ", collectible_id, ")")
 	
+	_spawn_rainbow_pulse_on_player()
 	_spawn_custom_collect_effect(custom_effect_path)
 	_show_stat_boost_popup(tr("STAT_BOOST_STAMINA"))
+
+func _spawn_rainbow_pulse_on_player() -> void:
+	var player := get_tree().get_first_node_in_group("player") as Node2D
+	
+	if player == null:
+		push_warning("⚠️ Nenhum player encontrado no grupo 'player'")
+		return
+	
+	RainbowPulse.spawn(player.global_position, get_tree().current_scene, player)
+	
+	if player.has_method("trigger_rainbow_shine"):
+		player.trigger_rainbow_shine(1.0)

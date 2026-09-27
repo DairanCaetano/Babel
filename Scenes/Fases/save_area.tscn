@@ -324,7 +324,7 @@ texture = ExtResource("2_qp4ov")
 process_mode = 3
 position = Vector2(59, -20)
 sprite_frames = SubResource("SpriteFrames_nqt7i")
-animation = &"Idle"
+animation = &"Await"
 flip_h = true
 
 [node name="Collision" type="CollisionShape2D" parent="."]

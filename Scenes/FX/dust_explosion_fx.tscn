@@ -52,7 +52,9 @@ script = ExtResource("1_15en7")
 _texture = NodePath("Texture")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
+z_index = 10
 sprite_frames = SubResource("SpriteFrames_c3pv0")
 animation = &"Action"
 autoplay = "Action"
+frame = 4
 frame_progress = 1.0
