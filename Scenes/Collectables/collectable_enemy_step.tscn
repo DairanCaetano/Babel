@@ -62,9 +62,9 @@ _data = {
 
 [node name="CollectableEnemyStep" groups=["collectibles"] instance=ExtResource("1_fccsl")]
 script = ExtResource("2_gwkov")
-ability_icon_path = "res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
-ability_title = "Impulso no inimigo"
-ability_description = "Pule em cima do inimigo para realizar um impulso e alcançar áreas mais altas."
+skill_icon_path = "res://sprites/UI/MENU_1/SKILLS ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
+skill_title = "Impulso no inimigo"
+skill_description = "Pule em cima do inimigo para realizar um impulso e alcançar áreas mais altas."
 collectible_id = "enemy_step_1"
 
 [node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_607j0")]

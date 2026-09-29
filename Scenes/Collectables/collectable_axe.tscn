@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableAxe" instance=ExtResource("1_wvb3x")]
 script = ExtResource("2_f678k")
-ability_icon_path = "res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v02.png"
-ability_title = "Machado Leve"
-ability_description = "Um machado leve, forjado para arremessos."
+skill_icon_path = "res://sprites/Weapons/Babel_Armas_Machado_Pixel Art_v02.png"
+skill_title = "Machado Leve"
+skill_description = "Um machado leve, forjado para arremessos."
 collectible_id = "CollectableAxe"
 
 [node name="Texture" parent="." index="0"]

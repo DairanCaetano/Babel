@@ -24,9 +24,9 @@ animations = [{
 
 [node name="CollectableComponent" instance=ExtResource("1_mmfrs")]
 script = ExtResource("2_sd5wj")
-ability_icon_path = "res://sprites/UI/MENU_1/ABILITIES ICONS/GUI_Abilities_Run_fast_Icon.png"
-ability_title = "Aceleração"
-ability_description = "Seu corpo está mais leve e mais ágil permitindo que se mova a altas velocidades."
+skill_icon_path = "res://sprites/UI/MENU_1/SKILLS ICONS/GUI_Skills_Run_fast_Icon.png"
+skill_title = "Aceleração"
+skill_description = "Seu corpo está mais leve e mais ágil permitindo que se mova a altas velocidades."
 
 [node name="skillFXParticle" parent="." index="0" instance=ExtResource("3_i8eu1")]
 

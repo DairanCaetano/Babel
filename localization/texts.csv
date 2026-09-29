@@ -202,7 +202,7 @@ HUD_SAVE,Salvar,Save,Guardar,セーブ,Sauvegarder,保存,저장,Salva
 HUD_TALK,Falar,Talk,Hablar,話す,Parler,对话,대화,Parla
 HUD_TRAVEL,Viajar,Travel,Viajar,旅する,Voyager,旅行,여행,Viaggia
 INV_NO_ITEM_SELECTED,Nenhum item selecionado,No item selected,Ningún artículo seleccionado,アイテムが選択されていません,Aucun objet sélectionné,未选择物品,선택된 아이템 없음,Nessun oggetto selezionato
-INV_PAGE_ABILITIES,Habilidades,Abilities,Habilidades,アビリティ,Compétences,技能,능력,Abilità
+INV_PAGE_SKILLS,Habilidades,Skills,Habilidades,アビリティ,Compétences,技能,능력,Abilità
 INV_PAGE_ARCHIVES,Arquivos,Archives,Archivos,アーカイブ,Archives,档案,기록,Archivi
 INV_PAGE_INVENTORY,Inventário,Inventory,Inventario,インベントリ,Inventaire,物品栏,인벤토리,Inventario
 INV_PAGE_OPTIONS,Opções,Options,Opciones,オプション,Options,选项,옵션,Opzioni

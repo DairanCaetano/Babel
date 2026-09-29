@@ -1,5 +1,5 @@
 extends Control
-class_name UIAbilities
+class_name UISkills
 
 var _skills_inventory: Dictionary = {
 	"dash": {},
@@ -39,11 +39,12 @@ var _skill_slots: Array[Button] = []
 @export var _speed_boost_slot: Button
 
 @export_category("UI Elements")
-@export var _ability_title_label: Label
-@export var _ability_description_label: Label
+@export var _skill_title_label: Label
+@export var _skill_description_label: Label
 
 func initialize() -> void:
-	print("🎮 UIAbilities inicializada como página do inventário")
+	global.ui_skills = self
+	print("🎮 UISkills inicializada como página do inventário")
 	
 	# ✅ Criar array de slots na ordem de navegação
 	_skill_slots = [_dash_slot, _wall_jump_slot, _hook_slot, _enemy_step_slot, _speed_boost_slot]
@@ -71,17 +72,17 @@ func _update_selection(new_index: int) -> void:
 	var skill_data = _get_skill_data_from_slot(current_slot)
 	
 	if skill_data.is_empty():
-		_ability_title_label.text = ""  # ← VAZIO ao invés de "---"
-		_ability_description_label.text = ""  # ← VAZIO ao invés de mensagem
+		_skill_title_label.text = ""  # ← VAZIO ao invés de "---"
+		_skill_description_label.text = ""  # ← VAZIO ao invés de mensagem
 	else:
 		# ✅ Texto sempre vem do CSV pelo tipo do slot (funciona em qualquer idioma e em saves antigos)
 		var slot_type: String = _get_slot_type(current_slot)
 		if SKILL_KEYS.has(slot_type):
-			_ability_title_label.text = tr(SKILL_KEYS[slot_type] + "_NAME")
-			_ability_description_label.text = tr(SKILL_KEYS[slot_type] + "_DESC")
+			_skill_title_label.text = tr(SKILL_KEYS[slot_type] + "_NAME")
+			_skill_description_label.text = tr(SKILL_KEYS[slot_type] + "_DESC")
 		else:
-			_ability_title_label.text = tr(skill_data.get("name", "???"))
-			_ability_description_label.text = tr(skill_data.get("description", ""))
+			_skill_title_label.text = tr(skill_data.get("name", "???"))
+			_skill_description_label.text = tr(skill_data.get("description", ""))
 	
 	_current_index = new_index
 
@@ -174,7 +175,7 @@ func equip_skill(_skill_data: Dictionary) -> void:
 	
 	# ✅ BLOQUEAR DURANTE LOAD
 	if global.inventory and global.inventory._is_loading_save:
-		print("  ⏸️ UIAbilities: Bloqueado durante load")
+		print("  ⏸️ UISkills: Bloqueado durante load")
 		return
 	
 	var _skill_copy: Dictionary = _skill_data.duplicate()
@@ -235,7 +236,7 @@ func restore_skills_from_save() -> void:
 	
 	var saved_skills = serialization.game_data["skills"]
 	
-	print("  ✓ Restaurando skills na AbilitiesPage...")
+	print("  ✓ Restaurando skills na SkillsPage...")
 	
 	# ✅ Restaurar Dash
 	if not saved_skills["dash"].is_empty():
@@ -271,4 +272,4 @@ func restore_skills_from_save() -> void:
 		_get_item_texture(_speed_boost_slot).texture = load(speed_boost_data["path"])
 		print("    - Restaurando speed_boost: ", speed_boost_data["name"])
 	
-	print("  ✓ Skills restauradas na AbilitiesPage!")
+	print("  ✓ Skills restauradas na SkillsPage!")

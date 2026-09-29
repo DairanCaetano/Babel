@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableWhip" instance=ExtResource("1_f7hae")]
 script = ExtResource("2_x67j1")
-ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Whip_ICON_v01.png"
-ability_title = "Chicote Antigo"
-ability_description = "Um chicote antigo que parece ser uma relíquia de família. A arma perfeita para caçar monstros."
+skill_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Whip_ICON_v01.png"
+skill_title = "Chicote Antigo"
+skill_description = "Um chicote antigo que parece ser uma relíquia de família. A arma perfeita para caçar monstros."
 collectible_id = "Whip_1"
 
 [node name="Texture" parent="." index="0"]

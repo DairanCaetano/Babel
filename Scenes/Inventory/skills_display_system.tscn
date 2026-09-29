@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://leh5alp0xtag"]
 
-[ext_resource type="Script" path="res://Scripts/Inventory/abilities_display_system.gd" id="1_ajk06"]
+[ext_resource type="Script" path="res://Scripts/Inventory/skills_display_system.gd" id="1_ajk06"]
 [ext_resource type="Texture2D" uid="uid://chiav4r537ov0" path="res://sprites/UI/MENU_1/Babel_Read_Page_Anim.png" id="1_t5gkg"]
 [ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="2_iba3h"]
 [ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_qkjxb"]
@@ -96,7 +96,7 @@ font_size = 14
 font = ExtResource("3_qkjxb")
 font_size = 11
 
-[node name="AbilitiesDisplaySyistem" type="Control" node_paths=PackedStringArray("_animated_sprite", "_abilities_title", "_abilities_content", "_abilities_texture")]
+[node name="SkillsDisplaySystem" type="Control" node_paths=PackedStringArray("_animated_sprite", "_skills_title", "_skills_content", "_skills_texture")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,9 +105,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ajk06")
 _animated_sprite = NodePath("Texture")
-_abilities_title = NodePath("VBoxContainer/AbilitiesTitle")
-_abilities_content = NodePath("VBoxContainer/AbilitiesContent")
-_abilities_texture = NodePath("VBoxContainer/AbilitiesTexture")
+_skills_title = NodePath("VBoxContainer/SkillsTitle")
+_skills_content = NodePath("VBoxContainer/SkillsContent")
+_skills_texture = NodePath("VBoxContainer/SkillsTexture")
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 position = Vector2(240, 135)
@@ -131,16 +131,16 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 20
 
-[node name="AbilitiesTitle" type="Label" parent="VBoxContainer"]
+[node name="SkillsTitle" type="Label" parent="VBoxContainer"]
 layout_mode = 2
 label_settings = SubResource("LabelSettings_2hs7h")
 horizontal_alignment = 1
 
-[node name="AbilitiesTexture" type="TextureRect" parent="VBoxContainer"]
+[node name="SkillsTexture" type="TextureRect" parent="VBoxContainer"]
 layout_mode = 2
 stretch_mode = 3
 
-[node name="AbilitiesContent" type="Label" parent="VBoxContainer"]
+[node name="SkillsContent" type="Label" parent="VBoxContainer"]
 z_index = 1
 layout_mode = 2
 label_settings = SubResource("LabelSettings_h6tgy")

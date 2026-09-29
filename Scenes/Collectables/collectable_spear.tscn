@@ -24,9 +24,9 @@ size = Vector2(21, 21)
 
 [node name="CollectableSpear" instance=ExtResource("1_cb2ll")]
 script = ExtResource("2_wxc4n")
-ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Lança_ICON_v02.png"
-ability_title = "Lança de Arremesso"
-ability_description = "Uma lança longa de arremesso. É capaz de sustentar o peso de um homem."
+skill_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Lança_ICON_v02.png"
+skill_title = "Lança de Arremesso"
+skill_description = "Uma lança longa de arremesso. É capaz de sustentar o peso de um homem."
 collectible_id = "spear_1"
 
 [node name="Texture" parent="." index="0"]

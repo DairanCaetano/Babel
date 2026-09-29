@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableSandals" instance=ExtResource("1_0hmgs")]
 script = ExtResource("2_vn0ek")
-ability_icon_path = "res://sprites/Equipments/sandals.png"
-ability_title = "Sandálias Aladas"
-ability_description = "Sandálias leves e encantadas. Aumentam significativamente a velocidade de movimento."
+skill_icon_path = "res://sprites/Equipments/sandals.png"
+skill_title = "Sandálias Aladas"
+skill_description = "Sandálias leves e encantadas. Aumentam significativamente a velocidade de movimento."
 
 [node name="Texture" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_twp8s")

@@ -21,7 +21,7 @@ func setup(icon_texture: Texture2D, icon_scale: float = 0.4) -> void:
 	_canvas.material = mat
 	
 	if icon_texture == null:
-		push_error("⚠️ ItemGlow: icon_texture é null! Verifique o caminho em ability_icon_path.")
+		push_error("⚠️ ItemGlow: icon_texture é null! Verifique o caminho em skill_icon_path.")
 		return
 	
 	mat.set_shader_parameter("icon_texture", icon_texture)

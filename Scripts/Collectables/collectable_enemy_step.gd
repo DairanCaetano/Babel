@@ -1,14 +1,14 @@
 extends Collectables
 class_name CollectableEnemyStep
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
-@export var ability_title: String = "Impulso no inimigo"
-@export_multiline var ability_description: String = "Pule em cima do inimigo para realizar um impulso e alcançar áreas mais altas."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/UI/MENU_1/SKILLS ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
+@export var skill_title: String = "Impulso no inimigo"
+@export_multiline var skill_description: String = "Pule em cima do inimigo para realizar um impulso e alcançar áreas mais altas."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
-		collectible_id = "enemy_step_ability"
+		collectible_id = "enemy_step_skill"
 
 	serialization.game_data["has_enemy_step"] = true
 	_body._skills.update_enemy_step_state(true)
@@ -23,21 +23,21 @@ func _consume(_body: BaseCharacter) -> void:
 	if global.ui_inventory:
 		global.ui_inventory.equip_skill(skill_data)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_ENEMY_STEP_NAME"),
 		"description": tr("ITEM_ENEMY_STEP_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	post_dialog_data = {
-		"dialog_type": "ability_followup",
+		"dialog_type": "skill_followup",
 		"lines": [
 			{"character": "tola", "text": tr("DIALOG_ENEMY_STEP_0_TOLA")},
 			{"character": "azazel", "text": tr("DIALOG_ENEMY_STEP_1_AZAZEL")},
@@ -46,4 +46,4 @@ func _consume(_body: BaseCharacter) -> void:
 	}
 
 	print("✅ Enemy Step desbloqueado!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

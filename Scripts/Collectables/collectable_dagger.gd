@@ -1,10 +1,10 @@
 extends Collectables
 class_name CollectableDagger
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Weapons/Babel_Armas_Adaga_Pixel Art_v02.png"
-@export var ability_title: String = "Adaga de Bronze"
-@export_multiline var ability_description: String = "Uma adaga leve, perfeita para arremessos. Dizem que nas mãos dos mestres malabaristas ela nunca tocava o chão."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Weapons/Babel_Armas_Adaga_Pixel Art_v02.png"
+@export var skill_title: String = "Adaga de Bronze"
+@export_multiline var skill_description: String = "Uma adaga leve, perfeita para arremessos. Dizem que nas mãos dos mestres malabaristas ela nunca tocava o chão."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -25,19 +25,19 @@ func _consume(_body: BaseCharacter) -> void:
 	
 	_body.update_dagger_state(true)
 	
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_DAGGER_NAME"),
 		"description": tr("ITEM_DAGGER_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 	
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 	
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 	
 	print("🗡️ Adaga de Bronze coletada e equipada!")
 	
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

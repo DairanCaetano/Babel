@@ -63,9 +63,9 @@ _data = {
 
 [node name="CollectableHook" groups=["collectibles"] instance=ExtResource("1_f57ai")]
 script = ExtResource("2_drmia")
-ability_icon_path = "res://sprites/Items/Skills_Hook.png"
-ability_title = "Garra Mística"
-ability_description = "Uma luva mística que dispara uma garra para alcançar lugares distantes."
+skill_icon_path = "res://sprites/Items/Skills_Hook.png"
+skill_title = "Garra Mística"
+skill_description = "Uma luva mística que dispara uma garra para alcançar lugares distantes."
 collectible_id = "hook_glove_1"
 has_post_dialog = true
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://f72wo7hjcd4r"
-path="res://.godot/imported/Babel_GUI_Wall_Jump_Icons_v01.png-13db5421bca9513f7b105bb62827347e.ctex"
+uid="uid://c3730b5voofc0"
+path="res://.godot/imported/Babel_GUI_Skills_Area.png-0b98c5f8b65a5c369fe8d7d4ea1756a1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
-dest_files=["res://.godot/imported/Babel_GUI_Wall_Jump_Icons_v01.png-13db5421bca9513f7b105bb62827347e.ctex"]
+source_file="res://sprites/UI/MENU_1/Babel_GUI_Skills_Area.png"
+dest_files=["res://.godot/imported/Babel_GUI_Skills_Area.png-0b98c5f8b65a5c369fe8d7d4ea1756a1.ctex"]
 
 [params]
 

@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableDagger" instance=ExtResource("1_e0dlc")]
 script = ExtResource("2_iqjus")
-ability_icon_path = "res://sprites/Weapons/Babel_Armas_Adaga_Pixel Art_v02.png"
-ability_title = "Adaga de Bronze"
-ability_description = "Uma adaga leve, perfeita para arremessos. Dizem que nas mãos dos mestres malabaristas ela nunca tocava o chão."
+skill_icon_path = "res://sprites/Weapons/Babel_Armas_Adaga_Pixel Art_v02.png"
+skill_title = "Adaga de Bronze"
+skill_description = "Uma adaga leve, perfeita para arremessos. Dizem que nas mãos dos mestres malabaristas ela nunca tocava o chão."
 collectible_id = "dagger_1"
 
 [node name="Texture" parent="." index="0"]

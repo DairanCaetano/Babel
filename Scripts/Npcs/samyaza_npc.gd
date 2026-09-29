@@ -143,16 +143,16 @@ func _give_map() -> void:
 		"amount_to_drop": 1
 	}, false)
 
-	var ability_data := {
+	var skill_display_data := {
 		"id": MAP_ID,
 		"title": tr("ITEM_MAP_NAME"),
 		"description": tr("ITEM_MAP_DESC"),
 		"icon_path": MAP_ICON_PATH
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
-	serialization.game_data["collected_abilities"].append(ability_data)
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
+	serialization.game_data["collected_skills"].append(skill_display_data)
 
 	var game_main = get_tree().get_first_node_in_group("game_main")
 	if not game_main:
@@ -162,12 +162,12 @@ func _give_map() -> void:
 	if not hud_node:
 		return
 
-	var ability_scene = preload("res://Scenes/Inventory/abilities_display_system.tscn")
-	var ability_display = ability_scene.instantiate()
-	hud_node.add_child(ability_display)
+	var skill_scene = preload("res://Scenes/Inventory/skills_display_system.tscn")
+	var skill_display = skill_scene.instantiate()
+	hud_node.add_child(skill_display)
 
-	ability_display.show_ability(ability_data)
-	await ability_display.display_finished
+	skill_display.show_skill(skill_display_data)
+	await skill_display.display_finished
 
 func _finish_sequence() -> void:
 	_dialog_done = true

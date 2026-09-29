@@ -24,9 +24,9 @@ size = Vector2(22, 22)
 
 [node name="CollectableGreatAxe" instance=ExtResource("1_b48ab")]
 script = ExtResource("2_p3tsq")
-ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png"
-ability_title = "Machado de Guerra"
-ability_description = "Um machado pesado de duas mãos. Lento, mas devastador."
+skill_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png"
+skill_title = "Machado de Guerra"
+skill_description = "Um machado pesado de duas mãos. Lento, mas devastador."
 
 [node name="Texture" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_t0rcu")

@@ -1,14 +1,14 @@
 extends Collectables
 class_name CollectableHook
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Items/Skills_Hook.png"
-@export var ability_title: String = "Garra Mística"
-@export_multiline var ability_description: String = "Uma luva mística que dispara uma garra para alcançar lugares distantes."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Items/Skills_Hook.png"
+@export var skill_title: String = "Garra Mística"
+@export_multiline var skill_description: String = "Uma luva mística que dispara uma garra para alcançar lugares distantes."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
-		collectible_id = "hook_ability"
+		collectible_id = "hook_skill"
 
 	serialization.game_data["has_hook"] = true
 	_body._skills.update_hook_state(true)
@@ -23,21 +23,21 @@ func _consume(_body: BaseCharacter) -> void:
 	if global.ui_inventory:
 		global.ui_inventory.equip_skill(skill_data)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_HOOK_NAME"),
 		"description": tr("ITEM_HOOK_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	post_dialog_data = {
-		"dialog_type": "ability_followup",
+		"dialog_type": "skill_followup",
 		"lines": [
 			{"character": "tola", "text": tr("DIALOG_HOOK_0_TOLA")},
 			{"character": "azazel", "text": tr("DIALOG_HOOK_1_AZAZEL")},
@@ -47,4 +47,4 @@ func _consume(_body: BaseCharacter) -> void:
 	}
 
 	print("✅ Hook desbloqueado!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

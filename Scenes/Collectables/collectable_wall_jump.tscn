@@ -62,9 +62,9 @@ _data = {
 
 [node name="CollectableWallJump" groups=["collectibles"] instance=ExtResource("1_ir2w4")]
 script = ExtResource("2_7s1m8")
-ability_icon_path = "res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
-ability_title = "Pulo na parede"
-ability_description = "Ao pular na parede você agora pode dar um impulso para realizar mais um pulo."
+skill_icon_path = "res://sprites/UI/MENU_1/SKILLS ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
+skill_title = "Pulo na parede"
+skill_description = "Ao pular na parede você agora pode dar um impulso para realizar mais um pulo."
 collectible_id = "wall_climb_1"
 has_post_dialog = true
 

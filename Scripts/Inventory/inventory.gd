@@ -4,7 +4,7 @@ class_name UIInventory
 const _INVENTORY_SIZE: int = 24
 const _INVENTORY_SLOT: PackedScene = preload("res://Scenes/Inventory/inventory_slot.tscn")
 
-enum Page { INVENTORY, ABILITIES, ARCHIVES, OPTIONS }
+enum Page { INVENTORY, SKILLS, ARCHIVES, OPTIONS }
 var current_page: Page = Page.INVENTORY
 var index: int = 0
 var previous_index: int = -1
@@ -14,7 +14,7 @@ var previous_index: int = -1
 
 @export_category("Títulos")
 @export var _inventory_title: TextureRect
-@export var _abilities_title: TextureRect
+@export var _skills_title: TextureRect
 @export var _archives_title: TextureRect
 @export var _options_title: TextureRect
 
@@ -24,7 +24,7 @@ var previous_index: int = -1
 @export var change_page_audio: AudioStreamPlayer
 
 @onready var inventory_page: Control = $InventoryPage
-@onready var abilities_page: Control = $AbilitiesPage
+@onready var skills_page: Control = $SkillsPage
 @onready var archives_page: Control = $ArchivesPage
 @onready var options_page: Control = $OptionsPage
 
@@ -36,8 +36,8 @@ func _ready() -> void:
 		_inventory_slot.parent = self
 		_slots_container.add_child(_inventory_slot)
 	
-	if abilities_page and abilities_page.has_method("initialize"):
-		abilities_page.initialize()
+	if skills_page and skills_page.has_method("initialize"):
+		skills_page.initialize()
 	
 	if archives_page and archives_page.has_method("initialize"):
 		archives_page.initialize()
@@ -66,8 +66,8 @@ func _change_page(direction: int) -> void:
 	if direction > 0:
 		match current_page:
 			Page.INVENTORY:
-				current_page = Page.ABILITIES
-			Page.ABILITIES:
+				current_page = Page.SKILLS
+			Page.SKILLS:
 				current_page = Page.ARCHIVES
 			Page.ARCHIVES:
 				current_page = Page.OPTIONS
@@ -77,10 +77,10 @@ func _change_page(direction: int) -> void:
 		match current_page:
 			Page.INVENTORY:
 				current_page = Page.OPTIONS
-			Page.ABILITIES:
+			Page.SKILLS:
 				current_page = Page.INVENTORY
 			Page.ARCHIVES:
-				current_page = Page.ABILITIES
+				current_page = Page.SKILLS
 			Page.OPTIONS:
 				current_page = Page.ARCHIVES
 	
@@ -107,7 +107,7 @@ func play_change_page_audio() -> void:
 # ========== RESTO DO CÓDIGO INALTERADO ==========
 func _update_page_visibility() -> void:
 	inventory_page.visible = (current_page == Page.INVENTORY)
-	abilities_page.visible = (current_page == Page.ABILITIES)
+	skills_page.visible = (current_page == Page.SKILLS)
 	archives_page.visible = (current_page == Page.ARCHIVES)
 	options_page.visible = (current_page == Page.OPTIONS)
 	
@@ -115,8 +115,8 @@ func _update_page_visibility() -> void:
 	
 	if current_page == Page.INVENTORY:
 		hover_slot(index)
-	elif current_page == Page.ABILITIES and abilities_page.has_method("focus_current_slot"):
-		abilities_page.focus_current_slot()
+	elif current_page == Page.SKILLS and skills_page.has_method("focus_current_slot"):
+		skills_page.focus_current_slot()
 	elif current_page == Page.ARCHIVES and archives_page.has_method("focus_current_slot"):
 		archives_page.focus_current_slot()
 
@@ -132,8 +132,8 @@ func _update_title_colors() -> void:
 			label.modulate = COLOR_INACTIVE
 			label.position.y = OFFSET_INACTIVE
 	
-	if _abilities_title:
-		var label = _abilities_title.get_node_or_null("Title")
+	if _skills_title:
+		var label = _skills_title.get_node_or_null("Title")
 		if label:
 			label.modulate = COLOR_INACTIVE
 			label.position.y = OFFSET_INACTIVE
@@ -158,9 +158,9 @@ func _update_title_colors() -> void:
 					label.modulate = COLOR_ACTIVE
 					label.position.y = OFFSET_ACTIVE
 		
-		Page.ABILITIES:
-			if _abilities_title:
-				var label = _abilities_title.get_node_or_null("Title")
+		Page.SKILLS:
+			if _skills_title:
+				var label = _skills_title.get_node_or_null("Title")
 				if label:
 					label.modulate = COLOR_ACTIVE
 					label.position.y = OFFSET_ACTIVE
@@ -266,13 +266,13 @@ func refresh_archives() -> void:
 		archives_page.refresh_archives()
 
 func equip_skill(skill_data: Dictionary) -> void:
-	if abilities_page and abilities_page.has_method("equip_skill"):
-		abilities_page.equip_skill(skill_data)
+	if skills_page and skills_page.has_method("equip_skill"):
+		skills_page.equip_skill(skill_data)
 
 func _update_texts() -> void:
 	var titles = {
 		"InventoryTexture": "INV_PAGE_INVENTORY",
-		"AbilitiesTexture": "INV_PAGE_ABILITIES",
+		"SkillsTexture": "INV_PAGE_SKILLS",
 		"ArchivesTexture": "INV_PAGE_ARCHIVES",
 		"OptionsTexture": "INV_PAGE_OPTIONS"
 	}

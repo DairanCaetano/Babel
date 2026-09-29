@@ -1,10 +1,10 @@
 extends Collectables
 class_name CollectableAncientArmor
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Equipments/ancient_armor.png"
-@export var ability_title: String = "Armadura Ancestral"
-@export_multiline var ability_description: String = "Uma armadura forjada pelos antigos. Aumenta a defesa e protege contra ataques poderosos."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Equipments/ancient_armor.png"
+@export var skill_title: String = "Armadura Ancestral"
+@export_multiline var skill_description: String = "Uma armadura forjada pelos antigos. Aumenta a defesa e protege contra ataques poderosos."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -21,18 +21,18 @@ func _consume(_body: BaseCharacter) -> void:
 		"attributes": { "defense": 5 }
 	}, true)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_ANCIENT_ARMOR_NAME"),
 		"description": tr("ITEM_ANCIENT_ARMOR_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	print("🛡️ Armadura Ancestral coletada e equipada!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

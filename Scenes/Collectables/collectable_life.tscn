@@ -24,9 +24,9 @@ animations = [{
 [node name="CollectableLife" instance=ExtResource("1_jq5in")]
 z_index = 10
 script = ExtResource("2_15x3r")
-ability_icon_path = "res://sprites/Items/Life_Max_2_Item.png"
-ability_title = "Cálice da Vitalidade"
-ability_description = "Um cálice ancestral que expande permanentemente sua capacidade vital."
+skill_icon_path = "res://sprites/Items/Life_Max_2_Item.png"
+skill_title = "Cálice da Vitalidade"
+skill_description = "Um cálice ancestral que expande permanentemente sua capacidade vital."
 bonus_amount = 20
 custom_effect_path = ""
 

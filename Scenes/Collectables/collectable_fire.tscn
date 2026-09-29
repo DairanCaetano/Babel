@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableFire" instance=ExtResource("1_60ft4")]
 script = ExtResource("2_bfj8h")
-ability_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Fogo_ICON_v01.png"
-ability_title = "Bálsamo Ígneo"
-ability_description = "Poder de fogo ancestral."
+skill_icon_path = "res://sprites/Weapons/Babel_sub_Armas_Fogo_ICON_v01.png"
+skill_title = "Bálsamo Ígneo"
+skill_description = "Poder de fogo ancestral."
 collectible_id = "fire_1"
 
 [node name="Texture" parent="." index="0"]

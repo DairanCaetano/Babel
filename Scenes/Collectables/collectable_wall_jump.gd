@@ -1,14 +1,14 @@
 extends Collectables
 class_name CollectableWallJump
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
-@export var ability_title: String = "Pulo na parede"
-@export_multiline var ability_description: String = "Ao pular na parede você agora pode dar um impulso para realizar mais um pulo."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/UI/MENU_1/SKILLS ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
+@export var skill_title: String = "Pulo na parede"
+@export_multiline var skill_description: String = "Ao pular na parede você agora pode dar um impulso para realizar mais um pulo."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
-		collectible_id = "wall_jump_ability"
+		collectible_id = "wall_jump_skill"
 	
 	serialization.game_data["has_wall_jump"] = true
 	_body._skills.update_wall_jump_state(true)
@@ -23,23 +23,23 @@ func _consume(_body: BaseCharacter) -> void:
 	if global.ui_inventory:
 		global.ui_inventory.equip_skill(skill_data)
 	
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_WALL_JUMP_NAME"),
 		"description": tr("ITEM_WALL_JUMP_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 	
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 	
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 	
 	print("✅ Wall Jump desbloqueado!")
 	
 	post_dialog_data = {
-		"dialog_type": "ability_followup",
+		"dialog_type": "skill_followup",
 		"lines": [
 			{"character": "tola", "text": tr("DIALOG_WALL_JUMP_0_TOLA")},
 			{"character": "azazel", "text": tr("DIALOG_WALL_JUMP_1_AZAZEL")},
@@ -49,4 +49,4 @@ func _consume(_body: BaseCharacter) -> void:
 		]
 	}
 	
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

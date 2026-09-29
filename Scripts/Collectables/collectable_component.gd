@@ -66,7 +66,7 @@ func _register_collected() -> void:
 func _consume(_body: BaseCharacter) -> void:
 	pass
 
-func _show_ability_display(ability_data: Dictionary) -> void:
+func _show_skill_display(skill_display_data: Dictionary) -> void:
 	var game_main = get_tree().get_first_node_in_group("game_main")
 	if not game_main:
 		push_error("❌ game_main não encontrado!")
@@ -77,16 +77,16 @@ func _show_ability_display(ability_data: Dictionary) -> void:
 		push_error("❌ HUD node não encontrado!")
 		return
 	
-	var ability_scene = preload("res://Scenes/Inventory/abilities_display_system.tscn")
-	var ability_display = ability_scene.instantiate()
-	hud_node.add_child(ability_display)
+	var skill_scene = preload("res://Scenes/Inventory/skills_display_system.tscn")
+	var skill_display = skill_scene.instantiate()
+	hud_node.add_child(skill_display)
 	
 	if has_post_dialog and not post_dialog_data.is_empty():
 		var captured_dialog_data: Dictionary = post_dialog_data.duplicate(true)
 		var captured_hud: Node = hud_node
 		var dialog_scene: PackedScene = load("res://Scenes/Inventory/dialog_system.tscn")
 		
-		ability_display.display_finished.connect(func():
+		skill_display.display_finished.connect(func():
 			print("📜 Lambda executada! Instanciando diálogo...")
 			if captured_hud.player_character and is_instance_valid(captured_hud.player_character):
 				captured_hud.player_character._is_in_cinematic = true
@@ -103,12 +103,12 @@ func _show_ability_display(ability_data: Dictionary) -> void:
 	else:
 		# ✅ Sem diálogo — libera o player quando o display fechar
 		var captured_hud: Node = hud_node
-		ability_display.display_finished.connect(func():
+		skill_display.display_finished.connect(func():
 			if captured_hud.player_character and is_instance_valid(captured_hud.player_character):
 				captured_hud.player_character._is_in_cinematic = false
 		)
 	
-	ability_display.show_ability(ability_data)
+	skill_display.show_skill(skill_display_data)
 
 func _show_stat_boost_popup(text: String) -> void:
 	var game_main = get_tree().get_first_node_in_group("game_main")

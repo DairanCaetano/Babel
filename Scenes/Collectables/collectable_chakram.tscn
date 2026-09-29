@@ -23,9 +23,9 @@ animations = [{
 
 [node name="CollectableChakram" instance=ExtResource("1_tuvly")]
 script = ExtResource("2_5su7o")
-ability_icon_path = "res://sprites/Weapons/Babel_Armas_Chakram_Icon_Pixel Art_v01.png"
-ability_title = "Chakram"
-ability_description = "Arma de arremesso comum no sul da Ásia. Pode interagir com paredes e ser reposicionada."
+skill_icon_path = "res://sprites/Weapons/Babel_Armas_Chakram_Icon_Pixel Art_v01.png"
+skill_title = "Chakram"
+skill_description = "Arma de arremesso comum no sul da Ásia. Pode interagir com paredes e ser reposicionada."
 collectible_id = "chakram_1"
 
 [node name="Texture" parent="." index="0"]

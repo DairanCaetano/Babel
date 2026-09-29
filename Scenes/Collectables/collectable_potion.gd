@@ -41,21 +41,21 @@ func _consume(_body: BaseCharacter) -> void:
 	}, true)
 
 	# ✅ Guardar CHAVES (não texto traduzido) — o display chama tr() na hora de mostrar
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": KEY_NAME,
 		"description": KEY_DESC,
 		"icon_path": ICON_FULL_PATH
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	post_dialog_data = {
-		"dialog_type": "ability_followup",
+		"dialog_type": "skill_followup",
 		"lines": [
 			{"character": "tola", "text": tr("DIALOG_POTION_0_TOLA")},
 			{"character": "azazel", "text": tr("DIALOG_POTION_1_AZAZEL")},
@@ -67,7 +67,7 @@ func _consume(_body: BaseCharacter) -> void:
 	}
 
 	print("🪶 Pena de Azazel coletada! Máximo de curas: ", new_max)
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)
 
 
 # ========== HELPERS ESTÁTICOS (usados por outros scripts) ==========

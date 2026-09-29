@@ -811,11 +811,11 @@ position = Vector2(3757, 561)
 has_post_dialog = true
 
 [node name="CollectableWallJump" parent="Plataforms" index="1" instance=ExtResource("13_2yd1s")]
-position = Vector2(3027, 526)
+position = Vector2(2178, -761)
 has_post_dialog = false
 
 [node name="CollectableDash" parent="Plataforms" index="2" instance=ExtResource("20_dshka")]
-position = Vector2(3341, 560)
+position = Vector2(2223, -758)
 has_post_dialog = false
 
 [node name="CollectableWhip" parent="Plataforms" index="3" instance=ExtResource("14_57b6g")]

@@ -26,9 +26,9 @@ animations = [{
 [node name="CollectableStaminaMax" instance=ExtResource("1_c30vb")]
 z_index = 10
 script = ExtResource("2_p5vtl")
-ability_icon_path = "res://sprites/Items/Stamina_Max_Item.png"
-ability_title = "Fôlego Ancestral"
-ability_description = "Uma essência que expande permanentemente sua reserva de energia."
+skill_icon_path = "res://sprites/Items/Stamina_Max_Item.png"
+skill_title = "Fôlego Ancestral"
+skill_description = "Uma essência que expande permanentemente sua reserva de energia."
 bonus_amount = 3
 custom_effect_path = ""
 

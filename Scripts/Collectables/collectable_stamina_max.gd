@@ -3,10 +3,10 @@ class_name CollectableStaminaMax
 
 const ITEM_GLOW := preload("res://Scenes/FX/item_glow.tscn")
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Items/Stamina_Max_Item.png"
-@export var ability_title: String = "Fôlego Ancestral"
-@export_multiline var ability_description: String = "Uma essência que expande permanentemente sua reserva de energia."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Items/Stamina_Max_Item.png"
+@export var skill_title: String = "Fôlego Ancestral"
+@export_multiline var skill_description: String = "Uma essência que expande permanentemente sua reserva de energia."
 @export_group("Stamina Bonus")
 @export var bonus_amount: int = 3
 @export_group("Custom Effect")
@@ -20,7 +20,7 @@ func _ready() -> void:
 	
 	var glow: Node2D = ITEM_GLOW.instantiate()
 	add_child(glow)
-	glow.setup(load(ability_icon_path))
+	glow.setup(load(skill_icon_path))
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -32,16 +32,16 @@ func _consume(_body: BaseCharacter) -> void:
 		var stats = _body.get_node("Stats")
 		stats.increase_max_stamina(bonus_amount)
 	
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_STAMINAMAX_NAME"),
 		"description": tr("ITEM_STAMINAMAX_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 	
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
-	serialization.game_data["collected_abilities"].append(ability_data)
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	
 	serialization.save_data()
 	

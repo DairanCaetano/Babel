@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bs8gtyoq4y8nf"
-path="res://.godot/imported/GUI_Abilities_Run_fast_Icon.png-d5edef9ce5d3c7f57f87ec4b90c3dabc.ctex"
+path="res://.godot/imported/GUI_Skills_Run_fast_Icon.png-d5edef9ce5d3c7f57f87ec4b90c3dabc.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/UI/MENU_1/ABILITIES ICONS/GUI_Abilities_Run_fast_Icon.png"
-dest_files=["res://.godot/imported/GUI_Abilities_Run_fast_Icon.png-d5edef9ce5d3c7f57f87ec4b90c3dabc.ctex"]
+source_file="res://sprites/UI/MENU_1/SKILLS ICONS/GUI_Skills_Run_fast_Icon.png"
+dest_files=["res://.godot/imported/GUI_Skills_Run_fast_Icon.png-d5edef9ce5d3c7f57f87ec4b90c3dabc.ctex"]
 
 [params]
 

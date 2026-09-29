@@ -1,10 +1,10 @@
 extends Collectables
 class_name CollectableGreatAxe
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png"
-@export var ability_title: String = "Machado de Guerra"
-@export_multiline var ability_description: String = "Um machado pesado de duas mãos. Lento, mas devastador."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Weapons/Babel_sub_Armas_Great_Axe_ICON_v01.png"
+@export var skill_title: String = "Machado de Guerra"
+@export_multiline var skill_description: String = "Um machado pesado de duas mãos. Lento, mas devastador."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -15,7 +15,7 @@ func _consume(_body: BaseCharacter) -> void:
 	_body.collect_item({
 		"key": "ITEM_GREAT_AXE_NAME",
 		"name": tr("ITEM_GREAT_AXE_NAME"),
-		"path": ability_icon_path,
+		"path": skill_icon_path,
 		"type": "weapon",
 		"description": tr("ITEM_GREAT_AXE_DESC"),
 		"value": 25,
@@ -23,30 +23,30 @@ func _consume(_body: BaseCharacter) -> void:
 		"amount_to_drop": 1
 	}, true)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_GREAT_AXE_NAME"),
 		"description": tr("ITEM_GREAT_AXE_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
 	# ✅ Evita duplicar a habilidade se o item for coletado de novo
 	var already_has: bool = false
-	for ability in serialization.game_data["collected_abilities"]:
-		if ability.get("id", "") == collectible_id:
+	for skill in serialization.game_data["collected_skills"]:
+		if skill.get("id", "") == collectible_id:
 			already_has = true
 			break
 
 	if not already_has:
-		serialization.game_data["collected_abilities"].append(ability_data)
+		serialization.game_data["collected_skills"].append(skill_display_data)
 
 	serialization.save_data()
 
 	print("🪓 Machado de Guerra coletado e equipado!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)
 
 
 func _on_area_exited(area: Area2D) -> void:

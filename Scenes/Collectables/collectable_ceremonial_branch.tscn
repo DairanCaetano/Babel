@@ -24,9 +24,9 @@ animations = [{
 
 [node name="CollectableCeremonialBranch" instance=ExtResource("1_66i5s")]
 script = ExtResource("2_3fmw1")
-ability_icon_path = "res://sprites/Equipments/ramo_ritualistico.png"
-ability_title = "Broto Cerimonial"
-ability_description = "Uma erva rara capaz de acalmar a fúria de um deus."
+skill_icon_path = "res://sprites/Equipments/ramo_ritualistico.png"
+skill_title = "Broto Cerimonial"
+skill_description = "Uma erva rara capaz de acalmar a fúria de um deus."
 collectible_id = "ceremonial_branch"
 has_post_dialog = true
 

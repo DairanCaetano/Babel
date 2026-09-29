@@ -1,10 +1,10 @@
 extends Collectables
 class_name CollectableSandals
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Equipments/sandals.png"
-@export var ability_title: String = "Sandálias Aladas"
-@export_multiline var ability_description: String = "Sandálias leves e encantadas. Aumentam significativamente a velocidade de movimento."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Equipments/sandals.png"
+@export var skill_title: String = "Sandálias Aladas"
+@export_multiline var skill_description: String = "Sandálias leves e encantadas. Aumentam significativamente a velocidade de movimento."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -21,18 +21,18 @@ func _consume(_body: BaseCharacter) -> void:
 		"attributes": { "move_speed": 16 }
 	}, true)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_SANDALS_NAME"),
 		"description": tr("ITEM_SANDALS_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	print("👟 Sandálias Aladas coletadas e equipadas!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)

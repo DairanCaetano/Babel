@@ -41,7 +41,7 @@ func _default_game_data() -> Dictionary:
 		"inventory": [],
 		"collected_items": [],
 		"collected_archives": [],
-		"collected_abilities": [],
+		"collected_skills": [],
 		"destroyed_walls": [],
 		"destroyed_objects": {},
 		"defeated_bosses": [],
@@ -74,6 +74,19 @@ func _default_game_data() -> Dictionary:
 		"music_volume": 1.0,
 		"sfx_volume": 1.0
 	}
+
+# ✅ Saves antigos: nomes "abilities" → "skills"
+func _migrate_legacy_names() -> void:
+	if game_data.has("collected_abilities"):
+		if game_data["collected_skills"].is_empty() and game_data["collected_abilities"] is Array:
+			game_data["collected_skills"] = game_data["collected_abilities"]
+		game_data.erase("collected_abilities")
+	
+	# IDs padrão dos coletáveis de habilidade (ex.: "dash_ability" → "dash_skill")
+	var collected: Array = game_data.get("collected_items", [])
+	for i in collected.size():
+		if collected[i] is String and collected[i].ends_with("_ability"):
+			collected[i] = collected[i].trim_suffix("_ability") + "_skill"
 
 # ✅ Lê um arquivo de save. Retorna {} se não existir ou estiver corrompido.
 func _read_save_file(path: String) -> Dictionary:
@@ -169,6 +182,8 @@ func load_data() -> void:
 		for key in loaded_data.keys():
 			game_data[key] = loaded_data[key]
 		
+		_migrate_legacy_names()
+		
 		# Validar inventário
 		if game_data["inventory"] == null or not game_data["inventory"] is Array:
 			game_data["inventory"] = []
@@ -229,9 +244,9 @@ func load_data() -> void:
 			game_data["bonus_stamina_total"] = 0
 		
 		
-		# ← NOVO: Validar collected_abilities
-		if not game_data.has("collected_abilities") or game_data["collected_abilities"] == null or not game_data["collected_abilities"] is Array:
-			game_data["collected_abilities"] = []
+		# ← NOVO: Validar collected_skills
+		if not game_data.has("collected_skills") or game_data["collected_skills"] == null or not game_data["collected_skills"] is Array:
+			game_data["collected_skills"] = []
 		
 		print("✅ Dados carregados")
 		print("	- Cena salva: ", game_data.get("current_scene", "nenhuma"))

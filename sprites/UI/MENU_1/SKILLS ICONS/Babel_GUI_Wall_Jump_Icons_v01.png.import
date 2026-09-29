@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c3i71o4pmlxty"
-path="res://.godot/imported/Babel_GUI_Enemy_Step_Icons_v01.png-4cca37793c874c073813927c5041afbe.ctex"
+uid="uid://f72wo7hjcd4r"
+path="res://.godot/imported/Babel_GUI_Wall_Jump_Icons_v01.png-8c96b45fcdf7b463bafe2eb922d6655c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/UI/MENU_1/ABILITIES ICONS/Babel_GUI_Enemy_Step_Icons_v01.png"
-dest_files=["res://.godot/imported/Babel_GUI_Enemy_Step_Icons_v01.png-4cca37793c874c073813927c5041afbe.ctex"]
+source_file="res://sprites/UI/MENU_1/SKILLS ICONS/Babel_GUI_Wall_Jump_Icons_v01.png"
+dest_files=["res://.godot/imported/Babel_GUI_Wall_Jump_Icons_v01.png-8c96b45fcdf7b463bafe2eb922d6655c.ctex"]
 
 [params]
 

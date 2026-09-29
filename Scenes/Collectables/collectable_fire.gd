@@ -1,10 +1,10 @@
 extends Collectables
 class_name CollectableFire
 
-@export_group("Ability Display")
-@export var ability_icon_path: String = "res://sprites/Weapons/Babel_sub_Armas_Fogo_ICON_v01.png"
-@export var ability_title: String = "Bálsamo Ígneo"
-@export_multiline var ability_description: String = "Poder de fogo ancestral."
+@export_group("Skill Display")
+@export var skill_icon_path: String = "res://sprites/Weapons/Babel_sub_Armas_Fogo_ICON_v01.png"
+@export var skill_title: String = "Bálsamo Ígneo"
+@export_multiline var skill_description: String = "Poder de fogo ancestral."
 
 func _consume(_body: BaseCharacter) -> void:
 	if collectible_id == "":
@@ -23,18 +23,18 @@ func _consume(_body: BaseCharacter) -> void:
 		"amount_to_drop": 1
 	}, true)
 
-	var ability_data = {
+	var skill_display_data = {
 		"id": collectible_id,
 		"title": tr("ITEM_FIRE_NAME"),
 		"description": tr("ITEM_FIRE_DESC"),
-		"icon_path": ability_icon_path
+		"icon_path": skill_icon_path
 	}
 
-	if not serialization.game_data.has("collected_abilities"):
-		serialization.game_data["collected_abilities"] = []
+	if not serialization.game_data.has("collected_skills"):
+		serialization.game_data["collected_skills"] = []
 
-	serialization.game_data["collected_abilities"].append(ability_data)
+	serialization.game_data["collected_skills"].append(skill_display_data)
 	serialization.save_data()
 
 	print("🔥 Bálsamo Ígneo coletado!")
-	_show_ability_display(ability_data)
+	_show_skill_display(skill_display_data)
