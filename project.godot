@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Babel_1"
 run/main_scene="res://Scenes/Menu/start_cosmos_logo.tscn"
-config/features=PackedStringArray("4.3", "GL Compatibility")
+config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://sprites/Menu/Babel_Icon_TGA 32x32.png"
 
 [autoload]
@@ -201,7 +205,7 @@ Inventory_Change_Right={
 
 [internationalization]
 
-locale/translations=PackedStringArray("res://localization/texts.csv", "res://localization/texts.en.translation", "res://localization/texts.es.translation", "res://localization/texts.fr.translation", "res://localization/texts.it.translation", "res://localization/texts.ja.translation", "res://localization/texts.ko.translation", "res://localization/texts.pt_BR.translation", "res://localization/texts.zh_CN.translation")
+locale/translations=PackedStringArray("res://localization/texts.en.translation", "res://localization/texts.es.translation", "res://localization/texts.fr.translation", "res://localization/texts.it.translation", "res://localization/texts.ja.translation", "res://localization/texts.ko.translation", "res://localization/texts.pt_BR.translation", "res://localization/texts.zh_CN.translation")
 locale/test="pt_BR"
 
 [layer_names]

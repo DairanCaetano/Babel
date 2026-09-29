@@ -69,6 +69,10 @@ func load_level(level_path: String, spawn_point: String = "") -> void:
 	if is_loading_level:
 		return
 	
+	# Godot 4.4+: @export_file pode salvar "uid://"; normaliza para "res://" (save e IDs de level)
+	if level_path.begins_with("uid://"):
+		level_path = ResourceUID.uid_to_path(level_path)
+	
 	is_loading_level = true
 	
 	if current_level:
