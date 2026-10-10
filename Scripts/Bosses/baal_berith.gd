@@ -1,6 +1,10 @@
 extends Boss
 class_name BaalBerith
 
+# Tudo que o Baal Berith cria na fase (projéteis e minions) entra neste grupo
+# e é removido quando ele morre.
+const SPAWNED_GROUP: String = "baal_berith_spawned"
+
 @export var projectile_scene: PackedScene
 @export var projectile_speed: float = 300.0
 @export var fire_rate: float = 1.0
@@ -177,8 +181,9 @@ func _start_attack():
 			# mesmo que ele saia da attack_area antes da animação terminar.
 			# Se por algum motivo player_in_attack já estiver nulo neste instante
 			# exato (caso raro), mantém o último valor conhecido em vez de travar em 0.
-			if player_in_attack:
-				_attack_2_target_x = player_in_attack.global_position.x
+			var target_player = player_in_attack if player_in_attack else get_tree().get_first_node_in_group("player")
+			if target_player:
+				_attack_2_target_x = target_player.global_position.x
 			if enemy_audio:
 				enemy_audio.play_attack_2_anticipation()  # ← ANTECIPAÇÃO 2
 		3:
@@ -260,15 +265,20 @@ func _finish_attack():
 	shot_interval_timer.start()
 
 func _on_shot_interval_timeout():
-	if player_in_attack and not is_attacking:
-		# Garantir que o próximo ataque seja diferente do anterior
-		var available_attacks = [1, 2, 3]
-		available_attacks.erase(last_attack_type)  # Remove o último ataque usado
-		
-		current_attack_type = available_attacks[randi() % available_attacks.size()]
-		last_attack_type = current_attack_type  # Guarda para a próxima vez
-	
+	if is_attacking or not _is_alive:
+		return
+	_choose_next_attack()
 	_start_attack()
+
+
+# Sorteia o próximo ataque, nunca repetindo o anterior.
+# (Antes o sorteio só acontecia com o player dentro da attack_area; fora dela
+# o Baal repetia o último ataque — por isso o Ataque 1 se repetia sem parar.)
+func _choose_next_attack() -> void:
+	var available_attacks: Array[int] = [1, 2, 3]
+	available_attacks.erase(last_attack_type)
+	current_attack_type = available_attacks.pick_random()
+	last_attack_type = current_attack_type
 
 func _on_attack_1_timeout():
 	match texture.animation:
@@ -300,6 +310,7 @@ func _on_attack_1_timeout():
 			if was_initial_roar:
 				initial_roar_complete = true
 			
+			_choose_next_attack()
 			_start_attack()
 		"Attack_Anticipation_1":
 			is_in_attack_sequence = true
@@ -333,11 +344,14 @@ func _on_attack_1_interval_timeout():
 		attack_1_interval.stop()
 
 func _spawn_projectile_attack_1():
+	if not _is_alive or _enemy_health <= 0:
+		return   # morto: nenhum projétil novo
 	if not projectile_attack_1 or not attack_point_1:
 		return
 	
 	var projectile = projectile_attack_1.instantiate()
 	get_tree().current_scene.add_child(projectile)
+	projectile.add_to_group(SPAWNED_GROUP)
 	
 	var random_y_offset = randf_range(-y_offset_range, y_offset_range)
 	projectile.global_position = attack_point_1.global_position + Vector2(0, random_y_offset)
@@ -347,11 +361,14 @@ func _spawn_projectile_attack_1():
 		projectile.setup(direction, projectile_speed)
 
 func _spawn_projectile_attack_2():
+	if not _is_alive or _enemy_health <= 0:
+		return   # morto: nenhum projétil novo
 	if not projectile_attack_2 or not attack_point_2:
 		return
 	
 	var projectile = projectile_attack_2.instantiate()
 	get_tree().current_scene.add_child(projectile)
+	projectile.add_to_group(SPAWNED_GROUP)
 	
 	# Usa a posição X travada no início do ataque (_attack_2_target_x),
 	# garantindo que o projétil sempre spawne mesmo se o player saiu da area.
@@ -361,12 +378,15 @@ func _spawn_projectile_attack_2():
 		projectile.setup(Vector2.ZERO, 0)
 
 func _spawn_stationary_projectile_attack_3(offsets: Array):
+	if not _is_alive or _enemy_health <= 0:
+		return   # morto: nenhum projétil novo
 	if not projectile_attack_3 or not attack_point_3:
 		return
 	
 	for i in range(3):
 		var projectile = projectile_attack_3.instantiate()
 		get_tree().current_scene.add_child(projectile)
+		projectile.add_to_group(SPAWNED_GROUP)
 		
 		var offset = Vector2(offsets[i], 0)
 		projectile.global_position = attack_point_3.global_position + offset
@@ -402,7 +422,9 @@ func update_health(_damage: int, _entity) -> void:
 			hurt_box.monitorable = false
 		
 		if spawn_area and is_instance_valid(spawn_area):
+			spawn_area.stop_spawning()
 			spawn_area.destroy_all_minions()
+		_clear_spawned()
 		
 		_stop_all_attacks()
 		_knockback_timer.start(_dead_knockback_timer)
@@ -465,6 +487,13 @@ func _kill() -> void:
 	var timer = get_tree().create_timer(2.0)
 	await timer.timeout
 	queue_free()
+
+# Remove todos os projéteis e minions do Baal que ainda estão na fase
+func _clear_spawned() -> void:
+	for node in get_tree().get_nodes_in_group(SPAWNED_GROUP):
+		if is_instance_valid(node):
+			node.queue_free()
+
 
 func _stop_all_attacks() -> void:
 	is_attacking = false

@@ -1,7 +1,7 @@
 extends ProjectileComponent
 class_name ProjectileAxe
 
-@export var _attack_damage: int = 3
+@export var _attack_damage: int = 3 # dano com ataque base 5 (escala com a força do Tola)
 @export var rotation_speed: float = 720.0
 
 # 👻 GHOST TRAIL
@@ -36,7 +36,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy_hitbox"):
 		return
 	
-	var enemy = area.get_parent()
+	var enemy = global.get_damage_target(area)
 	if not enemy.has_method("update_health"):
 		return
 	
@@ -45,7 +45,7 @@ func _on_area_entered(area: Area2D) -> void:
 		Vector2(36, 0), global_position, global.character._character_texture.flip_h
 	)
 	enemy.update_health(
-		_attack_damage + global.character.get_additional_attack(), 
+		global.character.scale_damage(_attack_damage), 
 		global.character
 	)
 	queue_free()

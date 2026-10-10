@@ -57,7 +57,25 @@ signal attack_started
 
 var jump_origin: Vector2 = Vector2.ZERO
 
+# ✅ ÚLTIMO CHÃO SEGURO (usado pelos espinhos / BaseHazard)
+# Guarda a posição de alguns frames atrás, enquanto o Tola está em chão firme
+# (TileMap/StaticBody). Assim, ao entrar num espinho, a posição salva é de ANTES
+# de tocar nele, com uma pequena margem da borda.
+const SAFE_GROUND_DELAY_FRAMES: int = 8
+var last_safe_position: Vector2 = Vector2.ZERO
+var _safe_ground_trail: Array[Vector2] = []
+
+# ✅ VINHETA DE VIDA BAIXA (autoload ScreenVignette)
+@export_category("Vida Baixa")
+## Abaixo (ou igual) deste % da vida máxima, as bordas da tela escurecem.
+@export var low_health_threshold_percent: float = 30.0
+@export var low_health_vignette_color: Color = Color(0.25, 0.0, 0.0, 1.0)
+@export_range(0.0, 1.0) var low_health_vignette_intensity: float = 0.8
+var _low_health_vignette_on: bool = false
+
 var _gravity_multiplier: float = 1.0
+# ✅ JumpBoostArea: enquanto true, soltar o pulo não corta a subida (volta a false ao começar a cair)
+var _ignore_jump_cut: bool = false
 
 var _direction = Input.get_axis("move_left", "move_right")
 
@@ -66,7 +84,13 @@ var _additional_attributes: Dictionary = {
 	"move_speed": 0,
 	"defense": 0,
 	"attack": 0,
-	"health": 0  # ← NOVO: bônus de vida vindo de equipamento
+	"health": 0,  # ← NOVO: bônus de vida vindo de equipamento
+	"echo_hit": 0,  # ✅ Adaga da Águia: ataque corpo a corpo acerta 2x
+	"shield_block": 0,  # ✅ Escudo de Bronze
+	"counter_blade": 0,  # ✅ Lâmina do Contra-Ataque
+	"dash_damage": 0,  # ✅ Investida do Carneiro
+	"vengeance": 0,  # ✅ Marca da Vingança
+	"attack_speed": 0  # ✅ Olhos de Falcão (% de velocidade de ataque)
 }
 
 var _collider
@@ -102,6 +126,9 @@ var _collider
 @export var _audio: CharacterAudio  
 @export var _parry_voice_timer: Timer
 @export var _neck_anchor: Marker2D
+
+# ✅ Efeitos de equipamentos (escudo, lâmina, carneiro, vingança)
+@onready var _item_effects: CharacterItemEffects = get_node_or_null("ItemEffects")
 
 
 func _ready() -> void:
@@ -145,6 +172,8 @@ func _ready() -> void:
 
 func _physics_process(_delta: float) -> void:
 	_delta_cache = _delta
+	_update_safe_ground()
+	_update_low_health_vignette()
 
 	if _is_frozen_by_effect:
 		velocity = Vector2.ZERO
@@ -501,13 +530,24 @@ func _reset_bonus_attributes() -> void:
 		"move_speed": 0,
 		"defense": 0,
 		"attack": 0,
-		"health": 0  # ← NOVO
+		"health": 0,  # ← NOVO
+		"echo_hit": 0,
+		"shield_block": 0,
+		"counter_blade": 0,
+		"dash_damage": 0,
+		"vengeance": 0,
+		"attack_speed": 0
 	}
 
 func _increase_bonus_attributes(_attributes: Dictionary) -> void:
 	for _type in _attributes:
 		for _attribute in _attributes[_type]:
-			_additional_attributes[_attribute] += _attributes[_type][_attribute]
+			_additional_attributes[_attribute] = _additional_attributes.get(_attribute, 0) + _attributes[_type][_attribute]
+	
+	print("🎒 Atributos de equipamento agora: ", _additional_attributes)
+	
+	if _item_effects:
+		_item_effects.on_attributes_changed()
 
 func _check_platform_descent(old_position: float) -> void:
 	if abs(position.y - old_position) < 1.0:
@@ -594,9 +634,13 @@ func _vertical_movement(_delta: float) -> void:
 		velocity.y += _gravity * _gravity_multiplier * _delta
 		_on_floor = false
 	
+	# Impulso da JumpBoostArea termina quando ele começa a cair ou pousa
+	if _ignore_jump_cut and (velocity.y >= 0 or is_on_floor()):
+		_ignore_jump_cut = false
+	
 	# ✅ BLOQUEAR SOLTAR PULO DURANTE CINEMÁTICA
 	if not _is_in_cinematic:
-		if Input.is_action_just_released("jump") and velocity.y < 0:
+		if Input.is_action_just_released("jump") and velocity.y < 0 and not _ignore_jump_cut:
 			velocity.y = _jump_velocity/4
 	
 	# ✅ BLOQUEAR DESCIDA DE PLATAFORMA DURANTE CINEMÁTICA
@@ -847,11 +891,19 @@ func update_health(_value: int, _entity) -> void:
 		if _parry_voice_timer:
 			_parry_voice_timer.start(0.3)
 		
+		# ✅ LÂMINA DO CONTRA-ATAQUE
+		if _item_effects:
+			_item_effects.on_parry_success()
+		
 		_character_texture.action_animation("Counter")
 		return
 	
 	# ✅ ROLLING EVITA DANO
 	if _skills.is_rolling():
+		return
+	
+	# ✅ ESCUDO DE BRONZE: anula 1 dano por descanso
+	if _item_effects and _item_effects.try_block_damage():
 		return
 	
 # ✅ SOM E EFEITOS DE HIT
@@ -996,6 +1048,9 @@ func _respawn_at_save_point(saved_level_path: String) -> void:
 		global.ui_bars.update_bar("HealthBar", _stats.max_health)
 	
 	print("  ✓ Vida restaurada: ", _stats.max_health)
+	
+	# ✅ Respawn no save conta como descanso (recarrega o Escudo de Bronze)
+	on_save_rest()
 	
 	# ✅ 2. REABILITAR COLISÕES E FÍSICA
 	set_collision_layer_value(1, true)
@@ -1207,6 +1262,91 @@ func collect_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 func get_additional_attack() -> int:
 	return _additional_attributes["attack"]
 
+# ========== FORÇA DO TOLA / CÁLCULO DE DANO ==========
+# O dano de cada arma (no Inspector) é o dano com o ataque base 5.
+# Quando a força do Tola sobe, TODAS as armas sobem na mesma proporção:
+#   dano final = dano da arma × (força ÷ 5) × fogo
+const ATTACK_REFERENCE: float = 5.0
+
+func get_attack_power() -> int:
+	"""Força total: base + Fragmentos de Força + equipamentos"""
+	var power: int = _additional_attributes["attack"]
+	if _stats:
+		power += _stats.base_attack_damage + _stats.bonus_attack
+	else:
+		power += int(ATTACK_REFERENCE)
+	return power
+
+func scale_damage(weapon_damage: float) -> int:
+	"""Escala o dano de uma arma pela força atual do Tola (fogo e itens incluídos)"""
+	var multiplier: float = float(get_attack_power()) / ATTACK_REFERENCE
+	
+	# ✅ Bônus em % SOMADOS: fogo + Lâmina do Contra-Ataque + Marca da Vingança
+	var bonus_percent: float = 0.0
+	if _subweapons and _subweapons.is_fire_active():
+		bonus_percent += _subweapons.get_fire_damage_percent()
+	if _item_effects:
+		bonus_percent += _item_effects.get_damage_bonus_percent()
+		# Teto total (padrão 60%)
+		bonus_percent = min(bonus_percent, _item_effects.max_total_damage_bonus_percent)
+	multiplier *= 1.0 + bonus_percent / 100.0
+	return max(1, roundi(weapon_damage * multiplier))
+
+# ========== VINHETA DE VIDA BAIXA ==========
+func _update_low_health_vignette() -> void:
+	var should_show: bool = false
+	if _is_alive and _stats and _stats.max_health > 0:
+		should_show = _stats.current_health <= _stats.max_health * low_health_threshold_percent / 100.0
+	if should_show == _low_health_vignette_on:
+		return
+	_low_health_vignette_on = should_show
+	var vignette = get_node_or_null("/root/ScreenVignette")
+	if not vignette:
+		return
+	if should_show:
+		vignette.request("low_health", low_health_vignette_color, low_health_vignette_intensity, 0)
+	else:
+		vignette.release("low_health")
+
+# ========== ÚLTIMO CHÃO SEGURO ==========
+func _update_safe_ground() -> void:
+	if _is_in_cinematic or not _is_alive or _on_ladder or not _is_on_stable_ground():
+		_safe_ground_trail.clear()
+		return
+	_safe_ground_trail.append(global_position)
+	if _safe_ground_trail.size() > SAFE_GROUND_DELAY_FRAMES:
+		# Todos os frames da trilha foram em chão firme → o mais antigo é seguro
+		last_safe_position = _safe_ground_trail.pop_front()
+
+func _is_on_stable_ground() -> bool:
+	"""Chão firme = TileMap ou StaticBody parado (não plataforma móvel, inimigo ou objeto empurrável)."""
+	if not is_on_floor():
+		return false
+	for i in get_slide_collision_count():
+		var col: KinematicCollision2D = get_slide_collision(i)
+		if col.get_normal().y > -0.7:
+			continue
+		var body = col.get_collider()
+		if body is TileMapLayer or body is TileMap:
+			return true
+		if body is StaticBody2D and not body is AnimatableBody2D:
+			return true
+	return false
+
+func reset_safe_ground() -> void:
+	"""Chamado ao posicionar o Tola numa fase (spawn/continue): o ponto de entrada vale como seguro."""
+	_safe_ground_trail.clear()
+	last_safe_position = global_position
+
+func get_attack_speed_multiplier() -> float:
+	"""Olhos de Falcão: velocidade das animações de ataque (1.25 = 25% mais rápido)"""
+	return 1.0 + _additional_attributes.get("attack_speed", 0) / 100.0
+
+func on_save_rest() -> void:
+	"""Chamado ao descansar no save (HUD) e no respawn"""
+	if _item_effects:
+		_item_effects.on_rest()
+
 func _on_attack_combo_timeout():
 	_attack_index = 1
 
@@ -1259,7 +1399,8 @@ func _on_attack_1_timer_timeout() -> void:
 	
 	
 func update_fire_state(state: bool) -> void:
-	if _subweapons:
+	# O fogo não tem flag própria no CharacterSubweapon (é liberado pela arma equipada)
+	if _subweapons and _subweapons.has_method("update_fire_state"):
 		_subweapons.update_fire_state(state)
 
 

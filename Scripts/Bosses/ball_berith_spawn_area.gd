@@ -30,6 +30,7 @@ var player_inside: bool = false
 var is_spawning: bool = false   # controla se já existe um ciclo rodando
 var rng: RandomNumberGenerator = RandomNumberGenerator.new()
 var active_minions: Array = []  # Array para rastrear minions vivos
+var _stopped: bool = false      # true depois que o Baal morre: nunca mais spawna
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -39,6 +40,8 @@ func _ready() -> void:
 	print("📊 Cap fase 1: ", phase_1_max_minions, " | Cap fase 2: ", phase_2_max_minions)
 
 func _on_body_entered(body: Node2D) -> void:
+	if _stopped:
+		return
 	if body is BaseCharacter:
 		print("👤 Jogador entrou na área de spawn!")
 		player_inside = true
@@ -82,7 +85,7 @@ func _spawn_cycle() -> void:
 		print("📣 Roar concluído, spawn de minions liberado.")
 
 	# Loop único que roda enquanto o jogador estiver dentro da área
-	while player_inside:
+	while player_inside and not _stopped:
 		_clean_dead_minions()
 
 		var phase_max = _get_phase_max_minions()
@@ -117,6 +120,8 @@ func _get_active_minion_count() -> int:
 	return active_minions.size()
 
 func _spawn_enemies() -> void:
+	if _stopped:
+		return
 	if not enemy_scene:
 		print("❌ Enemy scene não configurado!")
 		return
@@ -142,6 +147,7 @@ func _spawn_enemies() -> void:
 		var enemy1 = enemy_scene.instantiate()
 		get_tree().current_scene.add_child(enemy1)
 		active_minions.append(enemy1)
+		enemy1.add_to_group(BaalBerith.SPAWNED_GROUP)
 
 		var x_offset1 = rng.randf_range(enemy1_x_range.x, enemy1_x_range.y)
 		var y_offset1 = rng.randf_range(enemy1_y_range.x, enemy1_y_range.y)
@@ -154,10 +160,11 @@ func _spawn_enemies() -> void:
 			await get_tree().create_timer(delay_between_spawns).timeout
 
 	# -------- Inimigo 2 --------
-	if to_spawn >= 2:
+	if to_spawn >= 2 and not _stopped:
 		var enemy2 = enemy_scene.instantiate()
 		get_tree().current_scene.add_child(enemy2)
 		active_minions.append(enemy2)
+		enemy2.add_to_group(BaalBerith.SPAWNED_GROUP)
 
 		var x_offset2 = rng.randf_range(enemy2_x_range.x, enemy2_x_range.y)
 		var y_offset2 = rng.randf_range(enemy2_y_range.x, enemy2_y_range.y)
@@ -166,6 +173,13 @@ func _spawn_enemies() -> void:
 		print("👹 Inimigo 2 spawnado em: ", spawn_position2)
 
 	print("✅ Leva concluída! Total de minions ativos: ", _get_active_minion_count(), "/", phase_max)
+
+# Chamada quando o Baal Berith morre: encerra o ciclo de spawn para sempre
+func stop_spawning() -> void:
+	_stopped = true
+	player_inside = false
+	set_deferred("monitoring", false)
+
 
 # Função para destruir todos os minions (chamada quando Baal Berith morre)
 func destroy_all_minions() -> void:

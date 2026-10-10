@@ -7,6 +7,7 @@ class_name LevelTransition
 @export_category("Transition Settings")
 @export_file("*.tscn") var target_level: String = ""  ## Level de destino
 @export var target_spawn: String = "default"  ## Nome do spawn point no destino
+@export var use_pixel_transition: bool = false  ## Se true, a fase de destino abre com o efeito PixelTransition
 
 @export_category("Transition Type")
 enum TransitionMode {
@@ -128,6 +129,10 @@ func _trigger_transition() -> void:
 		push_error("❌ LevelTransition: Game não tem método transition_to_level!")
 		is_transitioning = false
 		return
+	
+	# ✅ Pede o PixelTransition na chegada (só nesta passagem)
+	if use_pixel_transition:
+		global.pending_pixel_transition = true
 	
 	# Chamar transição
 	game_main.transition_to_level(target_level, target_spawn)

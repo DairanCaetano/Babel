@@ -1,0 +1,34 @@
+[gd_scene load_steps=6 format=3 uid="uid://50rdqdwsvesh"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_equip"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_equipment.gd" id="2_equip"]
+[ext_resource type="Texture2D" uid="uid://cxqxteemvte6b" path="res://sprites/Equipments/Escudo_de_Bronze_Item.png" id="3_equip"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_equip"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_equip")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_equip"]
+
+[node name="CollectableBronzeShield" instance=ExtResource("1_equip")]
+script = ExtResource("2_equip")
+item_key = "ITEM_BRONZE_SHIELD"
+equip_slot = "offhand"
+attributes = {
+"shield_block": 1
+}
+skill_icon_path = "res://sprites/Equipments/Escudo_de_Bronze_Item.png"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_equip")
+autoplay = "default"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_equip")

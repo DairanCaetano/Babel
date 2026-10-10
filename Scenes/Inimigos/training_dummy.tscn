@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://difv22owanwf"]
+
+[ext_resource type="Script" uid="uid://demifbe0d3nnr" path="res://Scripts/Enemies/training_dummy.gd" id="1_dummy"]
+[ext_resource type="Texture2D" uid="uid://b7l155d5r4whn" path="res://icon.svg" id="2_icon"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(180, 180)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(192, 192)
+
+[node name="TrainingDummy" type="StaticBody2D" unique_id=132211824 node_paths=PackedStringArray("_sprite", "_info_label")]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_dummy")
+_sprite = NodePath("Sprite")
+_info_label = NodePath("InfoLabel")
+
+[node name="Sprite" type="Sprite2D" parent="." unique_id=1526701600]
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_icon")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=261221555]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Hurtbox" type="Area2D" parent="." unique_id=1315903958 groups=["enemy_hitbox"]]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape2D" parent="Hurtbox" unique_id=1463511508]
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="InfoLabel" type="Label" parent="." unique_id=1200551313]
+offset_left = -83.0
+offset_top = 30.0
+offset_right = 77.0
+offset_bottom = 105.0
+horizontal_alignment = 1
+vertical_alignment = 2

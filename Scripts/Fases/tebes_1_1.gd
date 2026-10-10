@@ -2,6 +2,7 @@ extends BaseLevel
 
 func _ready() -> void:
 	level_name = "tebes_1_1"
+	auto_first_save_dialog = true  # ✅ 1º save: Azazel já começa a conversa (contexto da história)
 	level_music_track = "tebe_1"
 	super._ready()
 

@@ -1,6 +1,10 @@
 extends Area2D
 class_name CameraZone
 
+@export_category("Debug Logs")
+## Mostra no console as mensagens desta zona (entrar/sair/limites).
+@export var debug_logs: bool = false
+
 @export_category("Camera Bounds")
 @export var use_custom_limits: bool = false
 @export var limit_left: int = 0
@@ -53,10 +57,10 @@ func _ready() -> void:
 	
 	add_to_group("camera_zones")
 	
-	print("\n🔍 ===== ZONA CONFIGURADA: ", name, " =====")
-	print("Use Custom Limits: ", use_custom_limits)
-	print("Limites: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
-	print("=====================================\n")
+	if debug_logs: print("\n🔍 ===== ZONA CONFIGURADA: ", name, " =====")
+	if debug_logs: print("Use Custom Limits: ", use_custom_limits)
+	if debug_logs: print("Limites: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
+	if debug_logs: print("=====================================\n")
 	
 	call_deferred("_check_initial_overlap")
 
@@ -68,12 +72,12 @@ func _process(_delta: float) -> void:
 	
 	if currently_inside and not player_inside:
 		player_inside = true
-		print("📷 Player ENTROU na zona: ", name)
+		if debug_logs: print("📷 Player ENTROU na zona: ", name)
 		activate_zone()
 	elif not currently_inside and player_inside:
 		if _another_zone_contains_player():
 			player_inside = false
-			print("📷 Player SAIU da zona: ", name)
+			if debug_logs: print("📷 Player SAIU da zona: ", name)
 			deactivate_zone()
 
 func _calculate_limits_from_shape() -> void:
@@ -106,11 +110,11 @@ func _check_initial_overlap() -> void:
 				if zone != self and zone is CameraZone and zone.player_inside:
 					var other_area = float(zone.limit_right - zone.limit_left) * float(zone.limit_bottom - zone.limit_top)
 					if other_area <= my_area:
-						print("  ⏭️ ", name, ": outra zona menor já ativa (", zone.name, ") - ignorando overlap inicial")
+						if debug_logs: print("  ⏭️ ", name, ": outra zona menor já ativa (", zone.name, ") - ignorando overlap inicial")
 						_player_ref = body
 						return
 			
-			print("  🎯 Player já dentro de ", name)
+			if debug_logs: print("  🎯 Player já dentro de ", name)
 			_player_ref = body
 			player_inside = true
 			activate_zone()
@@ -213,21 +217,21 @@ func activate_zone() -> void:
 	
 	tween.chain().tween_callback(func():
 		if my_tween_id != _active_tween_id:
-			print("  ⚠️ Tween stale ignorado: ", zone_name)
+			if debug_logs: print("  ⚠️ Tween stale ignorado: ", zone_name)
 			return
 		if not is_active:
-			print("  ⚠️ Zona desativada durante tween - ignorando resultado: ", zone_name)
+			if debug_logs: print("  ⚠️ Zona desativada durante tween - ignorando resultado: ", zone_name)
 			return
-		print("  ✅ Zona completamente aplicada: ", zone_name)
-		print("  📏 Limites finais: L=", camera.limit_left, " R=", camera.limit_right, " T=", camera.limit_top, " B=", camera.limit_bottom)
-		print("=========================================\n")
+		if debug_logs: print("  ✅ Zona completamente aplicada: ", zone_name)
+		if debug_logs: print("  📏 Limites finais: L=", camera.limit_left, " R=", camera.limit_right, " T=", camera.limit_top, " B=", camera.limit_bottom)
+		if debug_logs: print("=========================================\n")
 	)
 
 func deactivate_zone() -> void:
 	if not is_active:
 		return
 	
-	print("\n🛑 ===== DESATIVANDO ZONA: ", name, " =====")
+	if debug_logs: print("\n🛑 ===== DESATIVANDO ZONA: ", name, " =====")
 	is_active = false
 	
 	if tween and tween.is_running():
@@ -241,10 +245,10 @@ func deactivate_zone() -> void:
 		if game_main and game_main.current_level:
 			var level_music = game_main.current_level.level_music_track
 			if level_music and AudioManager:
-				print("  🎵 Restaurando música da fase: ", level_music)
+				if debug_logs: print("  🎵 Restaurando música da fase: ", level_music)
 				AudioManager.ensure_music_playing(level_music, 0.0, music_fade_duration)
 	
-	print("=========================================\n")
+	if debug_logs: print("=========================================\n")
 
 func _deactivate_other_zones() -> void:
 	if not is_active:

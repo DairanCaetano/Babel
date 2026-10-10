@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://8qljxy36uoo4"]
+
+[ext_resource type="Script" path="res://Scripts/Player/Tola/item_effects.gd" id="1_itemfx"]
+[ext_resource type="Texture2D" path="res://sprites/FX/DEFESA FX/Bronze_Shield_FX.png" id="2_shield"]
+
+[node name="ItemEffects" type="Node2D"]
+script = ExtResource("1_itemfx")
+shield_texture = ExtResource("2_shield")

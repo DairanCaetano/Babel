@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://bpejm27qwib1y"]
+[gd_scene format=3 uid="uid://bpejm27qwib1y"]
 
-[ext_resource type="Script" path="res://Scripts/Background/egito_bg.gd" id="1_hgtjl"]
-[ext_resource type="Shader" path="res://Shaders/heat.gdshader" id="2_0hd3g"]
+[ext_resource type="Script" uid="uid://357fx7kvj35l" path="res://Scripts/Background/egito_bg.gd" id="1_hgtjl"]
+[ext_resource type="Shader" uid="uid://dybukr3hn2o1f" path="res://Shaders/heat.gdshader" id="2_0hd3g"]
 [ext_resource type="Texture2D" uid="uid://bic44b8ipsi75" path="res://sprites/Environment/EGITO/MAPA_2_EGITO_CÉU_sprites_v02.png" id="2_hnw4e"]
 [ext_resource type="Texture2D" uid="uid://2iothoy3kmkf" path="res://sprites/Environment/EGITO/Egito_BG_back.png" id="3_6ujma"]
 [ext_resource type="Texture2D" uid="uid://yu6j5xe0t3m8" path="res://sprites/Environment/EGITO/Egito_BG_2.png" id="4_ex00c"]
@@ -19,15 +19,15 @@ shader_parameter/strength = 0.02
 shader_parameter/speed = 2.0
 shader_parameter/frequency = 20.0
 
-[node name="Egito_BG" type="ParallaxBackground"]
+[node name="Egito_BG" type="ParallaxBackground" unique_id=1276529851]
 script = ExtResource("1_hgtjl")
 
-[node name="Céu_Deserto" type="ParallaxLayer" parent="."]
+[node name="Céu_Deserto" type="ParallaxLayer" parent="." unique_id=1006970]
 position = Vector2(0, -7)
-motion_scale = Vector2(0.3, 0.3)
+motion_scale = Vector2(0, 0)
 motion_mirroring = Vector2(480, 0)
 
-[node name="Texture" type="TextureRect" parent="Céu_Deserto"]
+[node name="Texture" type="TextureRect" parent="Céu_Deserto" unique_id=98149776]
 material = SubResource("ShaderMaterial_msn0f")
 offset_left = 1.0
 offset_top = -40.0
@@ -36,32 +36,32 @@ offset_bottom = 260.0
 texture = ExtResource("2_hnw4e")
 metadata/_edit_use_anchors_ = true
 
-[node name="deserto_fundo" type="ParallaxLayer" parent="."]
+[node name="deserto_fundo" type="ParallaxLayer" parent="." unique_id=2064061094]
 position = Vector2(0, 45)
 motion_scale = Vector2(0.3, 0.3)
 motion_mirroring = Vector2(480, 0)
 
-[node name="Texture" type="TextureRect" parent="deserto_fundo"]
+[node name="Texture" type="TextureRect" parent="deserto_fundo" unique_id=1975639183]
 offset_right = 40.0
 offset_bottom = 40.0
 texture = ExtResource("3_6ujma")
 
-[node name="Deserto" type="ParallaxLayer" parent="."]
+[node name="Deserto" type="ParallaxLayer" parent="." unique_id=724133746]
 position = Vector2(0, -49)
 motion_scale = Vector2(0.2, 0.2)
 motion_mirroring = Vector2(480, 0)
 
-[node name="Texture" type="TextureRect" parent="Deserto"]
+[node name="Texture" type="TextureRect" parent="Deserto" unique_id=544121595]
 offset_top = 72.0
 offset_right = 480.0
 offset_bottom = 342.0
 texture = ExtResource("4_ex00c")
 
-[node name="Sol" type="ParallaxLayer" parent="."]
+[node name="Sol" type="ParallaxLayer" parent="." unique_id=291812341]
 position = Vector2(-48, 26)
-motion_scale = Vector2(0.2, 0.2)
+motion_scale = Vector2(0, 0)
 
-[node name="Texture" type="TextureRect" parent="Sol"]
+[node name="Texture" type="TextureRect" parent="Sol" unique_id=641922968]
 material = SubResource("ShaderMaterial_wu1yc")
 offset_left = 439.0
 offset_top = 83.0

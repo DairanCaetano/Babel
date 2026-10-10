@@ -1496,6 +1496,7 @@ position = Vector2(-1508, -565)
 position = Vector2(-1465, -562)
 
 [node name="CollectableAncientArmor" parent="Collectables" index="1" instance=ExtResource("24_3d0wd")]
+collectible_id = "ancient_armor_1"
 position = Vector2(-1619, -577)
 
 [node name="EstátuaBoi" parent="Enemies" index="0" instance=ExtResource("23_ce7jq")]

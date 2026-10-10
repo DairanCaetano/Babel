@@ -44,20 +44,32 @@ func _process(_delta: float) -> void:
 	
 	_check_animation_state()
 	
-	# ✅ PROTEÇÃO: Garantir que speed_scale está normal quando NÃO está na escada
+	# ✅ PROTEÇÃO: speed_scale correto quando NÃO está na escada
+	# (1.0 normal, ou acelerado nos ataques com Olhos de Falcão)
+	var _expected_speed: float = _get_expected_speed_scale()
 	if _character and not _character._on_ladder:
-		if get_speed_scale() != 1.0:
-			print("⚠️ Speed scale incorreto detectado - corrigindo para 1.0")
-			set_speed_scale(1.0)
+		if not is_equal_approx(get_speed_scale(), _expected_speed):
+			set_speed_scale(_expected_speed)
 
-# ✅ GHOST TRAIL ao atingir velocidade máxima
-	if _character and _character._skills and _character._skills.get_speed_boost_ratio() >= 0.8:
+# ✅ GHOST TRAIL ao atingir velocidade máxima ou ao atacar com Olhos de Falcão
+	var _fast_attack: bool = _expected_speed > 1.0 and _is_fast_attack_animation(animation) and is_playing()
+	if _fast_attack or (_character and _character._skills and _character._skills.get_speed_boost_ratio() >= 0.8):
 		_ghost_timer += get_process_delta_time()
 		if _ghost_timer >= ghost_interval:
 			_spawn_ghost_trail()
 			_ghost_timer = 0.0
 	else:
 		_ghost_timer = 0.0
+
+# ========== OLHOS DE FALCÃO (velocidade de ataque) ==========
+func _is_fast_attack_animation(anim_name: String) -> bool:
+	"""Ataques no chão e no ar. Parry e Counter NÃO são acelerados."""
+	return anim_name.begins_with("Attack_") or anim_name == "AttackCrounch"
+
+func _get_expected_speed_scale() -> float:
+	if _character and _is_fast_attack_animation(animation) and _character.has_method("get_attack_speed_multiplier"):
+		return _character.get_attack_speed_multiplier()
+	return 1.0
 
 func _check_animation_state() -> void:
 	if (animation == "Rolling" or animation == "Back_Dash") and not _is_on_action:
@@ -404,6 +416,10 @@ func action_animation(_action_name: String, _previous_frame: int = 0) -> void:
 	
 	# ✅ TOCAR ANIMAÇÃO
 	play(_action_name)
+	
+	# ✅ OLHOS DE FALCÃO: acelera só os ataques no chão e no ar
+	if _character and not _character._on_ladder:
+		set_speed_scale(_get_expected_speed_scale())
 	
 	if _previous_frame != 0:
 		frame = 14 - _previous_frame

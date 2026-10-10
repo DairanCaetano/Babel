@@ -65,19 +65,10 @@ func _play_dialog() -> void:
 		"dialog_name": "egito_intro",
 		"dialog_type": "intro",
 		"lines": [
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_0_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_1_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_2_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_3_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_4_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_5_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_6_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_7_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_8_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_9_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_10_AZAZEL")},
-			{"character": "tola",   "text": tr("DIALOG_EGITO_INTRO_11_TOLA")},
-			{"character": "azazel", "text": tr("DIALOG_EGITO_INTRO_12_AZAZEL")},
+			{"character": "tola",    "text": tr("DIALOG_EGITO_INTRO_0_TOLA")},
+			{"character": "azazel",  "text": tr("DIALOG_EGITO_INTRO_1_AZAZEL")},
+			{"character": "tola",    "text": tr("DIALOG_EGITO_INTRO_2_TOLA")},
+			{"character": "azazel",  "text": tr("DIALOG_EGITO_INTRO_3_AZAZEL")},
 		]
 	}
 

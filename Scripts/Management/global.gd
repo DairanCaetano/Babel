@@ -15,6 +15,9 @@ var ui_skills: UISkills = null
 # ✅ Sistema de save/load
 var should_load_save: bool = false
 
+# ✅ Pedido de PixelTransition na próxima fase (marcado por LevelTransition com use_pixel_transition)
+var pending_pixel_transition: bool = false
+
 # ✅ NOVO: Sistema de persistência de objetos destruídos
 var destroyed_objects: Dictionary = {}
 var defeated_bosses: Array = []
@@ -82,6 +85,33 @@ func spawn_effect(
 	_effect.flip_h = _is_flipped
 	
 	get_tree().root.call_deferred("add_child", _effect)
+
+# ===== ALVO DE DANO DE UMA HURTBOX =====
+func get_damage_target(area: Node) -> Node:
+	"""Quem recebe o dano quando uma arma acerta uma hurtbox (grupo "enemy_hitbox").
+	Padrão: o pai da área. Inimigos com hurtbox em partes do corpo (ex.: cabeça do
+	Serpopardo, que é filha do sprite Head) definem a meta "damage_target"."""
+	if area.has_meta("damage_target"):
+		var target = area.get_meta("damage_target")
+		if is_instance_valid(target):
+			return target
+	return area.get_parent()
+
+# ===== EFEITO GENÉRICO (cenas que não são BaseEffect) =====
+func spawn_scene_fx(path: String, position: Vector2, flipped: bool = false) -> Node:
+	"""Instancia uma cena de efeito qualquer (ex.: dust_explosion_fx) na posição dada."""
+	if path == "" or not ResourceLoader.exists(path):
+		return null
+	var scene: PackedScene = load(path)
+	if not scene:
+		return null
+	var fx = scene.instantiate()
+	get_tree().current_scene.add_child(fx)
+	if fx is Node2D:
+		fx.global_position = position
+		if flipped:
+			fx.scale.x = -absf(fx.scale.x)
+	return fx
 
 # ===== SISTEMA DE TRANSIÇÃO =====
 signal level_transition_requested(target_level: String, spawn_point: String)

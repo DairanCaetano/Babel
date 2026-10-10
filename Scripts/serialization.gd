@@ -65,11 +65,14 @@ func _default_game_data() -> Dictionary:
 		# Status bônus
 		"bonus_health_total": 0,
 		"bonus_stamina_total": 0,
+		"bonus_attack_total": 0,
 		# Progresso de história
 		"egito_intro_played": false,
 		"samyaza_egito_met": false,
 		"has_ceremonial_branch": false,
 		"baal_berith_alliance": false,
+		"has_joia_do_sol": false,
+		"ra_alliance": false,
 		# Legado (volume agora fica em settings.dat)
 		"music_volume": 1.0,
 		"sfx_volume": 1.0

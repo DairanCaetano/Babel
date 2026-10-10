@@ -1,0 +1,76 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Projectiles/ra_explosion.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Rá/Rá_Pássaro_Explosion_sprites.png" id="2_r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("2_r")
+region = Rect2(0, 0, 480, 260)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("2_r")
+region = Rect2(480, 0, 480, 260)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("2_r")
+region = Rect2(960, 0, 480, 260)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4"]
+atlas = ExtResource("2_r")
+region = Rect2(1440, 0, 480, 260)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2")
+}],
+"loop": false,
+"name": &"Start",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4")
+}],
+"loop": true,
+"name": &"Loop",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}],
+"loop": false,
+"name": &"End",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
+size = Vector2(200, 260)
+
+[node name="RaExplosion" type="Area2D" node_paths=PackedStringArray("texture", "collision")]
+collision_layer = 0
+collision_mask = 1
+script = ExtResource("1_r")
+texture = NodePath("Texture")
+collision = NodePath("Collision")
+
+[node name="Texture" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5")
+animation = &"Start"
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+position = Vector2(4, 0)
+shape = SubResource("RectangleShape2D_6")
+disabled = true
+debug_color = Color(1, 0.6, 0, 0.42)

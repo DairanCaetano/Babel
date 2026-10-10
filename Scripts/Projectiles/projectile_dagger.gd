@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name ProjectileDagger
 
-@export var _attack_damage: int = 5
+@export var _attack_damage: int = 4 # dano com ataque base 5 (escala com a força do Tola)
 @export var gravity: float = 980.0
 @export var initial_velocity_y: float = -350.0
 @export var move_speed: float = 180.0
@@ -100,7 +100,7 @@ func _on_attack_area_area_entered(area: Area2D) -> void:
 		return
 
 	if area.is_in_group("enemy_hitbox"):
-		var enemy = area.get_parent()
+		var enemy = global.get_damage_target(area)
 		if enemy.has_method("update_health"):
 			_hit_enemy(enemy)
 
@@ -124,7 +124,7 @@ func _hit_enemy(enemy: Node) -> void:
 
 	var damage = _attack_damage
 	if is_instance_valid(global) and is_instance_valid(global.character):
-		damage += global.character.get_additional_attack()
+		damage = global.character.scale_damage(_attack_damage)
 
 	global.spawn_effect(
 		"res://Scenes/FX/hit_effect.tscn",

@@ -240,17 +240,14 @@ func _on_alliance_accepted() -> void:
 	# ✅ REMOVER CEREMONIAL BRANCH DO INVENTÁRIO
 	_remove_ceremonial_branch_from_inventory()
 	
-	# ✅ SALVAR FLAG DE ALIANÇA
-	serialization.game_data["baal_berith_alliance"] = true
-	serialization.save_data()
+	# ✅ SALVAR ALIANÇA (salva o jogo e faz as portas da sala sumirem)
+	BossEventManager.register_boss_alliance("baal_berith")
 	
 	# ✅ MARCAR LOCALMENTE
 	_alliance_established = true
 	
-	# ✅ ACIONAR SEQUÊNCIA DE VITÓRIA (FINAL ALTERNATIVO)
-	_trigger_victory_sequence()
-	
-	print("✅ Aliança estabelecida - Sequência de vitória iniciada")
+	# A sequência de vitória (fim da demo) agora fica no Disco do Rá.
+	print("✅ Aliança estabelecida")
 
 func _on_alliance_refused() -> void:
 	"""Jogador escolheu NÃO - Spawnar boss"""
@@ -340,10 +337,8 @@ func _on_boss_defeated(boss_id: String):
 	"""Callback quando o boss spawned morre"""
 	print("💀 Boss spawned foi derrotado: ", boss_id)
 	
-	BossEventManager.register_boss_defeat(boss_id)
-	
-	if boss_id == "baal_berith":
-		_trigger_victory_sequence()
+	# O boss já salvou a derrota (Boss._save_boss_death → BossEventManager).
+	# A sequência de vitória (fim da demo) agora fica no Disco do Rá.
 
 func _trigger_victory_sequence():
 	"""Aciona a sequência de vitória na fase"""

@@ -1,7 +1,7 @@
 extends Area2D
 class_name ProjectileChakram
 
-@export var attack_damage: int = 5
+@export var attack_damage: int = 2 # por acerto, com ataque base 5 (escala com a força do Tola)
 @export var move_speed: float = 400.0
 @export var _deceleration: float = 200.0
 @export var max_distance: float = 300.0
@@ -351,7 +351,7 @@ func _on_hitbox_body_entered(body: Node2D) -> void:
 			
 			# Aplicar dano
 			body.update_health(
-				attack_damage + global.character.get_additional_attack(),
+				global.character.scale_damage(attack_damage),
 				global.character
 			)
 			

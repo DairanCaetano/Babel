@@ -16,6 +16,9 @@ var _material: ShaderMaterial
 
 func _ready() -> void:
 	layer = 99
+	# ✅ A transição precisa rodar mesmo com o jogo pausado (menu de save pausa a árvore).
+	# Sem isso, o tween congela com a tela preta até o menu fechar.
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	_material = _rect.material as ShaderMaterial
 	if _material:

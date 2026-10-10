@@ -6,7 +6,7 @@ var base_stamina: int = 15
 var base_attack_damage: int = 5
 var bonus_health: int = 0
 var bonus_stamina: int = 0
-var bonus_attack: int = 0
+var bonus_attack: int = 0 # ✅ bônus PERMANENTE (Fragmentos de Força)
 var current_stamina: int
 var current_health: int
 var max_stamina: int
@@ -41,6 +41,7 @@ func _ready() -> void:
 	# ← CORREÇÃO: restaura os bônus de coletáveis do save (estava faltando)
 	bonus_health = serialization.game_data.get("bonus_health_total", 0)
 	bonus_stamina = serialization.game_data.get("bonus_stamina_total", 0)
+	bonus_attack = serialization.game_data.get("bonus_attack_total", 0)
 	
 	max_stamina = base_stamina + bonus_stamina
 	current_stamina = max_stamina
@@ -134,6 +135,11 @@ func increase_max_health(bonus_amount: int) -> void:
 	print("💗 HP máximo aumentado! Novo máximo: ", max_health, " (ratio visual: ", growth_ratio, ")")
 
 # ← ATUALIZADA: agora com teto, igual ao HP
+func increase_attack(bonus_amount: int) -> void:
+	"""Fragmento de Força: aumento permanente de ataque"""
+	bonus_attack += bonus_amount
+	print("⚔️ Ataque aumentado em +", bonus_amount, " | Força total: ", base_attack_damage + bonus_attack)
+
 func increase_max_stamina(bonus_amount: int) -> void:
 	var max_bonus_allowed: int = max_raw_stamina - base_stamina
 	var actual_bonus: int = min(bonus_amount, max_bonus_allowed - bonus_stamina)

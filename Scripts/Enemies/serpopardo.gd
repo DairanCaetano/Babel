@@ -236,17 +236,23 @@ func _ready() -> void:
 
 	_detection_area.body_entered.connect(_on_detection_area_body_entered)
 	_detection_area.body_exited.connect(_on_detection_area_body_exited)
-	_hurtbox_body.area_entered.connect(_on_hurtbox_body_area_entered)
 	_hurtbox_body.body_entered.connect(_on_hurtbox_body_body_entered)
+	
+	# ✅ HURTBOXES NO PADRÃO DO JOGO: as armas do player procuram o grupo
+	# "enemy_hitbox" (camada 4) e aplicam o dano já escalado (força, fogo, itens).
+	# A cabeça é filha do sprite Head → a meta aponta o dano para o Serpopardo.
+	_hurtbox_body.add_to_group("enemy_hitbox")
 
 	if _attack_area:
 		_attack_area.body_entered.connect(_on_attack_area_body_entered)
 		_attack_area.body_exited.connect(_on_attack_area_body_exited)
 
 	if _head_hurtbox:
-		_head_hurtbox.area_entered.connect(_on_head_hurtbox_area_entered)
+		_head_hurtbox.add_to_group("enemy_hitbox")
+		_head_hurtbox.set_meta("damage_target", self)
 
-	if _head_damage_area:
+	# (a cena já conecta body_entered/exited da DamageArea — evitar conexão dupla)
+	if _head_damage_area and not _head_damage_area.body_entered.is_connected(_on_damage_area_body_entered):
 		_head_damage_area.body_entered.connect(_on_damage_area_body_entered)
 
 	for i in range(_segments.size()):

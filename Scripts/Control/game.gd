@@ -12,6 +12,16 @@ class_name GameMain
 @export_file("*.tscn") var initial_level_override: String = ""
 @export var initial_spawn_override: String = "default"
 
+@export_group("Debug: Habilidades (só no editor)")
+## Liga a habilidade enquanto o jogo roda PELO EDITOR, sem precisar coletar.
+## Não grava no save e não tem efeito no jogo exportado.
+@export var debug_dash: bool = false
+@export var debug_hook: bool = false
+@export var debug_wall_jump: bool = false
+@export var debug_enemy_step: bool = false
+@export var debug_speed_boost: bool = false
+@export_group("")
+
 @export_category("Spawn Impulse Settings")
 @export var default_impulse_force: float = 300.0
 @export var horizontal_impulse_force: float = 350.0
@@ -29,6 +39,28 @@ func _ready() -> void:
 	
 	await get_tree().process_frame
 	_load_initial_level()
+
+# ===== DEBUG: HABILIDADES PELO INSPECTOR =====
+# Reaplicado todo frame (barato) porque carregar o save/respawn sobrescreve as
+# habilidades. Mexe direto nas variáveis → nada vai para o save.
+func _process(_delta: float) -> void:
+	if not OS.has_feature("editor"):
+		return
+	if not (debug_dash or debug_hook or debug_wall_jump or debug_enemy_step or debug_speed_boost):
+		return
+	if not character or not is_instance_valid(character) or not character._skills:
+		return
+	var skills = character._skills
+	if debug_dash:
+		skills._has_dash_skill = true
+	if debug_hook:
+		skills._has_hook_skill = true
+	if debug_wall_jump:
+		skills._has_wall_jump_skill = true
+	if debug_enemy_step:
+		skills._has_enemy_step_skill = true
+	if debug_speed_boost:
+		skills._has_speed_boost_skill = true
 
 func _setup_camera() -> void:
 	camera.enabled = true
@@ -79,6 +111,8 @@ func load_level(level_path: String, spawn_point: String = "") -> void:
 		current_level.queue_free()
 		await current_level.tree_exited
 	
+	_reset_camera_limits()
+	
 	var level_scene = load(level_path)
 	if not level_scene:
 		push_error("Falha ao carregar level: ", level_path)
@@ -106,6 +140,10 @@ func load_level(level_path: String, spawn_point: String = "") -> void:
 	else:
 		if not _try_spawn_default():
 			character.global_position = Vector2(480, 270)
+	
+	# ✅ Ponto de entrada na fase = último chão seguro inicial (espinhos)
+	if character.has_method("reset_safe_ground"):
+		character.reset_safe_ground()
 	
 	_snap_camera_to_player()
 	_remove_collected_items()
@@ -135,6 +173,16 @@ func _fade_in_with_fallback() -> void:
 			TransitionScreen.force_show()
 			break
 		await get_tree().process_frame
+
+func _reset_camera_limits() -> void:
+	"""Ao trocar de fase: limites 'infinitos' → a primeira camera zone da fase nova
+	aplica os limites na hora (sem a câmera deslizar durante o fade)."""
+	if not camera:
+		return
+	camera.limit_left = -10000000
+	camera.limit_top = -10000000
+	camera.limit_right = 10000000
+	camera.limit_bottom = 10000000
 
 func _snap_camera_to_player() -> void:
 	if not camera or not character:
@@ -313,6 +361,8 @@ func reload_current_level() -> void:
 	if current_level:
 		current_level.queue_free()
 		await current_level.tree_exited
+
+	_reset_camera_limits()
 
 	var level_scene = load(level_path)
 	if not level_scene:

@@ -1,14 +1,40 @@
+@tool
 extends Node2D
 class_name BossDoor
 
+# Porta de sala de chefe — UMA cena serve para todos os chefes.
+#
+# Como usar na fase:
+#   1. Instancie boss_door.tscn em cada entrada da sala do chefe.
+#   2. Em todas as portas da mesma sala, coloque o MESMO boss_id
+#      (ex.: "ra", "baal_berith" — igual ao boss_id do chefe).
+#   3. flip_h desligado = o player entra andando da ESQUERDA para a DIREITA.
+#      flip_h ligado    = o player entra da DIREITA para a ESQUERDA.
+#      (no editor só o desenho vira; as áreas são espelhadas quando o jogo roda)
+#   4. boss_room_sound = o som ambiente daquele chefe, tocado perto da porta.
+#
+# A porta NÃO spawna o chefe — quem faz isso é o spawner da sala (BerithTree,
+# Disco do Rá...). A porta só cuida da entrada e some quando a sala é
+# resolvida (chefe derrotado OU aliança), via BossEventManager.boss_resolved.
+# Se a sala já estiver resolvida quando a fase carrega, a porta nem aparece.
+
+enum State { CLOSED, OPENING, WALKING, CLOSING, LOCKED, VANISHING }
+
 @export_category("Boss Settings")
 @export var boss_id: String = ""
-@export var boss_scene: PackedScene
-@export var boss_spawn_point: Marker2D
+
+@export_category("Direção")
+## Desligado: entra da esquerda pra direita. Ligado: da direita pra esquerda.
+@export var flip_h: bool = false:
+	set(value):
+		flip_h = value
+		_apply_texture_flip()
 
 @export_category("Player Movement")
-@export_enum("Left:-1", "Right:1") var entry_direction: int = 1
-@export var walk_duration: float = 2.5
+## Quantos pixels o player anda além do centro da porta antes de ela fechar
+@export var walk_past_distance: float = 72.0
+## Tempo máximo andando (segurança, caso o player fique preso)
+@export var walk_duration: float = 3.0
 
 @export_category("Objects")
 @export var texture: AnimatedSprite2D
@@ -16,18 +42,19 @@ class_name BossDoor
 @export var door_collision_shape: CollisionShape2D
 @export var interaction_area: Area2D
 @export var interaction_prompt: AnimatedSprite2D
-## ✅ NOVO: Área específica para vibração (maior que interaction_area)
+## Área de vibração (maior que a interaction_area)
 @export var rumble_area: Area2D
 
 @export_category("Audio")
+## Som ambiente da sala deste chefe (cada instância da porta pode ter o seu)
+@export var boss_room_sound: AudioStream
 @export var open_gate_audio: AudioStreamPlayer
 @export var close_gate_audio: AudioStreamPlayer
 @export var boss_area_audio: AudioStreamPlayer2D
 @export var door_quake_audio: AudioStreamPlayer
 
 @export_category("Audio Settings")
-@export var max_audio_distance: float = 500.0
-@export var attenuation_distance: float = 200.0
+@export var max_audio_distance: float = 1000.0
 
 @export_category("Controller Rumble")
 ## Intensidade fixa da vibração (0.0 a 1.0)
@@ -37,295 +64,321 @@ class_name BossDoor
 ## Duração do fade out da vibração (em segundos)
 @export var rumble_fade_duration: float = 1.0
 
-var player_in_range: bool = false
-var is_open: bool = false
-var boss_instance: Node = null
-var is_boss_defeated: bool = false
-var is_animating: bool = false
-var is_moving_player: bool = false
+var _state: State = State.CLOSED
+var _player_in_range: bool = false
+var _is_rumbling: bool = false
+var _direction: float = 1.0   # 1 = entra andando pra direita, -1 = pra esquerda
 
-# ✅ Controle de vibração simplificado
-var player_in_rumble_area: bool = false
-var is_rumbling: bool = false
-var rumble_proximity_disabled: bool = false
+# Posições como foram desenhadas na cena (flip_h desligado)
+var _default_positions: Dictionary = {}
+
 
 func _ready() -> void:
+	_find_nodes()
+	_apply_texture_flip()
+	if Engine.is_editor_hint():
+		return
+
+	process_mode = Node.PROCESS_MODE_PAUSABLE
+	add_to_group("boss_door")
+
 	if boss_id == "":
 		push_error("⚠️ BossDoor: boss_id não foi definido!")
+
+	# Sala já resolvida (derrota ou aliança) → a porta nem existe
+	if boss_id != "" and BossEventManager.is_boss_resolved(boss_id):
+		queue_free()
 		return
-	
-	if not door_collision_shape:
-		push_error("⚠️ BossDoor: door_collision_shape não foi configurado!")
-	
-	# Conectar área de interação
-	interaction_area.body_entered.connect(_on_interaction_area_body_entered)
-	interaction_area.body_exited.connect(_on_interaction_area_body_exited)
-	
-	# ✅ Conectar área de vibração (se existir)
+
+	_direction = -1.0 if flip_h else 1.0
+	_capture_and_mirror()
+
+	if interaction_area:
+		interaction_area.body_entered.connect(_on_interaction_area_body_entered)
+		interaction_area.body_exited.connect(_on_interaction_area_body_exited)
 	if rumble_area:
 		rumble_area.body_entered.connect(_on_rumble_area_body_entered)
 		rumble_area.body_exited.connect(_on_rumble_area_body_exited)
-		print("✅ [BossDoor] Rumble Area configurada")
 	else:
-		print("⚠️ [BossDoor] Rumble Area não configurada - vibração desabilitada")
 		enable_rumble = false
-	
 	if texture:
 		texture.animation_finished.connect(_on_animation_finished)
-	
+
+	BossEventManager.boss_resolved.connect(_on_boss_resolved)
+
 	if interaction_prompt:
 		interaction_prompt.visible = false
-	
+
 	if boss_area_audio:
+		if boss_room_sound:
+			boss_area_audio.stream = boss_room_sound
 		boss_area_audio.max_distance = max_audio_distance
-		boss_area_audio.attenuation = 2.0
-	
-	_check_boss_status()
-	
-	if is_boss_defeated:
-		texture.play("Open")
-		is_open = true
-		disable_collision()
-		rumble_proximity_disabled = true
-		if boss_area_audio:
-			boss_area_audio.stop()
-	else:
-		texture.play("Closed")
-		if boss_area_audio:
+		if boss_area_audio.stream:
 			boss_area_audio.play()
 
-func _check_boss_status() -> void:
-	if global.defeated_bosses.has(boss_id):
-		is_boss_defeated = true
+	_state = State.CLOSED
+	enable_collision()
+	_play("Closed")
 
-func _process(delta: float) -> void:
-	# Atualizar prompt
-	if interaction_prompt and player_in_range:
-		var should_show = not is_open and not is_boss_defeated and not is_animating
-		if interaction_prompt.visible != should_show:
-			interaction_prompt.visible = should_show
-	
-	# Input check
-	if player_in_range and not is_open and not is_boss_defeated and not is_animating:
-		if Input.is_action_just_pressed("move_up"):
-			start_boss_encounter()
 
-# ========== ✅ VIBRAÇÃO BASEADA EM ÁREA (SEM _process!) ==========
+func _find_nodes() -> void:
+	if not texture:
+		texture = get_node_or_null("Texture")
+	if not door_collision:
+		door_collision = get_node_or_null("BossCollision")
+	if not door_collision_shape:
+		door_collision_shape = get_node_or_null("BossCollision/Collision")
+	if not interaction_area:
+		interaction_area = get_node_or_null("InteractionArea")
+	if not interaction_prompt:
+		interaction_prompt = get_node_or_null("InteractionPrompt")
+	if not rumble_area:
+		rumble_area = get_node_or_null("RumbleArea")
+	if not open_gate_audio:
+		open_gate_audio = get_node_or_null("OpenGateAudio")
+	if not close_gate_audio:
+		close_gate_audio = open_gate_audio
+	if not boss_area_audio:
+		boss_area_audio = get_node_or_null("BossAreaAudio")
+	if not door_quake_audio:
+		door_quake_audio = get_node_or_null("BossQuakeAudio")
 
-func _on_rumble_area_body_entered(body: Node2D) -> void:
-	"""Player entrou na área de vibração"""
-	if not body.is_in_group("player"):
+
+func _apply_texture_flip() -> void:
+	if not is_inside_tree():
 		return
-	
-	# Não vibrar se boss já foi derrotado ou vibração desabilitada
-	if is_boss_defeated or not enable_rumble or rumble_proximity_disabled:
-		return
-	
-	player_in_rumble_area = true
-	_start_rumble()
-	print("🎮 [BossDoor] Player entrou na rumble area - vibração INICIADA")
+	var tex: AnimatedSprite2D = texture if texture else get_node_or_null("Texture")
+	if tex:
+		tex.flip_h = flip_h
 
-func _on_rumble_area_body_exited(body: Node2D) -> void:
-	"""Player saiu da área de vibração"""
-	if not body.is_in_group("player"):
-		return
-	
-	player_in_rumble_area = false
-	_stop_rumble()
-	print("🎮 [BossDoor] Player saiu da rumble area - vibração PARADA")
 
-func _start_rumble() -> void:
-	"""Inicia vibração contínua"""
-	if is_rumbling:
-		return
-	
-	is_rumbling = true
-	# Vibração CONTÍNUA (duração = 999 segundos, vai ser cancelada quando sair da área)
-	Input.start_joy_vibration(0, rumble_strength * 0.5, rumble_strength, 999.0)
-	print("🎮 Vibração contínua iniciada (força: ", rumble_strength, ")")
+# Espelha no eixo X tudo que depende do lado de entrada
+func _capture_and_mirror() -> void:
+	var nodes: Array[Node2D] = []
+	if door_collision_shape:
+		nodes.append(door_collision_shape)
+	if interaction_area:
+		for child in interaction_area.get_children():
+			if child is Node2D:
+				nodes.append(child)
+	if rumble_area:
+		for child in rumble_area.get_children():
+			if child is Node2D:
+				nodes.append(child)
+	if interaction_prompt:
+		nodes.append(interaction_prompt)
 
-func _stop_rumble() -> void:
-	"""Para a vibração imediatamente"""
-	if not is_rumbling:
-		return
-	
-	Input.stop_joy_vibration(0)
-	is_rumbling = false
-	print("🎮 Vibração parada")
+	for node in nodes:
+		_default_positions[node] = node.position
+		node.position = Vector2(node.position.x * _direction, node.position.y)
 
-func _fade_out_rumble() -> void:
-	"""Diminui gradualmente a vibração"""
-	if not is_rumbling:
+
+func _process(_delta: float) -> void:
+	if Engine.is_editor_hint():
 		return
-	
-	print("🎮 Iniciando fade out da vibração...")
-	
-	var fade_time = 0.0
-	var initial_strength = rumble_strength
-	
-	while fade_time < rumble_fade_duration:
-		fade_time += get_process_delta_time()
-		var fade_progress = fade_time / rumble_fade_duration
-		var faded_strength = initial_strength * (1.0 - fade_progress)
-		
-		Input.start_joy_vibration(0, faded_strength * 0.5, faded_strength, 0.1)
-		
-		await get_tree().process_frame
-	
-	_stop_rumble()
-	print("✅ Fade out da vibração concluído")
+
+	var can_enter: bool = _state == State.CLOSED and _player_in_range
+	if interaction_prompt and interaction_prompt.visible != can_enter:
+		interaction_prompt.visible = can_enter
+		if can_enter and interaction_prompt.sprite_frames and interaction_prompt.sprite_frames.has_animation("Idle"):
+			interaction_prompt.play("Idle")
+
+	if can_enter and Input.is_action_just_pressed("move_up"):
+		start_boss_encounter()
+
 
 # ========== ÁREA DE INTERAÇÃO (PROMPT) ==========
 
 func _on_interaction_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		player_in_range = true
+		_player_in_range = true
 
 func _on_interaction_area_body_exited(body: Node2D) -> void:
 	if body.is_in_group("player"):
-		player_in_range = false
+		_player_in_range = false
 
-# ========== BOSS ENCOUNTER ==========
+
+# ========== ENTRADA NA SALA ==========
 
 func start_boss_encounter() -> void:
-	if is_open or is_boss_defeated or is_animating:
+	if _state != State.CLOSED:
 		return
-	
-	is_animating = true
-	
-	if door_quake_audio:
-		door_quake_audio.play()
-	
+	_state = State.OPENING
+
+	if interaction_prompt:
+		interaction_prompt.visible = false
+
 	var player = get_tree().get_first_node_in_group("player")
 	if player:
 		player._is_in_cinematic = true
-	
-	if interaction_prompt:
-		interaction_prompt.visible = false
-	
+		player.velocity = Vector2.ZERO
+
+	if door_quake_audio:
+		door_quake_audio.play()
 	var camera = get_tree().get_first_node_in_group("camera")
 	if camera and camera.has_method("shake_camera"):
 		camera.shake_camera(3, 0.5)
-	
-	await get_tree().create_timer(0.5).timeout
-	
+
+	await get_tree().create_timer(0.5, false).timeout
+	if _state != State.OPENING:
+		return
+
 	if open_gate_audio:
 		open_gate_audio.play()
-	
-	texture.play("Open")
+	_play("Open")
+
 
 func _on_animation_finished() -> void:
-	if texture.animation == "Open":
-		disable_collision()
-		await get_tree().process_frame
-		
-		var player = get_tree().get_first_node_in_group("player")
-		if player:
-			await move_player_automatically(player)
-		
-		# ✅ Fade out da vibração após movimento
-		_fade_out_rumble()
-		
-		if close_gate_audio:
-			close_gate_audio.play()
-		
-		texture.play("Closing")
-		enable_collision()
-		is_open = false
-	
-	elif texture.animation == "Closing":
-		# ✅ Desabilitar vibração permanentemente
-		rumble_proximity_disabled = true
-		_stop_rumble()
-		
-		if boss_area_audio:
-			boss_area_audio.stop()
-			boss_area_audio.process_mode = Node.PROCESS_MODE_DISABLED
-		
-		texture.play("Closed")
-		
-		var player = get_tree().get_first_node_in_group("player")
-		if player:
-			player._is_in_cinematic = false
-		
-		spawn_boss()
-		is_animating = false
+	match texture.animation:
+		"Open":
+			if _state == State.OPENING:
+				_walk_player_in()
+		"Closing":
+			if _state == State.CLOSING:
+				_finish_closing()
+		"Dead":
+			if _state == State.VANISHING:
+				queue_free()
 
-func move_player_automatically(player: Node) -> void:
+
+func _walk_player_in() -> void:
+	_state = State.WALKING
+	disable_collision()
+	await get_tree().process_frame
+
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		await _move_player_automatically(player)
+	if _state != State.WALKING:
+		return
+
+	_fade_out_rumble()
+
+	_state = State.CLOSING
+	if close_gate_audio:
+		close_gate_audio.play()
+	enable_collision()
+	_play("Closing")
+
+
+func _finish_closing() -> void:
+	_state = State.LOCKED
+	_play("Closed")
+
+	# Todas as portas desta sala param o som e a vibração
+	for door in get_tree().get_nodes_in_group("boss_door"):
+		if door is BossDoor and door.boss_id == boss_id:
+			door._on_room_locked()
+
+	var player = get_tree().get_first_node_in_group("player")
+	if player:
+		player._is_in_cinematic = false
+
+
+func _on_room_locked() -> void:
+	if _state == State.CLOSED:
+		_state = State.LOCKED
+	if interaction_prompt:
+		interaction_prompt.visible = false
+	enable_rumble = false
+	_stop_rumble()
+	if boss_area_audio:
+		boss_area_audio.stop()
+
+
+func _move_player_automatically(player: Node) -> void:
 	player._is_in_cinematic = false
-	is_moving_player = true
-	
-	var action_name = "move_right" if entry_direction == 1 else "move_left"
-	var elapsed_time = 0.0
-	
-	while elapsed_time < walk_duration:
-		var delta = get_process_delta_time()
+	var action_name: String = "move_right" if _direction > 0.0 else "move_left"
+	var elapsed: float = 0.0
+
+	while elapsed < walk_duration:
+		if not is_instance_valid(player):
+			break
+		var passed: float = (player.global_position.x - global_position.x) * _direction
+		if passed >= walk_past_distance:
+			break
 		Input.action_press(action_name)
-		elapsed_time += delta
+		elapsed += get_process_delta_time()
 		await get_tree().process_frame
-	
+
 	Input.action_release(action_name)
 	await get_tree().process_frame
-	
-	if player.has_node("CharacterTexture"):
-		var char_texture = player.get_node("CharacterTexture")
+
+	if is_instance_valid(player):
 		player.velocity.x = 0
-		if char_texture.sprite_frames and char_texture.sprite_frames.has_animation("Idle"):
+		player._is_in_cinematic = true
+		var char_texture = player.get_node_or_null("CharacterTexture")
+		if char_texture and char_texture.sprite_frames and char_texture.sprite_frames.has_animation("Idle"):
 			char_texture.play("Idle")
-	
-	player._is_in_cinematic = true
-	is_moving_player = false
 
-func spawn_boss() -> void:
-	if not boss_scene or not boss_spawn_point:
-		push_error("⚠️ BossDoor: boss_scene ou boss_spawn_point não definido!")
+
+# ========== SALA RESOLVIDA (derrota ou aliança) ==========
+
+func _on_boss_resolved(resolved_id: String) -> void:
+	if resolved_id != boss_id or _state == State.VANISHING:
 		return
-	
-	boss_instance = boss_scene.instantiate()
-	get_tree().current_scene.add_child(boss_instance)
-	boss_instance.global_position = boss_spawn_point.global_position
-	
-	if boss_instance.has_signal("boss_defeated"):
-		boss_instance.boss_defeated.connect(_on_boss_defeated)
-	else:
-		_start_boss_health_monitoring()
-
-func _start_boss_health_monitoring() -> void:
-	var check_timer = Timer.new()
-	add_child(check_timer)
-	check_timer.wait_time = 1.0
-	check_timer.timeout.connect(_check_if_boss_dead)
-	check_timer.start()
-
-func _check_if_boss_dead() -> void:
-	if not boss_instance or not is_instance_valid(boss_instance):
-		_on_boss_defeated()
-		return
-	
-	if "_is_alive" in boss_instance:
-		if not boss_instance._is_alive:
-			_on_boss_defeated()
-
-func _on_boss_defeated() -> void:
-	is_boss_defeated = true
-	
-	if not global.defeated_bosses.has(boss_id):
-		global.defeated_bosses.append(boss_id)
-	
-	if global.has_node("serialization"):
-		var serialization_node = global.get_node("serialization")
-		serialization_node.save_data()
-	
-	await get_tree().create_timer(2.0).timeout
-	open_gate_permanently()
-
-func open_gate_permanently() -> void:
-	if open_gate_audio:
-		open_gate_audio.play()
-	
-	texture.play("Open")
-	is_open = true
+	_state = State.VANISHING
+	_player_in_range = false
+	if interaction_prompt:
+		interaction_prompt.visible = false
+	enable_rumble = false
+	_stop_rumble()
+	if boss_area_audio:
+		boss_area_audio.stop()
 	disable_collision()
+
+	if texture and texture.sprite_frames and texture.sprite_frames.has_animation("Dead"):
+		if open_gate_audio:
+			open_gate_audio.play()
+		_play("Dead")
+		if texture.sprite_frames.get_animation_loop("Dead"):
+			get_tree().create_timer(1.0, false).timeout.connect(queue_free)
+	else:
+		var tween := create_tween()
+		tween.tween_property(self, "modulate:a", 0.0, 0.5)
+		tween.tween_callback(queue_free)
+
+
+# ========== VIBRAÇÃO ==========
+
+func _on_rumble_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and enable_rumble and _state == State.CLOSED:
+		_start_rumble()
+
+func _on_rumble_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("player"):
+		_stop_rumble()
+
+func _start_rumble() -> void:
+	if _is_rumbling:
+		return
+	_is_rumbling = true
+	# Vibração contínua (cancelada quando o player sai da área)
+	Input.start_joy_vibration(0, rumble_strength * 0.5, rumble_strength, 999.0)
+
+func _stop_rumble() -> void:
+	if not _is_rumbling:
+		return
+	Input.stop_joy_vibration(0)
+	_is_rumbling = false
+
+func _fade_out_rumble() -> void:
+	if not _is_rumbling:
+		return
+	var fade_time: float = 0.0
+	while fade_time < rumble_fade_duration and _is_rumbling:
+		fade_time += get_process_delta_time()
+		var faded_strength: float = rumble_strength * (1.0 - fade_time / rumble_fade_duration)
+		Input.start_joy_vibration(0, faded_strength * 0.5, faded_strength, 0.1)
+		await get_tree().process_frame
+	_stop_rumble()
+
+
+# ========== UTIL ==========
+
+func _play(animation_name: String) -> void:
+	if texture and texture.sprite_frames and texture.sprite_frames.has_animation(animation_name):
+		texture.play(animation_name)
 
 func disable_collision() -> void:
 	if door_collision_shape:
@@ -336,4 +389,6 @@ func enable_collision() -> void:
 		door_collision_shape.set_deferred("disabled", false)
 
 func _exit_tree() -> void:
+	if Engine.is_editor_hint():
+		return
 	_stop_rumble()

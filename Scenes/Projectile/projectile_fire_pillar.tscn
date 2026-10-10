@@ -1,124 +1,178 @@
-[gd_scene load_steps=16 format=3 uid="uid://bpwdpfiv6oq23"]
+[gd_scene format=3 uid="uid://bpwdpfiv6oq23"]
 
 [ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_igp1q"]
-[ext_resource type="Script" path="res://Scripts/Projectiles/projectile_fire_pillar.gd" id="2_aua40"]
-[ext_resource type="Texture2D" uid="uid://m2n0g16y64na" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v02.png" id="3_ndm64"]
-[ext_resource type="Texture2D" uid="uid://244wypj34g44" path="res://sprites/Environment/EGITO/HAZARD_1_EGITO_Barra_de_Espinhos_v01.png" id="3_wipip"]
+[ext_resource type="Script" uid="uid://bicmoii8bdgk7" path="res://Scripts/Projectiles/projectile_fire_pillar.gd" id="2_aua40"]
+[ext_resource type="Texture2D" uid="uid://bg7sr0innfco6" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Antecipation.png" id="3_ant"]
+[ext_resource type="Texture2D" uid="uid://dug72v63vf0ix" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Flame.png" id="4_flm"]
+[ext_resource type="Texture2D" uid="uid://dtkmybs7lmsaa" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Attack.png" id="5_atk"]
+[ext_resource type="Texture2D" uid="uid://cy0om44i83bd6" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Flame_End.png" id="6_end"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_odat2"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(32, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1"]
+atlas = ExtResource("3_ant")
+region = Rect2(0, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_sx24x"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(16, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2"]
+atlas = ExtResource("3_ant")
+region = Rect2(50, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ak2jf"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(0, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3"]
+atlas = ExtResource("3_ant")
+region = Rect2(100, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5vaw6"]
-atlas = ExtResource("3_wipip")
-region = Rect2(0, 0, 16, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p4"]
+atlas = ExtResource("3_ant")
+region = Rect2(150, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_4i8t2"]
-atlas = ExtResource("3_wipip")
-region = Rect2(16, 0, 16, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p5"]
+atlas = ExtResource("3_ant")
+region = Rect2(200, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_onn4r"]
-atlas = ExtResource("3_wipip")
-region = Rect2(32, 0, 16, 128)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p9"]
+atlas = ExtResource("5_atk")
+region = Rect2(0, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_nih58"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(0, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p10"]
+atlas = ExtResource("5_atk")
+region = Rect2(50, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_rrplr"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(16, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p11"]
+atlas = ExtResource("5_atk")
+region = Rect2(100, 0, 50, 300)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_78371"]
-atlas = ExtResource("3_ndm64")
-region = Rect2(32, 0, 16, 90)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6"]
+atlas = ExtResource("4_flm")
+region = Rect2(0, 0, 50, 300)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_sdsy1"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_p7"]
+atlas = ExtResource("4_flm")
+region = Rect2(50, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p8"]
+atlas = ExtResource("4_flm")
+region = Rect2(100, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p12"]
+atlas = ExtResource("6_end")
+region = Rect2(0, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p13"]
+atlas = ExtResource("6_end")
+region = Rect2(50, 0, 50, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p14"]
+atlas = ExtResource("6_end")
+region = Rect2(100, 0, 50, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_odat2")
+"texture": SubResource("AtlasTexture_p1")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sx24x")
+"texture": SubResource("AtlasTexture_p2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ak2jf")
+"texture": SubResource("AtlasTexture_p3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p5")
 }],
-"loop": false,
-"name": &"Fade",
-"speed": 5.0
+"loop": 1,
+"name": &"Anticipation",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5vaw6")
+"texture": SubResource("AtlasTexture_p9")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_4i8t2")
+"texture": SubResource("AtlasTexture_p10")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_onn4r")
+"texture": SubResource("AtlasTexture_p11")
 }],
-"loop": true,
-"name": &"Idle",
-"speed": 5.0
+"loop": 1,
+"name": &"Attack",
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_nih58")
+"texture": SubResource("AtlasTexture_p6")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_rrplr")
+"texture": SubResource("AtlasTexture_p7")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_78371")
+"texture": SubResource("AtlasTexture_p8")
 }],
-"loop": false,
-"name": &"Rise",
-"speed": 5.0
+"loop": 0,
+"name": &"Flame",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p12")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p13")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p14")
+}],
+"loop": 0,
+"name": &"Flame_End",
+"speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_705qr"]
-size = Vector2(20, 149)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(42, 300)
 
-[node name="ProjectileFirePillar" node_paths=PackedStringArray("texture", "ground_ray", "wall_ray", "attack_audio") instance=ExtResource("1_igp1q")]
+[node name="ProjectileFirePillar" unique_id=1427389436 node_paths=PackedStringArray("texture", "collision", "ground_ray", "wall_ray", "spawn_audio", "attack_audio", "fade_audio") instance=ExtResource("1_igp1q")]
 collision_layer = 72
 collision_mask = 1
 script = ExtResource("2_aua40")
 attack_damage = 10
-_lifetime_after_rise = 2.0
+_anticipation_time = 0.5
+_lifetime_after_rise = 4.0
+_meet_distance = 8.0
 texture = NodePath("Texture")
+collision = NodePath("Collision")
 ground_ray = NodePath("GroundRay")
 wall_ray = NodePath("WallRay")
+spawn_audio = NodePath("SpawnAudio")
 attack_audio = NodePath("FirePilarAudio")
+fade_audio = NodePath("FadeAudio")
 
 [node name="Texture" parent="." index="0"]
-position = Vector2(0, -65)
-sprite_frames = SubResource("SpriteFrames_sdsy1")
-animation = &"Idle"
+position = Vector2(0, -150)
+sprite_frames = SubResource("SpriteFrames_8")
+animation = &"Attack"
 
 [node name="Collision" parent="." index="1"]
-position = Vector2(0, -74.5)
-shape = SubResource("RectangleShape2D_705qr")
+position = Vector2(0, -150)
+shape = SubResource("RectangleShape2D_9")
+disabled = true
 debug_color = Color(0.96256, 0.195023, 1.92523e-07, 0.42)
 
-[node name="GroundRay" type="RayCast2D" parent="." index="2"]
+[node name="GroundRay" type="RayCast2D" parent="." index="2" unique_id=1020571111]
 position = Vector2(-11, 0)
 target_position = Vector2(0, 10)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="WallRay" type="RayCast2D" parent="." index="3"]
-position = Vector2(0, -80)
-target_position = Vector2(-30, 0)
+[node name="WallRay" type="RayCast2D" parent="." index="3" unique_id=16546409]
+position = Vector2(0, -20)
+target_position = Vector2(-20, 0)
 collision_mask = 2
 
-[node name="FirePilarAudio" type="AudioStreamPlayer" parent="." index="4"]
+[node name="FirePilarAudio" type="AudioStreamPlayer" parent="." index="4" unique_id=1626277458]
+
+[node name="SpawnAudio" type="AudioStreamPlayer" parent="." index="5" unique_id=1626277459]
+bus = &"SFX"
+
+[node name="FadeAudio" type="AudioStreamPlayer" parent="." index="6" unique_id=1626277460]
+bus = &"SFX"

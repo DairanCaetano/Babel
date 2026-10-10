@@ -11,6 +11,7 @@ func _consume(_body: BaseCharacter) -> void:
 		collectible_id = "ancient_armor_equipment"
 
 	_body.collect_item({
+		"key": "ITEM_ANCIENT_ARMOR_NAME",
 		"name": tr("ITEM_ANCIENT_ARMOR_NAME"),
 		"path": "res://sprites/Equipments/ancient_armor.png",
 		"type": "armor",

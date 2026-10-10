@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://nqewvgsq6xnn"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_c30vb"]
+[ext_resource type="Script" uid="uid://chbk6vhd71b8g" path="res://Scripts/Collectables/collectable_strength.gd" id="2_str01"]
+[ext_resource type="Texture2D" uid="uid://blakdupyiv7ta" path="res://sprites/Items/Strenght_Max_Item.png" id="3_r7dnx"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_str01"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oubo6"]
+atlas = ExtResource("3_r7dnx")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_str01"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oubo6")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_str01"]
+
+[node name="CollectableStrength" unique_id=779485131 instance=ExtResource("1_c30vb")]
+z_index = 10
+script = ExtResource("2_str01")
+skill_icon_path = "uid://blakdupyiv7ta"
+bonus_amount = 5
+custom_effect_path = ""
+
+[node name="Texture" parent="." index="0"]
+z_index = 10
+material = SubResource("ShaderMaterial_str01")
+sprite_frames = SubResource("SpriteFrames_str01")
+animation = &"Idle"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_str01")

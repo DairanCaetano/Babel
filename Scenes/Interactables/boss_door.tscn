@@ -1,12 +1,10 @@
-[gd_scene load_steps=61 format=3 uid="uid://c1uevb564qo7w"]
+[gd_scene load_steps=59 format=3 uid="uid://c1uevb564qo7w"]
 
 [ext_resource type="Script" path="res://Scripts/Interactables/boss_door.gd" id="1_qy4i2"]
 [ext_resource type="Texture2D" uid="uid://bi2ep4cmb24wv" path="res://sprites/Interactables/Boss_Gate_v01.png" id="2_qoa80"]
-[ext_resource type="PackedScene" uid="uid://igcpwfxh4k3k" path="res://Scenes/Bosses/baal_berith.tscn" id="2_tt2dg"]
 [ext_resource type="Texture2D" uid="uid://cvhgi84lmqd5t" path="res://sprites/UI/SAVE/icon.png" id="3_02chf"]
 [ext_resource type="AudioStream" uid="uid://dd5j54fc0yvyy" path="res://Sound/SFX/InteractablesSound/metal_gate.ogg" id="4_0k1wr"]
 [ext_resource type="Texture2D" uid="uid://c5ru06dpusent" path="res://sprites/Interactables/Boss_Gate_Dead_v01.png" id="4_sy7lu"]
-[ext_resource type="AudioStream" uid="uid://b8nhpvbxwcq4n" path="res://Sound/SFX/EnemiesSound/Berith_Door_Room_Sound.ogg" id="5_jkym4"]
 [ext_resource type="AudioStream" uid="uid://gjx0svpjlys" path="res://Sound/SFX/InteractablesSound/earthquake.ogg" id="7_efe67"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0petv"]
@@ -378,26 +376,22 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1a8ee"]
 size = Vector2(311, 121)
 
-[node name="BossDoor" type="Node2D" node_paths=PackedStringArray("texture", "door_collision", "door_collision_shape", "interaction_area", "interaction_prompt", "open_gate_audio", "close_gate_audio", "boss_area_audio", "door_quake_audio")]
+[node name="BossDoor" type="Node2D" node_paths=PackedStringArray("texture", "door_collision", "door_collision_shape", "interaction_area", "interaction_prompt", "rumble_area", "open_gate_audio", "close_gate_audio", "boss_area_audio", "door_quake_audio")]
 script = ExtResource("1_qy4i2")
-boss_id = "baal_Berith"
-boss_scene = ExtResource("2_tt2dg")
-walk_duration = 1.5
 texture = NodePath("Texture")
 door_collision = NodePath("BossCollision")
 door_collision_shape = NodePath("BossCollision/Collision")
 interaction_area = NodePath("InteractionArea")
 interaction_prompt = NodePath("InteractionPrompt")
+rumble_area = NodePath("RumbleArea")
 open_gate_audio = NodePath("OpenGateAudio")
 close_gate_audio = NodePath("OpenGateAudio")
 boss_area_audio = NodePath("BossAreaAudio")
 door_quake_audio = NodePath("BossQuakeAudio")
-max_audio_distance = 1000.0
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2gwld")
-animation = &"Open"
-autoplay = "Closed"
+animation = &"Closed"
 
 [node name="BossCollision" type="StaticBody2D" parent="."]
 collision_layer = 2
@@ -424,9 +418,7 @@ animation = &"Idle"
 stream = ExtResource("4_0k1wr")
 
 [node name="BossAreaAudio" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_jkym4")
 volume_db = 20.0
-autoplay = true
 max_distance = 3000.0
 attenuation = 2.0
 
@@ -438,8 +430,3 @@ stream = ExtResource("7_efe67")
 [node name="Collision" type="CollisionShape2D" parent="RumbleArea"]
 position = Vector2(-145.5, 10.5)
 shape = SubResource("RectangleShape2D_1a8ee")
-
-[connection signal="animation_finished" from="Texture" to="." method="_on_animation_finished"]
-[connection signal="body_entered" from="InteractionArea" to="." method="_on_interaction_area_body_entered"]
-[connection signal="body_entered" from="RumbleArea" to="." method="_on_rumble_area_body_entered"]
-[connection signal="body_exited" from="RumbleArea" to="." method="_on_rumble_area_body_exited"]

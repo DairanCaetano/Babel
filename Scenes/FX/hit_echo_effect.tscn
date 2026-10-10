@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://b0hjq5ec2v8t"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_echo"]
+[ext_resource type="Texture2D" path="res://sprites/FX/COMBATE/Hit_impact_v02.png" id="2_echo"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_echo0"]
+atlas = ExtResource("2_echo")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_echo1"]
+atlas = ExtResource("2_echo")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_echo2"]
+atlas = ExtResource("2_echo")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_echo3"]
+atlas = ExtResource("2_echo")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_echo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_echo0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_echo1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_echo2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_echo3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="HitEchoEffect" instance=ExtResource("1_echo")]
+sprite_frames = SubResource("SpriteFrames_echo")
+animation = &"default"

@@ -1,6 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://ccouueqg3d8hg"]
+[gd_scene format=3 uid="uid://ccouueqg3d8hg"]
 
-[ext_resource type="Script" path="res://Scripts/Management/base_level.gd" id="1_23s1w"]
+[ext_resource type="Script" uid="uid://ctk2m410bkx72" path="res://Scripts/Management/base_level.gd" id="1_23s1w"]
 [ext_resource type="PackedScene" uid="uid://vt06jp7ogwc2" path="res://Scenes/Terrenos/terrain.tscn" id="1_ymqkr"]
 [ext_resource type="Texture2D" uid="uid://cq21xykrhw8s3" path="res://sprites/Environment/TEBES/TERRENO/MAPA_1_TEBES_Terreno_Rocha_desertica_v01.png" id="3_gifni"]
 [ext_resource type="Texture2D" uid="uid://bush0q32r30jh" path="res://sprites/Environment/TEBES/TERRENO/MAPA_1_TEBES_Terreno_Areia_desertica_v01.png" id="4_gbt17"]
@@ -452,35 +452,33 @@ sources/0 = SubResource("TileSetAtlasSource_b567p")
 sources/1 = SubResource("TileSetAtlasSource_we4cr")
 sources/2 = SubResource("TileSetAtlasSource_edyvw")
 
-[node name="BaseLevel" type="Node2D"]
+[node name="BaseLevel" type="Node2D" unique_id=1468982470]
 process_mode = 3
 script = ExtResource("1_23s1w")
 
-[node name="Terrain" type="Node2D" parent="."]
+[node name="Terrain" type="Node2D" parent="." unique_id=2135714214]
 
-[node name="Chão" parent="Terrain" instance=ExtResource("1_ymqkr")]
+[node name="Chão" parent="Terrain" unique_id=1379951385 instance=ExtResource("1_ymqkr")]
 tile_set = SubResource("TileSet_6go6e")
 
-[node name="Plataforms" type="Node2D" parent="."]
+[node name="Plataforms" type="Node2D" parent="." unique_id=270896775]
 
-[node name="CameraZones" type="Node2D" parent="."]
+[node name="CameraZones" type="Node2D" parent="." unique_id=1553731536]
 
-[node name="Transitions" type="Node2D" parent="."]
+[node name="Transitions" type="Node2D" parent="." unique_id=1990016997]
 
-[node name="SpawnPoints" type="Node2D" parent="."]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=973835569]
 
-[node name="HazardZone" type="Node2D" parent="."]
+[node name="HazardZone" type="Node2D" parent="." unique_id=23396374]
 
-[node name="Ladders" type="Node2D" parent="."]
+[node name="Ladders" type="Node2D" parent="." unique_id=1671149694]
 
-[node name="Interactables" type="Node2D" parent="."]
+[node name="Interactables" type="Node2D" parent="." unique_id=19938014]
 
-[node name="Collectables" type="Node2D" parent="."]
+[node name="Collectables" type="Node2D" parent="." unique_id=1402700009]
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node2D" parent="." unique_id=1996115500]
 
-[node name="SaveArea" type="Node2D" parent="."]
+[node name="SaveArea" type="Node2D" parent="." unique_id=1470585066]
 
-[node name="SecretAreas" type="Node2D" parent="."]
-
-[node name="Sound" type="Node2D" parent="."]
+[node name="SecretAreas" type="Node2D" parent="." unique_id=1431849492]

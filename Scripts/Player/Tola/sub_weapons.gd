@@ -38,7 +38,7 @@ var _is_fire_active: bool = false
 
 @export_group("Fire Settings")
 @export var _fire_stamina_cost_per_second: float = 3.0
-@export var _fire_damage_bonus_percent: float = 5.0
+@export var _fire_damage_bonus_percent: float = 40.0 # +40% em todo o dano enquanto o fogo está ativo
 
 var _fire_damage_bonus: int = 0
 
@@ -346,27 +346,18 @@ func is_fire_active() -> bool:
 	return _is_fire_active
 
 # ========== SISTEMA DE BÔNUS DE DANO DO FIRE ==========
+# O fogo agora é um MULTIPLICADOR aplicado no cálculo central de dano
+# (BaseCharacter.scale_damage). Ex.: 40% → ataque 5 vira 7.
+func get_fire_damage_percent() -> float:
+	return _fire_damage_bonus_percent
+
 func _apply_fire_damage_bonus() -> void:
-	if not _stats:
-		return
-	
-	var total_damage = _stats.base_attack_damage + _stats.bonus_attack
-	_fire_damage_bonus = int(total_damage * (_fire_damage_bonus_percent / 100.0))
-	
-	if _fire_damage_bonus_percent > 0 and _fire_damage_bonus == 0:
-		_fire_damage_bonus = 1
-	
-	_stats.bonus_attack += _fire_damage_bonus
+	pass # mantido por compatibilidade: o bônus é lido direto em scale_damage()
 
 func _remove_fire_damage_bonus() -> void:
-	if not _stats:
-		return
-	
-	if _fire_damage_bonus > 0:
-		_stats.bonus_attack -= _fire_damage_bonus
-		_fire_damage_bonus = 0
+	pass # mantido por compatibilidade
 
-func _spawn_fire_effect(effect_scene: PackedScene, effect_name: String = "efeito") -> void:
+func _spawn_fire_effect(effect_scene: PackedScene, effect_name: String = "efeito", speed: float = 1.0) -> void:
 	if not effect_scene:
 		return
 	
@@ -387,17 +378,25 @@ func _spawn_fire_effect(effect_scene: PackedScene, effect_name: String = "efeito
 		else:
 			effect.scale.x = abs(effect.scale.x)
 	
+	# ✅ Acompanha a velocidade do ataque (Olhos de Falcão)
+	if speed != 1.0 and "speed_scale" in effect:
+		effect.speed_scale = speed
+	
 	get_tree().root.add_child(effect)
 
 func spawn_fire_attack_effect(attack_type: String) -> void:
 	if not is_fire_active():
 		return
 	
+	var attack_speed: float = 1.0
+	if _character and _character.has_method("get_attack_speed_multiplier"):
+		attack_speed = _character.get_attack_speed_multiplier()
+	
 	match attack_type:
 		"Attack_1", "Attack_Air":
-			_spawn_fire_effect(fire_attack_effect_1, "ataque 1")
+			_spawn_fire_effect(fire_attack_effect_1, "ataque 1", attack_speed)
 		"Attack_2":
-			_spawn_fire_effect(fire_attack_effect_2, "ataque 2")
+			_spawn_fire_effect(fire_attack_effect_2, "ataque 2", attack_speed)
 		"Counter":
 			_spawn_fire_effect(fire_attack_effect_3, "counter")
 

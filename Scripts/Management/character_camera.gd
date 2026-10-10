@@ -1,7 +1,11 @@
 # character_camera.gd
 
 extends Camera2D
+
 class_name CharacterCamera
+
+## Mostra no console as mensagens de debug da câmera (inclui o bloco a cada 1 s).
+@export var debug_logs: bool = false
 
 # ===== CONFIGURAÇÕES =====
 @export var camera: camera_state = camera_state.FOLLOW
@@ -46,24 +50,24 @@ func _ready() -> void:
 	
 	_find_subject()
 	
-	print("✅ CharacterCamera pronta")
-	print("  📏 Base Offset: ", base_offset)
-	print("  📏 Limites iniciais: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
+	if debug_logs: print("✅ CharacterCamera pronta")
+	if debug_logs: print("  📏 Base Offset: ", base_offset)
+	if debug_logs: print("  📏 Limites iniciais: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
 	if _subject:
-		print("  📌 Seguindo: ", _subject.name)
+		if debug_logs: print("  📌 Seguindo: ", _subject.name)
 	else:
 		push_warning("  ⚠️ Subject não encontrado!")
 
 func _find_subject() -> void:
 	if global.character and is_instance_valid(global.character):
 		_subject = global.character
-		print("  ✓ Subject encontrado via Global")
+		if debug_logs: print("  ✓ Subject encontrado via Global")
 		return
 	
 	var game = get_parent()
 	if game and game.has_node("Player/Character"):
 		_subject = game.get_node("Player/Character")
-		print("  ✓ Subject encontrado via árvore")
+		if debug_logs: print("  ✓ Subject encontrado via árvore")
 		return
 	
 	push_warning("  ⚠️ Subject não encontrado!")
@@ -76,13 +80,13 @@ func _process(delta: float) -> void:
 	debug_frame_count += 1
 	if debug_frame_count >= 60:
 		debug_frame_count = 0
-		print("🎥 Camera Debug:")
-		print("   Subject pos: ", _subject.global_position)
-		print("   Camera pos: ", global_position)
-		print("   Camera state: ", camera_state.keys()[camera])
-		print("   Limites: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
-		print("   Offset atual: ", offset)
-		print("   ---")
+		if debug_logs: print("🎥 Camera Debug:")
+		if debug_logs: print("   Subject pos: ", _subject.global_position)
+		if debug_logs: print("   Camera pos: ", global_position)
+		if debug_logs: print("   Camera state: ", camera_state.keys()[camera])
+		if debug_logs: print("   Limites: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
+		if debug_logs: print("   Offset atual: ", offset)
+		if debug_logs: print("   ---")
 	
 	handle_camera_offset_input(delta)
 	
@@ -172,7 +176,7 @@ func shake_camera(shake_force: float, shake_duration: float) -> void:
 
 func set_subject(new_subject: Node2D) -> void:
 	_subject = new_subject
-	print("📌 Câmera agora segue: ", _subject.name if _subject else "null")
+	if debug_logs: print("📌 Câmera agora segue: ", _subject.name if _subject else "null")
 
 func get_subject() -> Node2D:
 	return _subject
@@ -183,7 +187,7 @@ func enable_look_ahead(enable: bool) -> void:
 
 func set_camera_state(new_state: camera_state) -> void:
 	camera = new_state
-	print("📹 Estado da câmera alterado para: ", camera_state.keys()[new_state])
+	if debug_logs: print("📹 Estado da câmera alterado para: ", camera_state.keys()[new_state])
 
 func snap_to_subject() -> void:
 	"""Posiciona câmera instantaneamente no subject sem transição"""
@@ -191,9 +195,9 @@ func snap_to_subject() -> void:
 		push_error("❌ snap_to_subject: _subject é null!")
 		return
 	
-	print("📷 ===== SNAP TO SUBJECT =====")
-	print("  Subject position: ", _subject.global_position)
-	print("  Base offset: ", base_offset)
+	if debug_logs: print("📷 ===== SNAP TO SUBJECT =====")
+	if debug_logs: print("  Subject position: ", _subject.global_position)
+	if debug_logs: print("  Base offset: ", base_offset)
 	
 	global_position = _subject.global_position + base_offset
 	offset = Vector2.ZERO
@@ -201,6 +205,6 @@ func snap_to_subject() -> void:
 	current_camera_offset = 0.0
 	target_camera_offset = 0.0
 	
-	print("  Câmera snap para: ", global_position)
-	print("  Limites atuais: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
-	print("==============================")
+	if debug_logs: print("  Câmera snap para: ", global_position)
+	if debug_logs: print("  Limites atuais: L=", limit_left, " R=", limit_right, " T=", limit_top, " B=", limit_bottom)
+	if debug_logs: print("==============================")

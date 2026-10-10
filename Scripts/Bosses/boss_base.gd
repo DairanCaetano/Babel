@@ -13,18 +13,13 @@ func _ready():
 		push_error("Boss sem ID definido! Configure o boss_id no inspector.")
 
 func _save_boss_death() -> void:
-	"""Salva a morte do boss na serialização"""
-	if not serialization.game_data.has("defeated_bosses"):
-		serialization.game_data["defeated_bosses"] = []
-	
-	if boss_id not in serialization.game_data["defeated_bosses"]:
-		serialization.game_data["defeated_bosses"].append(boss_id)
-		serialization.save_data()  # ← CORRIGIDO: save_data() em vez de save_game()
-		print("✅ Boss derrotado salvo: ", boss_id)
+	"""Salva a morte do boss (global + save) e avisa portas/spawners"""
+	# Tudo centralizado no BossEventManager. Antes o nome ia só pro game_data e o
+	# save_data() sobrescrevia a lista com global.defeated_bosses → num jogo novo
+	# a morte do chefe se perdia.
+	BossEventManager.register_boss_defeat(boss_id)
+	print("✅ Boss derrotado salvo: ", boss_id)
 
 func is_already_defeated() -> bool:
 	"""Verifica se o boss já foi derrotado anteriormente"""
-	if not serialization.game_data.has("defeated_bosses"):
-		return false
-	
-	return boss_id in serialization.game_data["defeated_bosses"]
+	return BossEventManager.is_boss_defeated(boss_id)

@@ -36,53 +36,6 @@ func _ready() -> void:
 	level_music_track = "tebe_1"
 	super._ready()
 
-func _start_victory_sequence() -> void:
-	"""Sequência de vitória contra o boss final"""
-	print("🎉 Iniciando sequência de vitória!")
-	
-	# Desabilitar controle do jogador
-	var player = get_tree().get_first_node_in_group("player")
-	if player:
-		player.set_physics_process(false)
-		player.set_process_input(false)
-	
-	# CÂMERA LENTA
-	Engine.time_scale = 0.3
-	
-	# TREMOR DA CÂMERA
-	var camera = get_tree().get_first_node_in_group("camera")
-	if camera and camera.has_method("shake_camera"):
-		camera.shake_camera(3, 5.0 / Engine.time_scale)
-	
-	# VIBRAÇÃO DO CONTROLE
-	ControllerVibration.vibrate_custom(0.6, 0.6, 5.0)
-	
-	# AGUARDAR 5 SEGUNDOS (em tempo real)
-	await get_tree().create_timer(5.0, true, false, true).timeout
-	
-	# RESTAURAR VELOCIDADE NORMAL
-	Engine.time_scale = 1.0
-	
-	print("⏰ Câmera lenta finalizada, iniciando transição...")
-	
-	# FADE OUT DA MÚSICA
-	if AudioManager:
-		AudioManager.stop_music(2.0)
-	
-	# TRANSIÇÃO PARA CRÉDITOS
-	TransitionScreen.fade_out()
-	await TransitionScreen.transition_finished
-	
-	print("✅ Fade out completo, pausa dramática...")
-	
-	# PAUSA DRAMÁTICA (1.5 segundos no escuro)
-	await get_tree().create_timer(1.5).timeout
-	
-	print("✅ Trocando para cena de créditos...")
-	
-	# TROCAR CENA
-	get_tree().change_scene_to_file("res://Scenes/Credits/agradecimento.tscn")
-
 func setup_dialogs() -> void:
 	save_point_dialogs.append({
 		"dialog_name": "first_meeting",

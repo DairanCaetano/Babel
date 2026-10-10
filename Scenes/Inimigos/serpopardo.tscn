@@ -433,14 +433,14 @@ hframes = 4
 frame = 1
 
 [node name="DamageArea" type="Area2D" parent="Head"]
-collision_layer = 72
+collision_layer = 0
 
 [node name="Collision" type="CollisionShape2D" parent="Head/DamageArea"]
 position = Vector2(0, 3)
 shape = SubResource("CircleShape2D_7qaat")
 
 [node name="Hurtbox" type="Area2D" parent="Head"]
-collision_layer = 72
+collision_layer = 8
 
 [node name="Collision" type="CollisionShape2D" parent="Head/Hurtbox"]
 position = Vector2(0, 3)
@@ -470,6 +470,7 @@ explosiveness = 0.6
 randomness = 0.8
 
 [node name="HurtboxBody" type="Area2D" parent="."]
+collision_layer = 8
 
 [node name="Collision" type="CollisionShape2D" parent="HurtboxBody"]
 position = Vector2(-2, 22)

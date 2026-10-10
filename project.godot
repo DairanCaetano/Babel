@@ -18,6 +18,7 @@ config/name="Babel_1"
 run/main_scene="res://Scenes/Menu/start_cosmos_logo.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://sprites/Menu/Babel_Icon_TGA 32x32.png"
+run/disable_stdout.template_release=true
 
 [autoload]
 
@@ -31,7 +32,9 @@ AudioManager="*res://Scripts/Management/audio_manager.gd"
 BossEventManager="*res://Scripts/Control/boss_event_manager.gd"
 MusicPreloader="*res://Scripts/Management/music_preloader.gd"
 PixelTransition="*res://Scenes/FX/pixel_transition.tscn"
+ScreenVignette="*res://Scenes/FX/screen_vignette.tscn"
 DebugOverlay="*res://Scripts/Control/debug_overlay.gd"
+MetSys="*uid://c01ibpvrp2wsd"
 
 [display]
 
@@ -41,6 +44,10 @@ window/size/resizable=false
 window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/MetroidvaniaSystem/EditorExtension/plugin.cfg", "res://addons/MetroidvaniaSystem/plugin.cfg")
 
 [global_group]
 

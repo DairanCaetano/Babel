@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://088fhwxud25n"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_chg"]
+[ext_resource type="Texture2D" uid="uid://cf5gigdn8xy1c" path="res://sprites/FX/COMBATE/Rá_humanoide_Attack_5_Charge_FX.png" id="2_chg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg0"]
+atlas = ExtResource("2_chg")
+region = Rect2(0, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg1"]
+atlas = ExtResource("2_chg")
+region = Rect2(140, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg2"]
+atlas = ExtResource("2_chg")
+region = Rect2(280, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg3"]
+atlas = ExtResource("2_chg")
+region = Rect2(420, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg4"]
+atlas = ExtResource("2_chg")
+region = Rect2(560, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_chg5"]
+atlas = ExtResource("2_chg")
+region = Rect2(700, 0, 140, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_chg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_chg5")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="AttackChargeFx" unique_id=1304183720 instance=ExtResource("1_chg")]
+z_index = 10
+sprite_frames = SubResource("SpriteFrames_chg")
+animation = &"default"

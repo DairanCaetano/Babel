@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://1k3tq323002"]
+
+[ext_resource type="Script" path="res://Scripts/FX/screen_vignette.gd" id="1_vign"]
+[ext_resource type="Shader" path="res://Shaders/screen_vignette.gdshader" id="2_vign"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vign"]
+shader = ExtResource("2_vign")
+shader_parameter/intensity = 0.0
+shader_parameter/radius = 1.0
+shader_parameter/speed = 1.0
+shader_parameter/effect_color = Color(0.251, 0, 0, 1)
+shader_parameter/reach = 0.6
+shader_parameter/game_resolution = Vector2(480, 270)
+shader_parameter/pixel_size = 1.0
+
+[node name="ScreenVignette" type="CanvasLayer"]
+process_mode = 3
+layer = 1
+script = ExtResource("1_vign")
+
+[node name="Vignette" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_vign")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

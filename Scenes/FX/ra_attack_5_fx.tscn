@@ -1,0 +1,58 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_a5fx"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Rá/Rá_humanoide_Attack_5_FX.png" id="2_a5fx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx0"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(0, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx1"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(140, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx2"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(280, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx3"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(420, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx4"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(560, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5fx5"]
+atlas = ExtResource("2_a5fx")
+region = Rect2(700, 0, 140, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a5fx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5fx5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="RaAttack5Fx" instance=ExtResource("1_a5fx")]
+sprite_frames = SubResource("SpriteFrames_a5fx")
+animation = &"default"

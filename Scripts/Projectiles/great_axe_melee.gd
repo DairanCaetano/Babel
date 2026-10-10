@@ -6,7 +6,7 @@ class_name GreatAxeAttack
 # Os frames seguem a animação "Axe_Attack" do player (frame_source),
 # então pausas (queda no ar, hitstop) e interrupções (dano) ficam sincronizadas.
 
-@export var _attack_damage: int = 10
+@export var _attack_damage: int = 8 # dano com ataque base 5 (escala com a força do Tola)
 
 @export_category("Objects")
 @export var attack_area: Area2D
@@ -17,6 +17,10 @@ class_name GreatAxeAttack
 
 @export_group("Impact FX")
 @export_file("*.tscn") var impact_fx_path: String = "res://Scenes/FX/Great_axe_fx.tscn"
+## Explosão extra quando o machado bate no chão (a mesma do ataque 2 do Serpopardo).
+## Vazio = desliga. Nasce no impact_fx_marker + offset.
+@export_file("*.tscn") var impact_explosion_path: String = "res://Scenes/FX/dust_explosion_fx.tscn"
+@export var impact_explosion_offset: Vector2 = Vector2.ZERO
 @export var landing_fx_delay: float = 0.1 # golpe aéreo: atraso da poeira depois de tocar o chão
 
 @export_group("Positions")
@@ -143,6 +147,20 @@ func _on_impact(fx_delay: float = 0.0) -> void:
 		else:
 			global.spawn_effect(impact_fx_path, Vector2.ZERO, fx_position, flipped)
 	
+	# 💥 Explosão do impacto (mesma do Serpopardo)
+	if impact_explosion_path != "":
+		var exp_flipped: bool = direction.x < 0
+		var exp_offset: Vector2 = impact_explosion_offset
+		if exp_flipped:
+			exp_offset.x = -exp_offset.x
+		var exp_position: Vector2 = (impact_fx_marker.global_position if impact_fx_marker else global_position) + exp_offset
+		if fx_delay > 0.0:
+			get_tree().create_timer(fx_delay, false).timeout.connect(
+				global.spawn_scene_fx.bind(impact_explosion_path, exp_position, exp_flipped)
+			)
+		else:
+			global.spawn_scene_fx(impact_explosion_path, exp_position, exp_flipped)
+	
 	# 📳 Tremida de tela
 	var camera = get_tree().get_first_node_in_group("camera")
 	if camera and camera.has_method("shake_camera"):
@@ -192,7 +210,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy_hitbox"):
 		return
 
-	var enemy = area.get_parent()
+	var enemy = global.get_damage_target(area)
 	if not enemy or _hit_enemies.has(enemy):
 		return
 
@@ -203,7 +221,7 @@ func _on_area_entered(area: Area2D) -> void:
 
 	var damage = _attack_damage
 	if is_instance_valid(global.character):
-		damage += global.character.get_additional_attack()
+		damage = global.character.scale_damage(_attack_damage)
 
 	global.spawn_effect(
 		"res://Scenes/FX/hit_effect.tscn",

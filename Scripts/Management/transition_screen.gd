@@ -17,8 +17,29 @@ var is_level_transition: bool = false
 @export var _animation: AnimationPlayer
 @onready var _color_rect: ColorRect = $ColorRect
 
+# ===== TRANSIÇÃO DE NUVENS ESCURAS (shader) =====
+@export_category("Nuvens")
+## true = nuvens escuras (shader); false = cortina preta antiga
+@export var use_cloud_transition: bool = true
+@export var _cloud_rect: ColorRect
+
+## Animado pelo AnimationPlayer: 0 → 0.5 cobre a tela, 0.5 → 1.0 revela
+var cloud_progress: float = 0.0:
+	set(value):
+		cloud_progress = value
+		_apply_cloud_progress(value)
+
 func _ready() -> void:
 	layer = 100
+	
+	# ✅ ESCOLHER O ESTILO: nuvens (shader) ou cortina antiga.
+	# O resto do script continua usando _color_rect, então basta trocar a referência.
+	if use_cloud_transition and _cloud_rect:
+		$ColorRect.visible = false
+		_color_rect = _cloud_rect
+		_apply_cloud_progress(cloud_progress)
+	elif _cloud_rect:
+		_cloud_rect.visible = false
 	
 	# ✅ GARANTIR QUE COMEÇA INVISÍVEL
 	if _color_rect:
@@ -32,6 +53,10 @@ func _ready() -> void:
 		
 		# Conectar
 		_animation.animation_finished.connect(_on_animation_finished)
+		
+		# ✅ Nuvens com formato diferente a cada transição
+		if not _animation.animation_started.is_connected(_on_animation_started):
+			_animation.animation_started.connect(_on_animation_started)
 		print("✅ AnimationPlayer: Signal conectado!")
 	else:
 		push_error("❌ AnimationPlayer não encontrado!")
@@ -242,6 +267,23 @@ func _on_animation_finished(_anim_name: StringName) -> void:
 			
 			start_level.emit()
 			transition_finished.emit()
+
+# ===== NUVENS =====
+
+func _on_animation_started(anim_name: StringName) -> void:
+	if anim_name == "fade_in" and _cloud_rect and _cloud_rect.material:
+		(_cloud_rect.material as ShaderMaterial).set_shader_parameter("seed", randf() * 10.0)
+
+func _apply_cloud_progress(value: float) -> void:
+	"""Converte o progresso nos limiares do shader (mesma fórmula do autor)."""
+	if not _cloud_rect or not _cloud_rect.material:
+		return
+	var mat := _cloud_rect.material as ShaderMaterial
+	if not mat:
+		return
+	mat.set_shader_parameter("progress", value)
+	mat.set_shader_parameter("background_threshold", abs(1.0 - value * 2.0) - 0.5)
+	mat.set_shader_parameter("color_threshold", min(1.0, abs(-4.0 + value * 8.0)) * 0.48)
 
 # ===== FUNÇÕES AUXILIARES =====
 

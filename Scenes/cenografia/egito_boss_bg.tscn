@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://v34tphe13o18"]
+
+[ext_resource type="Shader" uid="uid://dybukr3hn2o1f" path="res://Shaders/heat.gdshader" id="1_heat"]
+[ext_resource type="Texture2D" uid="uid://recpr5pdxe6e" path="res://sprites/Environment/EGITO/MAPA_2_EGITO_CÉU_sprites_v03.png" id="2_ceu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ceu"]
+shader = ExtResource("1_heat")
+shader_parameter/strength = 0.02
+shader_parameter/speed = 2.0
+shader_parameter/frequency = 20.0
+
+[node name="Egito_Boss_BG" type="ParallaxBackground"]
+
+[node name="Ceu" type="ParallaxLayer" parent="."]
+position = Vector2(0, -7)
+motion_scale = Vector2(0, 0)
+motion_mirroring = Vector2(480, 0)
+
+[node name="Texture" type="TextureRect" parent="Ceu"]
+material = SubResource("ShaderMaterial_ceu")
+offset_left = 1.0
+offset_top = -40.0
+offset_right = 481.0
+offset_bottom = 260.0
+texture = ExtResource("2_ceu")

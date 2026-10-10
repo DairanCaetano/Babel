@@ -109,8 +109,8 @@ func _sync_subweapon_state(_item: Dictionary) -> void:
 			subweapon.update_chakram_state(true)
 			print("🌀 Chakram sincronizado com CharacterSubweapon!")
 		"fire":
-			subweapon.update_fire_state(true)
-			print("🔥 Fire Power sincronizado com CharacterSubweapon!")
+			# O fogo não tem flag própria: can_use_fire() só confere a arma equipada
+			print("🔥 Bálsamo Ígneo coletado (liberado pela arma equipada)")
 
 func add_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 	var _item_copy: Dictionary = _item.duplicate()

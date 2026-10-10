@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://2hj41xgahmoe"]
+
+[ext_resource type="Script" uid="uid://djhvmowletaou" path="res://Scripts/Interactables/jump_boost_area.gd" id="1_jb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb"]
+resource_local_to_scene = true
+size = Vector2(48, 96)
+
+[node name="JumpBoostArea" type="Area2D" unique_id=1054723516]
+collision_layer = 0
+script = ExtResource("1_jb")
+boost_velocity = 600.0
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1688704925]
+shape = SubResource("RectangleShape2D_jb")
+debug_color = Color(1, 0.6229234, 0.44095567, 0.34901962)

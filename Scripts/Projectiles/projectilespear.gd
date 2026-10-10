@@ -1,7 +1,7 @@
 extends CharacterBody2D
 class_name ProjectileSpear
 
-@export var _attack_damage: int = 20
+@export var _attack_damage: int = 4 # dano com ataque base 5 (escala com a força do Tola)
 @export var gravity: float = 980.0
 @export var initial_velocity_y: float = -300.0
 @export var rotation_speed: float = 360.0
@@ -126,7 +126,7 @@ func _on_attack_area_area_entered(area: Area2D) -> void:
 	
 	# Inimigos
 	if area.is_in_group("enemy_hitbox"):
-		var enemy = area.get_parent()
+		var enemy = global.get_damage_target(area)
 		if enemy.has_method("update_health"):
 			_handle_enemy_collision(enemy)
 
@@ -192,7 +192,7 @@ func _handle_enemy_collision(enemy: Node) -> void:
 	
 	var damage = _attack_damage
 	if is_instance_valid(global) and is_instance_valid(global.character):
-		damage += global.character.get_additional_attack()
+		damage = global.character.scale_damage(_attack_damage)
 		
 		global.spawn_effect(
 			"res://Scenes/FX/hit_effect.tscn",

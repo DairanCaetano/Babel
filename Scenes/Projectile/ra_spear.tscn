@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://ca4qoc3fkqhdo"]
+
+[ext_resource type="Script" uid="uid://csln7qd5tw4ye" path="res://Scripts/Projectiles/ra_spear.gd" id="1_r"]
+[ext_resource type="Texture2D" uid="uid://b2psl0mblsrkn" path="res://sprites/Bosses/Rá/Rá_Pássaro_Spear_sprites-sheet.png" id="2_r"]
+[ext_resource type="Texture2D" uid="uid://dc5tvvnhow4r7" path="res://sprites/Bosses/Rá/Rá_Pássaro_Spear_sprites_Stick.png" id="stick_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4"]
+atlas = ExtResource("2_r")
+region = Rect2(57, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("2_r")
+region = Rect2(38, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("2_r")
+region = Rect2(19, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("2_r")
+region = Rect2(0, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5"]
+atlas = ExtResource("2_r")
+region = Rect2(76, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6"]
+atlas = ExtResource("2_r")
+region = Rect2(95, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stick_0"]
+atlas = ExtResource("stick_tex")
+region = Rect2(0, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stick_1"]
+atlas = ExtResource("stick_tex")
+region = Rect2(19, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stick_2"]
+atlas = ExtResource("stick_tex")
+region = Rect2(38, 0, 19, 87)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stick_3"]
+atlas = ExtResource("stick_tex")
+region = Rect2(57, 0, 19, 87)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}],
+"loop": 0,
+"name": &"Gone",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6")
+}],
+"loop": 1,
+"name": &"Idle",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stick_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stick_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stick_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stick_3")
+}],
+"loop": 0,
+"name": &"Stick",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4")
+}],
+"loop": 0,
+"name": &"Surge",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8"]
+size = Vector2(7, 72)
+
+[node name="RaSpear" type="Area2D" unique_id=178499730 node_paths=PackedStringArray("texture", "collision", "ground_ray")]
+collision_layer = 0
+script = ExtResource("1_r")
+texture = NodePath("Texture")
+collision = NodePath("Collision")
+ground_ray = NodePath("GroundRay")
+
+[node name="Texture" type="AnimatedSprite2D" parent="." unique_id=1430964809]
+z_index = -1
+sprite_frames = SubResource("SpriteFrames_7")
+animation = &"Surge"
+frame = 3
+frame_progress = 1.0
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1133732117]
+position = Vector2(0, -2)
+shape = SubResource("RectangleShape2D_8")
+disabled = true
+debug_color = Color(1, 0.6, 0, 0.42)
+
+[node name="GroundRay" type="RayCast2D" parent="." unique_id=2109682622]
+position = Vector2(0, 34)
+target_position = Vector2(0, 4)
+collision_mask = 2
+hit_from_inside = true

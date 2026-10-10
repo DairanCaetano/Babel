@@ -1,0 +1,68 @@
+[gd_scene format=3 uid="uid://7w6v04c38nl2"]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_mx"]
+[ext_resource type="Texture2D" uid="uid://crgp54klmavwt" path="res://sprites/Bosses/Rá/Rá_humanoide_FX_Mini_Explosion_.png" id="2_mx"]
+[ext_resource type="Script" path="res://Scripts/FX/mini_explosion_fx.gd" id="3_mx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx0"]
+atlas = ExtResource("2_mx")
+region = Rect2(0, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx1"]
+atlas = ExtResource("2_mx")
+region = Rect2(140, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx2"]
+atlas = ExtResource("2_mx")
+region = Rect2(280, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx3"]
+atlas = ExtResource("2_mx")
+region = Rect2(420, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx4"]
+atlas = ExtResource("2_mx")
+region = Rect2(560, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx5"]
+atlas = ExtResource("2_mx")
+region = Rect2(700, 0, 140, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mx6"]
+atlas = ExtResource("2_mx")
+region = Rect2(840, 0, 140, 120)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mx6")
+}],
+"loop": 0,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="MiniExplosionFx" unique_id=580328808 instance=ExtResource("1_mx")]
+z_index = 12
+script = ExtResource("3_mx")
+sprite_frames = SubResource("SpriteFrames_mx")
+animation = &"default"

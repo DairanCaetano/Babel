@@ -257,6 +257,10 @@ func toggle_save_container() -> void:
 			if health_to_restore > 0:
 				stats.update_health("increase", health_to_restore)
 		
+		# ✅ DESCANSO: recarrega o Escudo de Bronze e limpa bônus temporários
+		if player_character.has_method("on_save_rest"):
+			player_character.on_save_rest()
+		
 		# ✅ RESTAURAR POÇÕES (CÓDIGO NOVO - SIMPLIFICADO)
 		if global.inventory and global.inventory.has_method("refill_max_potions"):
 			global.inventory.refill_max_potions()
@@ -302,6 +306,15 @@ func toggle_save_container() -> void:
 			if _is_save_menu_open:
 				char_texture.play("Resting")
 				print("🎬 Player agora em Resting")
+		
+		# ✅ DIÁLOGO AUTOMÁTICO NO PRIMEIRO SAVE (só fases que pedem, ex.: Tebes 1-1)
+		# Usa o mesmo caminho do botão Conversar: ao fim do diálogo o menu reabre.
+		if _is_save_menu_open:
+			var level = _get_current_base_level()
+			if level and level.has_method("should_auto_start_save_dialog") and level.should_auto_start_save_dialog():
+				level.mark_auto_save_dialog_done()
+				print("💬 Primeiro save desta fase: iniciando diálogo automaticamente")
+				_on_talk_button_pressed()
 	
 	else:
 		# ========== FECHAR MENU ==========
@@ -503,6 +516,15 @@ func _restore_save_point_after_reload() -> void:
 
 func _on_travel_button_pressed() -> void:
 	pass
+
+func _get_current_base_level() -> Node:
+	var game_main = get_tree().get_first_node_in_group("game_main")
+	if not game_main:
+		return null
+	var level_container = game_main.get_node_or_null("LevelContainer")
+	if level_container and level_container.get_child_count() > 0:
+		return level_container.get_child(0)
+	return null
 
 func _on_talk_button_pressed() -> void:
 	$SaveContainer.visible = false

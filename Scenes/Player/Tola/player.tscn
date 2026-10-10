@@ -1,4 +1,4 @@
-[gd_scene load_steps=353 format=3 uid="uid://g78ro8nvelp1"]
+[gd_scene load_steps=354 format=3 uid="uid://g78ro8nvelp1"]
 
 [ext_resource type="Texture2D" uid="uid://cbkha78rr2bub" path="res://sprites/Player/Tola/IDLE/Tola_Idle_v01.png" id="1_01e4a"]
 [ext_resource type="Script" path="res://Scenes/Player/Tola/player.gd" id="1_vgr8b"]
@@ -82,6 +82,7 @@
 [ext_resource type="AudioStream" uid="uid://ccph7qpjvofam" path="res://Sound/SFX/PlayerSound/Fire_Activate-Fire Sphere_HY_PC-004.ogg" id="71_vohw5"]
 [ext_resource type="AudioStream" uid="uid://dhnodgys7t4b2" path="res://Sound/SFX/PlayerSound/Fire Torch Loop.ogg" id="72_uv6w3"]
 [ext_resource type="Script" path="res://Scripts/Player/Tola/ChainTail.gd" id="77_jrywh"]
+[ext_resource type="PackedScene" uid="uid://8qljxy36uoo4" path="res://Scenes/Player/Tola/item_effects.tscn" id="90_itemfx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jmx8c"]
 shader = ExtResource("2_ryd4d")
@@ -2394,7 +2395,7 @@ _stats = NodePath("../Stats")
 _character_texture = NodePath("../Texture")
 _firefx = NodePath("../FireFX")
 _chakram_cooldown = 1.0
-_fire_damage_bonus_percent = 20.0
+_fire_damage_bonus_percent = 40.0
 fire_activation_effect = ExtResource("44_smb28")
 fire_attack_effect_1 = ExtResource("45_vejxy")
 fire_attack_effect_2 = ExtResource("46_nq5ri")
@@ -2662,6 +2663,8 @@ one_shot = true
 [node name="WhipCooldown" type="Timer" parent="."]
 wait_time = 0.6
 one_shot = true
+
+[node name="ItemEffects" parent="." instance=ExtResource("90_itemfx")]
 
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
 [connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]

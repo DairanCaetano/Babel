@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://ycrssly5ywkc"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_eagle"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_eagle_dagger.gd" id="2_eagle"]
+[ext_resource type="Texture2D" uid="uid://2t348hskeeng" path="res://sprites/Equipments/Adaga_da_Águia_Item.png" id="3_eagle"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eagle"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_eagle")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eagle"]
+
+[node name="CollectableEagleDagger" instance=ExtResource("1_eagle")]
+script = ExtResource("2_eagle")
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_eagle")
+autoplay = "default"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_eagle")

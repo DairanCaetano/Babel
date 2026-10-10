@@ -1,7 +1,7 @@
 extends Area2D
 class_name WhipAttack
 
-@export var _attack_damage: int = 6
+@export var _attack_damage: int = 7 # dano com ataque base 5 (escala com a força do Tola)
 
 @export_category("Objects")
 @export var _texture: AnimatedSprite2D
@@ -159,7 +159,7 @@ func _on_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("enemy_hitbox"):
 		return
 
-	var enemy = area.get_parent()
+	var enemy = global.get_damage_target(area)
 	if not enemy or _hit_enemies.has(enemy):
 		return
 
@@ -170,7 +170,7 @@ func _on_area_entered(area: Area2D) -> void:
 
 	var damage = _attack_damage
 	if is_instance_valid(global) and is_instance_valid(global.character):
-		damage += global.character.get_additional_attack()
+		damage = global.character.scale_damage(_attack_damage)
 
 	global.spawn_effect(
 		"res://Scenes/FX/hit_effect.tscn",
@@ -223,13 +223,13 @@ func _on_spin_hit_tick() -> void:
 		if not area.is_in_group("enemy_hitbox"):
 			continue
 
-		var enemy = area.get_parent()
+		var enemy = global.get_damage_target(area)
 		if not enemy or not enemy.has_method("update_health"):
 			continue
 
 		var damage = _attack_damage
 		if is_instance_valid(global) and is_instance_valid(global.character):
-			damage += global.character.get_additional_attack()
+			damage = global.character.scale_damage(_attack_damage)
 
 		enemy.update_health(damage, global.character if is_instance_valid(global.character) else self)
 

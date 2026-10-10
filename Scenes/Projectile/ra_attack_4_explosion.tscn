@@ -1,0 +1,98 @@
+[gd_scene format=3 uid="uid://bishwul1d3ctf"]
+
+[ext_resource type="Script" uid="uid://ctt2tdybmyj8j" path="res://Scripts/Projectiles/ra_fx_projectile.gd" id="1_r"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Rá/Rá_humanoide_Attack_4_Explosion_2.png" id="2_r"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex0"]
+atlas = ExtResource("2_r")
+region = Rect2(0, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex1"]
+atlas = ExtResource("2_r")
+region = Rect2(160, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex2"]
+atlas = ExtResource("2_r")
+region = Rect2(320, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex3"]
+atlas = ExtResource("2_r")
+region = Rect2(480, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex4"]
+atlas = ExtResource("2_r")
+region = Rect2(640, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex5"]
+atlas = ExtResource("2_r")
+region = Rect2(800, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex6"]
+atlas = ExtResource("2_r")
+region = Rect2(960, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex7"]
+atlas = ExtResource("2_r")
+region = Rect2(1120, 0, 160, 190)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ex8"]
+atlas = ExtResource("2_r")
+region = Rect2(1280, 0, 160, 190)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ex8")
+}],
+"loop": false,
+"name": &"Default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7"]
+size = Vector2(120, 140)
+
+[node name="ra_attack_4_explosion" type="Area2D" unique_id=464427980 node_paths=PackedStringArray("_texture", "_collision")]
+z_index = 10
+collision_layer = 0
+script = ExtResource("1_r")
+_texture = NodePath("Texture")
+_collision = NodePath("Collision")
+_attack_damage = 15
+_active_frame_start = 4
+_active_frame_end = 8
+
+[node name="Texture" type="AnimatedSprite2D" parent="." unique_id=1154799009]
+sprite_frames = SubResource("SpriteFrames_6")
+animation = &"Default"
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1970439250]
+position = Vector2(0, 25)
+shape = SubResource("RectangleShape2D_7")
+disabled = true
+debug_color = Color(1, 0.3, 0, 0.42)
