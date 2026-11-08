@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://l5exs5y48ql7"]
+[gd_scene load_steps=17 format=3 uid="uid://l5exs5y48ql7"]
 
 [ext_resource type="Script" path="res://Scripts/Inventory/inventory_slot.gd" id="1_6cu8c"]
 [ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="2_rt2yn"]
 [ext_resource type="Texture2D" uid="uid://dmxio525j0fo8" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Select_Pixel Art_v01.png" id="3_lq1q8"]
+[ext_resource type="Texture2D" uid="uid://6274fb4hknnw" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Equipped_Pixel Art_v01.png" id="4_equip"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_yo50s"]
 
@@ -34,7 +35,7 @@ shadow_size = 0
 shadow_color = Color(0.137255, 0.137255, 0.137255, 1)
 shadow_offset = Vector2(0, 1)
 
-[node name="InventorySlot" type="Button" node_paths=PackedStringArray("_slot_label", "_slot_texture")]
+[node name="InventorySlot" type="Button" node_paths=PackedStringArray("_slot_label", "_slot_texture", "_equipped_frame")]
 custom_minimum_size = Vector2(32, 32)
 mouse_filter = 1
 theme_override_styles/focus = SubResource("StyleBoxEmpty_yo50s")
@@ -52,6 +53,7 @@ flat = true
 script = ExtResource("1_6cu8c")
 _slot_label = NodePath("Amount")
 _slot_texture = NodePath("SlotTexture")
+_equipped_frame = NodePath("EquippedFrame")
 
 [node name="SlotTexture" type="TextureRect" parent="."]
 layout_mode = 1
@@ -69,6 +71,23 @@ grow_vertical = 2
 mouse_filter = 2
 expand_mode = 1
 stretch_mode = 5
+
+[node name="EquippedFrame" type="TextureRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("4_equip")
 
 [node name="Amount" type="Label" parent="."]
 custom_minimum_size = Vector2(32, 32)

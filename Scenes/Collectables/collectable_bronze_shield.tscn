@@ -20,7 +20,7 @@ animations = [{
 [node name="CollectableBronzeShield" instance=ExtResource("1_equip")]
 script = ExtResource("2_equip")
 item_key = "ITEM_BRONZE_SHIELD"
-equip_slot = "offhand"
+equip_slot = "armor"
 attributes = {
 "shield_block": 1
 }

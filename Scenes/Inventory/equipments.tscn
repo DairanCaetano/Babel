@@ -101,7 +101,7 @@ shadow_offset = Vector2(0, 1)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4je7q"]
 
-[node name="Equipments" type="Control" node_paths=PackedStringArray("_weapon_slot", "_armor_slot", "_offhand_slot", "_consumable_slot", "_fragments_slot")]
+[node name="Equipments" type="Control" node_paths=PackedStringArray("_weapon_slot", "_armor_slot", "_offhand_slot", "_consumable_slot", "_fragments_slot", "_sacred_slot")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -115,6 +115,7 @@ _armor_slot = NodePath("GridContainer/ArmorSlot")
 _offhand_slot = NodePath("GridContainer/offhandSlot")
 _consumable_slot = NodePath("GridContainer/ConsumableSlot")
 _fragments_slot = NodePath("VContainer/UICurrencySlot")
+_sacred_slot = NodePath("GridContainer/SacredSlot")
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 0
@@ -124,7 +125,7 @@ offset_right = 368.0
 offset_bottom = 43.0
 theme_override_constants/h_separation = 20
 theme_override_constants/v_separation = 20
-columns = 4
+columns = 5
 
 [node name="ConsumableSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
 custom_minimum_size = Vector2(27, 27)
@@ -284,6 +285,48 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ItemTexture" type="TextureRect" parent="GridContainer/offhandSlot/SlotTexture"]
+custom_minimum_size = Vector2(29, 29)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+expand_mode = 1
+stretch_mode = 3
+
+[node name="SacredSlot" type="Button" parent="GridContainer" groups=["equipments_slot"]]
+custom_minimum_size = Vector2(27, 27)
+visible = false
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxEmpty_6le3u")
+theme_override_styles/disabled_mirrored = SubResource("StyleBoxEmpty_0lgd8")
+theme_override_styles/disabled = SubResource("StyleBoxEmpty_xukhs")
+theme_override_styles/hover_pressed_mirrored = SubResource("StyleBoxEmpty_m1ncc")
+theme_override_styles/hover_pressed = SubResource("StyleBoxEmpty_sle7f")
+theme_override_styles/hover_mirrored = SubResource("StyleBoxEmpty_ojysh")
+theme_override_styles/hover = SubResource("StyleBoxEmpty_6nv72")
+theme_override_styles/pressed_mirrored = SubResource("StyleBoxEmpty_vxhhu")
+theme_override_styles/pressed = SubResource("StyleBoxEmpty_wq7i5")
+theme_override_styles/normal_mirrored = SubResource("StyleBoxEmpty_gh07h")
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4je7q")
+
+[node name="SlotTexture" type="TextureRect" parent="GridContainer/SacredSlot"]
+custom_minimum_size = Vector2(27, 27)
+layout_mode = 0
+offset_right = 27.0
+offset_bottom = 27.0
+texture = ExtResource("1_iuaks")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemTexture" type="TextureRect" parent="GridContainer/SacredSlot/SlotTexture"]
 custom_minimum_size = Vector2(29, 29)
 layout_mode = 1
 anchors_preset = 8

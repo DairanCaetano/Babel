@@ -1,6 +1,6 @@
-[gd_scene load_steps=26 format=3 uid="uid://bfx2s5jfb5uxt"]
+[gd_scene format=3 uid="uid://bfx2s5jfb5uxt"]
 
-[ext_resource type="Script" path="res://Scripts/Inventory/hud.gd" id="1_auw5b"]
+[ext_resource type="Script" uid="uid://baqxmhqnjxqx5" path="res://Scripts/Inventory/hud.gd" id="1_auw5b"]
 [ext_resource type="PackedScene" uid="uid://nowqrfoi24aq" path="res://Scenes/Inventory/inventory.tscn" id="2_dir6c"]
 [ext_resource type="Texture2D" uid="uid://bjrm3mcu1yyle" path="res://sprites/UI/MENU_1/Babel_GUI_Info_Label_Anim_v01.png" id="2_gm2wm"]
 [ext_resource type="Texture2D" uid="uid://cutovqmhjtuct" path="res://sprites/UI/MENU_1/Babel_GUI_Status_bar_v01.png" id="3_2xycu"]
@@ -10,12 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://bxc2dpyvg0112" path="res://Scenes/Inventory/bar_container.tscn" id="5_lgudj"]
 [ext_resource type="Texture2D" uid="uid://cf241tqk03kc" path="res://sprites/UI/SAVE/Babel_GUI_SAVE_SELECT_Pixel Art_v01.png" id="5_tpi2h"]
 [ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="6_ynau1"]
-[ext_resource type="Script" path="res://Scripts/Inventory/save_animation_texture.gd" id="7_bryqx"]
+[ext_resource type="Script" uid="uid://byn63gxxbnyaj" path="res://Scripts/Inventory/save_animation_texture.gd" id="7_bryqx"]
 [ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="8_u4iqj"]
 [ext_resource type="AudioStream" uid="uid://btuxq57rgdure" path="res://Sound/SFX/MenuSound/PauseMenu.ogg" id="13_5pbej"]
 [ext_resource type="AudioStream" uid="uid://r4ukokbmlftd" path="res://Sound/SFX/MenuSound/UI_Navigation.ogg" id="14_2ry3y"]
 [ext_resource type="AudioStream" uid="uid://c0afal5i0hl2p" path="res://Sound/SFX/MenuSound/UI_Select.ogg" id="15_l6wos"]
 [ext_resource type="AudioStream" uid="uid://c0bqx05u0e12b" path="res://Sound/SFX/MenuSound/save_audio.ogg" id="16_25csw"]
+[ext_resource type="PackedScene" uid="uid://8iaxlhwhajo8" path="res://Scenes/UI/button_prompt.tscn" id="90_prompt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2n8hx"]
 font = ExtResource("6_ynau1")
@@ -56,7 +57,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gab4b")
 }],
-"loop": false,
+"loop": 0,
 "name": &"save_in",
 "speed": 10.0
 }, {
@@ -70,7 +71,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mty25")
 }],
-"loop": false,
+"loop": 0,
 "name": &"save_out",
 "speed": 10.0
 }]
@@ -79,7 +80,7 @@ animations = [{
 font = ExtResource("8_u4iqj")
 font_size = 12
 
-[node name="HUD" type="CanvasLayer" node_paths=PackedStringArray("_ui_inventory", "_bar_container", "_equipments", "_interfacebar", "inventory_open_audio", "inventory_close_audio", "save_menu_open_audio", "save_menu_close_audio", "save_menu_navigation_audio", "save_menu_select_audio", "save_audio") groups=["hud"]]
+[node name="HUD" type="CanvasLayer" unique_id=614932884 node_paths=PackedStringArray("_ui_inventory", "_bar_container", "_equipments", "_interfacebar", "inventory_open_audio", "inventory_close_audio", "save_menu_open_audio", "save_menu_close_audio", "save_menu_navigation_audio", "save_menu_select_audio", "save_audio") groups=["hud"]]
 process_mode = 3
 script = ExtResource("1_auw5b")
 _ui_inventory = NodePath("Inventory")
@@ -94,7 +95,7 @@ save_menu_navigation_audio = NodePath("SaveMenuNavigationAudio")
 save_menu_select_audio = NodePath("SaveMenuSelectAudio")
 save_audio = NodePath("saveAudio")
 
-[node name="SaveContainer" type="TextureRect" parent="."]
+[node name="SaveContainer" type="TextureRect" parent="." unique_id=291763368]
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -103,7 +104,14 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ButtonsBackground" type="TextureRect" parent="SaveContainer"]
+[node name="ButtonPrompt" parent="SaveContainer" unique_id=920981617 instance=ExtResource("90_prompt")]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 256.0
+offset_right = 378.0
+offset_bottom = 279.0
+
+[node name="ButtonsBackground" type="TextureRect" parent="SaveContainer" unique_id=1151704282]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -118,7 +126,7 @@ grow_horizontal = 0
 grow_vertical = 2
 texture = ExtResource("3_5u41u")
 
-[node name="ButtonsContainer" type="VBoxContainer" parent="SaveContainer/ButtonsBackground"]
+[node name="ButtonsContainer" type="VBoxContainer" parent="SaveContainer/ButtonsBackground" unique_id=857434424]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -130,12 +138,12 @@ offset_bottom = 31.0
 grow_horizontal = 2
 theme_override_constants/separation = 16
 
-[node name="SaveButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+[node name="SaveButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer" unique_id=1381811956]
 layout_mode = 2
 texture_normal = ExtResource("4_v06vc")
 texture_hover = ExtResource("5_tpi2h")
 
-[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/SaveButton"]
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/SaveButton" unique_id=1433361087]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -149,12 +157,12 @@ label_settings = SubResource("LabelSettings_2n8hx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TravelButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+[node name="TravelButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer" unique_id=2028228197]
 layout_mode = 2
 texture_normal = ExtResource("4_v06vc")
 texture_hover = ExtResource("5_tpi2h")
 
-[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TravelButton"]
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TravelButton" unique_id=1120858873]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -168,12 +176,12 @@ label_settings = SubResource("LabelSettings_2n8hx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TalkButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+[node name="TalkButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer" unique_id=118636095]
 layout_mode = 2
 texture_normal = ExtResource("4_v06vc")
 texture_hover = ExtResource("5_tpi2h")
 
-[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TalkButton"]
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/TalkButton" unique_id=1625237473]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -187,12 +195,12 @@ label_settings = SubResource("LabelSettings_2n8hx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="QuitButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer"]
+[node name="QuitButton" type="TextureButton" parent="SaveContainer/ButtonsBackground/ButtonsContainer" unique_id=959837071]
 layout_mode = 2
 texture_normal = ExtResource("4_v06vc")
 texture_hover = ExtResource("5_tpi2h")
 
-[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/QuitButton"]
+[node name="Label" type="Label" parent="SaveContainer/ButtonsBackground/ButtonsContainer/QuitButton" unique_id=1740747969]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -206,7 +214,7 @@ label_settings = SubResource("LabelSettings_2n8hx")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Texture" type="AnimatedSprite2D" parent="SaveContainer"]
+[node name="Texture" type="AnimatedSprite2D" parent="SaveContainer" unique_id=2121124330]
 visible = false
 position = Vector2(240, 135)
 sprite_frames = SubResource("SpriteFrames_d730k")
@@ -214,7 +222,7 @@ animation = &"save_in"
 autoplay = "save_in"
 script = ExtResource("7_bryqx")
 
-[node name="Label" type="Label" parent="SaveContainer/Texture"]
+[node name="Label" type="Label" parent="SaveContainer/Texture" unique_id=1579828754]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -231,20 +239,21 @@ text = "jogo salvo"
 label_settings = SubResource("LabelSettings_kp3g3")
 horizontal_alignment = 1
 
-[node name="Inventory" parent="." instance=ExtResource("2_dir6c")]
+[node name="Inventory" parent="." unique_id=1603869398 instance=ExtResource("2_dir6c")]
 visible = false
 
-[node name="interfaceBar" type="TextureRect" parent="."]
+[node name="interfaceBar" type="TextureRect" parent="." unique_id=700524753]
 offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 texture = ExtResource("3_2xycu")
 
-[node name="Equipments" parent="." instance=ExtResource("3_4erlk")]
+[node name="Equipments" parent="." unique_id=668187917 instance=ExtResource("3_4erlk")]
 
-[node name="BarContainer" parent="." instance=ExtResource("5_lgudj")]
+[node name="BarContainer" parent="." unique_id=1079131867 instance=ExtResource("5_lgudj")]
+overheal_offset_y = 0.0
 
-[node name="Notifications" type="Control" parent="."]
+[node name="Notifications" type="Control" parent="." unique_id=1649840237]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -254,21 +263,21 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PauseMenuAudio" type="AudioStreamPlayer" parent="."]
+[node name="PauseMenuAudio" type="AudioStreamPlayer" parent="." unique_id=1792377124]
 stream = ExtResource("13_5pbej")
 
-[node name="SaveMenuOpenAudio" type="AudioStreamPlayer" parent="."]
+[node name="SaveMenuOpenAudio" type="AudioStreamPlayer" parent="." unique_id=927531210]
 stream = ExtResource("13_5pbej")
 
-[node name="SaveMenuNavigationAudio" type="AudioStreamPlayer" parent="."]
+[node name="SaveMenuNavigationAudio" type="AudioStreamPlayer" parent="." unique_id=277785993]
 stream = ExtResource("14_2ry3y")
 volume_db = -10.0
 
-[node name="SaveMenuSelectAudio" type="AudioStreamPlayer" parent="."]
+[node name="SaveMenuSelectAudio" type="AudioStreamPlayer" parent="." unique_id=72566964]
 stream = ExtResource("15_l6wos")
 volume_db = -10.0
 
-[node name="saveAudio" type="AudioStreamPlayer" parent="."]
+[node name="saveAudio" type="AudioStreamPlayer" parent="." unique_id=460943036]
 stream = ExtResource("16_25csw")
 
 [connection signal="pressed" from="SaveContainer/ButtonsBackground/ButtonsContainer/SaveButton" to="." method="_on_save_button_pressed"]

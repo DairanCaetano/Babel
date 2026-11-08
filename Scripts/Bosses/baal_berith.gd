@@ -73,6 +73,11 @@ var _attack_2_target_x: float = 0.0  # Posição X do player travada no início 
 
 func _ready():
 	boss_id = "baal_berith"  # ← ID único deste boss
+	if boss_name_key == "":
+		boss_name_key = "BOSS_BAAL_BERITH_NAME"
+	# Mesmo tamanho do nome do Rá (fonte 56)
+	if title_name_scale == 0:
+		title_name_scale = 4
 	super._ready()  # ← Chama o _ready da classe Boss
 	
 	# Se já foi derrotado, não spawnar
@@ -154,6 +159,7 @@ func _trigger_phase_2():
 func _start_roar():
 	has_roared = true
 	_initial_roar_in_progress = true
+	show_title_card(roar_duration)   # 👑 nome do chefe (só no primeiro encontro)
 	is_attacking = true
 	is_in_attack_sequence = true
 	current_state = "roar_initial"

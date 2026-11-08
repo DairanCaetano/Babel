@@ -5,6 +5,18 @@ var ambience_player: AudioStreamPlayer
 
 var current_music_name: String = ""
 var current_volume: float = 1.0
+var _fade_out_tween: Tween   # fade-out em andamento (stop_music_realtime)
+
+# ========== PAUSA: a música continua, mais baixa ==========
+# Com o jogo pausado (inventário, arquivos, escolha de slot...) a música
+# e o ambiente seguem tocando com volume reduzido; voltam ao normal ao despausar.
+## Quanto o volume abaixa na pausa (dB). 0 = não abaixa.
+var pause_duck_db: float = -8.0
+## Tempo da transição do volume (s).
+var pause_duck_time: float = 0.3
+var _duck_effects: Array[AudioEffectAmplify] = []
+var _duck_tween: Tween
+var _was_paused: bool = false
 
 # ========== 🎵 CONFIGURAÇÃO DAS MÚSICAS ==========
 const MUSIC_CONFIG := {
@@ -31,6 +43,10 @@ const MUSIC_CONFIG := {
 }
 
 func _ready() -> void:
+	# ✅ Não pausa junto com o jogo (a música segue nos menus)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	_setup_pause_duck()
+	
 	music_player = AudioStreamPlayer.new()
 	music_player.bus = "Music"
 	add_child(music_player)
@@ -79,6 +95,9 @@ func play_music_simple(track_name: String, start_position: float = 0.0) -> void:
 		print("  ⏹️ Parando música atual: ", current_music_name)
 		music_player.stop()
 	
+	# Um fade-out antigo ainda rodando abaixaria a música nova: cancela
+	_kill_fade_out_tween()
+	
 	# Configurar player
 	current_music_name = track_name
 	music_player.stream = new_music
@@ -98,6 +117,32 @@ func play_music_simple(track_name: String, start_position: float = 0.0) -> void:
 	tween.tween_property(music_player, "volume_db", linear_to_db(current_volume), config["fade_in"])
 	
 	print("  🔊 Fade in iniciado (", config["fade_in"], "s)")
+
+func _setup_pause_duck() -> void:
+	"""Um 'Amplify' em cada bus (Music/Ambience) faz o abaixar na pausa,
+	sem brigar com os fades da música nem com o volume das opções."""
+	for _bus_name in ["Music", "Ambience"]:
+		var _idx: int = AudioServer.get_bus_index(_bus_name)
+		if _idx == -1:
+			continue
+		var _fx := AudioEffectAmplify.new()
+		_fx.volume_db = 0.0
+		AudioServer.add_bus_effect(_idx, _fx)
+		_duck_effects.append(_fx)
+
+func _process(_delta: float) -> void:
+	var _paused: bool = get_tree().paused
+	if _paused == _was_paused:
+		return
+	_was_paused = _paused
+	if _duck_tween:
+		_duck_tween.kill()
+	if _duck_effects.is_empty():
+		return
+	_duck_tween = create_tween().set_parallel(true)
+	var _target: float = pause_duck_db if _paused else 0.0
+	for _fx in _duck_effects:
+		_duck_tween.tween_property(_fx, "volume_db", _target, pause_duck_time)
 
 func _on_music_finished() -> void:
 	"""Loop automático"""
@@ -130,22 +175,91 @@ func stop_music_realtime(duration: float) -> void:
 	✅ Para música em tempo real (não pausa com Engine.time_scale)
 	Usado durante sequências de vitória com câmera lenta
 	"""
-	if not music_player.playing:
-		print("⚠️ Música já está parada")
+	if not music_player.playing or current_music_name == "":
+		print("⚠️ Música já está parada (ou sendo cortada)")
 		return
 	
 	print("🔇 Parando música em tempo real (fade ", duration, "s)")
+	var _fading_track: String = current_music_name
 	
 	# Tween em PROCESS_PHYSICS (não afetado por time_scale)
+	_kill_fade_out_tween()
 	var tween = create_tween()
+	_fade_out_tween = tween
 	tween.set_process_mode(Tween.TWEEN_PROCESS_PHYSICS)
+	tween.set_ignore_time_scale(true)   # tempo real de verdade: não desacelera na câmera lenta
 	tween.tween_property(music_player, "volume_db", -80.0, duration).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_OUT)
 	
 	await tween.finished
 	
+	# Se outra música começou durante o fade, não corta a nova
+	if current_music_name != _fading_track:
+		print("  ↪️ Outra música começou durante o fade — mantida")
+		return
+	
 	music_player.stop()
 	current_music_name = ""
 	print("  ✅ Música parada completamente")
+
+func _kill_fade_out_tween() -> void:
+	if _fade_out_tween and _fade_out_tween.is_valid():
+		_fade_out_tween.kill()
+	_fade_out_tween = null
+
+func cut_music(fade: float = 0.1) -> void:
+	"""
+	✂️ Corte (quase) seco da música, em tempo real. fade = 0 corta na hora;
+	um fade curtinho (0.1s) evita estalo. Usado na tela preta da morte do chefe.
+	"""
+	if not music_player.playing:
+		return
+	_kill_fade_out_tween()
+	print("✂️ Cortando música: ", current_music_name)
+	current_music_name = ""   # já conta como parada (stop_music_realtime ignora)
+	if fade <= 0.0:
+		music_player.stop()
+		return
+	var tween := create_tween()
+	_fade_out_tween = tween
+	tween.set_ignore_time_scale(true)
+	tween.tween_property(music_player, "volume_db", -80.0, fade)
+	tween.tween_callback(func():
+		if current_music_name == "":
+			music_player.stop()
+	)
+
+func resume_level_music(delay: float = 4.0) -> void:
+	"""
+	✅ Volta a tocar a música da fase atual depois de `delay` segundos REAIS
+	(não desacelera com câmera lenta). Usado depois da morte de um chefe.
+	Não faz nada se já houver música tocando ou se a fase estiver na
+	sequência de vitória.
+	"""
+	if delay > 0.0:
+		await get_tree().create_timer(delay, true, false, true).timeout
+	
+	var level = _get_current_level()
+	if not level or not "level_music_track" in level:
+		return
+	if "victory_sequence_active" in level and level.victory_sequence_active:
+		print("🎵 Música da fase não retomada: sequência de vitória em andamento")
+		return
+	# Música tocando: só desiste se ela não estiver sumindo (ex.: cutscene).
+	# Se for a do chefe ainda em fade, a da fase entra no lugar.
+	var _fading: bool = _fade_out_tween != null and _fade_out_tween.is_valid() and _fade_out_tween.is_running()
+	if music_player.playing and not _fading:
+		return
+	var track: String = level.level_music_track
+	if track == "":
+		return
+	print("🎵 Retomando música da fase: ", track)
+	play_music_simple(track, 0.0)
+
+func _get_current_level() -> Node:
+	var game_main = get_tree().get_first_node_in_group("game_main")
+	if game_main and "current_level" in game_main and is_instance_valid(game_main.current_level):
+		return game_main.current_level
+	return get_tree().current_scene
 
 func set_music_volume(volume: float) -> void:
 	current_volume = clamp(volume, 0.0, 1.0)

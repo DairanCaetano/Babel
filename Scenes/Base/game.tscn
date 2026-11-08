@@ -13,7 +13,10 @@ player_root = NodePath("Player")
 character = NodePath("Player/Character")
 camera = NodePath("CharacterCamera")
 hud = NodePath("HUD")
-initial_level_override = "uid://38oi768mnwwe"
+initial_level_override = "uid://bnnac43rvbiic"
+debug_dash = true
+debug_wall_jump = true
+debug_mute_music = true
 
 [node name="LevelContainer" type="Node2D" parent="." unique_id=1283424985]
 script = ExtResource("1_7wqso")

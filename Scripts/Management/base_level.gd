@@ -7,6 +7,10 @@ class_name BaseLevel
 @export_category("Audio")
 @export var level_music_track: String = "tebe_1"
 
+# true durante a sequência de vitória: impede a música da fase de voltar
+# depois da morte do chefe (AudioManager.resume_level_music)
+var victory_sequence_active: bool = false
+
 @export_category("Inimigos fora da tela")
 ## Pausa os inimigos (filhos do nó "Enemies") enquanto estão longe da tela.
 ## Eles voltam a funcionar sozinhos quando a câmera chega perto.
@@ -217,6 +221,7 @@ func _start_victory_sequence() -> void:
 	"""Sequência de vitória (fim da demo). Chamada pelo spawner do chefe
 	(Disco do Rá) via BossAlliance.trigger_victory_sequence()."""
 	print("🎉 Iniciando sequência de vitória!")
+	victory_sequence_active = true
 	
 	# Desabilitar controle do jogador
 	var player = get_tree().get_first_node_in_group("player")

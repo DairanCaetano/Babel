@@ -1,0 +1,69 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://Scripts/Map/map_screen.gd" id="1_tela"]
+[ext_resource type="Texture2D" path="res://sprites/UI/MENU_1/Babel_GUI_BG_Pixel Art_v01.png" id="2_bg"]
+[ext_resource type="Texture2D" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Title_Pixel Art_v01.png" id="3_tit"]
+[ext_resource type="FontFile" path="res://Fonts/old_style/njo_14.ttf" id="4_f14"]
+[ext_resource type="FontFile" path="res://Fonts/old_style/njo_11.ttf" id="5_f11"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_tit"]
+line_spacing = 0.0
+font = ExtResource("4_f14")
+font_size = 14
+shadow_size = 0
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_pct"]
+font = ExtResource("5_f11")
+font_size = 11
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[node name="MapScreen" type="CanvasLayer"]
+process_mode = 3
+layer = 2
+visible = false
+script = ExtResource("1_tela")
+
+[node name="Fundo" type="TextureRect" parent="."]
+offset_right = 480.0
+offset_bottom = 270.0
+texture = ExtResource("2_bg")
+
+[node name="TituloTexture" type="TextureRect" parent="."]
+offset_left = 41.0
+offset_top = 18.0
+offset_right = 137.0
+offset_bottom = 39.0
+texture = ExtResource("3_tit")
+
+[node name="Titulo" type="Label" parent="TituloTexture"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Mapa"
+label_settings = SubResource("LabelSettings_tit")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Janela" type="Control" parent="."]
+clip_contents = true
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 24.0
+offset_top = 46.0
+offset_right = 456.0
+offset_bottom = 236.0
+
+[node name="Porcentagem" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 240.0
+offset_right = 456.0
+offset_bottom = 258.0
+text = "Mapa explorado: 0%"
+label_settings = SubResource("LabelSettings_pct")
+horizontal_alignment = 2

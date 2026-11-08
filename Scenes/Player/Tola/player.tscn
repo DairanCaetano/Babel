@@ -1,9 +1,9 @@
-[gd_scene load_steps=354 format=3 uid="uid://g78ro8nvelp1"]
+[gd_scene format=3 uid="uid://g78ro8nvelp1"]
 
 [ext_resource type="Texture2D" uid="uid://cbkha78rr2bub" path="res://sprites/Player/Tola/IDLE/Tola_Idle_v01.png" id="1_01e4a"]
-[ext_resource type="Script" path="res://Scenes/Player/Tola/player.gd" id="1_vgr8b"]
+[ext_resource type="Script" uid="uid://cwsyxakcxb51l" path="res://Scenes/Player/Tola/player.gd" id="1_vgr8b"]
 [ext_resource type="Texture2D" uid="uid://dbp5rkb3wfmbr" path="res://sprites/Player/Tola/ATAQUE 1/Tola_Attack_v01.png" id="2_657oc"]
-[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_ryd4d"]
+[ext_resource type="Shader" uid="uid://x85p37fnk4c5" path="res://Shaders/blink.gdshader" id="2_ryd4d"]
 [ext_resource type="Texture2D" uid="uid://dteiborkm5h5s" path="res://sprites/Player/Tola/ATAQUE ABAIXADO/Tola_Attack_Crounch_v01.png" id="2_uh38f"]
 [ext_resource type="Texture2D" uid="uid://clvk1sd1qoc0d" path="res://sprites/Player/Tola/ATAQUE 2/Tola_Attack_2_v02.png" id="3_0hynj"]
 [ext_resource type="Texture2D" uid="uid://dkvsnagsauqmb" path="res://sprites/Player/Tola/PULO/Tola_Pulo_v01.png" id="3_6dwg0"]
@@ -13,27 +13,31 @@
 [ext_resource type="Texture2D" uid="uid://deu7f2lrh1dsj" path="res://sprites/Player/Tola/DERROTA/Tola_Derrota_v01.png" id="5_5wf1n"]
 [ext_resource type="Texture2D" uid="uid://b5jpsekfs0ixt" path="res://sprites/Player/Tola/RUN/Tola_Run_v01.png" id="5_s3xde"]
 [ext_resource type="Texture2D" uid="uid://nrrpiokw8fs0" path="res://sprites/Player/Tola/ATAQUE PAREDE/Tola_Ataque_Wall_Slide_v01.png" id="6_b6r8e"]
-[ext_resource type="Script" path="res://Scenes/Player/Tola/character_texture.gd" id="6_bcpfw"]
+[ext_resource type="Script" uid="uid://l1ot4420yl7o" path="res://Scenes/Player/Tola/character_texture.gd" id="6_bcpfw"]
 [ext_resource type="Texture2D" uid="uid://c42bk7ltnujsp" path="res://sprites/Player/Tola/CONTRA ATAQUE/Tola_Contra_Ataque_v03.png" id="6_bmvd2"]
 [ext_resource type="Texture2D" uid="uid://br2a8e03sfs48" path="res://sprites/Player/Tola/DANO/Tola_Dano_v02.png" id="6_i38qe"]
+[ext_resource type="Texture2D" uid="uid://1x37x2422wof" path="res://sprites/Player/Tola/ATAQUE CRÍTICO/Tola_Critical_Hit_Air.png" id="7_sq5vm"]
 [ext_resource type="Texture2D" uid="uid://c2s7k0icyowqq" path="res://sprites/Player/Tola/ATAQUE MACHADO/Tola_Ataque_Machado_v01.png" id="8_b1tea"]
 [ext_resource type="Texture2D" uid="uid://b1fppjsxpkine" path="res://sprites/Player/Tola/ABAIXADO/Tola_Crounch_v01.png" id="8_g8ccq"]
+[ext_resource type="Texture2D" uid="uid://d083d4e2ffn7b" path="res://sprites/Player/Tola/ATAQUE CRÍTICO/Tola_Critical_Hit_.png" id="8_ls5b8"]
 [ext_resource type="Texture2D" uid="uid://8dwystoprdv4" path="res://sprites/Player/Tola/ESCALADA/Tola_Climb_v02.png" id="9_6qlvx"]
 [ext_resource type="Texture2D" uid="uid://w5k2j8wc87qq" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_v01.png" id="9_c6cqp"]
+[ext_resource type="Texture2D" uid="uid://efs1lx4dmw0h" path="res://sprites/Player/Tola/ATAQUE CRÍTICO/Tola_Critical_Hit__Crounch_v01.png" id="9_isk24"]
 [ext_resource type="Texture2D" uid="uid://bgmgtd54r88e4" path="res://sprites/Player/Tola/gancho/Tola_Arremesso_Projetil_v04.png" id="10_0ddqj"]
 [ext_resource type="Texture2D" uid="uid://1n5rmks6cba4" path="res://sprites/Player/Tola/LEVANTAR/Tola_Animation_Rising_v01.png" id="10_eudxc"]
 [ext_resource type="Texture2D" uid="uid://c440cbw80kp8t" path="res://sprites/Player/Tola/gancho/Tola_Arremesso_Gancho_PUXÃO_v03.png" id="11_0t8u5"]
 [ext_resource type="Texture2D" uid="uid://c7htsd1ny1evo" path="res://sprites/Player/Tola/ROLAMENTO/Tola_Rolamento_v01.png" id="11_6t4m2"]
 [ext_resource type="Texture2D" uid="uid://dly23hjeje6ti" path="res://sprites/Player/Tola/PULO DUPLO/Tola_Pulo_Duplo_v01.png" id="11_56j1n"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/character_attack_area.gd" id="11_c8ym4"]
+[ext_resource type="Script" uid="uid://cv4lpwlc3beh6" path="res://Scripts/Player/Tola/character_attack_area.gd" id="11_c8ym4"]
 [ext_resource type="Texture2D" uid="uid://po1hqb0ivqm5" path="res://sprites/Player/Tola/gancho/Tola_Arremesso_Gancho_v02.png" id="11_i2sls"]
 [ext_resource type="Texture2D" uid="uid://c5h6kvgeo8hwo" path="res://sprites/Player/Tola_Petrificado_v01.png" id="12_bmxg7"]
 [ext_resource type="Texture2D" uid="uid://cu68qrep1oiwj" path="res://sprites/Player/Tola/FOGO/Tola_Fogo_v02.png" id="13_gwvoe"]
-[ext_resource type="Script" path="res://Scenes/Player/Tola/character_inventory.gd" id="14_ofpg4"]
+[ext_resource type="Texture2D" uid="uid://bq1nkcu3bgfp6" path="res://sprites/Player/Tola/MAPA/Tola_Mapa_v01.png" id="14_ls5b8"]
+[ext_resource type="Script" uid="uid://4b4vs8tbsaeh" path="res://Scenes/Player/Tola/character_inventory.gd" id="14_ofpg4"]
 [ext_resource type="Texture2D" uid="uid://beh5nh8o8ov21" path="res://sprites/Player/Tola/PENDURAR/Pendurar_v01.png" id="15_0jbtm"]
 [ext_resource type="Texture2D" uid="uid://tnx0q1i5x70l" path="res://sprites/Player/Tola/CONSUMIR/Tola_Cura-v02.png" id="15_45uqk"]
 [ext_resource type="Texture2D" uid="uid://cn753u44n5vv5" path="res://sprites/Player/Tola/DESLIZAR NA PAREDE/Tola_Wall_Slide_v01.png" id="15_aoo6w"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/player_stats.gd" id="17_4kssw"]
+[ext_resource type="Script" uid="uid://os7cmeyeb74w" path="res://Scripts/Player/Tola/player_stats.gd" id="17_4kssw"]
 [ext_resource type="Texture2D" uid="uid://baksv6p74rpi0" path="res://sprites/Player/Tola/gancho/Tola_Puxado_v04.png" id="17_a66gh"]
 [ext_resource type="PackedScene" uid="uid://ccahtwj6g0761" path="res://Scenes/FX/blood_particles.tscn" id="18_r24l2"]
 [ext_resource type="Texture2D" uid="uid://b07ortpqukqdt" path="res://sprites/Player/Tola/IDLE COMBATE/Tola_Combat_Idle_Giro_Espada_v01.png" id="18_rutmh"]
@@ -46,11 +50,11 @@
 [ext_resource type="Texture2D" uid="uid://0ompulknj8mp" path="res://sprites/Player/Tola/RUN/Tola_Start_Run_v02.png" id="30_54ooa"]
 [ext_resource type="Texture2D" uid="uid://bro7rewiir5h2" path="res://sprites/Player/Tola/STOP/Tola_Parada-Sheet.png" id="31_4f8p7"]
 [ext_resource type="Texture2D" uid="uid://cvjbtlwqj3ybs" path="res://sprites/Player/Tola/RUN/Tola_Run_Fast_v01.png" id="34_e4mbk"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/sub_weapons.gd" id="34_xhvl5"]
+[ext_resource type="Script" uid="uid://drreykahkiumw" path="res://Scripts/Player/Tola/sub_weapons.gd" id="34_xhvl5"]
 [ext_resource type="Texture2D" uid="uid://bvwan65t2y4o5" path="res://sprites/Player/Tola/GIRAR/Tola_Giro_v02.png" id="35_71vh5"]
 [ext_resource type="Texture2D" uid="uid://dr13t4tp7mt6l" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_Chicote_Tola_v02.png" id="41_kx3vm"]
 [ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="42_aru4h"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/player_skills.gd" id="42_snmh8"]
+[ext_resource type="Script" uid="uid://d0e7616n2ic4y" path="res://Scripts/Player/Tola/player_skills.gd" id="42_snmh8"]
 [ext_resource type="Texture2D" uid="uid://csua3bvys4ti7" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_Chicote_Tola_v03.png" id="42_x670a"]
 [ext_resource type="Texture2D" uid="uid://b7t3parr7f8i3" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_Chicote_Tola_v01.png" id="43_1d76s"]
 [ext_resource type="Texture2D" uid="uid://cc6iani1w0nty" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_Chicote_Tola_v04.png" id="44_obxb0"]
@@ -60,7 +64,7 @@
 [ext_resource type="PackedScene" uid="uid://cuy5r263j3li6" path="res://Scenes/FX/fire_attack_effect_3.tscn" id="49_d0vbp"]
 [ext_resource type="AudioStream" uid="uid://dlq4ieq7dmk4m" path="res://Sound/SFX/PlayerSound/Swoosh_3.ogg" id="51_5fguy"]
 [ext_resource type="AudioStream" uid="uid://wh1a66lfchyp" path="res://Sound/SFX/PlayerSound/Footsteps_ running.ogg" id="51_tbgtk"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/character_audio.gd" id="52_pmfur"]
+[ext_resource type="Script" uid="uid://cptbdy726m7er" path="res://Scripts/Player/Tola/character_audio.gd" id="52_pmfur"]
 [ext_resource type="AudioStream" uid="uid://re41c3bbuxel" path="res://Sound/SFX/PlayerSound/_Jump_Land_03.ogg" id="53_4fnte"]
 [ext_resource type="AudioStream" uid="uid://bjmgql82h41b3" path="res://Sound/SFX/PlayerSound/Jump_03.ogg" id="53_y0adi"]
 [ext_resource type="AudioStream" uid="uid://qsdpg7k66c5i" path="res://Sound/SFX/PlayerSound/Sword Unsheath 2.ogg" id="55_a875k"]
@@ -81,7 +85,7 @@
 [ext_resource type="AudioStream" uid="uid://cecshbifktf0v" path="res://Sound/SFX/PlayerSound/Fire_Attack_Fireball 2.ogg" id="70_kdiar"]
 [ext_resource type="AudioStream" uid="uid://ccph7qpjvofam" path="res://Sound/SFX/PlayerSound/Fire_Activate-Fire Sphere_HY_PC-004.ogg" id="71_vohw5"]
 [ext_resource type="AudioStream" uid="uid://dhnodgys7t4b2" path="res://Sound/SFX/PlayerSound/Fire Torch Loop.ogg" id="72_uv6w3"]
-[ext_resource type="Script" path="res://Scripts/Player/Tola/ChainTail.gd" id="77_jrywh"]
+[ext_resource type="Script" uid="uid://2wmgd3qskb8s" path="res://Scripts/Player/Tola/ChainTail.gd" id="77_jrywh"]
 [ext_resource type="PackedScene" uid="uid://8qljxy36uoo4" path="res://Scenes/Player/Tola/item_effects.tscn" id="90_itemfx"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jmx8c"]
@@ -95,6 +99,9 @@ shader_parameter/fire_intensity = 0.4
 shader_parameter/rainbow_active = false
 shader_parameter/rainbow_speed = 2.0
 shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frix6"]
 shader = ExtResource("2_ryd4d")
@@ -107,6 +114,9 @@ shader_parameter/fire_intensity = 0.4
 shader_parameter/rainbow_active = false
 shader_parameter/rainbow_speed = 2.0
 shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cj8ab"]
 atlas = ExtResource("2_uh38f")
@@ -175,6 +185,54 @@ region = Rect2(90, 0, 90, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_tx22d"]
 atlas = ExtResource("4_3v5ok")
 region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tdb68"]
+atlas = ExtResource("7_sq5vm")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kv1jh"]
+atlas = ExtResource("7_sq5vm")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5om4"]
+atlas = ExtResource("7_sq5vm")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kbtha"]
+atlas = ExtResource("8_ls5b8")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bp2bq"]
+atlas = ExtResource("8_ls5b8")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jfhev"]
+atlas = ExtResource("8_ls5b8")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8kp2"]
+atlas = ExtResource("8_ls5b8")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dkgdq"]
+atlas = ExtResource("8_ls5b8")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7wus"]
+atlas = ExtResource("9_isk24")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smv2j"]
+atlas = ExtResource("9_isk24")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77qbx"]
+atlas = ExtResource("9_isk24")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_55eyv"]
+atlas = ExtResource("9_isk24")
+region = Rect2(270, 0, 90, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gcm07"]
 atlas = ExtResource("6_b6r8e")
@@ -283,6 +341,22 @@ region = Rect2(720, 0, 90, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qvq14"]
 atlas = ExtResource("9_6qlvx")
 region = Rect2(810, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isk24"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7hd0q"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wst61"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ck1eo"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(0, 0, 90, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d8umk"]
 atlas = ExtResource("6_bmvd2")
@@ -434,6 +508,22 @@ region = Rect2(270, 0, 90, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_k403u"]
 atlas = ExtResource("11_56j1n")
 region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0tst2"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8rqxn"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u70pr"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dyhiw"]
+atlas = ExtResource("14_ls5b8")
+region = Rect2(270, 0, 90, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_15njr"]
 atlas = ExtResource("15_0jbtm")
@@ -1090,7 +1180,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hjofn")
 }],
-"loop": false,
+"loop": 0,
 "name": &"AttackCrounch",
 "speed": 10.0
 }, {
@@ -1110,7 +1200,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_p6nog")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_1",
 "speed": 10.0
 }, {
@@ -1130,7 +1220,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3cd2r")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_2",
 "speed": 10.0
 }, {
@@ -1144,8 +1234,59 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tx22d")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_Air_1",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tdb68")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kv1jh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5om4")
+}],
+"loop": 0,
+"name": &"Attack_Air_Crit",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kbtha")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bp2bq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jfhev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8kp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dkgdq")
+}],
+"loop": 0,
+"name": &"Attack_Crit",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7wus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smv2j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77qbx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_55eyv")
+}],
+"loop": 0,
+"name": &"Attack_Crounch_Crit",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1161,7 +1302,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ngryw")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_wall",
 "speed": 10.0
 }, {
@@ -1196,7 +1337,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5jwti")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Axe_Attack",
 "speed": 10.0
 }, {
@@ -1210,7 +1351,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t0hnr")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Back_Dash",
 "speed": 10.0
 }, {
@@ -1245,8 +1386,25 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qvq14")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Climb",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isk24")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7hd0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wst61")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ck1eo")
+}],
+"loop": 0,
+"name": &"CloseMap",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1277,7 +1435,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eqhsv")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Counter",
 "speed": 10.0
 }, {
@@ -1285,7 +1443,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mf4va")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Crounch",
 "speed": 5.0
 }, {
@@ -1293,7 +1451,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kn8pm")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Dead_Ground",
 "speed": 10.0
 }, {
@@ -1328,7 +1486,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6n6d5")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Dead_Hit",
 "speed": 10.0
 }, {
@@ -1339,7 +1497,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_bfw2i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Fall",
 "speed": 10.0
 }, {
@@ -1374,7 +1532,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m7kwg")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Fire",
 "speed": 10.0
 }, {
@@ -1391,8 +1549,25 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k403u")
 }],
-"loop": false,
+"loop": 0,
 "name": &"FrontFlip",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0tst2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8rqxn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u70pr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dyhiw")
+}],
+"loop": 0,
+"name": &"GetMap",
 "speed": 10.0
 }, {
 "frames": [{
@@ -1417,7 +1592,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dkqdc")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Grab",
 "speed": 10.0
 }, {
@@ -1455,7 +1630,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_t20fj")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Heal",
 "speed": 10.0
 }, {
@@ -1469,7 +1644,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ptail")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Hit",
 "speed": 10.0
 }, {
@@ -1483,7 +1658,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c47c1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Hook",
 "speed": 20.0
 }, {
@@ -1530,7 +1705,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u0gj0")
 }],
-"loop": false,
+"loop": 0,
 "name": &"HookPuxao",
 "speed": 35.0
 }, {
@@ -1577,7 +1752,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_13vxn")
 }],
-"loop": false,
+"loop": 0,
 "name": &"HookRope",
 "speed": 35.0
 }, {
@@ -1597,7 +1772,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kh8gp")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle",
 "speed": 5.0
 }, {
@@ -1674,7 +1849,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_c565m")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Idle_Combat",
 "speed": 10.0
 }, {
@@ -1694,7 +1869,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hrfqt")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Jump",
 "speed": 10.0
 }, {
@@ -1705,7 +1880,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ar303")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Land",
 "speed": 10.0
 }, {
@@ -1728,7 +1903,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m6dje")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Parry",
 "speed": 10.0
 }, {
@@ -1736,7 +1911,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("12_bmxg7")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Petrificado",
 "speed": 5.0
 }, {
@@ -1753,7 +1928,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("17_a66gh")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Puxado",
 "speed": 10.0
 }, {
@@ -1776,7 +1951,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qn3po")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Rest",
 "speed": 10.0
 }, {
@@ -1784,7 +1959,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_22y44")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Resting",
 "speed": 5.0
 }, {
@@ -1798,7 +1973,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_60oty")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Rise",
 "speed": 10.0
 }, {
@@ -1818,7 +1993,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_xu5mp")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Rolling",
 "speed": 10.0
 }, {
@@ -1838,7 +2013,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cqv88")
 }],
-"loop": true,
+"loop": 1,
 "name": &"RollingSpecial",
 "speed": 15.0
 }, {
@@ -1867,7 +2042,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1uo45")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Run",
 "speed": 10.0
 }, {
@@ -1896,7 +2071,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rn1y0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Run_Fast",
 "speed": 20.0
 }, {
@@ -1907,7 +2082,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_w2bpr")
 }],
-"loop": false,
+"loop": 0,
 "name": &"StartRun",
 "speed": 10.0
 }, {
@@ -1918,7 +2093,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_63bb2")
 }],
-"loop": false,
+"loop": 0,
 "name": &"StopRun",
 "speed": 10.0
 }, {
@@ -1935,7 +2110,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kw2bl")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Throw_",
 "speed": 10.0
 }, {
@@ -1949,7 +2124,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_k0kho")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Throw_Spear",
 "speed": 5.0
 }, {
@@ -1960,7 +2135,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_tvoey")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Turn",
 "speed": 10.0
 }, {
@@ -1968,7 +2143,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_gfv7b")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Wall_Slide",
 "speed": 10.0
 }, {
@@ -1991,7 +2166,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dtxyt")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Whip_Air",
 "speed": 10.0
 }, {
@@ -2011,7 +2186,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_j1scn")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Whip_Down",
 "speed": 10.0
 }, {
@@ -2031,7 +2206,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_njquc")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Whip_Solo",
 "speed": 10.0
 }, {
@@ -2042,7 +2217,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_nap0w")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Whip_Spin",
 "speed": 5.0
 }]
@@ -2190,10 +2365,10 @@ step = 0.1
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3hd4e"]
 _data = {
-"RESET": SubResource("Animation_vj40s"),
-"expand_left": SubResource("Animation_md8g3"),
-"expand_right": SubResource("Animation_hpjnf"),
-"hit": SubResource("Animation_yktik")
+&"RESET": SubResource("Animation_vj40s"),
+&"expand_left": SubResource("Animation_md8g3"),
+&"expand_right": SubResource("Animation_hpjnf"),
+&"hit": SubResource("Animation_yktik")
 }
 
 [sub_resource type="Gradient" id="Gradient_nfuvi"]
@@ -2234,7 +2409,7 @@ colors = PackedColorArray(0.134748, 0.409, 0, 1, 1, 1, 1, 1, 0.192157, 1, 1, 1)
 gradient = SubResource("Gradient_kfv0j")
 
 [sub_resource type="Curve" id="Curve_rscem"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -2285,13 +2460,15 @@ color_ramp = SubResource("GradientTexture1D_tcqsm")
 alpha_curve = SubResource("CurveTexture_4de1s")
 turbulence_enabled = true
 
-[node name="Character" type="CharacterBody2D" node_paths=PackedStringArray("_inventory", "_attack_combo", "_character_texture", "_stats", "_particle_2d", "_roll_timer", "_roll_cooldown_timer", "_wall_ray", "_combat_stance_timer", "_character_collision", "_ladder_ray", "_combo_timer", "_atk_1_timer", "_ground_ray", "_subweapons", "_invencibility_timer", "_skills", "_heal_1", "_heal_2", "_ledge_grab_hit", "_ledge_grab_miss", "_audio", "_parry_voice_timer", "_neck_anchor") groups=["player"]]
+[node name="Character" type="CharacterBody2D" unique_id=107099643 node_paths=PackedStringArray("_inventory", "_attack_combo", "_character_texture", "_stats", "_particle_2d", "_roll_timer", "_roll_cooldown_timer", "_wall_ray", "_combat_stance_timer", "_character_collision", "_ladder_ray", "_combo_timer", "_atk_1_timer", "_ground_ray", "_subweapons", "_invencibility_timer", "_skills", "_heal_1", "_heal_2", "_ledge_grab_hit", "_ledge_grab_miss", "_audio", "_parry_voice_timer", "_neck_anchor") groups=["player"]]
 process_mode = 3
 z_index = 10
 material = SubResource("ShaderMaterial_jmx8c")
 collision_mask = 1650
 safe_margin = 0.14
 script = ExtResource("1_vgr8b")
+low_health_vignette_color = Color(0.37823284, 0, 0, 1)
+low_health_vignette_intensity = 0.5
 _speed = 120.0
 _jump_velocity = -350.0
 _is_in_cinematic = false
@@ -2320,12 +2497,12 @@ _audio = NodePath("CharacterAudio")
 _parry_voice_timer = NodePath("ParryVoiceTimer")
 _neck_anchor = NodePath("Texture/NeckAnchor")
 
-[node name="Texture" type="AnimatedSprite2D" parent="." node_paths=PackedStringArray("_character", "_attack_area_collision", "_character_subweapon")]
+[node name="Texture" type="AnimatedSprite2D" parent="." unique_id=290648183 node_paths=PackedStringArray("_character", "_attack_area_collision", "_character_subweapon")]
 process_mode = 3
 z_index = 10
 material = SubResource("ShaderMaterial_frix6")
 sprite_frames = SubResource("SpriteFrames_3x06b")
-animation = &"Axe_Attack"
+animation = &"GetMap"
 script = ExtResource("6_bcpfw")
 _character = NodePath("..")
 _attack_area_collision = NodePath("../AttackArea/Collision")
@@ -2333,39 +2510,39 @@ _character_subweapon = NodePath("../CharacterSubweapon")
 ghost_trail_scene = ExtResource("42_aru4h")
 ghost_interval = 0.08
 
-[node name="NeckAnchor" type="Marker2D" parent="Texture"]
+[node name="NeckAnchor" type="Marker2D" parent="Texture" unique_id=683425024]
 z_index = 9
 position = Vector2(-3, -8)
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1909010168]
 visible = false
 position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_wdufy")
 
-[node name="AttackCombo" type="Timer" parent="."]
+[node name="AttackCombo" type="Timer" parent="." unique_id=1142610352]
 wait_time = 0.8
 one_shot = true
 
-[node name="AttackArea" type="Area2D" parent="." node_paths=PackedStringArray("_entity", "_character_texture")]
+[node name="AttackArea" type="Area2D" parent="." unique_id=980875202 node_paths=PackedStringArray("_entity", "_character_texture")]
 collision_layer = 4
 collision_mask = 24
 script = ExtResource("11_c8ym4")
 _entity = NodePath("..")
 _character_texture = NodePath("../Texture")
 
-[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+[node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=642256302]
 position = Vector2(20, 0)
 shape = SubResource("RectangleShape2D_ae6e3")
 disabled = true
 
-[node name="CharacterInventory" type="Node" parent="."]
+[node name="CharacterInventory" type="Node" parent="." unique_id=356711925]
 script = ExtResource("14_ofpg4")
 
-[node name="KnockbackTimer" type="Timer" parent="."]
+[node name="KnockbackTimer" type="Timer" parent="." unique_id=319756557]
 wait_time = 0.2
 one_shot = true
 
-[node name="CharacterSkills" type="Node2D" parent="." node_paths=PackedStringArray("_character", "_character_texture", "_stats")]
+[node name="CharacterSkills" type="Node2D" parent="." unique_id=2111559041 node_paths=PackedStringArray("_character", "_character_texture", "_stats")]
 script = ExtResource("42_snmh8")
 _character = NodePath("..")
 _character_texture = NodePath("../Texture")
@@ -2377,25 +2554,24 @@ _wall_y_force = -300.0
 _dash_jump_cancel_force_x = 250.0
 _dash_jump_cancel_force_y = -300.0
 
-[node name="Stats" type="Node2D" parent="." node_paths=PackedStringArray("_character", "particle2d")]
+[node name="Stats" type="Node2D" parent="." unique_id=1266624838 node_paths=PackedStringArray("_character", "particle2d")]
 script = ExtResource("17_4kssw")
 regen_delay = 1.0
 regen_tick_rate = 0.5
 _character = NodePath("..")
 particle2d = NodePath("../BloodParticles")
 
-[node name="StaminaRegenTimer" type="Timer" parent="Stats"]
+[node name="StaminaRegenTimer" type="Timer" parent="Stats" unique_id=214144034]
 wait_time = 0.1
 one_shot = true
 
-[node name="CharacterSubweapon" type="Node2D" parent="." node_paths=PackedStringArray("_character", "_stats", "_character_texture", "_firefx", "dagger_cooldown_timer", "whip_cooldown_timer")]
+[node name="CharacterSubweapon" type="Node2D" parent="." unique_id=302130143 node_paths=PackedStringArray("_character", "_stats", "_character_texture", "_firefx", "dagger_cooldown_timer", "whip_cooldown_timer")]
 script = ExtResource("34_xhvl5")
 _character = NodePath("..")
 _stats = NodePath("../Stats")
 _character_texture = NodePath("../Texture")
 _firefx = NodePath("../FireFX")
 _chakram_cooldown = 1.0
-_fire_damage_bonus_percent = 40.0
 fire_activation_effect = ExtResource("44_smb28")
 fire_attack_effect_1 = ExtResource("45_vejxy")
 fire_attack_effect_2 = ExtResource("46_nq5ri")
@@ -2403,7 +2579,7 @@ fire_attack_effect_3 = ExtResource("49_d0vbp")
 dagger_cooldown_timer = NodePath("../DaggerCooldown")
 whip_cooldown_timer = NodePath("../WhipCooldown")
 
-[node name="CharacterAudio" type="Node2D" parent="." node_paths=PackedStringArray("run_audio", "jump_audio", "land_audio", "dash_audio", "attack_light_audio", "attack_heavy_audio", "attack_air_audio", "attack_hit_audio", "attack_hit_object_audio", "attack_voice_1_audio", "attack_voice_2_audio", "attack_voice_3_audio", "parry_audio", "counter_voice_1_audio", "counter_voice_2_audio", "parry_success_audio", "counter_audio", "hit_audio_1", "hit_audio_2", "hit_audio_3", "death_audio", "throw_axe_audio", "throw_spear_audio", "throw_chakram_audio", "fire_activate_audio", "fire_loop_audio", "fire_attack_extra_audio")]
+[node name="CharacterAudio" type="Node2D" parent="." unique_id=1902497865 node_paths=PackedStringArray("run_audio", "jump_audio", "land_audio", "dash_audio", "attack_light_audio", "attack_heavy_audio", "attack_air_audio", "attack_hit_audio", "attack_hit_object_audio", "attack_voice_1_audio", "attack_voice_2_audio", "attack_voice_3_audio", "parry_audio", "counter_voice_1_audio", "counter_voice_2_audio", "parry_success_audio", "counter_audio", "hit_audio_1", "hit_audio_2", "hit_audio_3", "death_audio", "throw_axe_audio", "throw_spear_audio", "throw_chakram_audio", "fire_activate_audio", "fire_loop_audio", "fire_attack_extra_audio")]
 script = ExtResource("52_pmfur")
 run_audio = NodePath("RunAudio")
 jump_audio = NodePath("JumpAudio")
@@ -2433,144 +2609,142 @@ fire_activate_audio = NodePath("Fire ActivateAudio")
 fire_loop_audio = NodePath("FireLoopAudio")
 fire_attack_extra_audio = NodePath("FireAttackAudio")
 
-[node name="RunAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="RunAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1282208953]
 stream = ExtResource("51_tbgtk")
 
-[node name="JumpAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="JumpAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=998596207]
 stream = ExtResource("53_y0adi")
 volume_db = -10.0
 
-[node name="AttackAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1264014339]
 stream = ExtResource("51_5fguy")
 volume_db = 10.0
 
-[node name="LandAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="LandAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1313061622]
 stream = ExtResource("53_4fnte")
 volume_db = -10.0
 
-[node name="DashAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="DashAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=15579943]
 stream = ExtResource("61_cv76d")
 volume_db = -20.0
 
-[node name="wallSlideAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="wallSlideAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=722639766]
 
-[node name="AttackAudio2" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackAudio2" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1238158483]
 stream = ExtResource("51_5fguy")
 volume_db = 10.0
 
-[node name="AttackHitAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackHitAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=452288245]
 stream = ExtResource("56_384p2")
 volume_db = -10.0
 
-[node name="HitAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="HitAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1919898277]
 stream = ExtResource("57_vwnkc")
 volume_db = -4.0
 
-[node name="HitObjectAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="HitObjectAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1706325761]
 stream = ExtResource("59_vpx17")
 
-[node name="AttackVoice1Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackVoice1Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1124698134]
 stream = ExtResource("58_maxjr")
 volume_db = -5.0
 
-[node name="AttackVoice2Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackVoice2Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1713430530]
 stream = ExtResource("59_oyqoo")
 volume_db = -5.0
 
-[node name="AttackVoice3Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="AttackVoice3Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=764957899]
 
-[node name="ParryAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="ParryAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1045957209]
 stream = ExtResource("55_a875k")
 volume_db = -20.0
 
-[node name="CounterVoice1Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="CounterVoice1Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1498281504]
 stream = ExtResource("61_88uw0")
 
-[node name="CounterVoice2Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="CounterVoice2Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1023738048]
 stream = ExtResource("62_msw0w")
 
-[node name="ParrySucessAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="ParrySucessAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=293571428]
 stream = ExtResource("61_a3h76")
 
-[node name="CounterAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="CounterAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1062705926]
 stream = ExtResource("65_m3055")
 
-[node name="Damage1Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="Damage1Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=690739485]
 stream = ExtResource("63_x4nx3")
 
-[node name="Damage2Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="Damage2Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1002404083]
 stream = ExtResource("64_oo6ir")
 
-[node name="Damage3Audio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="Damage3Audio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1711791854]
 stream = ExtResource("65_6w7vu")
 
-[node name="DeadAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="DeadAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1343861858]
 stream = ExtResource("68_5e7fq")
 
-[node name="SubWeaponsThrowAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="SubWeaponsThrowAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1164713894]
 stream = ExtResource("51_5fguy")
 volume_db = -20.0
 
-[node name="FireAttackAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="FireAttackAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=327312783]
 stream = ExtResource("70_kdiar")
 
-[node name="Fire ActivateAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="Fire ActivateAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1779835887]
 stream = ExtResource("71_vohw5")
 
-[node name="FireLoopAudio" type="AudioStreamPlayer" parent="CharacterAudio"]
+[node name="FireLoopAudio" type="AudioStreamPlayer" parent="CharacterAudio" unique_id=1116967137]
 stream = ExtResource("72_uv6w3")
 volume_db = -20.0
 
-[node name="BloodParticles" parent="." instance=ExtResource("18_r24l2")]
+[node name="BloodParticles" parent="." unique_id=2016930303 instance=ExtResource("18_r24l2")]
 process_material = SubResource("ParticleProcessMaterial_fk0u2")
 
-[node name="RollTimer" type="Timer" parent="."]
+[node name="RollTimer" type="Timer" parent="." unique_id=1895392196]
 wait_time = 0.2
 one_shot = true
 
-[node name="RollCoowldownTimer" type="Timer" parent="."]
+[node name="RollCoowldownTimer" type="Timer" parent="." unique_id=964210617]
 wait_time = 0.5
 one_shot = true
 
-[node name="WallRay" type="RayCast2D" parent="."]
+[node name="WallRay" type="RayCast2D" parent="." unique_id=872684499]
 position = Vector2(0, -12)
 target_position = Vector2(10, 0)
 collision_mask = 2
 
-[node name="ThrowCooldown" type="Timer" parent="."]
+[node name="ThrowCooldown" type="Timer" parent="." unique_id=1503506614]
 wait_time = 0.3
 one_shot = true
 
-[node name="FireCooldown" type="Timer" parent="."]
+[node name="FireCooldown" type="Timer" parent="." unique_id=1705913253]
 
-[node name="Fire" type="Timer" parent="."]
+[node name="Fire" type="Timer" parent="." unique_id=600718599]
 one_shot = true
 
-[node name="CombatStance" type="Timer" parent="."]
+[node name="CombatStance" type="Timer" parent="." unique_id=671280611]
 one_shot = true
 
-[node name="HookRay" type="RayCast2D" parent="."]
+[node name="HookRay" type="RayCast2D" parent="." unique_id=1621995990]
 position = Vector2(16, -2)
 target_position = Vector2(0, 0)
 collision_mask = 26
 collide_with_areas = true
 
-[node name="Hook" type="Sprite2D" parent="HookRay"]
+[node name="Hook" type="Sprite2D" parent="HookRay" unique_id=860705389]
 visible = false
 position = Vector2(50, 0)
 texture = ExtResource("28_fa4gl")
 region_rect = Rect2(0, 0, 0, 16)
 
-[node name="Animation" type="AnimationPlayer" parent="HookRay"]
-libraries = {
-"": SubResource("AnimationLibrary_3hd4e")
-}
+[node name="Animation" type="AnimationPlayer" parent="HookRay" unique_id=1749896235]
+libraries/ = SubResource("AnimationLibrary_3hd4e")
 
-[node name="HookTimer" type="Timer" parent="."]
+[node name="HookTimer" type="Timer" parent="." unique_id=910398656]
 wait_time = 0.8
 one_shot = true
 
-[node name="LadderRay" type="RayCast2D" parent="."]
+[node name="LadderRay" type="RayCast2D" parent="." unique_id=1215543970]
 position = Vector2(0, -2)
 target_position = Vector2(7, 0)
 collision_mask = 256
@@ -2578,65 +2752,65 @@ hit_from_inside = true
 collide_with_areas = true
 collide_with_bodies = false
 
-[node name="ComboTimer" type="Timer" parent="."]
+[node name="ComboTimer" type="Timer" parent="." unique_id=243803631]
 one_shot = true
 
-[node name="Attack1Timer" type="Timer" parent="."]
+[node name="Attack1Timer" type="Timer" parent="." unique_id=33743987]
 wait_time = 0.3
 one_shot = true
 
-[node name="GroundRay" type="RayCast2D" parent="."]
+[node name="GroundRay" type="RayCast2D" parent="." unique_id=1265664269]
 target_position = Vector2(0, 21)
 collision_mask = 522
 collide_with_areas = true
 
-[node name="StaminaRegenTimer" type="Timer" parent="."]
+[node name="StaminaRegenTimer" type="Timer" parent="." unique_id=1370340491]
 wait_time = 0.1
 
-[node name="InvencibilityTimer" type="Timer" parent="."]
+[node name="InvencibilityTimer" type="Timer" parent="." unique_id=1728543603]
 
-[node name="FireFX" type="GPUParticles2D" parent="."]
+[node name="FireFX" type="GPUParticles2D" parent="." unique_id=103325134]
 emitting = false
 amount = 10
 process_material = SubResource("ParticleProcessMaterial_d8cum")
 
-[node name="FireStaminaTimer" type="Timer" parent="."]
+[node name="FireStaminaTimer" type="Timer" parent="." unique_id=226321356]
 
-[node name="Heal_1" type="GPUParticles2D" parent="."]
+[node name="Heal_1" type="GPUParticles2D" parent="." unique_id=1663908347]
 emitting = false
 amount = 30
-process_material = SubResource("ParticleProcessMaterial_ige04")
 lifetime = 2.0
 one_shot = true
 speed_scale = 1.5
 explosiveness = 1.0
 randomness = 1.0
+process_material = SubResource("ParticleProcessMaterial_ige04")
 
-[node name="Heal_2" type="GPUParticles2D" parent="."]
+[node name="Heal_2" type="GPUParticles2D" parent="." unique_id=1252893275]
 emitting = false
 amount = 20
-process_material = SubResource("ParticleProcessMaterial_2sj11")
 lifetime = 2.0
 one_shot = true
 explosiveness = 0.2
+process_material = SubResource("ParticleProcessMaterial_2sj11")
 
-[node name="LedgeGrabHit" type="RayCast2D" parent="."]
+[node name="LedgeGrabHit" type="RayCast2D" parent="." unique_id=914421947]
 position = Vector2(5, -14)
 target_position = Vector2(5, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="LedgeGrabMiss" type="RayCast2D" parent="."]
+[node name="LedgeGrabMiss" type="RayCast2D" parent="." unique_id=1259827764]
 position = Vector2(2, -18)
 target_position = Vector2(10, 0)
 collision_mask = 2
 hit_from_inside = true
 
-[node name="ParryVoiceTimer" type="Timer" parent="."]
+[node name="ParryVoiceTimer" type="Timer" parent="." unique_id=1302374276]
 wait_time = 0.3
 one_shot = true
 
-[node name="CachecolLeft" type="Node2D" parent="." node_paths=PackedStringArray("anchor", "character", "sprite")]
+[node name="CachecolLeft" type="Node2D" parent="." unique_id=1492183609 node_paths=PackedStringArray("anchor", "character", "sprite")]
 z_index = 9
 script = ExtResource("77_jrywh")
 anchor = NodePath("../Texture/NeckAnchor")
@@ -2646,7 +2820,7 @@ segment_count = 6
 velocity_mult = Vector2(0.2, 0.15)
 rope_color = Color(0.964706, 0.0156863, 0.317647, 1)
 
-[node name="CachecolRight" type="Node2D" parent="." node_paths=PackedStringArray("anchor", "character", "sprite")]
+[node name="CachecolRight" type="Node2D" parent="." unique_id=1097771680 node_paths=PackedStringArray("anchor", "character", "sprite")]
 z_index = 9
 script = ExtResource("77_jrywh")
 anchor = NodePath("../Texture/NeckAnchor")
@@ -2656,15 +2830,15 @@ segment_count = 6
 velocity_mult = Vector2(0.2, 0.15)
 rope_color = Color(0.964706, 0.0156863, 0.317647, 1)
 
-[node name="DaggerCooldown" type="Timer" parent="."]
+[node name="DaggerCooldown" type="Timer" parent="." unique_id=142786992]
 wait_time = 0.6
 one_shot = true
 
-[node name="WhipCooldown" type="Timer" parent="."]
+[node name="WhipCooldown" type="Timer" parent="." unique_id=1928474855]
 wait_time = 0.6
 one_shot = true
 
-[node name="ItemEffects" parent="." instance=ExtResource("90_itemfx")]
+[node name="ItemEffects" parent="." unique_id=1000293278 instance=ExtResource("90_itemfx")]
 
 [connection signal="animation_finished" from="Texture" to="Texture" method="_on_animation_finished"]
 [connection signal="frame_changed" from="Texture" to="Texture" method="_on_frame_changed"]

@@ -71,6 +71,8 @@ const _SPEED_BOOST_MULTIPLIER: float = 1.667  # 120 * 1.667 ≈ 200
 @export var _wall_y_force: float = -350.0
 @export var _wall_jump_duration: float = 0.3
 @export var _wall_slide_cooldown: float = 0.4
+## Sem wall jump: tempo sem poder agarrar de novo depois de soltar com o pulo
+@export var _wall_slide_release_cooldown: float = 0.5
 
 @export_category("Dash Variables")
 @export var _dash_jump_cancel_force_x: float = 600.0   # Impulso horizontal
@@ -472,9 +474,9 @@ func handle_wall_logic(delta: float) -> void:
 				_execute_wall_jump()
 				return
 			else:
-				# ✅ SEM HABILIDADE: encerra o wall slide ao apertar pulo
-				_is_wall_sliding = false
-				_character_texture.set_wall_sliding(false)
+				# ✅ SEM HABILIDADE: solta da parede e não agarra de novo por um tempo
+				# (sem isso, segurando a direção da parede ela grudava no frame seguinte)
+				_cancel_wall_slide_with_cooldown(_wall_slide_release_cooldown)
 				print("❌ Wall slide encerrado por pulo (sem habilidade)")
 				return
 		
@@ -528,16 +530,18 @@ func handle_wall_logic(delta: float) -> void:
 		print("✅ Wall slide ATIVADO - Colidindo com:", wall_ray.get_collider().name)
 
 
-func _cancel_wall_slide_with_cooldown() -> void:
-	"""Cancela wall slide e impede novo wall slide por 0.4s"""
+func _cancel_wall_slide_with_cooldown(cooldown: float = -1.0) -> void:
+	"""Cancela wall slide e impede novo wall slide por `cooldown` segundos
+	(sem valor = _wall_slide_cooldown, 0.4s)"""
+	var _time: float = _wall_slide_cooldown if cooldown < 0.0 else cooldown
 	_is_wall_sliding = false
 	_character_texture.set_wall_sliding(false)
 	_can_wall_slide = false
 	
 	if has_node("WallSlideCooldownTimer"):
-		get_node("WallSlideCooldownTimer").start()
+		get_node("WallSlideCooldownTimer").start(_time)
 	
-	print("🚫 Wall slide em cooldown por ", _wall_slide_cooldown, " segundos")
+	print("🚫 Wall slide em cooldown por ", _time, " segundos")
 
 
 func _execute_wall_jump() -> void:

@@ -22,12 +22,28 @@ class_name GameMain
 @export var debug_speed_boost: bool = false
 @export_group("")
 
+@export_group("Debug: Áudio (só no editor)")
+## Silencia a música enquanto o jogo roda PELO EDITOR (bom para testar e gravar
+## trailer só com efeitos). Usa o mute do bus "Music": não mexe no volume das
+## opções e não tem efeito no jogo exportado.
+@export var debug_mute_music: bool = false
+## Silencia o som ambiente (bus "Ambience"), também só no editor.
+@export var debug_mute_ambience: bool = false
+@export_group("")
+
+@export_group("Debug: Chefes (só no editor)")
+## Mostra o nome do chefe em TODO encontro (normal: só no primeiro).
+## Não tem efeito no jogo exportado.
+@export var debug_always_show_boss_title: bool = false
+@export_group("")
+
 @export_category("Spawn Impulse Settings")
 @export var default_impulse_force: float = 300.0
 @export var horizontal_impulse_force: float = 350.0
 @export var vertical_impulse_component: float = 0.0
 
 var current_level: BaseLevel = null
+var _debug_muted_buses: Dictionary = {}   # bus -> true (mutado por este debug)
 var is_loading_level: bool = false
 
 func _ready() -> void:
@@ -40,12 +56,34 @@ func _ready() -> void:
 	await get_tree().process_frame
 	_load_initial_level()
 
+# ===== DEBUG: ÁUDIO PELO INSPECTOR =====
+# Mute por bus: os efeitos sonoros continuam. Desligar o interruptor desfaz o
+# mute (só o que este debug mutou).
+func _apply_debug_audio() -> void:
+	_set_debug_bus_mute("Music", debug_mute_music)
+	_set_debug_bus_mute("Ambience", debug_mute_ambience)
+
+func _set_debug_bus_mute(bus_name: String, mute: bool) -> void:
+	var _idx: int = AudioServer.get_bus_index(bus_name)
+	if _idx == -1:
+		return
+	if mute:
+		if not AudioServer.is_bus_mute(_idx):
+			AudioServer.set_bus_mute(_idx, true)
+			_debug_muted_buses[bus_name] = true
+			print("🔇 [DEBUG] Bus '", bus_name, "' mutado")
+	elif _debug_muted_buses.has(bus_name):
+		AudioServer.set_bus_mute(_idx, false)
+		_debug_muted_buses.erase(bus_name)
+		print("🔊 [DEBUG] Bus '", bus_name, "' de volta")
+
 # ===== DEBUG: HABILIDADES PELO INSPECTOR =====
 # Reaplicado todo frame (barato) porque carregar o save/respawn sobrescreve as
 # habilidades. Mexe direto nas variáveis → nada vai para o save.
 func _process(_delta: float) -> void:
 	if not OS.has_feature("editor"):
 		return
+	_apply_debug_audio()
 	if not (debug_dash or debug_hook or debug_wall_jump or debug_enemy_step or debug_speed_boost):
 		return
 	if not character or not is_instance_valid(character) or not character._skills:

@@ -15,6 +15,19 @@ var _can_play_audio: bool = true
 var _audio_cooldown_timer: Timer
 
 func _ready():
+	# ✅ Timer criado antes de qualquer return (evita crash com ID vazio)
+	_audio_cooldown_timer = Timer.new()
+	_audio_cooldown_timer.one_shot = true
+	_audio_cooldown_timer.wait_time = audio_cooldown
+	_audio_cooldown_timer.timeout.connect(_on_audio_cooldown_timeout)
+	add_child(_audio_cooldown_timer)
+	
+	# Sinais body_entered/body_exited já são conectados na cena hidden_area_detection.tscn
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	if not body_exited.is_connected(_on_body_exited):
+		body_exited.connect(_on_body_exited)
+	
 	if hidden_area_id == "":
 		push_error("❌ HiddenArea: Configure o hidden_area_id no Inspector!")
 		return
@@ -30,15 +43,6 @@ func _ready():
 		return
 	
 	print("✅ HiddenArea configurada: ", hidden_area_id)
-	
-	_audio_cooldown_timer = Timer.new()
-	_audio_cooldown_timer.one_shot = true
-	_audio_cooldown_timer.wait_time = audio_cooldown
-	_audio_cooldown_timer.timeout.connect(_on_audio_cooldown_timeout)
-	add_child(_audio_cooldown_timer)
-	
-	body_entered.connect(_on_body_entered)
-	body_exited.connect(_on_body_exited)
 
 func _was_already_destroyed() -> bool:
 	return serialization.game_data.get("destroyed_walls", []).has(hidden_area_id)
@@ -59,7 +63,8 @@ func _on_body_entered(body):
 		if _can_play_audio and hidden_area_audio:
 			hidden_area_audio.play()
 			_can_play_audio = false
-			_audio_cooldown_timer.start()
+			if _audio_cooldown_timer:
+				_audio_cooldown_timer.start()
 			print("🔊 Áudio de área secreta tocado - cooldown iniciado")
 		var tween = create_tween()
 		tween.set_ease(Tween.EASE_IN_OUT)

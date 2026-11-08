@@ -66,6 +66,22 @@ var last_safe_position: Vector2 = Vector2.ZERO
 var _safe_ground_trail: Array[Vector2] = []
 
 # ✅ VINHETA DE VIDA BAIXA (autoload ScreenVignette)
+@export_category("Acerto Crítico")
+## Chance inicial de crítico (%). 0 = sistema desligado.
+@export var crit_chance_base: float = 2.0
+## Quanto a chance sobe a cada golpe sem crítico (%), mesmo errando.
+## Volta ao valor inicial depois de um crítico.
+@export var crit_chance_step: float = 0.2
+## Tremor de tela ao ACERTAR um crítico (força, duração)
+@export var crit_shake_strength: float = 3.0
+@export var crit_shake_duration: float = 0.25
+## Efeito que aparece na Tola no instante do crítico (como o do Parry)
+@export_file("*.tscn") var crit_fx_scene: String = "res://Scenes/FX/crit_effect.tscn"
+## Deslocamento do efeito em relação à Tola (x espelha com a direção)
+@export var crit_fx_offset: Vector2 = Vector2(20, -10)
+
+var _crit_bonus_chance: float = 0.0   # proteção contra azar (acumula até sair um crítico)
+
 @export_category("Vida Baixa")
 ## Abaixo (ou igual) deste % da vida máxima, as bordas da tela escurecem.
 @export var low_health_threshold_percent: float = 30.0
@@ -90,7 +106,8 @@ var _additional_attributes: Dictionary = {
 	"counter_blade": 0,  # ✅ Lâmina do Contra-Ataque
 	"dash_damage": 0,  # ✅ Investida do Carneiro
 	"vengeance": 0,  # ✅ Marca da Vingança
-	"attack_speed": 0  # ✅ Olhos de Falcão (% de velocidade de ataque)
+	"attack_speed": 0,  # ✅ Olhos de Falcão (% de velocidade de ataque)
+	"raphael_blessing": 0  # ✅ Bênção de Rafa'el (cura fora de combate + vida extra)
 }
 
 var _collider
@@ -100,6 +117,10 @@ var _collider
 @export var _jump_velocity: float = -300.0
 
 @export var _is_in_cinematic: bool = true
+## Andar sozinha durante uma cena (-1 = esquerda, 0 = parada, 1 = direita).
+## Só funciona com _is_in_cinematic ligado; nenhum botão interfere.
+## Ex.: a porta do chefe usa isso para levar a Tola para dentro da sala.
+var cinematic_walk_dir: float = 0.0
 
 @export_category("Objects")
 @export var _inventory: CharacterInventory
@@ -195,6 +216,11 @@ func _physics_process(_delta: float) -> void:
 
 	if _platform_descent_timer > 0:
 		_platform_descent_timer -= _delta
+
+	# 🗺️ MAPA: só no chão; toca GetMap e, quando terminar, abre a tela do mapa
+	if Input.is_action_just_pressed("Map") and _pode_abrir_mapa():
+		_abrir_mapa()
+		return
 
 	if Input.is_action_just_pressed("UseConsumable") and not _is_in_cinematic and is_on_floor():
 		if not global.ui_equipments:
@@ -306,6 +332,8 @@ func _physics_process(_delta: float) -> void:
 		_attack_handler()
 		_skills.handle_dash_input()
 		_skills.handle_wall_logic(_delta)
+	elif cinematic_walk_dir != 0.0:
+		velocity.x = signf(cinematic_walk_dir) * _speed   # andando sozinha (cena)
 	else:
 		velocity.x = move_toward(velocity.x, 0, _speed)
 
@@ -376,6 +404,15 @@ func _push_towards_wall(wall_position: Vector2) -> void:
 	velocity.y = push_force_y
 
 func _crouch_handler() -> void:
+	# Em cena (diálogo, cutscene, porta do chefe) o ↓ não agacha;
+	# se ela já estava agachada quando a cena começou, levanta.
+	if _is_in_cinematic:
+		if _is_crouching:
+			_is_crouching = false
+			_character_texture._is_on_action = false
+			_character_texture._update_collision_size()
+		return
+
 	if not is_on_floor() or _character_texture._is_on_action:
 		if _is_crouching:
 			_is_crouching = false
@@ -536,7 +573,8 @@ func _reset_bonus_attributes() -> void:
 		"counter_blade": 0,
 		"dash_damage": 0,
 		"vengeance": 0,
-		"attack_speed": 0
+		"attack_speed": 0,
+		"raphael_blessing": 0
 	}
 
 func _increase_bonus_attributes(_attributes: Dictionary) -> void:
@@ -769,10 +807,12 @@ func _attack_handler() -> void:
 	
 	# ✅ ATAQUE NA PAREDE
 	if Input.is_action_just_pressed("attack") and _skills.is_wall_sliding():
-		_character_texture.action_animation("Attack_wall")
+		var _wall_anim: String = _pick_attack_animation("Attack_wall", "Attack_Wall_Crit")
+		_character_texture.action_animation(_wall_anim)
 		
 		if _audio:
-			_audio.play_attack_voice()  # ✅ Grito
+			if not is_crit_animation(_wall_anim):
+				_audio.play_attack_voice()  # ✅ Grito (no crítico a voz é a do crítico)
 			_audio.play_attack_light()
 		
 		set_physics_process(false)
@@ -786,10 +826,12 @@ func _attack_handler() -> void:
 	# ✅ ATAQUE AGACHADO
 	if Input.is_action_just_pressed("attack") and is_on_floor():
 		if _is_crouching:
-			_character_texture.action_animation("AttackCrounch")
+			var _crouch_anim: String = _pick_attack_animation("AttackCrounch", "Attack_Crounch_Crit")
+			_character_texture.action_animation(_crouch_anim)
 			
 			if _audio:
-				_audio.play_attack_voice()  # ✅ Grito
+				if not is_crit_animation(_crouch_anim):
+					_audio.play_attack_voice()  # ✅ Grito (no crítico a voz é a do crítico)
 				_audio.play_attack_light()
 			
 			set_physics_process(false)
@@ -812,12 +854,49 @@ func _attack_handler() -> void:
 	):
 		_attack_animation_handler("Attack_Air_", 2, true)
 
+# ========== ACERTO CRÍTICO ==========
+# Sorteado no INÍCIO do golpe (pode errar). Se sair, toca a animação crítica
+# no lugar do golpe normal; o combo continua normalmente depois.
+# O dano dobrado é aplicado na área de ataque (só na base; bônus % por cima).
+func _roll_crit(crit_animation: String) -> bool:
+	if crit_chance_base <= 0.0:
+		return false
+	# Sem a animação crítica (ex.: parede ainda sem arte) = sem crítico
+	if not _character_texture.sprite_frames or not _character_texture.sprite_frames.has_animation(crit_animation):
+		return false
+	var _chance: float = crit_chance_base + _crit_bonus_chance
+	if randf() * 100.0 < _chance:
+		print("💥 CRÍTICO! (chance era ", snappedf(_chance, 0.1), "%)")
+		_crit_bonus_chance = 0.0
+		return true
+	_crit_bonus_chance += crit_chance_step
+	return false
+
+func _pick_attack_animation(normal_animation: String, crit_animation: String) -> String:
+	if _roll_crit(crit_animation):
+		_spawn_crit_fx()
+		if _audio:
+			_audio.play_crit_voice()   # o impacto toca no frame 1 (character_texture)
+		return crit_animation
+	return normal_animation
+
+func _spawn_crit_fx() -> void:
+	if crit_fx_scene == "" or not ResourceLoader.exists(crit_fx_scene):
+		return
+	global.spawn_effect(crit_fx_scene, crit_fx_offset, global_position, _character_texture.flip_h)
+
+func is_crit_animation(anim_name: String) -> bool:
+	return anim_name.ends_with("_Crit")
+
 func _attack_animation_handler(_prefix: String, index_limit: int, _on_air: bool = false) -> void:
-	_character_texture.action_animation(_prefix + str(_attack_index))
+	var _crit_name: String = "Attack_Air_Crit" if _on_air else "Attack_Crit"
+	var _anim: String = _pick_attack_animation(_prefix + str(_attack_index), _crit_name)
+	_character_texture.action_animation(_anim)
 	
 	if _audio:
-		# ✅ GRITO DO PERSONAGEM (40% de chance)
-		_audio.play_attack_voice()
+		# ✅ GRITO DO PERSONAGEM (40% de chance) — no crítico a voz é a do crítico
+		if not is_crit_animation(_anim):
+			_audio.play_attack_voice()
 		
 		# Som do swing do ataque
 		if _on_air:
@@ -862,6 +941,10 @@ func throw_axe(_is_flipped: bool) -> void:
 # Cole este código substituindo as funções update_health, _handle_death e _respawn_at_save_point
 
 func update_health(_value: int, _entity) -> void:
+	# ✅ Ser atacado = entrar em combate (Bênção de Rafa'el)
+	if _item_effects:
+		_item_effects.mark_combat()
+	
 	# ✅ VERIFICAR INVENCIBILIDADE PRIMEIRO
 	if _is_invincible:
 		global.spawn_effect(
@@ -927,6 +1010,9 @@ func update_health(_value: int, _entity) -> void:
 	ControllerVibration.vibrate_on_damage(_value, true)
 	
 	var _new_value: int = _value - _additional_attributes["defense"]
+	# ✅ Vida extra (reserva azul da Bênção de Rafa'el) absorve primeiro
+	if _item_effects:
+		_new_value = _item_effects.absorb_overheal(_new_value)
 	_stats.current_health -= _new_value
 	
 	get_tree().call_group("bar_container", "update_bar", "HealthBar", _stats.current_health)
@@ -961,6 +1047,10 @@ func update_health(_value: int, _entity) -> void:
 
 # ✅ VERSÃO ATUALIZADA: Compatível com sistema Game.tscn
 func _handle_death() -> void:
+	# ✅ Morte: a vida extra some
+	if _item_effects:
+		_item_effects.clear_overheal()
+	
 	if _audio:
 		_audio.play_death()
 	
@@ -1277,9 +1367,14 @@ func get_attack_power() -> int:
 		power += int(ATTACK_REFERENCE)
 	return power
 
-func scale_damage(weapon_damage: float) -> int:
-	"""Escala o dano de uma arma pela força atual do Tola (fogo e itens incluídos)"""
+func scale_damage(weapon_damage: float, is_crit: bool = false) -> int:
+	"""Escala o dano de uma arma pela força atual do Tola (fogo e itens incluídos).
+	Crítico: dobra só a base (arma × força); o bônus % entra por cima, sem dobrar."""
 	var multiplier: float = float(get_attack_power()) / ATTACK_REFERENCE
+	
+	# ✅ Causar dano = entrar em combate (todas as armas passam por aqui)
+	if _item_effects:
+		_item_effects.mark_combat()
 	
 	# ✅ Bônus em % SOMADOS: fogo + Lâmina do Contra-Ataque + Marca da Vingança
 	var bonus_percent: float = 0.0
@@ -1289,7 +1384,8 @@ func scale_damage(weapon_damage: float) -> int:
 		bonus_percent += _item_effects.get_damage_bonus_percent()
 		# Teto total (padrão 60%)
 		bonus_percent = min(bonus_percent, _item_effects.max_total_damage_bonus_percent)
-	multiplier *= 1.0 + bonus_percent / 100.0
+	var _base_factor: float = 2.0 if is_crit else 1.0
+	multiplier *= _base_factor + bonus_percent / 100.0
 	return max(1, roundi(weapon_damage * multiplier))
 
 # ========== VINHETA DE VIDA BAIXA ==========
@@ -1300,6 +1396,9 @@ func _update_low_health_vignette() -> void:
 	if should_show == _low_health_vignette_on:
 		return
 	_low_health_vignette_on = should_show
+	# ❤️ Batimento cardíaco junto com a vinheta
+	if _audio and _audio.has_method("set_low_health_heartbeat"):
+		_audio.set_low_health_heartbeat(should_show)
 	var vignette = get_node_or_null("/root/ScreenVignette")
 	if not vignette:
 		return
@@ -1411,6 +1510,51 @@ func _on_parry_voice_timer_timeout() -> void:
 
 func update_map_state(state: bool) -> void:
 	_has_map = state
+
+# ========== MAPA ==========
+var _pedido_mapa: int = 0
+
+func _pode_abrir_mapa() -> bool:
+	if not (_has_map or MapManager.debug_dar_mapa):
+		return false
+	if not MapManager.pode_abrir():
+		return false
+	if _is_in_cinematic or not _is_alive or is_consuming or is_petrified:
+		return false
+	if _on_ladder or on_ledge or _is_crouching or _is_frozen_by_effect:
+		return false
+	if not is_on_floor():
+		return false
+	if _skills and (_skills.is_on_hook() or _skills.is_on_hook_dash()):
+		return false
+	if _character_texture._is_on_action or _character_texture._is_in_rest_state:
+		return false
+	return true
+
+func _abrir_mapa() -> void:
+	_pedido_mapa += 1
+	var pedido := _pedido_mapa
+	velocity = Vector2.ZERO
+	_in_combat_stance = false
+	set_physics_process(false)
+	_character_texture.action_animation("GetMap")
+	await _character_texture.animation_finished
+	# Cancelado: levou dano (a animação mudou) ou houve outro pedido depois
+	if pedido != _pedido_mapa or _character_texture.animation != "GetMap":
+		return
+	if not _is_alive:
+		return
+	MapManager.abrir_tela()
+
+## Chamado pelo MapManager quando o mapa fecha (o jogo já voltou a rodar)
+func fechar_mapa_animacao() -> void:
+	if not _is_alive:
+		return
+	if _character_texture.sprite_frames == null or not _character_texture.sprite_frames.has_animation("CloseMap"):
+		return
+	velocity = Vector2.ZERO
+	set_physics_process(false)
+	_character_texture.action_animation("CloseMap")
 
 func update_dagger_state(_state: bool) -> void:
 	if _subweapons:

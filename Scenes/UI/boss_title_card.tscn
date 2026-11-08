@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://rsoiunenrp5p"]
+
+[ext_resource type="Script" path="res://Scripts/UI/boss_title_card.gd" id="1_card"]
+
+[node name="BossTitleCard" type="CanvasLayer"]
+layer = 80
+script = ExtResource("1_card")

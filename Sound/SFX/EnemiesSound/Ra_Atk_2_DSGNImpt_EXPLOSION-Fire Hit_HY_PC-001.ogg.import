@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://c83vh7xx1pym7"
+path="res://.godot/imported/Ra_Atk_2_DSGNImpt_EXPLOSION-Fire Hit_HY_PC-001.ogg-25c67e29d5ddcccf4abeadf13ce53a9f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Ra_Atk_2_DSGNImpt_EXPLOSION-Fire Hit_HY_PC-001.ogg"
+dest_files=["res://.godot/imported/Ra_Atk_2_DSGNImpt_EXPLOSION-Fire Hit_HY_PC-001.ogg-25c67e29d5ddcccf4abeadf13ce53a9f.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://tv1oy6yrgu3w"]
+
+[ext_resource type="Script" uid="uid://bty8hc4ceorul" path="res://Scripts/FX/boss_kill_effect.gd" id="1_kill"]
+[ext_resource type="AudioStream" uid="uid://4vvdugfynn4t" path="res://Sound/SFX/MenuSound/BossFightEnd__cinematic-bass-hit-with-claves.ogg" id="2_rohww"]
+
+[node name="BossKillEffect" type="Node2D" unique_id=175295151]
+script = ExtResource("1_kill")
+sound = ExtResource("2_rohww")
+sound_volume_db = 0.5

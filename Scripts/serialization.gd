@@ -34,6 +34,8 @@ func _default_game_data() -> Dictionary:
 		"has_enemy_step": false,
 		"has_speed_boost": false,
 		"has_map": false,
+		"map_visited": {},   # mapa: salas visitadas por fase
+		"map_revealed": {},  # mapa: pixels revelados por fase
 		"position": Vector2.ZERO,
 		"current_scene": "",
 		"save_area_id": "",
@@ -42,6 +44,7 @@ func _default_game_data() -> Dictionary:
 		"collected_items": [],
 		"collected_archives": [],
 		"collected_skills": [],
+		"seen_boss_titles": [],   # chefes cujo nome já apareceu (cartão de apresentação)
 		"destroyed_walls": [],
 		"destroyed_objects": {},
 		"defeated_bosses": [],
@@ -50,8 +53,11 @@ func _default_game_data() -> Dictionary:
 			"weapon": {},
 			"armor": {},
 			"offhand": {},
-			"consumable": {}
+			"consumable": {},
+			"sacred": {}
 		},
+		# Bênção de Gavri'el (5º slot, só para sagrados)
+		"sacred_slot_unlocked": false,
 		"skills": {
 			"dash": {},
 			"hook": {},
@@ -330,7 +336,7 @@ func apply_loaded_data() -> void:
 	if global.inventory != null and global.ui_inventory != null:
 		print("  ✓ Restaurando inventário...")
 		
-		for slot_idx in range(24):
+		for slot_idx in range(global.inventory._INVENTORY_SIZE):
 			global.inventory._inventory_data[slot_idx] = {}
 			global.ui_inventory.update_slot(slot_idx, {})
 		
@@ -366,7 +372,9 @@ func apply_loaded_data() -> void:
 		print("  ✓ Restaurando equipamentos na UI...")
 		var eq_data: Dictionary = game_data.get("equipments", {})
 		
-		for slot in ["weapon", "armor", "offhand", "consumable"]:
+		global.ui_equipments.set_sacred_slot_unlocked(bool(game_data.get("sacred_slot_unlocked", false)))
+		
+		for slot in ["weapon", "armor", "offhand", "consumable", "sacred"]:
 			global.ui_equipments._equipments_inventory[slot] = {}
 			
 			if eq_data.has(slot) and not eq_data[slot].is_empty():
@@ -393,6 +401,8 @@ func apply_loaded_data() -> void:
 							target_button = global.ui_equipments._offhand_slot
 						"consumable":
 							target_button = global.ui_equipments._consumable_slot
+						"sacred":
+							target_button = global.ui_equipments._sacred_slot
 					
 					if target_button:
 						var tex = load(path)
@@ -419,6 +429,14 @@ func apply_loaded_data() -> void:
 			if player.has_node("Stats"):
 				player.get_node("Stats").recalculate_equipment_health_bonus()
 				print("  ✓ Bônus de vida de equipamento recalculado após load")
+		
+		# ✅ Saves antigos: Escudo de Bronze passou de offhand para armadura
+		if global.inventory and global.inventory.has_method("migrate_bronze_shield"):
+			global.inventory.migrate_bronze_shield()
+		
+		# ✅ Saves antigos: item equipado volta para a grade (moldura de equipado)
+		if global.inventory and global.inventory.has_method("ensure_equipped_in_inventory"):
+			global.inventory.ensure_equipped_in_inventory()
 		
 		print("  ✓ Equipamentos restaurados")
 	else:

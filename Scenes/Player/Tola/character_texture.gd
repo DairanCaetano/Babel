@@ -83,7 +83,7 @@ func _check_animation_state() -> void:
 			_is_on_action = false
 	
 	if not _is_on_action and not _character.is_physics_processing():
-		var physics_disabled_animations = ["Dead_Hit", "Dead_Ground", "Petrificado", "Heal"]
+		var physics_disabled_animations = ["Dead_Hit", "Dead_Ground", "Petrificado", "Heal", "GetMap", "CloseMap"]
 		var valid_exceptions = (
 			animation in physics_disabled_animations or 
 			_character.is_petrified or 
@@ -402,7 +402,7 @@ func action_animation(_action_name: String, _previous_frame: int = 0) -> void:
 	# ✅ SPAWNAR EFEITOS DE FOGO DURANTE ATAQUES
 	if _character_subweapon:
 		var attack_type = ""
-		if _action_name == "Attack_1":
+		if _action_name == "Attack_1" or _action_name == "Attack_Crit":
 			attack_type = "Attack_1"
 		elif _action_name.contains("Attack_Air"):
 			attack_type = "Attack_Air"
@@ -416,6 +416,10 @@ func action_animation(_action_name: String, _previous_frame: int = 0) -> void:
 	
 	# ✅ TOCAR ANIMAÇÃO
 	play(_action_name)
+	
+	# 💥 Crítico aéreo: área de dano liga já no frame 0
+	if _action_name == "Attack_Air_Crit":
+		_attack_area_collision.set_deferred("disabled", false)
 	
 	# ✅ OLHOS DE FALCÃO: acelera só os ataques no chão e no ar
 	if _character and not _character._on_ladder:
@@ -618,10 +622,10 @@ func _on_animation_finished():
 		_character._combat_stance_timer.stop()
 		_character._combat_stance_timer.start()
 		
-		if _character.velocity.length() < 0.1 and _character.is_on_floor():
+		if _character.velocity.length() < 0.1 and _character.is_on_floor() and animation != "Attack_Crounch_Crit":
 			play("Idle_Combat")
 	
-	if animation == "AttackCrounch":
+	if animation == "AttackCrounch" or animation == "Attack_Crounch_Crit":
 		_attack_area_collision.set_deferred("disabled", true)
 
 func _on_frame_changed() -> void:
@@ -675,7 +679,25 @@ func _on_frame_changed() -> void:
 		elif frame == 4:
 			_attack_area_collision.set_deferred("disabled", true)
 	
-	if animation.begins_with("Attack_Air"):
+	# 💥 Som de impacto do crítico: frame 1 (depois do 0), padrão dos ataques
+	if animation.ends_with("_Crit") and frame == 1:
+		if _character and _character._audio and _character._audio.has_method("play_crit_impact"):
+			_character._audio.play_crit_impact()
+	
+	# 💥 CRÍTICOS (antes das regras gerais)
+	if animation == "Attack_Air_Crit":       # 3 frames: dano nos frames 0–1
+		if frame == 0:
+			_attack_area_collision.set_deferred("disabled", false)
+		elif frame == 2:
+			_attack_area_collision.set_deferred("disabled", true)
+	
+	elif animation == "Attack_Crit" or animation == "Attack_Crounch_Crit":   # dano nos frames 1–2
+		if frame == 1:
+			_attack_area_collision.set_deferred("disabled", false)
+		elif frame == 3:
+			_attack_area_collision.set_deferred("disabled", true)
+	
+	elif animation.begins_with("Attack_Air"):
 		if frame == 0:
 			_attack_area_collision.set_deferred("disabled", true)
 		elif frame == 1:
@@ -683,7 +705,7 @@ func _on_frame_changed() -> void:
 		elif frame == 2:
 			_attack_area_collision.set_deferred("disabled", true)
 
-	elif animation == "Attack_wall":
+	elif animation == "Attack_wall" or animation == "Attack_Wall_Crit":
 		if frame == 1:
 			_attack_area_collision.set_deferred("disabled", false)
 		elif frame == 3:
@@ -711,7 +733,10 @@ func _on_frame_changed() -> void:
 					"Attack_2": 3,
 					"Attack_3": 4,
 					"Attack_Air_1": 2,
-					"Attack_Air_2": 2
+					"Attack_Air_2": 2,
+					"Attack_Crit": 2,
+					"Attack_Air_Crit": 1,
+					"Attack_Crounch_Crit": 2
 				}
 				if impact_frames.has(animation) and frame == impact_frames[animation]:
 					if _character._audio:

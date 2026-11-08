@@ -286,9 +286,13 @@ func _on_room_locked() -> void:
 		boss_area_audio.stop()
 
 
+# Leva a Tola para dentro da sala sem soltar o controle: o modo de cena fica
+# ligado o tempo todo e ela anda pelo cinematic_walk_dir do player
+# (nenhum botão — agachar, pular, atacar, dash — interfere).
 func _move_player_automatically(player: Node) -> void:
-	player._is_in_cinematic = false
-	var action_name: String = "move_right" if _direction > 0.0 else "move_left"
+	player._is_in_cinematic = true
+	if "cinematic_walk_dir" in player:
+		player.cinematic_walk_dir = _direction
 	var elapsed: float = 0.0
 
 	while elapsed < walk_duration:
@@ -297,19 +301,14 @@ func _move_player_automatically(player: Node) -> void:
 		var passed: float = (player.global_position.x - global_position.x) * _direction
 		if passed >= walk_past_distance:
 			break
-		Input.action_press(action_name)
 		elapsed += get_process_delta_time()
 		await get_tree().process_frame
 
-	Input.action_release(action_name)
-	await get_tree().process_frame
-
 	if is_instance_valid(player):
+		if "cinematic_walk_dir" in player:
+			player.cinematic_walk_dir = 0.0
 		player.velocity.x = 0
 		player._is_in_cinematic = true
-		var char_texture = player.get_node_or_null("CharacterTexture")
-		if char_texture and char_texture.sprite_frames and char_texture.sprite_frames.has_animation("Idle"):
-			char_texture.play("Idle")
 
 
 # ========== SALA RESOLVIDA (derrota ou aliança) ==========
@@ -328,9 +327,7 @@ func _on_boss_resolved(resolved_id: String) -> void:
 	disable_collision()
 
 	if texture and texture.sprite_frames and texture.sprite_frames.has_animation("Dead"):
-		if open_gate_audio:
-			open_gate_audio.play()
-		_play("Dead")
+		_play("Dead")   # sem som: não atrapalhar o fluxo depois da luta
 		if texture.sprite_frames.get_animation_loop("Dead"):
 			get_tree().create_timer(1.0, false).timeout.connect(queue_free)
 	else:

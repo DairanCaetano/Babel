@@ -64,8 +64,12 @@ func _on_area_entered(_area: Area2D) -> void:
 	)
 	if _entity and _entity._audio:
 		_entity._audio.play_attack_hit()
-	var _damage: int = _entity.scale_damage(_attack_damage)
+	# 💥 Crítico: a animação atual é uma das "_Crit"
+	var _is_crit: bool = _character_texture != null and _character_texture.animation.ends_with("_Crit")
+	var _damage: int = _entity.scale_damage(_attack_damage, _is_crit)
 	enemy.update_health(_damage, _entity)
+	if _is_crit:
+		_on_crit_hit(_damage)
 	# Ponto exato onde o 1º impacto nasceu (mesmo cálculo do spawn_effect acima)
 	var _first_impact: Vector2 = global_position + Vector2(-36 if _character_texture.flip_h else 36, 0)
 	_try_echo_hit(enemy, _damage, _first_impact)
@@ -115,6 +119,14 @@ func _try_echo_hit(enemy: Node, first_damage: int, first_impact_pos: Vector2) ->
 	if _entity and _entity._audio:
 		_entity._audio.play_attack_hit()
 	enemy.update_health(echo_damage, _entity)
+
+func _on_crit_hit(_damage: int) -> void:
+	print("💥 Crítico acertou: ", _damage, " de dano")
+	var _camera = get_tree().get_first_node_in_group("camera")
+	if _camera and _camera.has_method("shake_camera"):
+		var _strength: float = _entity.crit_shake_strength if "crit_shake_strength" in _entity else 3.0
+		var _duration: float = _entity.crit_shake_duration if "crit_shake_duration" in _entity else 0.25
+		_camera.shake_camera(_strength, _duration)
 
 func get_damaged() -> int:
 	return _attack_damage

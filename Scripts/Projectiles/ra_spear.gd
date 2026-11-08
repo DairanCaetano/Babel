@@ -23,6 +23,19 @@ enum Stage { SURGE, HOVER, FALL, GROUND, GONE }
 @export var fall_audio: AudioStreamPlayer
 @export var impact_audio: AudioStreamPlayer
 
+@export_category("Áudio")
+## Som ao surgir e ao cravar no chão. Vazio = arquivos padrão (EnemiesSound).
+## Várias lanças surgem/cravam juntas: só uma toca por vez (evita som estourado).
+@export var surge_sound: AudioStream
+@export var land_sound: AudioStream
+@export var sound_volume_db: float = 0.0
+@export var sound_pitch: Vector2 = Vector2(0.95, 1.05)
+const _SURGE_DEFAULT: String = "res://Sound/SFX/EnemiesSound/Ra_Spear_1_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-005.ogg"
+const _LAND_DEFAULT: String = "res://Sound/SFX/EnemiesSound/Ra_Spear_2_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg"
+const _SOUND_GAP_MS: int = 120
+static var _last_surge_ms: int = -100000
+static var _last_land_ms: int = -100000
+
 @export_category("Variables")
 @export var attack_damage: int = 10
 @export var _hover_time: float = 1.0          # tempo descendo devagar antes da queda rápida
@@ -34,6 +47,8 @@ enum Stage { SURGE, HOVER, FALL, GROUND, GONE }
 @export var _max_lifetime: float = 6.0        # segurança: some mesmo se nunca achar o chão
 @export var _land_shake_strength: float = 2.0 # tremida da câmera ao cravar (0 = sem tremida)
 @export var _land_shake_duration: float = 0.15
+@export var _land_vibration_strength: float = 0.4   # vibração do controle ao cravar (0 = sem vibração)
+@export var _land_vibration_duration: float = 0.15
 
 var _stage: Stage = Stage.SURGE
 var _velocity_y: float = 0.0
@@ -64,6 +79,15 @@ func _ready() -> void:
 
 	_stage = Stage.SURGE
 	_play("Surge")
+	
+	if not surge_sound and ResourceLoader.exists(_SURGE_DEFAULT):
+		surge_sound = load(_SURGE_DEFAULT)
+	if not land_sound and ResourceLoader.exists(_LAND_DEFAULT):
+		land_sound = load(_LAND_DEFAULT)
+	var _now: int = Time.get_ticks_msec()
+	if _now - _last_surge_ms > _SOUND_GAP_MS:
+		_last_surge_ms = _now
+		_play_sound(surge_sound)
 
 
 func _on_animation_finished() -> void:
@@ -124,6 +148,13 @@ func _land() -> void:
 		collision.set_deferred("disabled", true)
 	if impact_audio:
 		impact_audio.play()
+	var _now: int = Time.get_ticks_msec()
+	if _now - _last_land_ms > _SOUND_GAP_MS:
+		_last_land_ms = _now
+		_play_sound(land_sound)
+		# Uma vibração por fileira (as lanças cravam juntas)
+		if _land_vibration_strength > 0.0 and _land_vibration_duration > 0.0:
+			ControllerVibration.vibrate_custom(_land_vibration_strength, _land_vibration_strength, _land_vibration_duration)
 
 	if _land_shake_strength > 0.0:
 		var camera = get_tree().get_first_node_in_group("camera")
@@ -149,6 +180,21 @@ func _start_gone() -> void:
 		_play("Gone")
 	else:
 		queue_free()
+
+
+# Som solto na cena (continua tocando mesmo se a lança sumir antes)
+func _play_sound(stream: AudioStream) -> void:
+	if not stream or not get_parent():
+		return
+	var _player := AudioStreamPlayer2D.new()
+	_player.stream = stream
+	_player.volume_db = sound_volume_db
+	_player.pitch_scale = randf_range(minf(sound_pitch.x, sound_pitch.y), maxf(sound_pitch.x, sound_pitch.y))
+	_player.bus = "SFX" if AudioServer.get_bus_index("SFX") != -1 else "Master"
+	get_parent().add_child(_player)
+	_player.global_position = global_position
+	_player.play()
+	_player.finished.connect(_player.queue_free)
 
 
 func _on_body_entered(body: Node2D) -> void:

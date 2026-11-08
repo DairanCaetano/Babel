@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://leh5alp0xtag"]
+[gd_scene load_steps=19 format=3 uid="uid://leh5alp0xtag"]
 
 [ext_resource type="Script" path="res://Scripts/Inventory/skills_display_system.gd" id="1_ajk06"]
 [ext_resource type="Texture2D" uid="uid://chiav4r537ov0" path="res://sprites/UI/MENU_1/Babel_Read_Page_Anim.png" id="1_t5gkg"]
 [ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="2_iba3h"]
 [ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="3_qkjxb"]
+[ext_resource type="PackedScene" uid="uid://f0vr16orq8rg" path="res://Scenes/UI/menu_bg.tscn" id="90_menubg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nljuu"]
 atlas = ExtResource("1_t5gkg")
@@ -108,6 +109,9 @@ _animated_sprite = NodePath("Texture")
 _skills_title = NodePath("VBoxContainer/SkillsTitle")
 _skills_content = NodePath("VBoxContainer/SkillsContent")
 _skills_texture = NodePath("VBoxContainer/SkillsTexture")
+
+[node name="MenuBG" parent="." instance=ExtResource("90_menubg")]
+layout_mode = 1
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 position = Vector2(240, 135)

@@ -1,0 +1,27 @@
+[gd_resource type="ShaderMaterial" format=3]
+
+[ext_resource type="Shader" uid="uid://di4w7nk077fqw" path="res://Shaders/wall_light.gdshader" id="1_wall_light"]
+
+[resource]
+shader = ExtResource("1_wall_light")
+shader_parameter/mask_ready = false
+shader_parameter/mask_size = Vector2(512, 302)
+shader_parameter/mask_offset = Vector2(0, 0)
+shader_parameter/mask_scale = 1.0
+shader_parameter/rim_color = Color(1, 0.86, 0.6, 1)
+shader_parameter/rim_top = 0.55
+shader_parameter/rim_sides = 0.3
+shader_parameter/rim_bottom = 0.12
+shader_parameter/inner_depth = 6.0
+shader_parameter/inner_darkness = 0.55
+shader_parameter/inner_tint = Color(0.08, 0.05, 0.08, 1)
+shader_parameter/inner_jitter = 1.5
+shader_parameter/caustic_drift = 1.2
+shader_parameter/caustic_direction = Vector2(-1, -1)
+shader_parameter/caustic_morph = 0.5
+shader_parameter/caustic_scale = Vector2(0.025, 0.025)
+shader_parameter/caustic_strength = 0.30000001425
+shader_parameter/caustic_thresholds = Vector3(0.365, 0.38, 0.36)
+shader_parameter/caustic_levels = Vector3(0.36, 0.34, 0.35)
+shader_parameter/caustic_shadow_color = Color(0.078431375, 0.05490196, 0.13725491, 1)
+shader_parameter/caustic_light_color = Color(1, 1, 1, 1)

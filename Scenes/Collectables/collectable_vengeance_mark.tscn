@@ -21,6 +21,7 @@ animations = [{
 script = ExtResource("2_equip")
 item_key = "ITEM_VENGEANCE_MARK"
 equip_slot = "armor"
+sacred = true
 attributes = {
 "vengeance": 1
 }

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://1gco6giq3kb7"
+path="res://.godot/imported/Ra_Spear_1_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-005.ogg-21aac2c95db274199e95587317e34bf8.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Ra_Spear_1_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-005.ogg"
+dest_files=["res://.godot/imported/Ra_Spear_1_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-005.ogg-21aac2c95db274199e95587317e34bf8.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

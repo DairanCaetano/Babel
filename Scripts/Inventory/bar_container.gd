@@ -12,6 +12,21 @@ class_name BarContainer
 @export_category("Growth Animation")
 @export var growth_tween_duration: float = 0.9
 
+@export_category("Vida Extra (Bênção de Rafa'el)")
+## Sprite da reserva azul (continua a barra de vida, depois do fim dela).
+## Vazio = usa o sprite padrão Babel_ExtraHealthBar.
+@export var overheal_texture: Texture2D
+## Tamanho da reserva cheia, em fração do comprimento da barra de vida.
+@export var overheal_width_ratio: float = 0.2
+## Ajuste vertical da reserva em relação à barra de vida (px).
+@export var overheal_offset_y: float = 1.0
+## Tempo da borda crescendo/encolhendo.
+@export var overheal_grow_duration: float = 0.25
+
+var _overheal_bar: TextureProgressBar
+var _overheal_extra_width: float = 0.0   # quanto a borda cresce agora (anima)
+var _overheal_tween: Tween
+
 var current_health: int
 var current_stamina: int
 
@@ -46,6 +61,62 @@ func _ready() -> void:
 		health_border.grow_horizontal = Control.GROW_DIRECTION_END
 	if stamina_border:
 		stamina_border.grow_horizontal = Control.GROW_DIRECTION_END
+	
+	_create_overheal_bar()
+
+# ===== VIDA EXTRA (reserva azul) =====
+func _create_overheal_bar() -> void:
+	_overheal_bar = TextureProgressBar.new()
+	_overheal_bar.name = "OverhealBar"
+	if not overheal_texture:
+		overheal_texture = load("res://sprites/UI/MENU_1/Babel_ExtraHealthBar_Pixel Art_v01.png")
+	_overheal_bar.texture_progress = overheal_texture
+	_overheal_bar.nine_patch_stretch = true
+	_overheal_bar.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	_overheal_bar.max_value = 1
+	_overheal_bar.value = 0
+	_overheal_bar.visible = false
+	health_bar.get_parent().add_child(_overheal_bar)
+	# fica atrás da borda, como a barra de vida
+	if health_border:
+		health_bar.get_parent().move_child(_overheal_bar, health_border.get_index())
+
+func update_overheal(value: int, max_value: int) -> void:
+	if not _overheal_bar:
+		return
+	_overheal_bar.max_value = maxi(1, max_value)
+	var tw := create_tween()
+	tw.tween_property(_overheal_bar, "value", value, 0.2).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	
+	var want_open: bool = value > 0
+	# A borda cresce junto com a reserva, ponto a ponto (não abre tudo de uma vez)
+	var ratio: float = clampf(float(value) / float(maxi(1, max_value)), 0.0, 1.0)
+	var target_extra: float = roundf(_overheal_full_width() * ratio) + 1.0 if want_open else 0.0
+	if want_open:
+		_overheal_bar.visible = true
+	if _overheal_tween:
+		_overheal_tween.kill()
+	_overheal_tween = create_tween()
+	_overheal_tween.tween_property(self, "_overheal_extra_width", target_extra, overheal_grow_duration).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	if not want_open:
+		_overheal_tween.tween_callback(func(): _overheal_bar.visible = false)
+
+func _overheal_full_width() -> float:
+	return roundf(health_bar.size.x * overheal_width_ratio)
+
+func _process(_delta: float) -> void:
+	if not _overheal_bar or (not _overheal_bar.visible and _overheal_extra_width <= 0.0):
+		return
+	# Reserva colada no fim da barra de vida (acompanha o crescimento da vida máxima)
+	var full_w: float = _overheal_full_width()
+	_overheal_bar.position = Vector2(health_bar.position.x + health_bar.size.x, health_bar.position.y + overheal_offset_y)
+	_overheal_bar.size = Vector2(full_w, maxf(1.0, health_bar.size.y - overheal_offset_y * 2.0))
+	# A borda (container) cresce junto para envolver a reserva
+	if health_border:
+		var pad: float = _base_health_border_width - _base_health_width
+		var border_w: float = health_bar.size.x + pad + roundf(_overheal_extra_width)
+		health_border.custom_minimum_size.x = border_w
+		health_border.size.x = border_w
 
 func init_bar(health: int, stamina: int) -> void:
 	health_bar.max_value = health

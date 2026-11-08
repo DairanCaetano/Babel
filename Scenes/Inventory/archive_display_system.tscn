@@ -1,9 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cjvodakeerebu"]
+[gd_scene load_steps=19 format=3 uid="uid://cjvodakeerebu"]
 
 [ext_resource type="Texture2D" uid="uid://chiav4r537ov0" path="res://sprites/UI/MENU_1/Babel_Read_Page_Anim.png" id="1_1wvmf"]
 [ext_resource type="Script" path="res://Scripts/Inventory/archive_display_system.gd" id="1_g2gu1"]
 [ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_y6h2c"]
 [ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="4_xx4cp"]
+[ext_resource type="PackedScene" uid="uid://f0vr16orq8rg" path="res://Scenes/UI/menu_bg.tscn" id="90_menubg"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qdwkj"]
 atlas = ExtResource("1_1wvmf")
@@ -107,6 +108,9 @@ script = ExtResource("1_g2gu1")
 _animated_sprite = NodePath("Texture")
 _archive_title = NodePath("Texture/VBoxContainer/ArchiveTitle")
 _archive_content = NodePath("Texture/VBoxContainer/ArchiveContent")
+
+[node name="MenuBG" parent="." instance=ExtResource("90_menubg")]
+layout_mode = 1
 
 [node name="Texture" type="AnimatedSprite2D" parent="."]
 position = Vector2(240, 135)

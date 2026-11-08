@@ -19,8 +19,14 @@ class_name RaFxProjectile
 @export var _active_frame_end: int = 2     # último frame com dano (contando de 0)
 @export var _speed: float = 0.0            # 0 = parado no lugar onde nasceu
 
+@export_category("Áudio")
+@export var _sound: AudioStream            # som do golpe (vazio = sem som)
+@export var _sound_frame: int = -1         # frame em que o som toca (contando de 0); -1 = não toca
+@export var _sound_volume_db: float = 0.0
+
 var _direction: float = 1.0
 var _has_hit: bool = false
+var _sound_played: bool = false
 
 # Posição da colisão no estado padrão (flip_h = false, como foi desenhado).
 # É lida do editor no _ready, então é só posicionar a Collision na cena.
@@ -71,10 +77,15 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_frame_changed() -> void:
+	var frame_number: int = _texture.frame
+
+	if not _sound_played and _sound and _sound_frame >= 0 and frame_number >= _sound_frame:
+		_sound_played = true
+		_play_sound()
+
 	if not _collision:
 		return
 
-	var frame_number: int = _texture.frame
 	var active: bool = frame_number >= _active_frame_start and frame_number <= _active_frame_end
 	_collision.set_deferred("disabled", not active)
 
@@ -92,3 +103,19 @@ func _on_body_entered(body: Node2D) -> void:
 
 func _on_animation_finished() -> void:
 	queue_free()
+
+
+# O player de áudio fica FORA do FX (no pai dele): o FX some ao fim da animação,
+# e o som cortaria no meio. Ele se apaga sozinho quando o som termina.
+func _play_sound() -> void:
+	var host: Node = get_parent() if get_parent() else get_tree().current_scene
+	if not host:
+		return
+	var player := AudioStreamPlayer2D.new()
+	player.stream = _sound
+	player.volume_db = _sound_volume_db
+	player.bus = "SFX" if AudioServer.get_bus_index("SFX") != -1 else "Master"
+	host.add_child(player)
+	player.global_position = global_position
+	player.play()
+	player.finished.connect(player.queue_free)

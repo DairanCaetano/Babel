@@ -37,6 +37,8 @@ enum Stage { ANTICIPATION, FLAME, ATTACK, FINISH }
 @export var spawn_audio: AudioStreamPlayer
 ## Toca durante a Attack, em loop, até o encerramento
 @export var attack_audio: AudioStreamPlayer
+## Tempo que o som da Attack leva pra sumir no encerramento (0 = corta seco)
+@export var attack_audio_fade: float = 0.25
 ## Toca no encerramento (Flame_End)
 @export var fade_audio: AudioStreamPlayer
 
@@ -123,7 +125,10 @@ func _start_attack() -> void:
 	_is_moving = true
 	if collision:
 		collision.set_deferred("disabled", false)   # dano só durante a Attack
-	_play_audio(attack_audio)
+	# Par de pilares: só um deles toca o som de movimento (dois iguais juntos
+	# só dobrariam o volume)
+	if not _pair_audio_already_playing():
+		_play_audio(attack_audio)
 	_play_animation("Attack")
 
 	if ground_ray:
@@ -143,8 +148,7 @@ func _start_fade() -> void:
 	_stage = Stage.FINISH
 	if collision:
 		collision.set_deferred("disabled", true)
-	if attack_audio:
-		attack_audio.stop()
+	_fade_attack_audio()
 	_play_audio(fade_audio)
 	if texture and texture.sprite_frames and texture.sprite_frames.has_animation("Flame_End"):
 		_play_animation("Flame_End")
@@ -209,6 +213,29 @@ func _on_body_entered(_body) -> void:
 func _play_audio(player: AudioStreamPlayer) -> void:
 	if player and player.stream:
 		player.play()
+
+# true se o outro pilar do mesmo par já está tocando o som de movimento
+func _pair_audio_already_playing() -> bool:
+	if pair_id < 0:
+		return false
+	for other in get_tree().get_nodes_in_group(GROUP_NAME):
+		if other == self or not is_instance_valid(other) or not other is ProjectileFirePillar:
+			continue
+		if other.pair_id == pair_id and other.attack_audio and other.attack_audio.playing:
+			return true
+	return false
+
+
+# Some com o som de movimento suavemente em vez de cortar seco
+func _fade_attack_audio() -> void:
+	if not attack_audio or not attack_audio.playing:
+		return
+	if attack_audio_fade <= 0.0:
+		attack_audio.stop()
+		return
+	var tween := create_tween()
+	tween.tween_property(attack_audio, "volume_db", -40.0, attack_audio_fade)
+	tween.tween_callback(attack_audio.stop)
 
 func _on_attack_audio_finished() -> void:
 	# Loop manual (funciona mesmo se o arquivo de áudio não estiver marcado como loop)

@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dtsyo700obbei"]
+
+[ext_resource type="Shader" uid="uid://bor80l42lfnup" path="res://Shaders/bg_noise.gdshader" id="1_bg_noise"]
+
+[resource]
+shader = ExtResource("1_bg_noise")
+shader_parameter/blend_mode = 4
+shader_parameter/caustic_drift = 2.50000011875
+shader_parameter/caustic_direction = Vector2(-1, 0.5)
+shader_parameter/caustic_morph = 2.000000095
+shader_parameter/caustic_scale = Vector2(0.05, 0.05)
+shader_parameter/caustic_strength = 0.010000000475
+shader_parameter/caustic_thresholds = Vector3(0.465, 0.475, 0.335)
+shader_parameter/caustic_levels = Vector3(0.145, 0.635, 0.47)
+shader_parameter/caustic_shadow_color = Color(0.089868, 0.07907503, 0.06558217, 1)
+shader_parameter/caustic_light_color = Color(0.98039216, 0.9764706, 0.972549, 0.9607843)
+shader_parameter/escurecimento = 0.450000021375
+shader_parameter/cor_do_escuro = Color(0, 0, 0, 1)

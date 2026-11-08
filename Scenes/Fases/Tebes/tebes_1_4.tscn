@@ -29,7 +29,6 @@
 [ext_resource type="Texture2D" uid="uid://2sevgynfh1gv" path="res://sprites/Environment/TEBES/MAPA_1_TEBES_Spikes_v01.png" id="18_wodqw"]
 [ext_resource type="PackedScene" uid="uid://cwj7om58uaqop" path="res://Scenes/Inimigos/base_hazard.tscn" id="19_0tkmo"]
 [ext_resource type="PackedScene" uid="uid://cwnwhe6gywkfq" path="res://Scenes/Interactables/tower_hidden_area.tscn" id="19_1087h"]
-[ext_resource type="PackedScene" uid="uid://5shs0uj4fa6i" path="res://Scenes/Collectables/collectable_wall_jump.tscn" id="19_q4fj3"]
 [ext_resource type="PackedScene" uid="uid://cfh7ij2j8xdib" path="res://Scenes/Interactables/altar.tscn" id="19_ugk67"]
 [ext_resource type="PackedScene" uid="uid://bo5aolhqgnt3x" path="res://Scenes/Interactables/giant_bull_head.tscn" id="21_iamyf"]
 [ext_resource type="PackedScene" uid="uid://dcceeq1qdewok" path="res://Scenes/Interactables/jarro_1.tscn" id="22_12j84"]
@@ -45,6 +44,7 @@
 [ext_resource type="PackedScene" uid="uid://bvsyr4betmfg3" path="res://Scenes/Interactables/hidden_area_detection.tscn" id="40_tlw64"]
 [ext_resource type="PackedScene" uid="uid://blm7dn6ujtap1" path="res://Scenes/cenografia/tebes_bg.tscn" id="42_xi14b"]
 [ext_resource type="AudioStream" uid="uid://b8nhpvbxwcq4n" path="res://Sound/SFX/EnemiesSound/Berith_Door_Room_Sound.ogg" id="berith_room_sound_1"]
+[ext_resource type="PackedScene" path="res://Scenes/FX/estetica_fase.tscn" id="estetica_fase"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_qkj8a"]
 texture = ExtResource("4_58b8g")
@@ -2807,6 +2807,9 @@ terrain_set_0/terrain_0/color = Color(0.60472, 0.0342357, 0.394458, 1)
 sources/0 = SubResource("TileSetAtlasSource_0v7m6")
 sources/1 = SubResource("TileSetAtlasSource_1mtdr")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4i6gj"]
+size = Vector2(5, 215)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y1a52"]
 size = Vector2(495, 300)
 
@@ -2842,9 +2845,6 @@ size = Vector2(1248, 402)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0hijb"]
 size = Vector2(506, 334)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4i6gj"]
-size = Vector2(5, 215)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_s2pnn"]
 texture = ExtResource("2_61k8m")
@@ -3045,115 +3045,103 @@ z_index = 1
 tile_map_data = PackedByteArray("AABSAA8AAQABAAYAAABSABAAAQABAAcAAABSABEAAQABAAgAAABTAA8AAQACAAYAAABTABAAAQACAAcAAABTABEAAQACAAgAAABUAA8AAQADAAYAAABUABAAAQADAAcAAABUABEAAQADAAgAAABVAA8AAQAEAAYAAABVABAAAQAEAAcAAABVABEAAQAEAAgAAABWAA8AAQAFAAYAAABWABAAAQAFAAcAAABWABEAAQAFAAgAAABXAA8AAQAGAAYAAABXABAAAQAGAAcAAABXABEAAQAGAAgAAABYAA8AAQAHAAYAAABYABAAAQAHAAcAAABYABEAAQAHAAgAAABZAA8AAQABAAYAAABZABAAAQABAAcAAABZABEAAQABAAgAAABaAA8AAQACAAYAAABaABAAAQACAAcAAABaABEAAQACAAgAAABRAA8AAQAAAAYAAABRABAAAQAAAAcAAABRABEAAQAAAAgAAABbAA8AAQADAAYAAABbABAAAQADAAcAAABbABEAAQADAAgAAABcAA8AAQAEAAYAAABcABAAAQAEAAcAAABcABEAAQAEAAgAAABdAA8AAQAFAAYAAABdABAAAQAFAAcAAABdABEAAQAFAAgAAABeAA8AAQAGAAYAAABeABAAAQAGAAcAAABeABEAAQAGAAgAAABfAA8AAQAHAAYAAABfABAAAQAHAAcAAABfABEAAQAHAAgAAABgAA8AAQAIAAYAAABgABAAAQAIAAcAAABgABEAAQAIAAgAAABOAAUAAQAAAAMAAABOAAYAAQAAAAQAAABOAAcAAQAAAAUAAABPAAUAAQABAAMAAABPAAYAAQABAAQAAABPAAcAAQABAAUAAABQAAUAAQACAAMAAABQAAYAAQACAAQAAABQAAcAAQACAAUAAABRAAUAAQADAAMAAABRAAYAAQADAAQAAABRAAcAAQADAAUAAABSAAUAAQAEAAMAAABSAAYAAQAEAAQAAABSAAcAAQAEAAUAAABTAAUAAQAFAAMAAABTAAYAAQAFAAQAAABTAAcAAQAFAAUAAABUAAUAAQAGAAMAAABUAAYAAQAGAAQAAABUAAcAAQAGAAUAAABVAAUAAQAHAAMAAABVAAYAAQAHAAQAAABVAAcAAQAHAAUAAABWAAUAAQAIAAMAAABWAAYAAQADAAQAAABWAAcAAQADAAUAAABXAAYAAQAEAAQAAABXAAcAAQAEAAUAAABYAAYAAQAFAAQAAABYAAcAAQAFAAUAAABZAAYAAQAGAAQAAABZAAcAAQAGAAUAAABaAAYAAQAHAAQAAABaAAcAAQAHAAUAAABbAAYAAQAIAAQAAABbAAcAAQAIAAUAAABbAAUAAQAIAAMAAABcAAUAAQAKAAgAAABdAAUAAQALAAgAAABbAAQAAQAIAAgAAABcAAQAAQAKAAAAAABdAAQAAQALAAAAAABOAAIAAQAAAAYAAABOAAMAAQAAAAcAAABOAAQAAQAAAAgAAABPAAIAAQABAAYAAABPAAMAAQABAAcAAABPAAQAAQABAAgAAABQAAIAAQACAAYAAABQAAMAAQACAAcAAABQAAQAAQACAAgAAABRAAIAAQADAAYAAABRAAMAAQADAAcAAABRAAQAAQADAAgAAABSAAIAAQAEAAYAAABSAAMAAQAEAAcAAABSAAQAAQAEAAgAAABTAAIAAQAFAAYAAABTAAMAAQAFAAcAAABTAAQAAQAFAAgAAABUAAIAAQABAAYAAABUAAMAAQABAAcAAABUAAQAAQABAAgAAABVAAIAAQACAAYAAABVAAMAAQACAAcAAABVAAQAAQACAAgAAABWAAIAAQADAAYAAABWAAMAAQADAAcAAABWAAQAAQADAAgAAABXAAIAAQAEAAYAAABXAAMAAQAEAAcAAABXAAQAAQAEAAgAAABYAAIAAQAFAAYAAABYAAMAAQAFAAcAAABYAAQAAQAFAAgAAABZAAIAAQAGAAYAAABZAAMAAQAGAAcAAABZAAQAAQAGAAgAAABaAAIAAQAHAAYAAABaAAMAAQAHAAcAAABaAAQAAQAHAAgAAABbAAIAAQAIAAYAAABbAAMAAQAIAAcAAABcAAYAAQAKAAgAAABdAAYAAQALAAgAAABcAAMAAQAKAAAAAABdAAMAAQALAAAAAABiAPX/AQAMAAAAAABiAPb/AQAMAAEAAABiAPf/AQAMAAIAAABiAPj/AQAMAAMAAABiAPn/AQAMAAQAAABiAPr/AQAMAAUAAABiAPv/AQAMAAYAAABiAPz/AQAMAAcAAABiAP3/AQAMAAgAAABjAPX/AQANAAAAAABjAPb/AQANAAEAAABjAPf/AQANAAIAAABjAPj/AQANAAMAAABjAPn/AQANAAQAAABjAPr/AQANAAUAAABjAPv/AQANAAYAAABjAPz/AQANAAcAAABjAP3/AQANAAgAAABkAPX/AQAOAAAAAABkAPb/AQAOAAEAAABkAPf/AQAOAAIAAABkAPj/AQAOAAMAAABkAPn/AQAOAAQAAABkAPr/AQAOAAUAAABkAPv/AQAOAAYAAABkAPz/AQAOAAcAAABkAP3/AQAOAAgAAABQAPL/AQAAAAMAAABQAPP/AQAAAAQAAABQAPT/AQAAAAUAAABRAPL/AQABAAMAAABRAPP/AQABAAQAAABRAPT/AQABAAUAAABSAPL/AQACAAMAAABSAPP/AQACAAQAAABSAPT/AQACAAUAAABTAPL/AQADAAMAAABTAPP/AQADAAQAAABTAPT/AQADAAUAAABUAPL/AQAEAAMAAABUAPP/AQAEAAQAAABUAPT/AQAEAAUAAABVAPL/AQAFAAMAAABVAPP/AQAFAAQAAABVAPT/AQAFAAUAAABWAPL/AQAGAAMAAABWAPP/AQAGAAQAAABWAPT/AQAGAAUAAABXAPL/AQAHAAMAAABXAPP/AQAHAAQAAABXAPT/AQAHAAUAAABYAPL/AQADAAMAAABYAPP/AQADAAQAAABYAPT/AQADAAUAAABaAPL/AQABAAMAAABaAPP/AQABAAQAAABaAPT/AQABAAUAAABbAPL/AQACAAMAAABbAPP/AQACAAQAAABbAPT/AQACAAUAAABcAPL/AQADAAMAAABcAPP/AQADAAQAAABcAPT/AQADAAUAAABdAPL/AQAEAAMAAABdAPP/AQAEAAQAAABdAPT/AQAEAAUAAABeAPL/AQAFAAMAAABeAPP/AQAFAAQAAABeAPT/AQAFAAUAAABfAPL/AQAGAAMAAABfAPP/AQAGAAQAAABfAPT/AQAGAAUAAABgAPL/AQAHAAMAAABgAPP/AQAHAAQAAABgAPT/AQAHAAUAAABhAPL/AQAIAAMAAABhAPP/AQAIAAQAAABhAPT/AQAIAAUAAABZAPL/AQAEAAMAAABZAPP/AQAEAAQAAABZAPT/AQAEAAUAAAA6APz/AQAAAAYAAAA6AP3/AQAAAAcAAAA6AP7/AQAAAAgAAAA7APz/AQABAAYAAAA7AP3/AQABAAcAAAA7AP7/AQABAAgAAAA8APz/AQACAAYAAAA8AP3/AQACAAcAAAA8AP7/AQACAAgAAAA9APz/AQADAAYAAAA9AP3/AQADAAcAAAA9AP7/AQADAAgAAAA+APz/AQAEAAYAAAA+AP3/AQAEAAcAAAA+AP7/AQAEAAgAAAA/APz/AQAFAAYAAAA/AP3/AQAFAAcAAAA/AP7/AQAFAAgAAABAAPz/AQAGAAYAAABAAP3/AQAGAAcAAABAAP7/AQAGAAgAAABBAPz/AQAHAAYAAABBAP3/AQAHAAcAAABBAP7/AQAHAAgAAABCAPz/AQAHAAYAAABCAP3/AQAHAAcAAABCAP7/AQAHAAgAAABDAPz/AQAIAAYAAABDAP3/AQAIAAcAAABDAP7/AQAIAAgAAABFAPH/AQABAAMAAABFAPL/AQABAAQAAABFAPP/AQABAAUAAABGAPH/AQAHAAMAAABGAPL/AQAHAAQAAABGAPP/AQAHAAUAAABHAPH/AQAIAAMAAABHAPL/AQAIAAQAAABHAPP/AQAIAAUAAABEAPH/AQAAAAMAAABEAPL/AQAAAAQAAABEAPP/AQAAAAUAAAA3APb/AQAJAAAAAAA3APf/AQAJAAQAAAA3APj/AQAJAAUAAAA3APn/AQAJAAYAAAA3APr/AQAJAAcAAAA3APv/AQAJAAgAAAA4APb/AQAKAAAAAAA4APf/AQAKAAQAAAA4APj/AQAKAAUAAAA4APn/AQAKAAYAAAA4APr/AQAKAAcAAAA4APv/AQAKAAgAAAA5APb/AQALAAAAAAA5APf/AQALAAQAAAA5APj/AQALAAUAAAA5APn/AQALAAYAAAA5APr/AQALAAcAAAA5APv/AQALAAgAAAA5AO3/AQAAAAYAAAA5AO7/AQAAAAcAAAA5AO//AQAAAAgAAAA6AO3/AQABAAYAAAA6AO7/AQABAAcAAAA6AO//AQABAAgAAAA7AO3/AQACAAYAAAA7AO7/AQACAAcAAAA7AO//AQACAAgAAAA8AO3/AQADAAYAAAA8AO7/AQADAAcAAAA8AO//AQADAAgAAAA9AO3/AQAEAAYAAAA9AO7/AQAEAAcAAAA9AO//AQAEAAgAAAA+AO3/AQAFAAYAAAA+AO7/AQAFAAcAAAA+AO//AQAFAAgAAAA/AO3/AQAGAAYAAAA/AO7/AQAGAAcAAAA/AO//AQAGAAgAAABAAO3/AQAHAAYAAABAAO7/AQAHAAcAAABAAO//AQAHAAgAAABBAO3/AQAFAAYAAABBAO7/AQAFAAcAAABBAO//AQAFAAgAAABCAO3/AQAGAAYAAABCAO7/AQAGAAcAAABCAO//AQAGAAgAAABDAO3/AQAHAAYAAABDAO7/AQAHAAcAAABDAO//AQAHAAgAAABEAO3/AQADAAYAAABEAO7/AQADAAcAAABEAO//AQAIAAgAAABXAAUAAQAEAAMAAABYAAUAAQAFAAMAAABZAAUAAQAGAAMAAABaAAUAAQAHAAMAAABTAOv/AQAAAAYAAABTAOz/AQAAAAcAAABTAO3/AQAAAAgAAABUAOv/AQABAAYAAABUAOz/AQABAAcAAABUAO3/AQABAAgAAABVAOv/AQACAAYAAABVAOz/AQACAAcAAABVAO3/AQACAAgAAABWAOv/AQADAAYAAABWAOz/AQADAAcAAABWAO3/AQADAAgAAABXAOv/AQAEAAYAAABXAOz/AQAEAAcAAABXAO3/AQAEAAgAAABYAOv/AQABAAYAAABYAOz/AQABAAcAAABYAO3/AQABAAgAAABZAOv/AQACAAYAAABZAOz/AQACAAcAAABZAO3/AQACAAgAAABaAOv/AQADAAYAAABaAOz/AQADAAcAAABaAO3/AQADAAgAAABbAOv/AQAEAAYAAABbAOz/AQAEAAcAAABbAO3/AQAEAAgAAABcAOv/AQABAAYAAABcAOz/AQABAAcAAABcAO3/AQABAAgAAABdAOv/AQACAAYAAABdAOz/AQACAAcAAABdAO3/AQACAAgAAABeAOv/AQADAAYAAABeAOz/AQADAAcAAABeAO3/AQADAAgAAABfAOv/AQAEAAYAAABfAOz/AQAEAAcAAABfAO3/AQAEAAgAAABgAOv/AQAFAAYAAABgAOz/AQAFAAcAAABgAO3/AQAFAAgAAABhAOv/AQAGAAYAAABhAOz/AQAGAAcAAABhAO3/AQAGAAgAAABiAOv/AQAHAAYAAABiAOz/AQAHAAcAAABiAO3/AQAHAAgAAABjAOv/AQAIAAYAAABjAOz/AQAIAAcAAABjAO3/AQAIAAgAAABiAOD/AQAMAAEAAABiAOH/AQAMAAIAAABiAOL/AQAMAAMAAABiAOP/AQAMAAQAAABiAOT/AQAMAAEAAABiAOX/AQAMAAIAAABiAOb/AQAMAAMAAABjAOD/AQANAAEAAABjAOH/AQANAAIAAABjAOL/AQANAAMAAABjAOP/AQANAAQAAABjAOT/AQANAAEAAABjAOX/AQANAAIAAABjAOb/AQANAAMAAABkAOD/AQAOAAEAAABkAOH/AQAOAAIAAABkAOL/AQAOAAMAAABkAOP/AQAOAAQAAABkAOT/AQAOAAEAAABkAOX/AQAOAAIAAABkAOb/AQAOAAMAAABiAOf/AQAMAAQAAABiAOj/AQAMAAUAAABiAOn/AQAMAAYAAABiAOr/AQAMAAcAAABjAOf/AQANAAQAAABjAOj/AQANAAUAAABjAOn/AQANAAYAAABjAOr/AQANAAcAAABkAOf/AQAOAAQAAABkAOj/AQAOAAUAAABkAOn/AQAOAAYAAABkAOr/AQAOAAcAAABiAN//AQAMAAAAAABjAN//AQANAAAAAABkAN//AQAOAAAAAABOANr/AQAJAAAAAABOANv/AQAJAAEAAABOANz/AQAJAAIAAABOAN3/AQAJAAMAAABPANr/AQAKAAAAAABPANv/AQAKAAEAAABPANz/AQAKAAIAAABPAN3/AQAKAAMAAABQANr/AQALAAAAAABQANv/AQALAAEAAABQANz/AQALAAIAAABQAN3/AQALAAMAAABOAN7/AQAJAAQAAABOAN//AQAJAAQAAABOAOD/AQAJAAUAAABOAOH/AQAJAAYAAABOAOL/AQAJAAcAAABPAN7/AQAKAAQAAABPAN//AQAKAAQAAABPAOD/AQAKAAUAAABPAOH/AQAKAAYAAABPAOL/AQAKAAcAAABQAN7/AQALAAQAAABQAN//AQALAAQAAABQAOD/AQALAAUAAABQAOH/AQALAAYAAABQAOL/AQALAAcAAABOAOP/AQAJAAgAAABPAOP/AQAKAAgAAABQAOP/AQALAAgAAABfAOD/AQAMAAcAAABfAOH/AQAMAAgAAABgAOD/AQANAAUAAABgAOH/AQANAAYAAAAtAA4AAQAHAAYAAAAtAA8AAQAHAAcAAAAtABAAAQAHAAgAAAAuAA4AAQAIAAYAAAAuAA8AAQAIAAcAAAAuABAAAQAIAAgAAAAsAA4AAQAAAAYAAAAsAA8AAQAAAAcAAAAsABAAAQAAAAgAAAAtAPn/AQAMAAYAAAAtAPr/AQAMAAcAAAAtAPv/AQAMAAgAAAAuAPn/AQANAAYAAAAuAPr/AQANAAcAAAAuAPv/AQANAAgAAAAvAPn/AQAOAAYAAAAvAPr/AQAOAAcAAAAvAPv/AQAOAAgAAAAtAPb/AQAMAAAAAAAtAPf/AQAMAAEAAAAtAPj/AQAMAAIAAAAuAPb/AQANAAAAAAAuAPf/AQANAAEAAAAuAPj/AQANAAIAAAAvAPb/AQAOAAAAAAAvAPf/AQAOAAEAAAAvAPj/AQAOAAIAAABbAN3/AQAKAAYAAABbAN7/AQAKAAcAAABcAN3/AQALAAYAAABcAN7/AQALAAcAAABQAM3/AQAAAAMAAABQAM7/AQAAAAQAAABQAM//AQAAAAUAAABRAM3/AQABAAMAAABRAM7/AQABAAQAAABRAM//AQABAAUAAABSAM3/AQACAAMAAABSAM7/AQACAAQAAABSAM//AQACAAUAAABTAM3/AQADAAMAAABTAM7/AQADAAQAAABTAM//AQADAAUAAABUAM3/AQAEAAMAAABUAM7/AQAEAAQAAABUAM//AQAEAAUAAABVAM3/AQAFAAMAAABVAM7/AQAFAAQAAABVAM//AQAFAAUAAABWAM3/AQAGAAMAAABWAM7/AQAGAAQAAABWAM//AQAGAAUAAABXAM3/AQADAAMAAABXAM7/AQADAAQAAABXAM//AQADAAUAAABYAM3/AQAEAAMAAABYAM7/AQAEAAQAAABYAM//AQAEAAUAAABbAM3/AQAHAAMAAABbAM7/AQAHAAQAAABbAM//AQAHAAUAAABcAM3/AQAFAAMAAABcAM7/AQAFAAQAAABcAM//AQAFAAUAAABdAM3/AQAGAAMAAABdAM7/AQAGAAQAAABdAM//AQAGAAUAAABeAM3/AQAHAAMAAABeAM7/AQAHAAQAAABeAM//AQAHAAUAAABfAM3/AQAIAAMAAABfAM7/AQAIAAQAAABfAM//AQAIAAUAAABZAM3/AQAFAAMAAABZAM7/AQAFAAQAAABZAM//AQAFAAUAAABaAM3/AQAGAAMAAABaAM7/AQAGAAQAAABaAM//AQAGAAUAAABCAMv/AQAAAAMAAABCAMz/AQAAAAQAAABCAM3/AQAAAAUAAABDAMv/AQABAAMAAABDAMz/AQABAAQAAABDAM3/AQABAAUAAABEAMv/AQACAAMAAABEAMz/AQACAAQAAABEAM3/AQACAAUAAABGAMz/AQAHAAQAAABGAM3/AQAHAAUAAABHAMz/AQAIAAQAAABHAM3/AQAIAAUAAABFAMv/AQAHAAMAAABFAMz/AQAHAAQAAABFAM3/AQAHAAUAAABGAMv/AQAHAAMAAABHAMv/AQAIAAMAAAApAMv/AQAEAAMAAAApAMz/AQAEAAQAAAApAM3/AQAEAAUAAAAqAMv/AQAFAAMAAAAqAMz/AQAFAAQAAAAqAM3/AQAFAAUAAAArAMv/AQAGAAMAAAArAMz/AQAGAAQAAAArAM3/AQAGAAUAAAAsAMv/AQAHAAMAAAAsAMz/AQAHAAQAAAAsAM3/AQAHAAUAAAAtAMv/AQAIAAMAAAAtAMz/AQAIAAQAAAAtAM3/AQAIAAUAAAAoAMv/AQAAAAMAAAAoAMz/AQAAAAQAAAAoAM3/AQAAAAUAAAAfAM7/AQAMAAUAAAAfAM//AQAMAAYAAAAfAND/AQAMAAcAAAAfANH/AQAMAAgAAAAgAM7/AQANAAUAAAAgAM//AQANAAYAAAAgAND/AQANAAcAAAAgANH/AQANAAgAAAAhAM7/AQAOAAUAAAAhAM//AQAOAAYAAAAhAND/AQAOAAcAAAAhANH/AQAOAAgAAAAfAM3/AQAMAAAAAAAgAM3/AQANAAAAAAAhAM3/AQAOAAAAAABIANv/AQAMAAAAAABIANz/AQAMAAEAAABIAN3/AQAMAAIAAABIAN7/AQAMAAMAAABIAN//AQAMAAQAAABIAOD/AQAMAAUAAABIAOH/AQAMAAYAAABIAOL/AQAMAAcAAABIAOP/AQAMAAgAAABJANv/AQANAAAAAABJANz/AQANAAEAAABJAN3/AQANAAIAAABJAN7/AQANAAMAAABJAN//AQANAAQAAABJAOD/AQANAAUAAABJAOH/AQANAAYAAABJAOL/AQANAAcAAABJAOP/AQANAAgAAABKANv/AQAOAAAAAABKANz/AQAOAAEAAABKAN3/AQAOAAIAAABKAN7/AQAOAAMAAABKAN//AQAOAAQAAABKAOD/AQAOAAUAAABKAOH/AQAOAAYAAABKAOL/AQAOAAcAAABKAOP/AQAOAAgAAAAnANr/AQAJAAAAAAAnANv/AQAJAAEAAAAnANz/AQAJAAIAAAAnAN3/AQAJAAMAAAAnAN7/AQAJAAQAAAAnAN//AQAJAAUAAAAnAOD/AQAJAAYAAAAnAOH/AQAJAAMAAAAnAOL/AQAJAAQAAAAoANr/AQAKAAAAAAAoANv/AQAKAAEAAAAoANz/AQAKAAIAAAAoAN3/AQAKAAMAAAAoAN7/AQAKAAQAAAAoAN//AQAKAAUAAAAoAOD/AQAKAAYAAAAoAOH/AQAKAAMAAAAoAOL/AQAKAAQAAAApANr/AQALAAAAAAApANv/AQALAAEAAAApANz/AQALAAIAAAApAN3/AQALAAMAAAApAN7/AQALAAQAAAApAN//AQALAAUAAAApAOD/AQALAAYAAAApAOH/AQALAAMAAAApAOL/AQALAAQAAAAnAOP/AQAJAAUAAAAnAOT/AQAJAAYAAAAnAOX/AQAJAAcAAAAnAOb/AQAJAAgAAAAoAOP/AQAKAAUAAAAoAOT/AQAKAAYAAAAoAOX/AQAKAAcAAAAoAOb/AQAKAAgAAAApAOP/AQALAAUAAAApAOT/AQALAAYAAAApAOX/AQALAAcAAAApAOb/AQALAAgAAABFAO3/AQAEAAYAAABFAO7/AQAEAAcAAABGAO3/AQAFAAYAAABGAO7/AQAFAAcAAABHAO3/AQAGAAYAAABHAO7/AQAGAAcAAABIAO3/AQAHAAYAAABIAO7/AQAHAAcAAABJAO3/AQAIAAYAAABJAO7/AQAIAAcAAABSANv/AQAAAAYAAABSANz/AQAAAAcAAABSAN3/AQAAAAgAAABTANv/AQABAAYAAABTANz/AQABAAcAAABTAN3/AQABAAgAAABUANv/AQACAAYAAABUANz/AQACAAcAAABUAN3/AQACAAgAAABVANv/AQADAAYAAABVANz/AQADAAcAAABVAN3/AQADAAgAAABWANv/AQAFAAYAAABWANz/AQAFAAcAAABWAN3/AQAFAAgAAABXANv/AQAGAAYAAABXANz/AQAGAAcAAABXAN3/AQAGAAgAAABYANv/AQAHAAYAAABYANz/AQAHAAcAAABYAN3/AQAHAAgAAABZANv/AQAIAAYAAABZANz/AQAIAAcAAABZAN3/AQAIAAgAAABAACgAAQAAAAYAAABAACkAAQAAAAcAAABAACoAAQAAAAgAAABBACgAAQABAAYAAABBACkAAQABAAcAAABBACoAAQABAAgAAABCACgAAQACAAYAAABCACkAAQACAAcAAABCACoAAQACAAgAAABDACgAAQADAAYAAABDACkAAQADAAcAAABDACoAAQADAAgAAABEACgAAQAEAAYAAABEACkAAQAEAAcAAABEACoAAQAEAAgAAABFACgAAQAFAAYAAABFACkAAQAFAAcAAABFACoAAQAFAAgAAABGACgAAQAGAAYAAABGACkAAQAGAAcAAABGACoAAQAGAAgAAABHACgAAQAHAAYAAABHACkAAQAHAAcAAABHACoAAQAHAAgAAABIACgAAQABAAYAAABIACkAAQABAAcAAABIACoAAQABAAgAAABJACgAAQACAAYAAABJACkAAQACAAcAAABJACoAAQACAAgAAABKACgAAQADAAYAAABKACkAAQADAAcAAABKACoAAQADAAgAAABLACgAAQAEAAYAAABLACkAAQAEAAcAAABLACoAAQAEAAgAAABMACgAAQAFAAYAAABMACkAAQAFAAcAAABMACoAAQAFAAgAAABNACgAAQAGAAYAAABNACkAAQAGAAcAAABNACoAAQAGAAgAAABOACgAAQAHAAYAAABOACkAAQAHAAcAAABOACoAAQAHAAgAAABPACgAAQABAAYAAABPACkAAQABAAcAAABPACoAAQABAAgAAABQACgAAQACAAYAAABQACkAAQACAAcAAABQACoAAQACAAgAAABRACgAAQADAAYAAABRACkAAQADAAcAAABRACoAAQADAAgAAABSACgAAQAEAAYAAABSACkAAQAEAAcAAABSACoAAQAEAAgAAABTACgAAQAFAAYAAABTACkAAQAFAAcAAABTACoAAQAFAAgAAABUACgAAQAGAAYAAABUACkAAQAGAAcAAABUACoAAQAGAAgAAABVACgAAQABAAYAAABVACkAAQABAAcAAABVACoAAQABAAgAAABWACgAAQACAAYAAABWACkAAQACAAcAAABWACoAAQACAAgAAABXACgAAQABAAYAAABXACkAAQABAAcAAABXACoAAQABAAgAAABYACgAAQACAAYAAABYACkAAQACAAcAAABYACoAAQACAAgAAABZACgAAQADAAYAAABZACkAAQADAAcAAABZACoAAQADAAgAAABaACgAAQAEAAYAAABaACkAAQAEAAcAAABaACoAAQAEAAgAAABbACgAAQAFAAYAAABbACkAAQAFAAcAAABbACoAAQAFAAgAAABcACgAAQAGAAYAAABcACkAAQAGAAcAAABcACoAAQAGAAgAAABdACgAAQAHAAYAAABdACkAAQAHAAcAAABdACoAAQAHAAgAAABeACgAAQAIAAYAAABeACkAAQAIAAcAAABeACoAAQAIAAgAAAA=")
 tile_set = SubResource("TileSet_01hby")
 
-[node name="CollectableWallJump" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="0" unique_id=421081279 instance=ExtResource("19_q4fj3")]
-position = Vector2(350, 220)
-has_post_dialog = false
+[node name="CollectableEnemyStep" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="0" unique_id=1524529622 instance=ExtResource("25_wg7u7")]
+position = Vector2(1677, 582)
 
-[node name="TowerZone1" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="0" unique_id=1505822142 instance=ExtResource("5_vpma0")]
+[node name="CollectableLife" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="1" unique_id=1096601327 instance=ExtResource("34_x8hjh")]
+position = Vector2(2158, -954)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone1" index="0" unique_id=31355523]
-position = Vector2(237.5, 149)
-shape = SubResource("RectangleShape2D_y1a52")
+[node name="BossDoor" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="0" unique_id=643288189 instance=ExtResource("15_m8gb8")]
+position = Vector2(1037, -1001)
+boss_id = "baal_berith"
+boss_room_sound = ExtResource("berith_room_sound_1")
 
-[node name="TowerZone2" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="1" unique_id=1129479110 instance=ExtResource("5_vpma0")]
-position = Vector2(498, 9)
+[node name="BossDoor2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="1" unique_id=976006488 instance=ExtResource("15_m8gb8")]
+position = Vector2(1913, -1001)
+boss_id = "baal_berith"
+flip_h = true
+boss_room_sound = ExtResource("berith_room_sound_1")
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone2" index="0" unique_id=1600552972]
-position = Vector2(353, 139.5)
-shape = SubResource("RectangleShape2D_eb4wr")
+[node name="Altar" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="2" unique_id=914721782 instance=ExtResource("19_ugk67")]
+position = Vector2(1678, 600)
 
-[node name="TowerZone3" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="2" unique_id=904678474 instance=ExtResource("5_vpma0")]
-position = Vector2(1943, 91)
+[node name="Jarro_1" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="3" unique_id=2091920837 instance=ExtResource("22_12j84")]
+position = Vector2(230, 220)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone3" index="0" unique_id=1582795844]
-position = Vector2(-470.5, -73.5)
-shape = SubResource("RectangleShape2D_xrr4l")
+[node name="Jarro_2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="4" unique_id=64804446 instance=ExtResource("23_rnpol")]
+position = Vector2(862, 75)
 
-[node name="TowerZone4" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="3" unique_id=1904538360 instance=ExtResource("5_vpma0")]
-position = Vector2(484, -39)
+[node name="Jarro_4" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="5" unique_id=946926573 instance=ExtResource("24_er2e8")]
+position = Vector2(656, -133)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone4" index="0" unique_id=874216120]
-position = Vector2(406, -89.5)
-shape = SubResource("RectangleShape2D_d2rv7")
+[node name="Jarro_3" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="6" unique_id=1203752331 instance=ExtResource("25_h1rly")]
+position = Vector2(432, -309)
 
-[node name="TowerZone5" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="4" unique_id=1207926065 instance=ExtResource("5_vpma0")]
-position = Vector2(2, -745)
+[node name="Jarro_5" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="7" unique_id=829856733 instance=ExtResource("22_12j84")]
+position = Vector2(1152, -133)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone5" index="0" unique_id=1345060665]
-position = Vector2(252.5, 437.5)
-shape = SubResource("RectangleShape2D_wb2im")
+[node name="Jarro_6" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="8" unique_id=1487589368 instance=ExtResource("23_rnpol")]
+position = Vector2(1566, -517)
 
-[node name="TowerZone6" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="5" unique_id=1879243020 instance=ExtResource("5_vpma0")]
-position = Vector2(483, -725)
+[node name="Jarro_7" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="9" unique_id=1547677961 instance=ExtResource("23_rnpol")]
+position = Vector2(253, -421)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone6" index="0" unique_id=121259737]
-position = Vector2(413, 149)
-shape = SubResource("RectangleShape2D_fb0t6")
+[node name="Jarro_8" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="10" unique_id=1812838752 instance=ExtResource("23_rnpol")]
+position = Vector2(255, -661)
 
-[node name="TowerZone7" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="6" unique_id=1843173892 instance=ExtResource("5_vpma0")]
-position = Vector2(952, -436)
+[node name="HangingBox" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="11" unique_id=1388416932 instance=ExtResource("29_f6don")]
+position = Vector2(1138, 607)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone7" index="0" unique_id=997177398]
-position = Vector2(561.25, -141.5)
-shape = SubResource("RectangleShape2D_3p2k8")
+[node name="HangingBox2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="12" unique_id=1203309597 instance=ExtResource("29_f6don")]
+position = Vector2(1232, 604)
 
-[node name="TowerZone8" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="7" unique_id=1202689762 instance=ExtResource("5_vpma0")]
-position = Vector2(1622, -441)
+[node name="HangingBox3" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="13" unique_id=1625511885 instance=ExtResource("29_f6don")]
+position = Vector2(1324, 602)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone8" index="0" unique_id=1400839244]
-position = Vector2(-1366, -314.5)
-shape = SubResource("RectangleShape2D_4yjno")
+[node name="HangingBox4" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="14" unique_id=1167522847 instance=ExtResource("29_f6don")]
+position = Vector2(1424, 545)
 
-[node name="TowerZone9" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="8" unique_id=711834751 instance=ExtResource("5_vpma0")]
-position = Vector2(1014, -1254)
+[node name="Door" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="15" unique_id=1571688737 instance=ExtResource("31_xsb7b")]
+position = Vector2(2388, -952)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone9" index="0" unique_id=406820354]
-position = Vector2(-511.5, 185.5)
-shape = SubResource("RectangleShape2D_hps8c")
+[node name="Altar2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="16" unique_id=988035271 instance=ExtResource("19_ugk67")]
+position = Vector2(2158, -936)
 
-[node name="TowerZone10" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="9" unique_id=1848130058 instance=ExtResource("5_vpma0")]
-position = Vector2(1068, -1224)
+[node name="BerithTree" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="0" unique_id=1310060999 instance=ExtResource("12_qrn5w")]
+position = Vector2(1529, -1030)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone10" index="0" unique_id=556361176]
-position = Vector2(407, 157)
-shape = SubResource("RectangleShape2D_aefl0")
+[node name="ZumbiGuerreiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="1" unique_id=1110319425 instance=ExtResource("8_yphco")]
+position = Vector2(597, 202)
+_enemy_type = 1
 
-[node name="TowerZone11" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="10" unique_id=253115514 instance=ExtResource("5_vpma0")]
-position = Vector2(1106, 490)
+[node name="Zumbi Arqueiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="2" unique_id=136823351 instance=ExtResource("7_ssenr")]
+position = Vector2(749, -662)
+start_facing_right = true
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone11" index="0" unique_id=762302851]
-position = Vector2(26, 17)
-shape = SubResource("RectangleShape2D_xbl8x")
+[node name="ZumbiBruto" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="3" unique_id=2007129751 instance=ExtResource("11_hq5h0")]
+position = Vector2(1123, 194)
 
-[node name="TowerZone12" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="11" unique_id=1980153926 instance=ExtResource("5_vpma0")]
-position = Vector2(2147, -1061)
+[node name="EstátuaBoi" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="4" unique_id=171753121 instance=ExtResource("17_8sffc")]
+position = Vector2(1357, 147)
 
-[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone12" index="0" unique_id=1947714178]
-position = Vector2(2, -3)
-shape = SubResource("RectangleShape2D_0hijb")
+[node name="EstátuaBoi2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="5" unique_id=141031232 instance=ExtResource("17_8sffc")]
+position = Vector2(1389, -83)
 
-[node name="LevelTransition" parent="Transitions" parent_id_path=PackedInt32Array(1990016997) index="0" unique_id=264114490 instance=ExtResource("6_unpmq")]
-position = Vector2(-33, 195)
-target_level = "res://Scenes/Fases/Tebes/tebes_1_3.tscn"
-target_spawn = "SpawnLeftTop"
+[node name="ZumbiGuerreiro2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="6" unique_id=1749052508 instance=ExtResource("8_yphco")]
+position = Vector2(360, -150)
+_enemy_type = 1
 
-[node name="LevelTransition2" parent="Transitions" parent_id_path=PackedInt32Array(1990016997) index="1" unique_id=2032903227 instance=ExtResource("6_unpmq")]
-position = Vector2(2434, -969)
-target_level = "res://Scenes/Fases/Egito/egito_1_1.tscn"
-target_spawn = "SpawnLeft"
-use_pixel_transition = true
+[node name="EstátuaGuerreiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="7" unique_id=1777109059 instance=ExtResource("26_lgn0f")]
+position = Vector2(965, -148)
+collision_mask = 5
 
-[node name="SpawnLeft" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="0" unique_id=1558508112]
-position = Vector2(34, 224)
+[node name="ZumbiGuerreiro3" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="8" unique_id=1316181405 instance=ExtResource("8_yphco")]
+position = Vector2(755, -294)
+_enemy_type = 1
 
-[node name="default" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="1" unique_id=1865756332]
-position = Vector2(2045, -948)
-
-[node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=1490198833]
-position = Vector2(445, -948)
-
-[node name="SpawnRight" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="3" unique_id=204785476]
-position = Vector2(2373, -941)
+[node name="EstátuaGuerreiro2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="9" unique_id=667425109 instance=ExtResource("26_lgn0f")]
+position = Vector2(898, -352)
+collision_mask = 5
 
 [node name="BaseHazard" parent="HazardZone" parent_id_path=PackedInt32Array(23396374) index="0" unique_id=81477460 instance=ExtResource("19_0tkmo")]
 z_index = 1
@@ -3316,109 +3304,119 @@ position = Vector2(0.5, 97.5)
 shape = SubResource("RectangleShape2D_4i6gj")
 debug_color = Color(0.981313, 0, 0.372151, 0.42)
 
-[node name="BossDoor" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="0" unique_id=643288189 instance=ExtResource("15_m8gb8")]
-position = Vector2(1037, -1001)
-boss_id = "baal_berith"
-boss_room_sound = ExtResource("berith_room_sound_1")
+[node name="TowerZone1" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="0" unique_id=1505822142 instance=ExtResource("5_vpma0")]
 
-[node name="BossDoor2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="1" unique_id=976006488 instance=ExtResource("15_m8gb8")]
-position = Vector2(1913, -1001)
-boss_id = "baal_berith"
-flip_h = true
-boss_room_sound = ExtResource("berith_room_sound_1")
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone1" index="0" unique_id=31355523]
+position = Vector2(237.5, 149)
+shape = SubResource("RectangleShape2D_y1a52")
 
-[node name="Altar" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="2" unique_id=914721782 instance=ExtResource("19_ugk67")]
-position = Vector2(1678, 600)
+[node name="TowerZone2" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="1" unique_id=1129479110 instance=ExtResource("5_vpma0")]
+position = Vector2(498, 9)
 
-[node name="Jarro_1" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="3" unique_id=2091920837 instance=ExtResource("22_12j84")]
-position = Vector2(230, 220)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone2" index="0" unique_id=1600552972]
+position = Vector2(353, 139.5)
+shape = SubResource("RectangleShape2D_eb4wr")
 
-[node name="Jarro_2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="4" unique_id=64804446 instance=ExtResource("23_rnpol")]
-position = Vector2(862, 75)
+[node name="TowerZone3" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="2" unique_id=904678474 instance=ExtResource("5_vpma0")]
+position = Vector2(1943, 91)
 
-[node name="Jarro_4" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="5" unique_id=946926573 instance=ExtResource("24_er2e8")]
-position = Vector2(656, -133)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone3" index="0" unique_id=1582795844]
+position = Vector2(-470.5, -73.5)
+shape = SubResource("RectangleShape2D_xrr4l")
 
-[node name="Jarro_3" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="6" unique_id=1203752331 instance=ExtResource("25_h1rly")]
-position = Vector2(432, -309)
+[node name="TowerZone4" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="3" unique_id=1904538360 instance=ExtResource("5_vpma0")]
+position = Vector2(484, -39)
 
-[node name="Jarro_5" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="7" unique_id=829856733 instance=ExtResource("22_12j84")]
-position = Vector2(1152, -133)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone4" index="0" unique_id=874216120]
+position = Vector2(406, -89.5)
+shape = SubResource("RectangleShape2D_d2rv7")
 
-[node name="Jarro_6" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="8" unique_id=1487589368 instance=ExtResource("23_rnpol")]
-position = Vector2(1566, -517)
+[node name="TowerZone5" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="4" unique_id=1207926065 instance=ExtResource("5_vpma0")]
+position = Vector2(2, -745)
 
-[node name="Jarro_7" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="9" unique_id=1547677961 instance=ExtResource("23_rnpol")]
-position = Vector2(253, -421)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone5" index="0" unique_id=1345060665]
+position = Vector2(252.5, 437.5)
+shape = SubResource("RectangleShape2D_wb2im")
 
-[node name="Jarro_8" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="10" unique_id=1812838752 instance=ExtResource("23_rnpol")]
-position = Vector2(255, -661)
+[node name="TowerZone6" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="5" unique_id=1879243020 instance=ExtResource("5_vpma0")]
+position = Vector2(483, -725)
 
-[node name="HangingBox" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="11" unique_id=1388416932 instance=ExtResource("29_f6don")]
-position = Vector2(1138, 607)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone6" index="0" unique_id=121259737]
+position = Vector2(413, 149)
+shape = SubResource("RectangleShape2D_fb0t6")
 
-[node name="HangingBox2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="12" unique_id=1203309597 instance=ExtResource("29_f6don")]
-position = Vector2(1232, 604)
+[node name="TowerZone7" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="6" unique_id=1843173892 instance=ExtResource("5_vpma0")]
+position = Vector2(952, -436)
 
-[node name="HangingBox3" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="13" unique_id=1625511885 instance=ExtResource("29_f6don")]
-position = Vector2(1324, 602)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone7" index="0" unique_id=997177398]
+position = Vector2(561.25, -141.5)
+shape = SubResource("RectangleShape2D_3p2k8")
 
-[node name="HangingBox4" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="14" unique_id=1167522847 instance=ExtResource("29_f6don")]
-position = Vector2(1424, 545)
+[node name="TowerZone8" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="7" unique_id=1202689762 instance=ExtResource("5_vpma0")]
+position = Vector2(1622, -441)
 
-[node name="Door" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="15" unique_id=1571688737 instance=ExtResource("31_xsb7b")]
-position = Vector2(2388, -952)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone8" index="0" unique_id=1400839244]
+position = Vector2(-1366, -314.5)
+shape = SubResource("RectangleShape2D_4yjno")
 
-[node name="Altar2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="16" unique_id=988035271 instance=ExtResource("19_ugk67")]
-position = Vector2(2158, -936)
+[node name="TowerZone9" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="8" unique_id=711834751 instance=ExtResource("5_vpma0")]
+position = Vector2(1014, -1254)
 
-[node name="CollectableEnemyStep" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="0" unique_id=1524529622 instance=ExtResource("25_wg7u7")]
-position = Vector2(1677, 582)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone9" index="0" unique_id=406820354]
+position = Vector2(-511.5, 185.5)
+shape = SubResource("RectangleShape2D_hps8c")
 
-[node name="CollectableLife" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="1" unique_id=1096601327 instance=ExtResource("34_x8hjh")]
-position = Vector2(2158, -954)
+[node name="TowerZone10" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="9" unique_id=1848130058 instance=ExtResource("5_vpma0")]
+position = Vector2(1068, -1224)
 
-[node name="BerithTree" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="0" unique_id=1310060999 instance=ExtResource("12_qrn5w")]
-position = Vector2(1529, -1030)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone10" index="0" unique_id=556361176]
+position = Vector2(407, 157)
+shape = SubResource("RectangleShape2D_aefl0")
 
-[node name="ZumbiGuerreiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="1" unique_id=1110319425 instance=ExtResource("8_yphco")]
-position = Vector2(597, 202)
-_enemy_type = 1
+[node name="TowerZone11" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="10" unique_id=253115514 instance=ExtResource("5_vpma0")]
+position = Vector2(1106, 490)
 
-[node name="Zumbi Arqueiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="2" unique_id=136823351 instance=ExtResource("7_ssenr")]
-position = Vector2(749, -662)
-start_facing_right = true
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone11" index="0" unique_id=762302851]
+position = Vector2(26, 17)
+shape = SubResource("RectangleShape2D_xbl8x")
 
-[node name="ZumbiBruto" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="3" unique_id=2007129751 instance=ExtResource("11_hq5h0")]
-position = Vector2(1123, 194)
+[node name="TowerZone12" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="11" unique_id=1980153926 instance=ExtResource("5_vpma0")]
+position = Vector2(2147, -1061)
 
-[node name="EstátuaBoi" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="4" unique_id=171753121 instance=ExtResource("17_8sffc")]
-position = Vector2(1357, 147)
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/TowerZone12" index="0" unique_id=1947714178]
+position = Vector2(2, -3)
+shape = SubResource("RectangleShape2D_0hijb")
 
-[node name="EstátuaBoi2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="5" unique_id=141031232 instance=ExtResource("17_8sffc")]
-position = Vector2(1389, -83)
+[node name="LevelTransition" parent="Transitions" parent_id_path=PackedInt32Array(1990016997) index="0" unique_id=264114490 instance=ExtResource("6_unpmq")]
+position = Vector2(-33, 195)
+target_level = "res://Scenes/Fases/Tebes/tebes_1_3.tscn"
+target_spawn = "SpawnLeftTop"
 
-[node name="ZumbiGuerreiro2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="6" unique_id=1749052508 instance=ExtResource("8_yphco")]
-position = Vector2(360, -150)
-_enemy_type = 1
+[node name="LevelTransition2" parent="Transitions" parent_id_path=PackedInt32Array(1990016997) index="1" unique_id=2032903227 instance=ExtResource("6_unpmq")]
+position = Vector2(2434, -969)
+target_level = "res://Scenes/Fases/Egito/egito_1_1.tscn"
+target_spawn = "SpawnLeft"
+use_pixel_transition = true
 
-[node name="EstátuaGuerreiro" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="7" unique_id=1777109059 instance=ExtResource("26_lgn0f")]
-position = Vector2(965, -148)
-collision_mask = 5
+[node name="SpawnLeft" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="0" unique_id=1558508112]
+position = Vector2(34, 224)
 
-[node name="ZumbiGuerreiro3" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="8" unique_id=1316181405 instance=ExtResource("8_yphco")]
-position = Vector2(755, -294)
-_enemy_type = 1
+[node name="default" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="1" unique_id=1865756332]
+position = Vector2(567, -957)
 
-[node name="EstátuaGuerreiro2" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="9" unique_id=667425109 instance=ExtResource("26_lgn0f")]
-position = Vector2(898, -352)
-collision_mask = 5
+[node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=1490198833]
+position = Vector2(445, -948)
+
+[node name="SpawnRight" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="3" unique_id=204785476]
+position = Vector2(2373, -941)
 
 [node name="SaveArea" parent="SaveArea" parent_id_path=PackedInt32Array(1470585066) index="0" unique_id=1376327135 node_paths=PackedStringArray("continue_spawn_marker") instance=ExtResource("13_l8ihf")]
 z_index = 0
 position = Vector2(474, -928)
 save_area_id = "save_3"
 continue_spawn_marker = NodePath("../../SpawnPoints/RespawnPoint1")
+
+[node name="Tebes_BG" parent="." index="12" unique_id=1774452081 instance=ExtResource("42_xi14b")]
 
 [node name="GiantBullHead" parent="SecretAreas" parent_id_path=PackedInt32Array(1431849492) index="0" unique_id=1177145444 node_paths=PackedStringArray("hidden_area") instance=ExtResource("21_iamyf")]
 position = Vector2(797, -1044)
@@ -3440,4 +3438,4 @@ collision_mask = 0
 hidden_area_id = "HiddenAreaTebesTower01"
 tilemap_layer = NodePath("../GiantBullHidden")
 
-[node name="Tebes_BG" parent="." index="12" unique_id=1774452081 instance=ExtResource("42_xi14b")]
+[node name="EsteticaFase" parent="." index="14" unique_id=173847259 instance=ExtResource("estetica_fase")]

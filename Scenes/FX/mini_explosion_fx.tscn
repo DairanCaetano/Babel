@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_mx"]
 [ext_resource type="Texture2D" uid="uid://crgp54klmavwt" path="res://sprites/Bosses/Rá/Rá_humanoide_FX_Mini_Explosion_.png" id="2_mx"]
 [ext_resource type="Script" path="res://Scripts/FX/mini_explosion_fx.gd" id="3_mx"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_Mini_Explosion_DSGNImpt_EXPLOSION-Cruncher_HY_PC-002.ogg" id="4_mx"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mx0"]
 atlas = ExtResource("2_mx")
@@ -64,5 +65,8 @@ animations = [{
 [node name="MiniExplosionFx" unique_id=580328808 instance=ExtResource("1_mx")]
 z_index = 12
 script = ExtResource("3_mx")
+sound = ExtResource("4_mx")
+pitch_min = 0.8
+pitch_max = 1.2
 sprite_frames = SubResource("SpriteFrames_mx")
 animation = &"default"

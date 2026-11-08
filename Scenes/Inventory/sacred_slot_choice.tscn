@@ -1,0 +1,143 @@
+[gd_scene format=3 uid="uid://dj4ao4ttrlm4"]
+
+[ext_resource type="Script" path="res://Scripts/Inventory/sacred_slot_choice.gd" id="1_sacred"]
+[ext_resource type="Texture2D" path="res://sprites/UI/MENU_1/Babel_GUI_OffHand_Slot.png" id="2_offhand"]
+[ext_resource type="Texture2D" path="res://sprites/UI/MENU_1/Babel_GUI_Armor_Slot.png" id="3_armor"]
+[ext_resource type="Texture2D" path="res://sprites/UI/MENU_1/Babel_GUI_Sacred_Slot.png" id="4_sacred"]
+[ext_resource type="Texture2D" uid="uid://dmxio525j0fo8" path="res://sprites/UI/MENU_1/Babel_GUI_Inventory_Select_Pixel Art_v01.png" id="5_select"]
+[ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="6_font"]
+[ext_resource type="PackedScene" uid="uid://f0vr16orq8rg" path="res://Scenes/UI/menu_bg.tscn" id="90_menubg"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_title"]
+line_spacing = 0.0
+font = ExtResource("6_font")
+font_size = 14
+font_color = Color(1, 1, 1, 1)
+shadow_size = 0
+shadow_color = Color(0, 0, 0, 1)
+shadow_offset = Vector2(0, 1)
+
+[node name="SacredSlotChoice" type="Control"]
+process_mode = 3
+z_index = 10
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_sacred")
+
+[node name="MenuBG" parent="." instance=ExtResource("90_menubg")]
+layout_mode = 1
+mouse_filter = 0
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+text = "SACRED_CHOICE_TITLE"
+label_settings = SubResource("LabelSettings_title")
+horizontal_alignment = 1
+
+[node name="Slots" type="HBoxContainer" parent="Center/VBox"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 6
+alignment = 1
+
+[node name="OffhandSlot" type="TextureRect" parent="Center/VBox/Slots"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("2_offhand")
+
+[node name="ItemTexture" type="TextureRect" parent="Center/VBox/Slots/OffhandSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Selected" type="TextureRect" parent="Center/VBox/Slots/OffhandSlot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_select")
+
+[node name="ArmorSlot" type="TextureRect" parent="Center/VBox/Slots"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("3_armor")
+
+[node name="ItemTexture" type="TextureRect" parent="Center/VBox/Slots/ArmorSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Selected" type="TextureRect" parent="Center/VBox/Slots/ArmorSlot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_select")
+
+[node name="SacredSlot" type="TextureRect" parent="Center/VBox/Slots"]
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_sacred")
+
+[node name="ItemTexture" type="TextureRect" parent="Center/VBox/Slots/SacredSlot"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Selected" type="TextureRect" parent="Center/VBox/Slots/SacredSlot"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("5_select")

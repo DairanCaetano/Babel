@@ -20,7 +20,7 @@ anim_speed_max = 1.0
 
 [node name="TowerHiddenArea" type="Area2D" node_paths=PackedStringArray("impact_audio", "break_audio", "break_particles")]
 collision_layer = 2
-collision_mask = 16
+collision_mask = 2064
 script = ExtResource("1_b5ko2")
 impact_audio = NodePath("ImpactAudio")
 break_audio = NodePath("HiddenAreaAudio")

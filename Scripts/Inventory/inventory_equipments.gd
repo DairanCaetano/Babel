@@ -4,6 +4,7 @@ extends Control
 @export var _armor_slot: Button
 @export var _offhand_slot: Button
 @export var _consumable_slot: Button
+@export var _sacred_slot: Button
 
 var _signal_connected: bool = false
 
@@ -28,6 +29,9 @@ func _sync_equipments() -> void:
 	_update_slot(_armor_slot, eq.get("armor", {}))
 	_update_slot(_offhand_slot, eq.get("offhand", {}))
 	_update_slot(_consumable_slot, eq.get("consumable", {}))
+	if _sacred_slot:
+		_sacred_slot.visible = global.ui_equipments.sacred_slot_unlocked
+		_update_slot(_sacred_slot, eq.get("sacred", {}))
 
 func _update_slot(slot: Button, item: Dictionary) -> void:
 	if not slot:

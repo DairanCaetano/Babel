@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ctt2tdybmyj8j" path="res://Scripts/Projectiles/ra_fx_projectile.gd" id="1_r"]
 [ext_resource type="Texture2D" uid="uid://bi3sreigc8c0m" path="res://sprites/Bosses/Rá/Rá_humanoide_Attack_3_FX.png" id="2_r"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_Atk_3_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-006.ogg" id="snd_3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1gg0"]
 atlas = ExtResource("2_r")
@@ -55,6 +56,8 @@ script = ExtResource("1_r")
 _texture = NodePath("Texture")
 _collision = NodePath("Collision")
 _attack_damage = 15
+_sound = ExtResource("snd_3")
+_sound_frame = 2
 _active_frame_start = 1
 _active_frame_end = 3
 

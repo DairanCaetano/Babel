@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://dug72v63vf0ix" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Flame.png" id="4_flm"]
 [ext_resource type="Texture2D" uid="uid://dtkmybs7lmsaa" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Attack.png" id="5_atk"]
 [ext_resource type="Texture2D" uid="uid://cy0om44i83bd6" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Flame_End.png" id="6_end"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_Twister_789669__newlocknew__natdtorn_inside-a-huge-tornadowhirlwind-roar.ogg" id="snd_twister"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1"]
 atlas = ExtResource("3_ant")
@@ -170,6 +171,8 @@ target_position = Vector2(-20, 0)
 collision_mask = 2
 
 [node name="FirePilarAudio" type="AudioStreamPlayer" parent="." index="4" unique_id=1626277458]
+stream = ExtResource("snd_twister")
+bus = &"SFX"
 
 [node name="SpawnAudio" type="AudioStreamPlayer" parent="." index="5" unique_id=1626277459]
 bus = &"SFX"

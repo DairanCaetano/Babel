@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://u3v7dbr8drmv"]
+
+[ext_resource type="PackedScene" uid="uid://c6fo6wqswlaub" path="res://Scenes/Collectables/collectable_component.tscn" id="1_gab"]
+[ext_resource type="Script" path="res://Scripts/Collectables/collectable_gabriel_blessing.gd" id="2_gab"]
+[ext_resource type="Texture2D" path="res://sprites/Equipments/Benção_de_Gavri'el.png" id="3_gab"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gab"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_gab")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gab"]
+
+[node name="CollectableGabrielBlessing" instance=ExtResource("1_gab")]
+script = ExtResource("2_gab")
+skill_icon_path = "res://sprites/Equipments/Benção_de_Gavri'el.png"
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_gab")
+autoplay = "default"
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("RectangleShape2D_gab")

@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://dlf5wxurb3u4x"]
+
+[ext_resource type="Script" uid="uid://bv88xaecsbe7a" path="res://Scripts/Map/map_manager.gd" id="1_mgr"]
+[ext_resource type="PackedScene" path="res://Scenes/Map/map_screen.tscn" id="2_tela"]
+
+[node name="MapManager" type="Node" unique_id=627345126]
+process_mode = 3
+script = ExtResource("1_mgr")
+debug_dar_mapa = true
+
+[node name="MapScreen" parent="." unique_id=1593270137 instance=ExtResource("2_tela")]

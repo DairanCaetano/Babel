@@ -71,6 +71,21 @@ const _SHARD_SCENE: PackedScene = preload("res://Scenes/Collectables/collectable
 @export var vengeance_vignette_color: Color = Color(0.35, 0.0, 0.0, 1.0)
 @export_range(0.0, 1.0) var vengeance_vignette_intensity: float = 1.0
 
+@export_category("Bênção de Rafa'el")
+## Segundos sem causar nem receber dano para sair de combate.
+@export var out_of_combat_delay: float = 4.0
+## Cura por tique, em % da vida máxima (mínimo 1 de vida).
+@export var raphael_heal_percent: float = 1.0
+## Intervalo entre os tiques de cura (s).
+@export var raphael_heal_interval: float = 1.0
+## Vida extra máxima (reserva azul), em % da vida máxima.
+@export var raphael_overheal_max_percent: float = 20.0
+## Duração do brilho verde a cada tique de cura.
+@export var raphael_flash_duration: float = 0.15
+## Partículas de cura (saem enquanto cura; param com vida e reserva cheias).
+## Vazio = usa Scenes/FX/raphael_heal_particles.tscn.
+@export var raphael_particles_scene: PackedScene
+
 @export_category("Teto de Bônus de Dano")
 ## Soma MÁXIMA de todos os bônus de dano em % (fogo + Lâmina + Vingança).
 ## Os Fragmentos de Força não entram aqui: eles sobem o ataque base.
@@ -94,6 +109,13 @@ var _shield_time: float = 0.0
 var _counter_stacks: int = 0
 var _counter_timer: Timer
 var _heal_flash_timer: Timer
+
+# Bênção de Rafa'el / estado de combate
+var _time_since_combat: float = 999.0
+var _raphael_tick: float = 0.0
+var overheal: int = 0   # vida extra (reserva azul) — vale para qualquer fonte
+var _raphael_fx: Node2D = null
+const _RAPHAEL_FX_PATH: String = "res://Scenes/FX/raphael_heal_particles.tscn"
 
 # Investida do Carneiro
 var _dash_hitbox: Area2D
@@ -156,9 +178,10 @@ func _process(delta: float) -> void:
 	if shield_texture == null:
 		queue_redraw()
 
-func _physics_process(_delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	_process_dash_damage()
 	_process_vengeance()
+	_process_raphael(delta)
 
 func _get_attr(attr_name: String) -> int:
 	if not _character:
@@ -325,6 +348,99 @@ func _set_outline(active: bool, color: Color = Color.WHITE) -> void:
 	mat.set_shader_parameter("outline_active", active)
 	if active:
 		mat.set_shader_parameter("outline_color", color)
+
+# ==========================================================================
+# ESTADO DE COMBATE + BÊNÇÃO DE RAFA'EL
+# ==========================================================================
+# Combate = causar OU receber dano. Sai de combate após out_of_combat_delay s.
+func mark_combat() -> void:
+	_time_since_combat = 0.0
+	_raphael_tick = 0.0
+
+func is_in_combat() -> bool:
+	return _time_since_combat < out_of_combat_delay
+
+func get_max_overheal() -> int:
+	var stats = _character._stats if _character else null
+	if not stats:
+		return 0
+	return int(round(stats.max_health * raphael_overheal_max_percent / 100.0))
+
+func absorb_overheal(damage: int) -> int:
+	"""Dano tira primeiro da reserva azul. Retorna o que sobra para a vida normal."""
+	if overheal <= 0 or damage <= 0:
+		return damage
+	var absorbed: int = mini(overheal, damage)
+	overheal -= absorbed
+	_update_overheal_bar()
+	return damage - absorbed
+
+func clear_overheal() -> void:
+	"""Morte: a reserva some."""
+	overheal = 0
+	_update_overheal_bar()
+
+func _process_raphael(delta: float) -> void:
+	_time_since_combat += delta
+	var healing: bool = _can_raphael_heal()
+	_set_raphael_fx(healing)
+	if not healing:
+		return
+	var stats = _character._stats
+	var max_overheal: int = get_max_overheal()
+	
+	_raphael_tick += delta
+	if _raphael_tick < raphael_heal_interval:
+		return
+	_raphael_tick = 0.0
+	
+	var amount: int = maxi(1, int(round(stats.max_health * raphael_heal_percent / 100.0)))
+	var missing: int = stats.max_health - stats.current_health
+	if missing > 0:
+		var heal: int = mini(amount, missing)
+		stats.update_health("increase", heal)
+		amount -= heal
+	if amount > 0 and overheal < max_overheal:
+		overheal = mini(max_overheal, overheal + amount)
+		_update_overheal_bar()
+	_flash_outline(heal_outline_color, raphael_flash_duration)
+
+func _can_raphael_heal() -> bool:
+	if _get_attr("raphael_blessing") <= 0:
+		return false
+	if not _character or not _character._is_alive or _character._is_in_cinematic:
+		return false
+	if is_in_combat():
+		return false
+	var stats = _character._stats
+	if not stats:
+		return false
+	# Vida e reserva cheias = nada a curar
+	return not (stats.current_health >= stats.max_health and overheal >= get_max_overheal())
+
+func _set_raphael_fx(active: bool) -> void:
+	if _raphael_fx == null:
+		if not active:
+			return
+		var scene: PackedScene = raphael_particles_scene
+		if scene == null and ResourceLoader.exists(_RAPHAEL_FX_PATH):
+			scene = load(_RAPHAEL_FX_PATH)
+		if scene == null:
+			return
+		_raphael_fx = scene.instantiate() as Node2D
+		if _raphael_fx == null:
+			return
+		add_child(_raphael_fx)
+	if _raphael_fx.get("emitting") != active:
+		_raphael_fx.set("emitting", active)   # ao desligar, as partículas no ar terminam sozinhas
+
+func _flash_outline(color: Color, duration: float) -> void:
+	_set_outline(true, color)
+	_heal_flash_timer.start(duration)   # ao acabar, volta o contorno anterior (ou nenhum)
+
+func _update_overheal_bar() -> void:
+	if global.ui_bars and global.ui_bars.has_method("update_overheal"):
+		global.ui_bars.update_overheal(overheal, get_max_overheal())
 
 # ==========================================================================
 # MARCA DA VINGANÇA

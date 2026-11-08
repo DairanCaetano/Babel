@@ -14,6 +14,9 @@ class_name CollectableEquipment
 @export_group("Equipamento")
 @export var item_key: String = ""
 @export_enum("offhand", "armor") var equip_slot: String = "offhand"
+## Item sagrado (arcanjos): pode ir em qualquer slot. equip_slot vira só o
+## slot preferido quando há mais de um livre.
+@export var sacred: bool = false
 @export var attributes: Dictionary = {}
 @export var item_value: int = 30
 
@@ -39,6 +42,7 @@ func _consume(_body: BaseCharacter) -> void:
 		"value": item_value,
 		"spawn_probability": 1.0,
 		"amount_to_drop": 1,
+		"sacred": sacred,
 		"attributes": attributes.duplicate()
 	}, true)
 

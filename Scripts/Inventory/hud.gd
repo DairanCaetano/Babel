@@ -105,6 +105,10 @@ func _is_archive_display_open() -> bool:
 	return false
 
 func _process(_delta: float) -> void:
+	# 🗺️ Com o mapa aberto, o HUD não abre inventário/menus
+	if MapManager.esta_aberto():
+		return
+	
 	if _is_in_cinematic:
 		return
 	
@@ -152,33 +156,43 @@ func _process(_delta: float) -> void:
 		_on_quit_button_pressed()
 		return
 		
+	# ✅ ○/B (ou clique direito) também fecha o menu de pausa
+	if Input.is_action_just_pressed("close_menu") and _ui_inventory.visible:
+		if not _is_archive_display_open() and not (global.ui_equipments and global.ui_equipments.is_choosing()):
+			_set_inventory_open(false)
+			return
+	
 	if Input.is_action_just_pressed("Inventory"):
 		if _is_archive_display_open():
 			return
+		# ✨ Não fecha o inventário com a escolha de slot sagrado aberta
+		if global.ui_equipments and global.ui_equipments.is_choosing():
+			return
 		
-		var is_opening = not _ui_inventory.visible
-		
-		if is_opening:
-			_play_inventory_open_audio()
-		else:
-			_play_inventory_close_audio()
-		
-		_ui_inventory.visible = is_opening
-		
-		if _bar_container:
-			_bar_container.visible = not is_opening
-		
-		if _equipments:
-			_equipments.visible = not is_opening
-		
-		if _interfacebar:
-			_interfacebar.visible = not is_opening
-		
-		if is_opening:
-			_ui_inventory.hover_slot(0)
-			_pause(true)
-		else:
-			_pause(false)
+		_set_inventory_open(not _ui_inventory.visible)
+
+func _set_inventory_open(is_opening: bool) -> void:
+	if is_opening:
+		_play_inventory_open_audio()
+	else:
+		_play_inventory_close_audio()
+	
+	_ui_inventory.visible = is_opening
+	
+	if _bar_container:
+		_bar_container.visible = not is_opening
+	
+	if _equipments:
+		_equipments.visible = not is_opening
+	
+	if _interfacebar:
+		_interfacebar.visible = not is_opening
+	
+	if is_opening:
+		_ui_inventory.hover_slot(0)
+		_pause(true)
+	else:
+		_pause(false)
 
 # ========== FUNÇÕES DE ÁUDIO - INVENTÁRIO ==========
 func _play_inventory_open_audio() -> void:
@@ -472,7 +486,8 @@ func _on_save_button_pressed() -> void:
 			"weapon": global.ui_equipments._equipments_inventory.get("weapon", {}),
 			"armor": global.ui_equipments._equipments_inventory.get("armor", {}),
 			"offhand": global.ui_equipments._equipments_inventory.get("offhand", {}),
-			"consumable": global.ui_equipments._equipments_inventory.get("consumable", {})
+			"consumable": global.ui_equipments._equipments_inventory.get("consumable", {}),
+			"sacred": global.ui_equipments._equipments_inventory.get("sacred", {})
 		}
 		
 		var consumable = serialization.game_data["equipments"].get("consumable", {})

@@ -134,6 +134,27 @@ const COLLISION_POSES := {
 @export var _roar_audio: AudioStreamPlayer
 @export var _sprite_faces_right: bool = false  # direção em que os sprites foram desenhados (flip_h = false)
 
+@export_category("Áudio")
+## Cada som vazio usa o arquivo padrão da pasta EnemiesSound (ver _SFX_DEFAULTS).
+@export var _sfx_roar: AudioStream            # rugido (início e fase 2)
+@export var _sfx_idle: AudioStream            # chama da fênix no Idle (tom varia)
+@export var _sfx_bird_dive: AudioStream       # grito no mergulho da forma de pássaro
+@export var _sfx_attack_4: AudioStream        # explosão quando o mergulho do ataque 4 toca o chão
+@export var _sfx_attack_5: AudioStream        # quando o shoryuken sobe
+@export var _sfx_volume_db: float = 0.0
+@export var _sfx_idle_volume_db: float = -6.0
+@export var _sfx_idle_pitch: Vector2 = Vector2(0.85, 1.15)
+@export var _sfx_idle_fade_out: float = 0.4   # o Idle acaba antes do som: some suave
+
+const _SFX_DEFAULTS: Dictionary = {
+	"_sfx_roar": "res://Sound/SFX/EnemiesSound/Phoenix_Roar_phatphrogstudio-monster-phoenix-voice-angry-scream-cry-roar-519421.ogg",
+	"_sfx_idle": "res://Sound/SFX/EnemiesSound/Phoenix_Flame_mightuser-mythical-sfx-phoenix-1hd-269469.ogg",
+	"_sfx_bird_dive": "res://Sound/SFX/EnemiesSound/Phoenix_Cry_freesound_community-gryffin-cry-6995.ogg",
+	"_sfx_attack_4": "res://Sound/SFX/EnemiesSound/Ra_Atk_4_FX_DSGNImpt_EXPLOSION-Eruption_HY_PC-001.ogg",
+	"_sfx_attack_5": "res://Sound/SFX/EnemiesSound/Ra_Atk_5_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg",
+}
+var _idle_audio: AudioStreamPlayer2D = null
+
 @export_category("Ciclo")
 @export var _attacks_per_cycle_min: int = 2
 @export var _attacks_per_cycle_max: int = 3
@@ -201,6 +222,8 @@ const COLLISION_POSES := {
 @export var _bird_gone_fall_frame: int = 3          # frame da Bird_Gone em que começa a cair (contando de 0)
 @export var _bird_fall_speed: float = 500.0
 @export var _bird_explosion_offset: Vector2 = Vector2(0, -70)   # posição da explosão em relação ao centro do Rá no chão
+@export var _bird_land_vibration_strength: float = 1.0   # vibração forte do controle quando o pássaro bate no chão (0 = sem)
+@export var _bird_land_vibration_duration: float = 0.6
 
 
 var _action: Action = Action.NONE
@@ -247,6 +270,15 @@ var _attack_5_fx: AnimatedSprite2D = null
 
 func _ready() -> void:
 	boss_id = "ra"
+	if boss_name_key == "":
+		boss_name_key = "BOSS_RA_NAME"
+	if boss_subtitle_key == "":
+		boss_subtitle_key = "BOSS_RA_TITLE"
+	# Nome curto: 2x maior que o padrão (fonte 56 / subtítulo 28)
+	if title_name_scale == 0:
+		title_name_scale = 4
+	if title_subtitle_scale == 0:
+		title_subtitle_scale = 2
 	super._ready()
 
 	if is_already_defeated():
@@ -271,6 +303,8 @@ func _ready() -> void:
 	if _hurtbox and _hurtbox.has_method("_on_body_entered"):
 		if not _hurtbox.body_entered.is_connected(_hurtbox._on_body_entered):
 			_hurtbox.body_entered.connect(_hurtbox._on_body_entered)
+
+	_load_sfx_defaults()
 
 	if not _ghost_trail_scene and ResourceLoader.exists("res://Scenes/FX/ghost_trail.tscn"):
 		_ghost_trail_scene = load("res://Scenes/FX/ghost_trail.tscn")
@@ -369,6 +403,10 @@ func start_intro() -> void:
 func _start_roar(next: Callable = Callable()) -> void:
 	_new_action(Action.ROAR)
 	_roar_next = next
+	
+	# 👑 Nome do chefe: só no rugido de entrada (fase 1), não no da fase 2
+	if _phase == 1:
+		show_title_card(_roar_duration)
 
 	if _roar_fx_scene:
 		_roar_fx_instance = _roar_fx_scene.instantiate()
@@ -382,6 +420,8 @@ func _start_roar(next: Callable = Callable()) -> void:
 
 	if _roar_audio:
 		_roar_audio.play()
+	else:
+		_play_sfx(_sfx_roar)
 
 	_after(_roar_duration, _on_roar_done)
 
@@ -417,6 +457,8 @@ func _start_cycle() -> void:
 func _go_idle() -> void:
 	_new_action(Action.IDLE)
 	_play("Idle")
+	_stop_idle_sfx(0.0)
+	_idle_audio = _play_sfx(_sfx_idle, _sfx_idle_pitch.x, _sfx_idle_pitch.y, _sfx_idle_volume_db)
 	_after(_idle_time, _choose_next)
 
 
@@ -668,6 +710,8 @@ func _attack_4_dive() -> void:
 func _attack_4_land() -> void:
 	if _attack_4_area:
 		_attack_4_area.deactivate()
+
+	_play_sfx(_sfx_attack_4)
 
 	if _attack_4_impact_scene:
 		var impact: Node2D = _attack_4_impact_scene.instantiate()
@@ -930,6 +974,7 @@ func _bird_gone() -> void:
 
 
 func _bird_fall() -> void:
+	_play_sfx(_sfx_bird_dive)
 	var target := Vector2(global_position.x, _ground_y)
 	var duration: float = absf(target.y - global_position.y) / maxf(_bird_fall_speed, 1.0)
 	_tween_to(target, maxf(duration, 0.05), _bird_land)
@@ -938,6 +983,9 @@ func _bird_fall() -> void:
 func _bird_land() -> void:
 	_texture.modulate.a = 0.0   # o pássaro "vira" a explosão
 	_set_vulnerable(false)
+
+	if _bird_land_vibration_strength > 0.0 and _bird_land_vibration_duration > 0.0:
+		ControllerVibration.vibrate_custom(_bird_land_vibration_strength, _bird_land_vibration_strength, _bird_land_vibration_duration)
 
 	if _bird_explosion_scene:
 		var explosion: Node2D = _bird_explosion_scene.instantiate()
@@ -1181,11 +1229,11 @@ func _on_frame_changed() -> void:
 	match _texture.animation:
 		"Attack_2":
 			if _action == Action.COMBO and f == _attack_2_fx_frame:
-				_fire_once("fx2", func(): _spawn_fx(_attack_2_fx_scene, _attack_2_fx_marker))
+				_fire_once("fx2", func(): _spawn_fx(_attack_2_fx_scene, _attack_2_fx_marker))   # o som está na cena do FX
 
 		"Attack_3":
 			if _action == Action.COMBO and f == _attack_3_fx_frame:
-				_fire_once("fx3", func(): _spawn_fx(_attack_3_fx_scene, _attack_3_fx_marker))
+				_fire_once("fx3", func(): _spawn_fx(_attack_3_fx_scene, _attack_3_fx_marker))   # o som está na cena do FX
 
 		"Attack_4_Anticipation":
 			if _action == Action.COMBO and f == _attack_4_rise_start_frame:
@@ -1201,7 +1249,10 @@ func _on_frame_changed() -> void:
 			if _attack_5_fx and is_instance_valid(_attack_5_fx):
 				_attack_5_fx.frame = f
 			if f == _attack_5_rise_frame:
-				_fire_once("rise5", _attack_5_rise)
+				_fire_once("rise5", func():
+					_attack_5_rise()
+					_play_sfx(_sfx_attack_5)
+				)
 			if f == _attack_5_apex_frame:
 				_fire_once("air5", _attack_5_hang)
 			if f == _attack_5_fall_frame:
@@ -1326,9 +1377,50 @@ func _die() -> void:
 #  HELPERS
 # =====================================================================
 
+# =====================================================================
+#  ÁUDIO
+# =====================================================================
+
+func _load_sfx_defaults() -> void:
+	for _prop in _SFX_DEFAULTS:
+		if get(_prop) == null and ResourceLoader.exists(_SFX_DEFAULTS[_prop]):
+			set(_prop, load(_SFX_DEFAULTS[_prop]))
+
+
+# Toca um som uma vez, preso ao Rá (acompanha ele), e se apaga ao terminar.
+func _play_sfx(stream: AudioStream, pitch_min: float = 1.0, pitch_max: float = 1.0, volume_db: float = INF) -> AudioStreamPlayer2D:
+	if not stream:
+		return null
+	var _player := AudioStreamPlayer2D.new()
+	_player.stream = stream
+	_player.volume_db = _sfx_volume_db if volume_db == INF else volume_db
+	_player.pitch_scale = randf_range(minf(pitch_min, pitch_max), maxf(pitch_min, pitch_max))
+	_player.bus = "SFX" if AudioServer.get_bus_index("SFX") != -1 else "Master"
+	add_child(_player)
+	_player.play()
+	_player.finished.connect(_player.queue_free)
+	return _player
+
+
+func _stop_idle_sfx(fade: float) -> void:
+	if not _idle_audio or not is_instance_valid(_idle_audio):
+		_idle_audio = null
+		return
+	var _player: AudioStreamPlayer2D = _idle_audio
+	_idle_audio = null
+	if fade <= 0.0:
+		_player.queue_free()
+		return
+	var _tw := _player.create_tween()
+	_tw.tween_property(_player, "volume_db", -40.0, fade)
+	_tw.tween_callback(_player.queue_free)
+
+
 func _new_action(action: Action) -> void:
 	if action != Action.ATTACK_5:
 		_free_attack_5_fx()   # ataque interrompido (ex.: fase 2)
+	if action != Action.IDLE:
+		_stop_idle_sfx(_sfx_idle_fade_out)
 	_action = action
 	_action_id += 1
 	if _move_tween:

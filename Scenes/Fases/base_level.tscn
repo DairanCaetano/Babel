@@ -463,21 +463,23 @@ tile_set = SubResource("TileSet_6go6e")
 
 [node name="Plataforms" type="Node2D" parent="." unique_id=270896775]
 
-[node name="CameraZones" type="Node2D" parent="." unique_id=1553731536]
+[node name="Collectables" type="Node2D" parent="." unique_id=1402700009]
 
-[node name="Transitions" type="Node2D" parent="." unique_id=1990016997]
+[node name="Interactables" type="Node2D" parent="." unique_id=19938014]
 
-[node name="SpawnPoints" type="Node2D" parent="." unique_id=973835569]
+[node name="Enemies" type="Node2D" parent="." unique_id=1996115500]
+
+[node name="JumpBoosts" type="Node2D" parent="." unique_id=558775238]
 
 [node name="HazardZone" type="Node2D" parent="." unique_id=23396374]
 
 [node name="Ladders" type="Node2D" parent="." unique_id=1671149694]
 
-[node name="Interactables" type="Node2D" parent="." unique_id=19938014]
+[node name="CameraZones" type="Node2D" parent="." unique_id=1553731536]
 
-[node name="Collectables" type="Node2D" parent="." unique_id=1402700009]
+[node name="Transitions" type="Node2D" parent="." unique_id=1990016997]
 
-[node name="Enemies" type="Node2D" parent="." unique_id=1996115500]
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=973835569]
 
 [node name="SaveArea" type="Node2D" parent="." unique_id=1470585066]
 

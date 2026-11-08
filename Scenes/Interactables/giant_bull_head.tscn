@@ -161,7 +161,7 @@ collision = NodePath("Hitbox/Collision")
 hit_audio = NodePath("HitAudio")
 break_audio = NodePath("BreakAudio")
 
-[node name="TileMapLayer" type="TileMapLayer" parent="OldWoodenSupport"]
+[node name="TileMapLayer" type="TileMapLayer" parent="OldWoodenSupport" groups=["estetica_decoracao"]]
 material = SubResource("ShaderMaterial_ttk4f")
 tile_map_data = PackedByteArray("AAD6/wEAAAAEAAUAAAD7/wEAAAASAAEAAAD8/wEAAAAEAAUAAAD9/wEAAAAEAAUAAAD+/wEAAAAEAAUAAAD//wEAAAAEAAUAAAAAAAEAAAAMAAEAAAD6////AAAEAAUAAAD7////AAASAAEAAAD8////AAAEAAUAAAD9////AAAEAAUAAAD+////AAAEAAUAAAD/////AAAEAAUAAAAAAP//AAAMAAIAAAD7/wAAAAAHAAIAAAAAAAAAAAAHAAIAAAD5////AAANAAEAAAD5/wEAAAANAAEAAAD5/wMAAAASAAEAAAD5/wQAAAAHAAIAAAD5/wUAAAAHAAIAAAD5/wYAAAAHAAIAAAD5/wcAAAAHAAIAAAD5/wgAAAAHAAIAAAD5/wkAAAAHAAMAAAD7/wIAAAAHAAIAAAD7/wMAAAASAAEAAAD7/wQAAAAHAAIAAAD7/wUAAAAHAAIAAAD7/wYAAAAHAAIAAAD7/wcAAAAHAAIAAAD7/wgAAAAHAAIAAAD7/wkAAAAHAAMAAAD5/wAAAAAHAAIAAAD5/wIAAAAHAAIAAAD6/wMAAAAEAAUAAAD7//7/AAAHAAIAAAD7//3/AAANAAIAAAD8//3/AAAEAAUAAAD9//3/AAAEAAUAAAD+//3/AAAEAAUAAAD///3/AAAEAAUAAAAAAP3/AAAEAAUAAAABAP3/AAAEAAUAAAACAP3/AAAEAAUAAAADAP3/AAAMAAIAAAADAP7/AAAHAAIAAAADAP//AAAHAAIAAAADAAAAAAAHAAIAAAADAAEAAAASAAEAAAACAAEAAAADAAUAAAADAAIAAAAHAAMAAAA=")
 tile_set = SubResource("TileSet_lfykl")
@@ -181,16 +181,16 @@ stream = ExtResource("4_6xo71")
 [node name="BreakAudio" type="AudioStreamPlayer" parent="OldWoodenSupport"]
 
 [node name="BullHeadPhysics" type="RigidBody2D" parent="."]
-collision_layer = 16
+collision_layer = 2048
 collision_mask = 18
 script = ExtResource("2_pctt8")
 
-[node name="Sprite2D2" type="Sprite2D" parent="BullHeadPhysics"]
+[node name="Sprite2D2" type="Sprite2D" parent="BullHeadPhysics" groups=["estetica_decoracao"]]
 visible = false
 position = Vector2(121, -57)
 texture = ExtResource("7_4frtk")
 
-[node name="Sprite2D" type="Sprite2D" parent="BullHeadPhysics"]
+[node name="Sprite2D" type="Sprite2D" parent="BullHeadPhysics" groups=["estetica_decoracao"]]
 texture = ExtResource("8_5cu6n")
 
 [node name="Collision" type="CollisionShape2D" parent="BullHeadPhysics"]

@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://8iaxlhwhajo8"]
+
+[ext_resource type="Script" path="res://Scripts/UI/button_prompt.gd" id="1_bp"]
+[ext_resource type="FontFile" uid="uid://mq4ne2d73g1l" path="res://Fonts/old_style/njo_11.ttf" id="2_bp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_bp"]
+font = ExtResource("2_bp")
+font_size = 8
+
+[node name="ButtonPrompt" type="HBoxContainer"]
+mouse_filter = 2
+theme_override_constants/separation = 2
+script = ExtResource("1_bp")
+label_settings = SubResource("LabelSettings_bp")

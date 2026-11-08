@@ -1,7 +1,7 @@
 extends Node
 class_name CharacterInventory
 
-const _INVENTORY_SIZE: int = 24
+const _INVENTORY_SIZE: int = 40   # 5 linhas de 8 (a tela mostra 3 por vez)
 var _inventory_data: Dictionary = {}
 
 var _is_loading_save: bool = false
@@ -143,7 +143,7 @@ func add_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 			
 			if _equip_directly:
 				_sync_subweapon_state(_item_copy)
-				equip_item(_slot)
+				equip_item(_slot, false)
 				return
 			
 			update_item(_amount, _slot, "Increase")
@@ -164,7 +164,9 @@ func add_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 			if _equip_directly:
 				print("	⚙️ Equipando item diretamente...")
 				_sync_subweapon_state(_item_copy)
-				equip_item(_slot)
+				global.ui_inventory.initialize_slot(_slot, _inventory_data[_slot])
+				equip_item(_slot, false)
+				_save_inventory_to_serialization()
 				return
 			
 			global.ui_inventory.initialize_slot(_slot, _inventory_data[_slot])
@@ -194,18 +196,118 @@ func remove_item(_slot_index: int) -> void:
 	global.ui_inventory.update_slot(_slot_index, {})
 	_save_inventory_to_serialization()
 
-func equip_item(_slot: int) -> void:
+func equip_item(_slot: int, _toggle: bool = true) -> void:
+	"""Consumível: sai da grade e vai para o slot (como antes).
+	Arma/armadura/offhand: fica na grade com a moldura de equipado;
+	se já estiver equipado e _toggle = true, desequipa."""
 	if _inventory_data[_slot].is_empty():
 		print("	⚠️ Slot ", _slot, " está vazio - não pode equipar")
 		return
 	
 	var item_to_equip = _inventory_data[_slot]
+	
+	if item_to_equip.get("type", "") == "consumable":
+		print("	⚙️ Equipando: ", item_to_equip["name"])
+		_sync_subweapon_state(item_to_equip)
+		global.ui_equipments.equip_item(item_to_equip)
+		remove_item(_slot)
+		return
+	
+	if global.ui_equipments.is_equipped(item_to_equip):
+		if _toggle:
+			print("	⚙️ Desequipando: ", item_to_equip["name"])
+			global.ui_equipments.unequip(global.ui_equipments.find_equipped_slot(item_to_equip))
+		return
+	
 	print("	⚙️ Equipando: ", item_to_equip["name"])
-	
 	_sync_subweapon_state(item_to_equip)
+	if UIEquipments.is_sacred(item_to_equip):
+		# ✨ Sagrado: slot livre ou janela de substituição
+		global.ui_equipments.equip_sacred(item_to_equip)
+	else:
+		global.ui_equipments.equip_item(item_to_equip)
+
+const _BRONZE_SHIELD_KEY: String = "ITEM_BRONZE_SHIELD_NAME"
+
+func migrate_bronze_shield() -> void:
+	"""Saves antigos: o Escudo de Bronze era offhand, agora é armadura."""
+	for _slot in _inventory_data:
+		var _it: Dictionary = _inventory_data[_slot]
+		if _it.get("key", "") == _BRONZE_SHIELD_KEY and _it.get("type", "") != "armor":
+			_it["type"] = "armor"
+			print("	🛡️ Escudo de Bronze migrado para armadura (grade, slot ", _slot, ")")
 	
-	global.ui_equipments.equip_item(item_to_equip)
-	remove_item(_slot)
+	if not global.ui_equipments:
+		return
+	var _eq_ui = global.ui_equipments
+	var _off: Dictionary = _eq_ui._equipments_inventory.get("offhand", {})
+	if _off.get("key", "") != _BRONZE_SHIELD_KEY:
+		return
+	
+	# Sai do offhand
+	_off["type"] = "armor"
+	_eq_ui._equipments_inventory["offhand"] = {}
+	_eq_ui._atributes_increased["offhand"] = {}
+	_eq_ui._get_item_texture(_eq_ui._offhand_slot).texture = null
+	
+	if _eq_ui._equipments_inventory["armor"].is_empty():
+		# Armadura livre: equipa lá
+		_eq_ui._equipments_inventory["armor"] = _off
+		_eq_ui._atributes_increased["armor"] = _off.get("attributes", {}).duplicate()
+		_eq_ui._get_item_texture(_eq_ui._armor_slot).texture = load(_off["path"])
+		print("	🛡️ Escudo de Bronze equipado: offhand → armadura")
+	else:
+		# Armadura ocupada: só desequipa (continua/volta para a grade)
+		var _in_grid: bool = false
+		for _slot in _inventory_data:
+			if _inventory_data[_slot].get("key", "") == _BRONZE_SHIELD_KEY:
+				_in_grid = true
+				break
+		if not _in_grid:
+			for _slot in _INVENTORY_SIZE:
+				if _inventory_data[_slot].is_empty():
+					_inventory_data[_slot] = _off.duplicate()
+					if not _inventory_data[_slot].has("amount"):
+						_inventory_data[_slot]["amount"] = 1
+					global.ui_inventory.initialize_slot(_slot, _inventory_data[_slot])
+					break
+		print("	🛡️ Escudo de Bronze desequipado (armadura já ocupada)")
+	
+	if global.character and is_instance_valid(global.character):
+		global.character._reset_bonus_attributes()
+		global.character._increase_bonus_attributes(_eq_ui._atributes_increased)
+
+func ensure_equipped_in_inventory() -> void:
+	"""Saves antigos: o item equipado tinha saído da grade.
+	Coloca de volta no primeiro espaço livre (a moldura aparece sozinha)."""
+	if not global.ui_equipments:
+		return
+	var _equipped: Dictionary = global.ui_equipments._equipments_inventory
+	for _type in ["weapon", "armor", "offhand"]:
+		var _item: Dictionary = _equipped.get(_type, {})
+		if _item.is_empty():
+			continue
+		var _found: bool = false
+		for _slot in _inventory_data:
+			if global.ui_equipments.find_equipped_slot(_inventory_data[_slot]) == _type:
+				_found = true
+				break
+		if _found:
+			continue
+		var _placed: bool = false
+		for _slot in _INVENTORY_SIZE:
+			if _inventory_data[_slot].is_empty():
+				_inventory_data[_slot] = _item.duplicate()
+				if not _inventory_data[_slot].has("amount"):
+					_inventory_data[_slot]["amount"] = 1
+				global.ui_inventory.initialize_slot(_slot, _inventory_data[_slot])
+				print("	↩️ Item equipado devolvido à grade (save antigo): ", _item.get("name", ""), " → slot ", _slot)
+				_placed = true
+				break
+		if not _placed:
+			print("	⚠️ Grade cheia: item equipado ", _item.get("name", ""), " não coube no inventário")
+	if global.ui_inventory and global.ui_inventory.has_method("refresh_equipped_marks"):
+		global.ui_inventory.refresh_equipped_marks()
 
 func restore_item_at_slot(_slot: int, _item: Dictionary) -> void:
 	"""Restaura um item do save diretamente no slot especificado"""

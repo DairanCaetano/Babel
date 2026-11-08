@@ -30,6 +30,31 @@ class_name CharacterAudio
 @export var parry_success_audio: AudioStreamPlayer
 @export var counter_audio: AudioStreamPlayer
 
+@export_category("Critical Hit Sounds")
+## Impacto do crítico (tom varia a cada vez). Vazio = som padrão abaixo.
+@export var crit_impact_stream: AudioStream
+## Voz da Tola no crítico (substitui o grito normal do golpe). Vazio = voz padrão.
+@export var crit_voice_stream: AudioStream
+const _CRIT_IMPACT_DEFAULT: String = "res://Sound/SFX/PlayerSound/Critical_Hit_DSGNMisc_SKILL IMPACT-Energy Dissipate_HY_PC-005.ogg"
+const _CRIT_VOICE_DEFAULT: String = "res://Sound/SFX/PlayerSound/Counter_Male_V2_Attack_Mono_02.ogg"
+@export var crit_impact_pitch_range: Vector2 = Vector2(0.85, 1.15)
+## Voz em tom normal, como a voz do counter. (1, 1) = sem variação.
+@export var crit_voice_pitch_range: Vector2 = Vector2(1.0, 1.0)
+var _crit_impact_player: AudioStreamPlayer
+var _crit_voice_player: AudioStreamPlayer
+
+@export_category("Low Health Sound")
+## Batimento cardíaco em loop enquanto a vida está baixa. Vazio = som padrão.
+@export var heartbeat_stream: AudioStream
+## Volume do batimento (dB)
+@export var heartbeat_volume_db: float = -4.0
+## Tempo de entrada/saída do batimento (s)
+@export var heartbeat_fade_time: float = 0.6
+const _HEARTBEAT_DEFAULT: String = "res://Sound/SFX/PlayerSound/HeartBeat_brvhrtz-heartbeat-01-brvhrtz-225058.ogg"
+var _heartbeat_player: AudioStreamPlayer
+var _heartbeat_tween: Tween
+var _heartbeat_on: bool = false
+
 @export_category("Damage Sounds")
 @export var hit_audio_1: AudioStreamPlayer  # ✅ RENOMEADO
 @export var hit_audio_2: AudioStreamPlayer  # ✅ NOVO
@@ -65,6 +90,76 @@ func _ready() -> void:
 	character = get_parent() as BaseCharacter
 	if not character:
 		push_error("CharacterAudio deve ser filho de BaseCharacter!")
+
+# ===================================
+# ACERTO CRÍTICO
+# ===================================
+
+func play_crit_voice() -> void:
+	"""Voz da Tola no início do golpe crítico"""
+	_ensure_crit_players()
+	_play_with_random_pitch(_crit_voice_player, crit_voice_pitch_range.x, crit_voice_pitch_range.y)
+
+func play_crit_impact() -> void:
+	"""Impacto do crítico (frame 1 da animação crítica), com tons variados"""
+	_ensure_crit_players()
+	_play_with_random_pitch(_crit_impact_player, crit_impact_pitch_range.x, crit_impact_pitch_range.y)
+
+func _ensure_crit_players() -> void:
+	if not _crit_impact_player:
+		if not crit_impact_stream and ResourceLoader.exists(_CRIT_IMPACT_DEFAULT):
+			crit_impact_stream = load(_CRIT_IMPACT_DEFAULT)
+		if not crit_voice_stream and ResourceLoader.exists(_CRIT_VOICE_DEFAULT):
+			crit_voice_stream = load(_CRIT_VOICE_DEFAULT)
+		_crit_impact_player = _make_player(crit_impact_stream, "CritImpactAudio")
+		_crit_voice_player = _make_player(crit_voice_stream, "CritVoiceAudio")
+
+func _make_player(stream: AudioStream, node_name: String) -> AudioStreamPlayer:
+	if not stream:
+		return null
+	var _player := AudioStreamPlayer.new()
+	_player.name = node_name
+	_player.stream = stream
+	# Mesmo bus dos sons de counter, para manter o volume equilibrado
+	if counter_audio:
+		_player.bus = counter_audio.bus
+	add_child(_player)
+	return _player
+
+# ===================================
+# VIDA BAIXA - batimento cardíaco
+# ===================================
+
+func set_low_health_heartbeat(active: bool) -> void:
+	"""Liga/desliga o batimento em loop, com fade"""
+	if active == _heartbeat_on:
+		return
+	_heartbeat_on = active
+	if not _heartbeat_player:
+		if not heartbeat_stream and ResourceLoader.exists(_HEARTBEAT_DEFAULT):
+			heartbeat_stream = load(_HEARTBEAT_DEFAULT)
+		_heartbeat_player = _make_player(heartbeat_stream, "HeartbeatAudio")
+		if not _heartbeat_player:
+			return
+		# Loop sem mexer no arquivo de áudio
+		_heartbeat_player.finished.connect(func():
+			if _heartbeat_on:
+				_heartbeat_player.play()
+		)
+	if _heartbeat_tween:
+		_heartbeat_tween.kill()
+	_heartbeat_tween = create_tween()
+	if active:
+		if not _heartbeat_player.playing:
+			_heartbeat_player.volume_db = -40.0
+			_heartbeat_player.play()
+		_heartbeat_tween.tween_property(_heartbeat_player, "volume_db", heartbeat_volume_db, heartbeat_fade_time)
+	else:
+		_heartbeat_tween.tween_property(_heartbeat_player, "volume_db", -40.0, heartbeat_fade_time)
+		_heartbeat_tween.tween_callback(func():
+			if not _heartbeat_on:
+				_heartbeat_player.stop()
+		)
 
 # ===================================
 # FUNÇÃO AUXILIAR - Variação de Pitch

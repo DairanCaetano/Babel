@@ -1,27 +1,27 @@
-[gd_scene load_steps=94 format=3 uid="uid://igcpwfxh4k3k"]
+[gd_scene format=3 uid="uid://igcpwfxh4k3k"]
 
-[ext_resource type="Script" path="res://Scripts/Bosses/baal_berith.gd" id="1_l02bq"]
+[ext_resource type="Script" uid="uid://cqvmy30mu558g" path="res://Scripts/Bosses/baal_berith.gd" id="1_l02bq"]
 [ext_resource type="PackedScene" uid="uid://dy0se54dl3xak" path="res://Scenes/Projectile/projectile_berith_3.tscn" id="2_1rasw"]
 [ext_resource type="Texture2D" uid="uid://dn86gib5rlq5c" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_1_anim_v01.png" id="2_ivniy"]
-[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_rhphe"]
+[ext_resource type="Shader" uid="uid://x85p37fnk4c5" path="res://Shaders/blink.gdshader" id="2_rhphe"]
 [ext_resource type="PackedScene" uid="uid://ceh1isbnmxexr" path="res://Scenes/Projectile/projectile_berith_1.tscn" id="3_gw6j7"]
 [ext_resource type="Texture2D" uid="uid://dv3xp1rxr7l0e" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_2_anim_v01.png" id="3_rf6dd"]
 [ext_resource type="Texture2D" uid="uid://bhktwypqup3jo" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_3_anim_v01.png" id="4_7hjy6"]
 [ext_resource type="PackedScene" uid="uid://cpuh2bamqgul6" path="res://Scenes/Projectile/projectile_berith_2.tscn" id="4_8bply"]
-[ext_resource type="Script" path="res://Scripts/Bosses/ball_berith_spawn_area.gd" id="4_mauwo"]
+[ext_resource type="Script" uid="uid://dflday0vhll1i" path="res://Scripts/Bosses/ball_berith_spawn_area.gd" id="4_mauwo"]
 [ext_resource type="Texture2D" uid="uid://b24qy2si55305" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_1_antecipation_anim_v01.png" id="5_saqgv"]
 [ext_resource type="PackedScene" uid="uid://c2u5vykfbc0f0" path="res://Scenes/Bosses/berith_minion.tscn" id="5_xb37v"]
 [ext_resource type="Texture2D" uid="uid://dhw71e8bcoxqn" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_2_Antecipation_anim_v01.png" id="6_gyybx"]
 [ext_resource type="PackedScene" uid="uid://cem1i5l7di7vv" path="res://Scenes/FX/Roar.tscn" id="6_jkom6"]
 [ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="7_1u4tx"]
 [ext_resource type="Texture2D" uid="uid://cv6ayvnj4wcx6" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_3_Antecipation_anim_v01.png" id="7_h6q71"]
-[ext_resource type="Script" path="res://Scripts/Bosses/Berith_attack_impact_area.gd" id="8_pan6p"]
+[ext_resource type="Script" uid="uid://vienh626ua5d" path="res://Scripts/Bosses/Berith_attack_impact_area.gd" id="8_pan6p"]
 [ext_resource type="Texture2D" uid="uid://e2x1qvwsoihy" path="res://sprites/Bosses/Baal Berith/Baal_Berith_idle_anim_v01.png" id="9_ofuvw"]
 [ext_resource type="Texture2D" uid="uid://btkbsflb7ndtk" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Roar_anim_v01.png" id="10_ph0hg"]
 [ext_resource type="Texture2D" uid="uid://di21l65f708oq" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Dead_anim_v01-sheet.png" id="14_gmjkc"]
-[ext_resource type="Script" path="res://Scripts/Enemies/enemy_attack_area.gd" id="17_smqvq"]
+[ext_resource type="Script" uid="uid://kr2odqdasxhj" path="res://Scripts/Enemies/enemy_attack_area.gd" id="17_smqvq"]
 [ext_resource type="PackedScene" uid="uid://tnhdxg3dg5dv" path="res://Scenes/FX/fire_mystic_particles.tscn" id="19_cquog"]
-[ext_resource type="Script" path="res://Scripts/Bosses/Berith_enemy_audio.gd" id="21_mng8q"]
+[ext_resource type="Script" uid="uid://ba47bms1060nr" path="res://Scripts/Bosses/Berith_enemy_audio.gd" id="21_mng8q"]
 [ext_resource type="AudioStream" uid="uid://c2wclanx7yeg0" path="res://Sound/SFX/EnemiesSound/BallBerith_Atk1_Start_onBonus Crit Chance_HY_PC-003.ogg" id="22_2i233"]
 [ext_resource type="AudioStream" uid="uid://uk3poj1btic3" path="res://Sound/SFX/EnemiesSound/Berith_Roar.ogg" id="22_kqiro"]
 [ext_resource type="AudioStream" uid="uid://c7e0717kfcx1e" path="res://Sound/SFX/EnemiesSound/Berith_atk1_dragon-breathing-fire-stereo.ogg" id="22_ydpf0"]
@@ -39,6 +39,12 @@ shader_parameter/blink_intensity = 1.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_puup5"]
 size = Vector2(241, 39)
@@ -54,6 +60,12 @@ shader_parameter/blink_intensity = 0.0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.5, 0, 1)
 shader_parameter/fire_intensity = 0.6
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hfy23"]
 atlas = ExtResource("2_ivniy")
@@ -284,7 +296,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mrdl8")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Attack_1",
 "speed": 10.0
 }, {
@@ -313,7 +325,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kwobf")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_2",
 "speed": 10.0
 }, {
@@ -330,7 +342,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hpdip")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_3",
 "speed": 10.0
 }, {
@@ -341,7 +353,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sta1i")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Attack_Anticipation_1",
 "speed": 10.0
 }, {
@@ -373,7 +385,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kjgar")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_Anticipation_2",
 "speed": 10.0
 }, {
@@ -387,7 +399,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_upa20")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_Anticipation_3",
 "speed": 10.0
 }, {
@@ -434,7 +446,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3e3f1")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Dead",
 "speed": 10.0
 }, {
@@ -463,7 +475,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_lcrkf")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle",
 "speed": 8.0
 }, {
@@ -474,7 +486,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_hy0wk")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Roar",
 "speed": 8.0
 }, {
@@ -494,7 +506,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eolnq")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Roar_Anticipation",
 "speed": 10.0
 }]
@@ -508,7 +520,7 @@ size = Vector2(240, 74)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_33x82"]
 size = Vector2(162, 90)
 
-[node name="BaalBerith" type="CharacterBody2D" node_paths=PackedStringArray("attack_area", "texture", "attack_point_1", "attack_point_2", "attack_point_3", "fire_timer", "fire_particle", "attack_1_timer", "attack_1_interval", "spawn_area", "hurt_box", "attack_impact_area", "attack_impact_collision", "enemy_audio")]
+[node name="BaalBerith" type="CharacterBody2D" unique_id=675913982 node_paths=PackedStringArray("attack_area", "texture", "attack_point_1", "attack_point_2", "attack_point_3", "fire_timer", "fire_particle", "attack_1_timer", "attack_1_interval", "spawn_area", "hurt_box", "attack_impact_area", "attack_impact_collision", "enemy_audio")]
 material = SubResource("ShaderMaterial_n1nru")
 collision_layer = 0
 collision_mask = 6
@@ -537,8 +549,9 @@ _enemy_health = 200
 _knockback_speed = 0.0
 attack_3_projectile_delay = 1.0
 boss_id = "baal_berith"
+title_card_style = 4
 
-[node name="SpawnArea" type="Area2D" parent="." node_paths=PackedStringArray("collision", "spawn", "boss")]
+[node name="SpawnArea" type="Area2D" parent="." unique_id=287695190 node_paths=PackedStringArray("collision", "spawn", "boss")]
 collision_layer = 0
 script = ExtResource("4_mauwo")
 collision = NodePath("Collision")
@@ -551,77 +564,77 @@ enemy1_x_range = Vector2(-5, -10)
 enemy2_x_range = Vector2(-200, -220)
 enemy2_y_range = Vector2(-20, 20)
 
-[node name="Collision" type="CollisionShape2D" parent="SpawnArea"]
+[node name="Collision" type="CollisionShape2D" parent="SpawnArea" unique_id=329912486]
 position = Vector2(-215.5, 4.5)
 shape = SubResource("RectangleShape2D_puup5")
 debug_color = Color(0.934805, 0.25587, 1.92523e-07, 0.42)
 
-[node name="SpawnMaker" type="Marker2D" parent="SpawnArea"]
+[node name="SpawnMaker" type="Marker2D" parent="SpawnArea" unique_id=1528211333]
 position = Vector2(-108, -58)
 
-[node name="AttackImpactArea" type="Area2D" parent="SpawnArea"]
+[node name="AttackImpactArea" type="Area2D" parent="SpawnArea" unique_id=1973283714]
 collision_layer = 0
 script = ExtResource("8_pan6p")
 
-[node name="Collision" type="CollisionShape2D" parent="SpawnArea/AttackImpactArea"]
+[node name="Collision" type="CollisionShape2D" parent="SpawnArea/AttackImpactArea" unique_id=1186926372]
 position = Vector2(-110.5, 49.5)
 shape = SubResource("RectangleShape2D_twt3t")
 disabled = true
 debug_color = Color(0.692408, 0, 0.169981, 0.42)
 
-[node name="Texture" type="AnimatedSprite2D" parent="."]
+[node name="Texture" type="AnimatedSprite2D" parent="." unique_id=1336254198]
 material = SubResource("ShaderMaterial_seg17")
 sprite_frames = SubResource("SpriteFrames_2yqi0")
 animation = &"Attack_Anticipation_2"
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1925986238]
 position = Vector2(-21.5, 18.5)
 shape = SubResource("RectangleShape2D_luft1")
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." unique_id=1413955913]
 collision_layer = 0
 
-[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+[node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=818202936]
 position = Vector2(-215, 64)
 shape = SubResource("RectangleShape2D_oujfj")
 debug_color = Color(0.652546, 0.518554, 0, 0.42)
 
-[node name="HurtBox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+[node name="HurtBox" type="Area2D" parent="." unique_id=1803265034 groups=["enemy_hitbox"]]
 collision_layer = 72
 collision_mask = 5
 script = ExtResource("17_smqvq")
 _attack_damage = 20
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HurtBox" unique_id=1882868988]
 position = Vector2(-48, 21)
 rotation = 1.5708
 shape = SubResource("RectangleShape2D_33x82")
 debug_color = Color(0.97824, 0, 0.397769, 0.42)
 
-[node name="FireParticles" parent="." instance=ExtResource("7_1u4tx")]
+[node name="FireParticles" parent="." unique_id=1449310004 instance=ExtResource("7_1u4tx")]
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=1580132251]
 wait_time = 0.3
 
-[node name="Attack1" type="Timer" parent="."]
+[node name="Attack1" type="Timer" parent="." unique_id=51626479]
 
-[node name="Node2D" type="Node2D" parent="."]
+[node name="Node2D" type="Node2D" parent="." unique_id=963727974]
 
-[node name="Atk3" type="Marker2D" parent="Node2D"]
+[node name="Atk3" type="Marker2D" parent="Node2D" unique_id=208908048]
 position = Vector2(-117, -48)
 
-[node name="Atk2" type="Marker2D" parent="Node2D"]
+[node name="Atk2" type="Marker2D" parent="Node2D" unique_id=23261057]
 position = Vector2(-207, 47)
 
-[node name="Atk1" type="Marker2D" parent="Node2D"]
+[node name="Atk1" type="Marker2D" parent="Node2D" unique_id=1614332111]
 position = Vector2(-70, 72)
 
-[node name="Atk1interval" type="Timer" parent="."]
+[node name="Atk1interval" type="Timer" parent="." unique_id=1556056909]
 wait_time = 0.1
 
-[node name="FireMysticParticles" parent="." instance=ExtResource("19_cquog")]
+[node name="FireMysticParticles" parent="." unique_id=913723574 instance=ExtResource("19_cquog")]
 
-[node name="EnemyAudio" type="Node2D" parent="." node_paths=PackedStringArray("boss_roar_audio", "boss_idle_audio", "attack_1_anticipation_audio", "attack_2_anticipation_audio", "attack_3_anticipation_audio", "attack_1_audio", "attack_2_audio", "attack_3_audio", "dead_boss_audio", "victory_audio")]
+[node name="EnemyAudio" type="Node2D" parent="." unique_id=1090261369 node_paths=PackedStringArray("boss_roar_audio", "boss_idle_audio", "attack_1_anticipation_audio", "attack_2_anticipation_audio", "attack_3_anticipation_audio", "attack_1_audio", "attack_2_audio", "attack_3_audio", "dead_boss_audio", "victory_audio")]
 script = ExtResource("21_mng8q")
 boss_roar_audio = NodePath("BossRoarAudio")
 boss_idle_audio = NodePath("BossIdleAudio")
@@ -634,33 +647,33 @@ attack_3_audio = NodePath("Attack3Audio")
 dead_boss_audio = NodePath("DeadBossAudio")
 victory_audio = NodePath("VictoryAudio")
 
-[node name="BossRoarAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="BossRoarAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=481012182]
 stream = ExtResource("22_kqiro")
 
-[node name="BossIdleAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="BossIdleAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=2092212270]
 stream = ExtResource("23_swaas")
 
-[node name="Attack1AnticipationAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack1AnticipationAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=1362733482]
 stream = ExtResource("22_2i233")
 
-[node name="Attack2AnticipationAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack2AnticipationAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=1620720529]
 stream = ExtResource("25_ohar5")
 
-[node name="Attack3AnticipationAudio2" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack3AnticipationAudio2" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=1491583402]
 
-[node name="Attack1Audio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack1Audio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=1554642293]
 stream = ExtResource("22_ydpf0")
 
-[node name="Attack2Audio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack2Audio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=2003049516]
 stream = ExtResource("23_lfklm")
 
-[node name="Attack3Audio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="Attack3Audio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=625188649]
 stream = ExtResource("24_of8mc")
 
-[node name="DeadBossAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="DeadBossAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=1289261902]
 stream = ExtResource("30_q5wak")
 
-[node name="VictoryAudio" type="AudioStreamPlayer" parent="EnemyAudio"]
+[node name="VictoryAudio" type="AudioStreamPlayer" parent="EnemyAudio" unique_id=855768739]
 
 [connection signal="body_entered" from="SpawnArea" to="SpawnArea" method="_on_body_entered"]
 [connection signal="body_exited" from="SpawnArea" to="SpawnArea" method="_on_body_exited"]
