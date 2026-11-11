@@ -35,6 +35,8 @@ enum Stage { ANTICIPATION, FLAME, ATTACK, FINISH }
 @export_group("Áudio")
 ## Toca quando o pilar SURGE (início da Anticipation)
 @export var spawn_audio: AudioStreamPlayer
+## Toca no início da Flame (o fogo subindo). No par, só um dos pilares toca.
+@export var flame_audio: AudioStreamPlayer
 ## Toca durante a Attack, em loop, até o encerramento
 @export var attack_audio: AudioStreamPlayer
 ## Tempo que o som da Attack leva pra sumir no encerramento (0 = corta seco)
@@ -43,6 +45,9 @@ enum Stage { ANTICIPATION, FLAME, ATTACK, FINISH }
 @export var fade_audio: AudioStreamPlayer
 
 var pair_id: int = -1
+# Ajustes de quem cria o pilar (definir ANTES de adicionar na cena):
+var skip_anticipation: bool = false   # pula a Anticipation: já nasce subindo (Flame)
+var mute_audio: bool = false          # sem som nenhum (ex.: o 2º de um par que sai junto)
 var is_destroyed: bool = false
 
 var _stage: Stage = Stage.ANTICIPATION
@@ -77,6 +82,12 @@ func _ready() -> void:
 	if texture and not texture.animation_finished.is_connected(_on_texture_animation_finished):
 		texture.animation_finished.connect(_on_texture_animation_finished)
 	
+	if mute_audio:
+		spawn_audio = null
+		flame_audio = null
+		attack_audio = null
+		fade_audio = null
+
 	# ✅ Áudio de ataque em loop enquanto o pilar estiver na Attack
 	if attack_audio and not attack_audio.finished.is_connected(_on_attack_audio_finished):
 		attack_audio.finished.connect(_on_attack_audio_finished)
@@ -106,6 +117,9 @@ func setup(new_direction: Vector2, speed: float = 300.0, _shooter_flip: bool = f
 
 func _start_anticipation() -> void:
 	_stage = Stage.ANTICIPATION
+	if skip_anticipation:
+		_start_flame()
+		return
 	_play_audio(spawn_audio)
 	_play_animation("Anticipation")
 	get_tree().create_timer(_anticipation_time, false).timeout.connect(_start_flame)
@@ -115,6 +129,8 @@ func _start_flame() -> void:
 	if is_destroyed or _stage != Stage.ANTICIPATION:
 		return
 	_stage = Stage.FLAME
+	if not _pair_playing(&"flame_audio"):
+		_play_audio(flame_audio)
 	_play_animation("Flame")
 
 
@@ -213,6 +229,19 @@ func _on_body_entered(_body) -> void:
 func _play_audio(player: AudioStreamPlayer) -> void:
 	if player and player.stream:
 		player.play()
+
+# true se o outro pilar do mesmo par já está tocando o player de áudio indicado
+func _pair_playing(audio_property: StringName) -> bool:
+	if pair_id < 0:
+		return false
+	for other in get_tree().get_nodes_in_group(GROUP_NAME):
+		if other == self or not is_instance_valid(other) or not other is ProjectileFirePillar:
+			continue
+		var player = other.get(audio_property)
+		if other.pair_id == pair_id and player and player.playing:
+			return true
+	return false
+
 
 # true se o outro pilar do mesmo par já está tocando o som de movimento
 func _pair_audio_already_playing() -> bool:

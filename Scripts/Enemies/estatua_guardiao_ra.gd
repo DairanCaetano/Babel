@@ -76,7 +76,14 @@ enum StartingDirection { LEFT, RIGHT }
 
 @export_category("Sound")
 @export var _hit_audio: AudioStreamPlayer
+## Som do Ataque 1 (golpe melee) — toca a cada golpe, no início da animação "Attack"
+@export var _attack_1_audio: AudioStreamPlayer
+## Som do Ataque 2 (deslize para frente)
 @export var _attack_audio: AudioStreamPlayer
+## Rangido de metal nas antecipações (Ataque 1 e Ataque 2), com pitch aleatório
+@export var _anticipation_audio: AudioStreamPlayer
+@export var _anticipation_pitch_min: float = 0.9
+@export var _anticipation_pitch_max: float = 1.1
 @export var _special_attack_audio: AudioStreamPlayer
 @export var _dead_audio: AudioStreamPlayer
 
@@ -371,6 +378,7 @@ func _start_melee_combo() -> void:
 
 func _begin_attack_anticipation() -> void:
 	_texture.play("Attack_Anticipation")
+	_play_anticipation_audio()
 
 
 # Disparado pelo _chase_stall_timer quando o player fica "enrolando" dentro
@@ -382,6 +390,7 @@ func _start_forced_dash_attack() -> void:
 
 func _begin_forced_dash_anticipation() -> void:
 	_texture.play("Attack_2_anticipation")
+	_play_anticipation_audio()
 
 
 # Reconfere a direção logo ANTES de cada ação seguinte começar (o player
@@ -406,6 +415,7 @@ func _prepare_attack_2_anticipation() -> void:
 
 func _begin_attack_2_anticipation() -> void:
 	_texture.play("Attack_2_anticipation")
+	_play_anticipation_audio()
 
 
 func _start_attack_2_dash() -> void:
@@ -491,6 +501,8 @@ func _on_texture_animation_finished() -> void:
 
 		"Attack_Anticipation":
 			_texture.play("Attack")
+			if _attack_1_audio:
+				_attack_1_audio.play()
 
 		"Attack":
 			_set_attack_area(false, ATTACK_AREA_DEFAULT_POS, ATTACK_AREA_DEFAULT_ROT)
@@ -701,3 +713,9 @@ func _kill() -> void:
 		_dead_audio.play()
 
 	_texture.play("Dead")
+
+func _play_anticipation_audio() -> void:
+	if not _anticipation_audio:
+		return
+	_anticipation_audio.pitch_scale = randf_range(_anticipation_pitch_min, _anticipation_pitch_max)
+	_anticipation_audio.play()

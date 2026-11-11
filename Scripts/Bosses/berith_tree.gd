@@ -7,6 +7,13 @@ class_name BerithTree
 @export var _spawn_point: Marker2D
 @export var enemy_scene: PackedScene
 @export var _berith_particle: GPUParticles2D
+## Tempo do fade da partícula quando o Bloom começa
+@export var _particle_fade_time: float = 0.3
+
+@export_category("Sounds")
+## Som tocado quando a árvore começa a animação de Bloom
+@export var _bloom_sound: AudioStream = preload("res://Sound/SFX/EnemiesSound/Berith_Bloom_1_dragon-studio-elemental-spell-impact-flame-448566 (1).ogg")
+@export var _bloom_sound_volume_db: float = 0.0
 
 @export_category("Boss Music")
 @export var boss_music_track: String = "boss"
@@ -94,6 +101,8 @@ func _on_detection_area_body_entered(body: Node2D) -> void:
 			
 			if _texture:
 				_texture.play("Bloom")
+			_fade_out_particle()
+			_play_bloom_sound()
 
 
 func _freeze_player() -> void:
@@ -258,6 +267,32 @@ func _on_alliance_refused() -> void:
 	
 	if _texture:
 		_texture.play("Bloom")
+	_fade_out_particle()
+	_play_bloom_sound()
+
+# Som do Bloom
+func _play_bloom_sound() -> void:
+	if not _bloom_sound:
+		return
+	var player := AudioStreamPlayer2D.new()
+	player.stream = _bloom_sound
+	player.volume_db = _bloom_sound_volume_db
+	player.bus = "SFX"
+	add_child(player)
+	player.finished.connect(player.queue_free)
+	player.play()
+
+# Partícula do espírito some (fade curto) assim que o Bloom começa
+func _fade_out_particle() -> void:
+	if not _berith_particle or not _berith_particle.visible:
+		return
+	_berith_particle.emitting = false
+	if _particle_fade_time <= 0.0:
+		_berith_particle.visible = false
+		return
+	var tween := create_tween()
+	tween.tween_property(_berith_particle, "modulate:a", 0.0, _particle_fade_time)
+	tween.tween_callback(func(): _berith_particle.visible = false)
 
 func _remove_ceremonial_branch_from_inventory() -> void:
 	"""Remove o Ceremonial Branch do inventário do jogador"""

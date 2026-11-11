@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_fg"]
+[ext_resource type="Texture2D" path="res://sprites/FX/FOGO/Fire_FX_Ground_v01.png" id="2_fg"]
+[ext_resource type="Script" path="res://Scripts/FX/mini_explosion_fx.gd" id="3_fg"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Fire_Ground_DSGNImpt_EXPLOSION-Eruption_HY_PC-002.ogg" id="4_fg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg0"]
+atlas = ExtResource("2_fg")
+region = Rect2(0, 0, 220, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg1"]
+atlas = ExtResource("2_fg")
+region = Rect2(220, 0, 220, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg2"]
+atlas = ExtResource("2_fg")
+region = Rect2(440, 0, 220, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fg3"]
+atlas = ExtResource("2_fg")
+region = Rect2(660, 0, 220, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fg"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fg3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="FireGroundFx" instance=ExtResource("1_fg")]
+sprite_frames = SubResource("SpriteFrames_fg")
+animation = &"default"
+offset = Vector2(3, -102)
+script = ExtResource("3_fg")
+sound = ExtResource("4_fg")
+pitch_min = 0.9
+pitch_max = 1.1

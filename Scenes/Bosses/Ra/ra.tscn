@@ -964,7 +964,7 @@ _attack_3_fx_scene = ExtResource("7_r")
 _attack_4_impact_scene = ExtResource("a4_explosion_1")
 _attack_5_charge_fx_scene = ExtResource("charge_fx_1")
 _attack_5_fx_scene = ExtResource("a5_fx_1")
-_attack_4_impact_offset = Vector2(0, -20)
+_attack_4_impact_offset = Vector2(0, -30)
 _enemy_health = 100
 _roar_fx_scene = ExtResource("roar_fx_1")
 _attack_6_mini_fx_scene = ExtResource("mini_fx_1")
@@ -1026,5 +1026,5 @@ position = Vector2(-26, -4)
 gizmo_extents = 12.0
 
 [node name="Attack3FxMarker" type="Marker2D" parent="." unique_id=1985473484]
-position = Vector2(-37, -10)
+position = Vector2(-37, -12)
 gizmo_extents = 12.0

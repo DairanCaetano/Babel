@@ -138,8 +138,13 @@ const COLLISION_POSES := {
 ## Cada som vazio usa o arquivo padrão da pasta EnemiesSound (ver _SFX_DEFAULTS).
 @export var _sfx_roar: AudioStream            # rugido (início e fase 2)
 @export var _sfx_idle: AudioStream            # chama da fênix no Idle (tom varia)
+@export var _sfx_bird_dive_whoosh: AudioStream # rajada do mergulho do pássaro (toca junto com o grito)
 @export var _sfx_bird_dive: AudioStream       # grito no mergulho da forma de pássaro
 @export var _sfx_attack_4: AudioStream        # explosão quando o mergulho do ataque 4 toca o chão
+@export var _sfx_shine: AudioStream           # bola de luz: no início do Shine (entrada / volta do pássaro) e da Bird_Surge
+@export var _sfx_attack_6_slide: AudioStream  # durante o deslize do ataque 6 (some quando ele para)
+@export var _sfx_attack_6_fade: float = 0.2   # fade do som do deslize quando ele para
+@export var _sfx_attack_5_charge: AudioStream # carga do shoryuken (início da preparação)
 @export var _sfx_attack_5: AudioStream        # quando o shoryuken sobe
 @export var _sfx_volume_db: float = 0.0
 @export var _sfx_idle_volume_db: float = -6.0
@@ -149,8 +154,12 @@ const COLLISION_POSES := {
 const _SFX_DEFAULTS: Dictionary = {
 	"_sfx_roar": "res://Sound/SFX/EnemiesSound/Phoenix_Roar_phatphrogstudio-monster-phoenix-voice-angry-scream-cry-roar-519421.ogg",
 	"_sfx_idle": "res://Sound/SFX/EnemiesSound/Phoenix_Flame_mightuser-mythical-sfx-phoenix-1hd-269469.ogg",
+	"_sfx_bird_dive_whoosh": "res://Sound/SFX/EnemiesSound/Ra_Bird_Dive_soundreality-whoosh-flame-2-388766.ogg",
 	"_sfx_bird_dive": "res://Sound/SFX/EnemiesSound/Phoenix_Cry_freesound_community-gryffin-cry-6995.ogg",
 	"_sfx_attack_4": "res://Sound/SFX/EnemiesSound/Ra_Atk_4_FX_DSGNImpt_EXPLOSION-Eruption_HY_PC-001.ogg",
+	"_sfx_shine": "res://Sound/SFX/EnemiesSound/Shine_Ra_soundreality-whoosh-flame-2-388766.ogg",
+	"_sfx_attack_6_slide": "res://Sound/SFX/EnemiesSound/Charge_Attack_Ra_691503__timbre__synthesised-flame-thrower-2.ogg",
+	"_sfx_attack_5_charge": "res://Sound/SFX/EnemiesSound/Ra_Charge_Shory_humordome-energy-charge-up-full-power-452848.ogg",
 	"_sfx_attack_5": "res://Sound/SFX/EnemiesSound/Ra_Atk_5_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg",
 }
 var _idle_audio: AudioStreamPlayer2D = null
@@ -160,6 +169,15 @@ var _idle_audio: AudioStreamPlayer2D = null
 @export var _attacks_per_cycle_max: int = 3
 @export var _idle_time: float = 1.0          # descanso entre um ataque e outro
 @export var _teleport_hidden_time: float = 0.4
+# Fase 2 (abaixo da metade da vida): mais agressivo
+## Fase 2: ao sumir e ao reaparecer num teleporte, e ao voltar da forma de
+## pássaro, solta um pilar curto para cada lado
+@export var _teleport_pillars: bool = true
+@export var _teleport_pillar_time: float = 0.5    # tempo andando (com dano) antes de sumir
+@export var _teleport_pillar_speed: float = 150.0
+@export var _idle_time_phase_2: float = 0.6
+@export var _attacks_per_cycle_min_phase_2: int = 3
+@export var _attacks_per_cycle_max_phase_2: int = 4
 
 @export_category("Ataque 1 - Pilares")
 @export var _attack_1_first_pillar_time: float = 1.5 # o 1º pilar some depois disso andando; só então sai o 2º
@@ -186,12 +204,21 @@ var _idle_audio: AudioStreamPlayer2D = null
 @export var _attack_5_fall_frame: int = 4   # contando de 0
 @export var _attack_5_air_time: float = 0.4   # tempo parado no ar (Attack_5_Air em loop) antes de cair; 0 = sem pausa
 @export var _attack_5_height: float = 70.0
-@export var _attack_5_forward: float = 20.0
+@export var _attack_5_slide_speed_2: float = 140.0   # px/s que ele desliza pra frente no 2º shoryuken (ou no único)
 @export var _attack_5_fx_sync: bool = true   # true = o FX troca de frame junto com o Rá (segura na pausa e no ar)
+## Golpe duplo: um shoryuken curto quase no lugar e, ao voltar ao chão, o
+## shoryuken alto de sempre (altura/avanço/ar acima valem para o 2º).
+@export var _attack_5_double: bool = true
+@export var _attack_5_first_height: float = 15.0     # altura do 1º (curto)
+@export var _attack_5_slide_speed_1: float = 100.0   # px/s que ele desliza pra frente no 1º shoryuken (curto)
+@export var _attack_5_first_air_time: float = 0.0    # pausa no ar do 1º (0 = sem pausa)
+@export var _attack_5_between_delay: float = 0.0     # respiro entre o 1º e o 2º (0 = emenda direto)
+@export var _attack_5_retarget: bool = false         # true = vira para o player antes do 2º
 
 @export_category("Ataque 6 - Deslize")
 @export var _attack_6_charge_time: float = 1.0
-@export var _attack_6_speed: float = 260.0
+@export var _attack_6_speed: float = 380.0
+@export var _wall_ray_length: float = 24.0   # alcance do raio contra parede/porta nos deslizes (a partir do centro)
 @export var _attack_6_center_weight: float = 0.5   # chance do Ataque 6 fora das pontas (1 = igual aos outros, 0 = nunca)
 @export var _attack_6_mini_fx_scene: PackedScene     # Scenes/FX/mini_explosion_fx.tscn — explosõezinhas durante a carga
 @export var _attack_6_mini_fx_radius: float = 30.0  # raio (px) em volta do centro do Rá onde elas aparecem
@@ -208,6 +235,7 @@ var _idle_audio: AudioStreamPlayer2D = null
 @export var _spear_scene: PackedScene               # Scenes/Projectile/ra_spear.tscn
 @export var _bird_explosion_scene: PackedScene      # Scenes/Projectile/ra_explosion.tscn
 @export var _bird_material: ShaderMaterial          # material só da forma de pássaro (calor + blink)
+@export var _bird_scale: float = 1.2                # tamanho do sprite na forma de pássaro (1 = desenho original)
 @export var _bird_height: float = 100.0             # quanto acima do marker Center o pássaro surge
 @export var _bird_hidden_time: float = 0.3          # tempo invisível entre a Transition e a Surge
 @export var _spear_count: int = 8                   # lanças por fileira
@@ -262,6 +290,11 @@ var _scale_defaults: Dictionary = {}    # CollisionShape2D -> Vector2 (escala do
 var _default_material: Material = null  # material normal do Texture (blink)
 var _ghost_timer: float = 0.0
 var _attack_5_fx: AnimatedSprite2D = null
+var _attack_5_hit: int = 1   # 1 = shoryuken curto, 2 = o alto (golpe duplo)
+var _attack_5_sliding: bool = false   # deslizando pra frente durante o shoryuken
+var _wall_ray: RayCast2D = null   # detecta parede/porta à frente (camada 2) nos deslizes
+var _attack_6_target_point: int = RaArena.NO_POINT
+var _slide_audio: AudioStreamPlayer2D = null   # som do deslize do ataque 6 em andamento
 
 
 # =====================================================================
@@ -305,6 +338,11 @@ func _ready() -> void:
 			_hurtbox.body_entered.connect(_hurtbox._on_body_entered)
 
 	_load_sfx_defaults()
+	_wall_ray = RayCast2D.new()
+	_wall_ray.collision_mask = 2   # chão/paredes/portas
+	_wall_ray.enabled = true
+	_wall_ray.position = Vector2(0, 14)   # altura do corpo
+	add_child(_wall_ray)
 
 	if not _ghost_trail_scene and ResourceLoader.exists("res://Scenes/FX/ghost_trail.tscn"):
 		_ghost_trail_scene = load("res://Scenes/FX/ghost_trail.tscn")
@@ -451,7 +489,10 @@ func _on_intro_done() -> void:
 
 func _start_cycle() -> void:
 	_attacks_done = 0
-	_attacks_this_cycle = randi_range(_attacks_per_cycle_min, _attacks_per_cycle_max)
+	if _phase == 2:
+		_attacks_this_cycle = randi_range(_attacks_per_cycle_min_phase_2, _attacks_per_cycle_max_phase_2)
+	else:
+		_attacks_this_cycle = randi_range(_attacks_per_cycle_min, _attacks_per_cycle_max)
 
 
 func _go_idle() -> void:
@@ -459,7 +500,7 @@ func _go_idle() -> void:
 	_play("Idle")
 	_stop_idle_sfx(0.0)
 	_idle_audio = _play_sfx(_sfx_idle, _sfx_idle_pitch.x, _sfx_idle_pitch.y, _sfx_idle_volume_db)
-	_after(_idle_time, _choose_next)
+	_after(_idle_time_phase_2 if _phase == 2 else _idle_time, _choose_next)
 
 
 func _choose_next() -> void:
@@ -737,7 +778,9 @@ func _attack_4_land() -> void:
 
 func _attack_5_start() -> void:
 	_new_action(Action.ATTACK_5)
+	_attack_5_hit = 1
 	_play("Attack_5")
+	_play_sfx(_sfx_attack_5_charge)
 	_spawn_attack_5_fx()
 	_spawn_simple_fx(_attack_5_charge_fx_scene)
 	if _attack_5_windup_time > 0.0:
@@ -745,20 +788,28 @@ func _attack_5_start() -> void:
 		_after(_attack_5_windup_time, func(): _texture.play())
 
 
+# No golpe duplo o 1º shoryuken usa os valores "first"; o 2º (ou o único,
+# com _attack_5_double desligado) usa altura/avanço/ar normais.
+func _attack_5_is_short() -> bool:
+	return _attack_5_double and _attack_5_hit == 1
+
+
 func _attack_5_rise() -> void:
 	var duration: float = _frames_duration("Attack_5", _attack_5_rise_frame, _attack_5_apex_frame)
-	var target_x: float = clampf(global_position.x + _attack_5_forward * _facing, arena.get_min_x(), arena.get_max_x())
-	_tween_to(Vector2(target_x, _ground_y - _attack_5_height), duration)
+	var height: float = _attack_5_first_height if _attack_5_is_short() else _attack_5_height
+	_attack_5_sliding = true   # o avanço é contínuo (_physics_process); o tween cuida só da altura
+	_tween_y(_ground_y - height, duration)
 
 
 # No ápice: troca para Attack_5_Air (loop) e segura no ar por _attack_5_air_time.
 # Depois volta para o Attack_5 já no frame da queda.
 func _attack_5_hang() -> void:
-	if _attack_5_air_time <= 0.0 or not _has_frames("Attack_5_Air"):
+	var air_time: float = _attack_5_first_air_time if _attack_5_is_short() else _attack_5_air_time
+	if air_time <= 0.0 or not _has_frames("Attack_5_Air"):
 		return
 
 	_texture.play("Attack_5_Air")
-	_after(_attack_5_air_time, func():
+	_after(air_time, func():
 		_texture.play("Attack_5")
 		_texture.frame = _attack_5_fall_frame
 		_on_frame_changed()
@@ -768,7 +819,7 @@ func _attack_5_hang() -> void:
 func _attack_5_fall() -> void:
 	var frame_count: int = _texture.sprite_frames.get_frame_count("Attack_5")
 	var duration: float = _frames_duration("Attack_5", _attack_5_fall_frame, frame_count)
-	_tween_to(Vector2(global_position.x, _ground_y), duration)
+	_tween_y(_ground_y, duration)
 
 
 # FX do Ataque 5: nasce no centro do Rá (mesmo tamanho de frame do sprite dele)
@@ -814,7 +865,31 @@ func _attack_5_finish() -> void:
 	if _move_tween:
 		_move_tween.kill()
 	global_position.y = _ground_y
+
+	# Golpe duplo: depois do curto, emenda o alto
+	if _attack_5_is_short():
+		if _attack_5_between_delay > 0.0:
+			_after(_attack_5_between_delay, _attack_5_second)
+		else:
+			_attack_5_second()
+		return
+
+	_attack_5_sliding = false
+	# Deslizou para fora do marker: igual ao Ataque 4, atualiza onde ele está
+	global_position.x = roundf(global_position.x)
+	_current_point = _point_at(global_position)
 	_end_attack()
+
+
+# 2º shoryuken: sem a preparação (sem pausa no frame 0 e sem FX de carga)
+func _attack_5_second() -> void:
+	if _action != Action.ATTACK_5 or not _is_alive:
+		return
+	_attack_5_hit = 2
+	if _attack_5_retarget:
+		_set_facing(_dir_to_player())   # vira na hora, sem Turn
+	_play("Attack_5")
+	_spawn_attack_5_fx()
 
 
 # =====================================================================
@@ -855,6 +930,8 @@ func _attack_6_slide() -> void:
 	var target: Vector2 = arena.get_point_position(target_point)
 
 	_play("Attack_6")   # dano do deslize = contato da própria HurtBox
+	_stop_slide_sfx(0.0)
+	_slide_audio = _play_sfx(_sfx_attack_6_slide)   # filho do Rá: acompanha o deslize
 
 	var duration: float = global_position.distance_to(target) / maxf(_attack_6_speed, 1.0)
 	_tween_to(target, maxf(duration, 0.05), func():
@@ -863,6 +940,7 @@ func _attack_6_slide() -> void:
 
 
 func _attack_6_finish(target_point: int) -> void:
+	_stop_slide_sfx(_sfx_attack_6_fade)
 	_current_point = target_point
 	_attacks_done += 1
 	_start_teleport()   # o Ataque 6 sempre termina com teleport
@@ -929,7 +1007,13 @@ func _bird_spear_wave() -> void:
 
 	# Fileira reta abaixo do pássaro. Fileiras pares saem deslocadas meio
 	# espaço, caindo nos vãos da anterior ("pares" e "ímpares").
-	var line: Vector2 = global_position + Vector2(0, _spear_offset_y)
+	# Pássaro maior (_bird_scale): a borda de baixo dele desce, a fileira desce junto
+	var bird_half_h: float = 50.0
+	if _texture.sprite_frames and _texture.sprite_frames.has_animation("Bird_Idle"):
+		var _tex: Texture2D = _texture.sprite_frames.get_frame_texture("Bird_Idle", 0)
+		if _tex:
+			bird_half_h = _tex.get_height() * 0.5
+	var line: Vector2 = global_position + Vector2(0, _spear_offset_y + bird_half_h * (_bird_scale - 1.0))
 	var count: int = max(_spear_count, 1)
 	var shift: float = _spear_spacing * 0.5 if _spear_wave % 2 == 0 else 0.0
 	for i in count:
@@ -975,6 +1059,7 @@ func _bird_gone() -> void:
 
 func _bird_fall() -> void:
 	_play_sfx(_sfx_bird_dive)
+	_play_sfx(_sfx_bird_dive_whoosh)
 	var target := Vector2(global_position.x, _ground_y)
 	var duration: float = absf(target.y - global_position.y) / maxf(_bird_fall_speed, 1.0)
 	_tween_to(target, maxf(duration, 0.05), _bird_land)
@@ -1004,6 +1089,8 @@ func _bird_explosion_done(owner_action_id: int) -> void:
 		return
 	_texture.modulate.a = 1.0
 	_set_facing(_dir_to_player())
+	if _teleport_pillars:
+		_spawn_teleport_pillars()   # volta da forma de pássaro: pilares também
 	if _has_frames(_intro_animation):
 		_play(_intro_animation)   # Shine: volta à forma humana
 	else:
@@ -1023,6 +1110,8 @@ func _start_teleport() -> void:
 	_new_action(Action.TELEPORT_OUT)
 	teleport_started.emit()
 	_play("Teleport")
+	if _phase == 2 and _teleport_pillars:
+		_spawn_teleport_pillars()   # fase 2: pilares também ao sumir
 
 
 func _on_teleport_out_done() -> void:
@@ -1045,6 +1134,31 @@ func _teleport_appear(target: int) -> void:
 	_texture.modulate.a = 1.0
 	_new_action(Action.TELEPORT_IN)
 	_play("Teleport", true)   # reaparece com o Teleport de trás pra frente
+
+	if _phase == 2 and _teleport_pillars:
+		_spawn_teleport_pillars()
+
+
+# Fase 2: dois pilares curtos saindo dos pés do Rá, um para cada lado.
+# Pulam a preparação (já nascem subindo), andam _teleport_pillar_time e somem.
+# Não contam como Ataque 1. Só o primeiro tem som (dois iguais juntos estourariam).
+func _spawn_teleport_pillars() -> void:
+	if not _attack_1_pillar_scene or not arena:
+		return
+	var floor_y: float = arena.get_pillar_center().y   # os markers de pilar marcam o chão
+	var first := true
+	for dir in [Vector2.LEFT, Vector2.RIGHT]:
+		var pillar: Node2D = _attack_1_pillar_scene.instantiate()
+		if pillar is ProjectileFirePillar:
+			pillar.skip_anticipation = true
+			pillar.mute_audio = not first
+			pillar._lifetime_after_rise = _teleport_pillar_time
+		get_parent().add_child(pillar)
+		pillar.add_to_group(SPAWNED_GROUP)
+		pillar.global_position = Vector2(global_position.x, floor_y)
+		if pillar.has_method("setup"):
+			pillar.setup(dir, _teleport_pillar_speed, dir.x > 0.0)
+		first = false
 
 
 func _on_teleport_in_done() -> void:
@@ -1109,8 +1223,14 @@ func _set_facing(new_facing: float) -> void:
 func _apply_collision_pose(animation_name: String) -> void:
 	var pose: Dictionary = COLLISION_POSES.get(animation_name, {})
 	var mirror: float = _mirror()
-	_set_shape_pose(_body_collision, pose.get("body", []), mirror)
-	_set_shape_pose(_hurtbox_collision, pose.get("hurt", []), mirror)
+	var extra: float = _form_scale(animation_name)
+	_set_shape_pose(_body_collision, pose.get("body", []), mirror, extra)
+	_set_shape_pose(_hurtbox_collision, pose.get("hurt", []), mirror, extra)
+
+
+# Escala do sprite conforme a forma: pássaro usa _bird_scale, humano 1
+func _form_scale(animation_name: String) -> float:
+	return _bird_scale if animation_name.begins_with("Bird_") else 1.0
 
 
 # Animações "Bird_*" usam o material do pássaro; as outras, o material normal
@@ -1122,15 +1242,17 @@ func _apply_form_material(animation_name: String) -> void:
 		wanted = _bird_material
 	if _texture.material != wanted:
 		_texture.material = wanted
+	var form_scale: float = _form_scale(animation_name)
+	_texture.scale = Vector2(form_scale, form_scale)
 
 
-func _set_shape_pose(shape: CollisionShape2D, pose: Array, mirror: float) -> void:
+func _set_shape_pose(shape: CollisionShape2D, pose: Array, mirror: float, extra_scale: float = 1.0) -> void:
 	if not shape or not _mirror_defaults.has(shape):
 		return
 	var pos: Vector2 = pose[0] if pose.size() > 0 else _mirror_defaults[shape]
 	var scl: Vector2 = pose[1] if pose.size() > 1 else _scale_defaults[shape]
-	shape.position = Vector2(pos.x * mirror, pos.y)
-	shape.scale = scl
+	shape.position = Vector2(pos.x * mirror, pos.y) * extra_scale
+	shape.scale = scl * extra_scale
 
 
 # =====================================================================
@@ -1147,6 +1269,9 @@ func _play(animation_name: String, backwards: bool = false) -> void:
 	_fired_events.clear()
 	_apply_collision_pose(animation_name)
 	_apply_form_material(animation_name)
+	# Som da bola de luz: no início do Shine e da Bird_Surge
+	if not backwards and (animation_name == _intro_animation or animation_name == "Bird_Surge"):
+		_play_sfx(_sfx_shine)
 	if backwards:
 		_texture.play_backwards(animation_name)
 	else:
@@ -1402,6 +1527,20 @@ func _play_sfx(stream: AudioStream, pitch_min: float = 1.0, pitch_max: float = 1
 	return _player
 
 
+func _stop_slide_sfx(fade: float) -> void:
+	if not _slide_audio or not is_instance_valid(_slide_audio):
+		_slide_audio = null
+		return
+	var _player: AudioStreamPlayer2D = _slide_audio
+	_slide_audio = null
+	if fade <= 0.0:
+		_player.queue_free()
+		return
+	var _tw := _player.create_tween()
+	_tw.tween_property(_player, "volume_db", -40.0, fade)
+	_tw.tween_callback(_player.queue_free)
+
+
 func _stop_idle_sfx(fade: float) -> void:
 	if not _idle_audio or not is_instance_valid(_idle_audio):
 		_idle_audio = null
@@ -1417,8 +1556,11 @@ func _stop_idle_sfx(fade: float) -> void:
 
 
 func _new_action(action: Action) -> void:
+	if action != Action.ATTACK_6:
+		_stop_slide_sfx(_sfx_attack_6_fade)   # deslize interrompido (fase 2, morte...)
 	if action != Action.ATTACK_5:
 		_free_attack_5_fx()   # ataque interrompido (ex.: fase 2)
+		_attack_5_sliding = false
 	if action != Action.IDLE:
 		_stop_idle_sfx(_sfx_idle_fade_out)
 	_action = action
@@ -1456,6 +1598,52 @@ func _tween_to(target: Vector2, duration: float, on_finish: Callable = Callable(
 			if id == _action_id and _is_alive:
 				on_finish.call()
 		)
+
+
+# Como _tween_to, mas só na altura (o X fica livre, ex.: deslize do shoryuken)
+func _tween_y(target_y: float, duration: float, on_finish: Callable = Callable()) -> void:
+	if _move_tween:
+		_move_tween.kill()
+	var id: int = _action_id
+	_move_tween = create_tween()
+	_move_tween.tween_property(self, "global_position:y", target_y, duration)
+	if on_finish.is_valid():
+		_move_tween.tween_callback(func():
+			if id == _action_id and _is_alive:
+				on_finish.call()
+		)
+
+
+# Deslize do shoryuken: anda pra frente em velocidade constante do 1º pulo
+# até o 2º voltar ao chão, parando nas pontas da arena.
+func _physics_process(delta: float) -> void:
+	if not _is_alive or not arena:
+		return
+
+	# Ataque 6: bateu na parede/porta → para ali e encerra
+	if _action == Action.ATTACK_6 and _texture.animation == &"Attack_6" and _wall_ahead():
+		if _move_tween:
+			_move_tween.kill()
+			_move_tween = null
+		global_position.x = roundf(global_position.x)
+		_attack_6_finish(_point_at(global_position))
+		return
+
+	if not _attack_5_sliding or _action != Action.ATTACK_5:
+		return
+	if _wall_ahead():
+		return   # encostou na parede/porta: termina o shoryuken no lugar
+	var speed: float = _attack_5_slide_speed_1 if _attack_5_is_short() else _attack_5_slide_speed_2
+	global_position.x = clampf(global_position.x + speed * _facing * delta, arena.get_min_x(), arena.get_max_x())
+
+
+# true se há parede ou porta logo à frente (para onde ele está olhando)
+func _wall_ahead() -> bool:
+	if not _wall_ray:
+		return false
+	_wall_ray.target_position = Vector2(_wall_ray_length * _facing, 0)
+	_wall_ray.force_raycast_update()
+	return _wall_ray.is_colliding()
 
 
 # Direção em que os sprites foram desenhados (1 = direita, -1 = esquerda)

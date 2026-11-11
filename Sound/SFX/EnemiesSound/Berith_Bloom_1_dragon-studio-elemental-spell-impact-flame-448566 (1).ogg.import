@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://dwi2m4gsoib8a"
+path="res://.godot/imported/Berith_Bloom_1_dragon-studio-elemental-spell-impact-flame-448566 (1).ogg-fda55bdbdadf2003b0d259820a457ea4.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Berith_Bloom_1_dragon-studio-elemental-spell-impact-flame-448566 (1).ogg"
+dest_files=["res://.godot/imported/Berith_Bloom_1_dragon-studio-elemental-spell-impact-flame-448566 (1).ogg-fda55bdbdadf2003b0d259820a457ea4.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

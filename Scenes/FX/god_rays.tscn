@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://gr4ysp1xl8bq"]
+
+[ext_resource type="Script" uid="uid://dbde0ggm7kh5u" path="res://Scripts/FX/god_rays.gd" id="1_rays"]
+[ext_resource type="Shader" uid="uid://cjfiptme3p13q" path="res://Shaders/god_rays_pixel.gdshader" id="2_rays"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_rays"]
+frequency = 0.5
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rays"]
+width = 256
+height = 256
+noise = SubResource("FastNoiseLite_rays")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rays"]
+resource_local_to_scene = true
+shader = ExtResource("2_rays")
+shader_parameter/blend_mode = 0
+shader_parameter/noiseTex = SubResource("NoiseTexture2D_rays")
+shader_parameter/angle = -0.30000000000000004
+shader_parameter/position = -0.2
+shader_parameter/spread = 0.2
+shader_parameter/cutoff = 0.1
+shader_parameter/falloff = 0.5
+shader_parameter/edge_fade = 0.15
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/ray_color = Color(1, 0.9, 0.65, 0.8)
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+shader_parameter/pixelSizeScale = 1.0
+shader_parameter/quantize_colors = false
+shader_parameter/color_levels = 4
+shader_parameter/dither = false
+shader_parameter/dither_strength = 0.5
+shader_parameter/opacity = 1.0
+
+[sub_resource type="Gradient" id="Gradient_rays"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rays"]
+resource_local_to_scene = true
+gradient = SubResource("Gradient_rays")
+width = 100
+height = 80
+
+[node name="GodRays" type="Node2D" unique_id=609273628]
+script = ExtResource("1_rays")
+size = Vector2i(100, 80)
+spread = 0.2
+falloff = 0.5
+
+[node name="Rays" type="Sprite2D" parent="." unique_id=277766993]
+material = SubResource("ShaderMaterial_rays")
+texture = SubResource("GradientTexture2D_rays")
+centered = false

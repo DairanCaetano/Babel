@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://dtkmybs7lmsaa" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Attack.png" id="5_atk"]
 [ext_resource type="Texture2D" uid="uid://cy0om44i83bd6" path="res://sprites/Bosses/Rá/Rá_humanoide_ataque_1_FX_Flame_End.png" id="6_end"]
 [ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_Twister_789669__newlocknew__natdtorn_inside-a-huge-tornadowhirlwind-roar.ogg" id="snd_twister"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_flame_Pillar_Rise_dragon-studio-flame-spell-impact-393919.ogg" id="snd_flame_rise"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p1"]
 atlas = ExtResource("3_ant")
@@ -132,7 +133,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
 size = Vector2(42, 300)
 
-[node name="ProjectileFirePillar" unique_id=1427389436 node_paths=PackedStringArray("texture", "collision", "ground_ray", "wall_ray", "spawn_audio", "attack_audio", "fade_audio") instance=ExtResource("1_igp1q")]
+[node name="ProjectileFirePillar" unique_id=1427389436 node_paths=PackedStringArray("texture", "collision", "ground_ray", "wall_ray", "spawn_audio", "attack_audio", "fade_audio", "flame_audio") instance=ExtResource("1_igp1q")]
 collision_layer = 72
 collision_mask = 1
 script = ExtResource("2_aua40")
@@ -147,6 +148,7 @@ wall_ray = NodePath("WallRay")
 spawn_audio = NodePath("SpawnAudio")
 attack_audio = NodePath("FirePilarAudio")
 fade_audio = NodePath("FadeAudio")
+flame_audio = NodePath("FlameAudio")
 
 [node name="Texture" parent="." index="0"]
 position = Vector2(0, -150)
@@ -178,4 +180,8 @@ bus = &"SFX"
 bus = &"SFX"
 
 [node name="FadeAudio" type="AudioStreamPlayer" parent="." index="6" unique_id=1626277460]
+bus = &"SFX"
+
+[node name="FlameAudio" type="AudioStreamPlayer" parent="." index="7" unique_id=1626277461]
+stream = ExtResource("snd_flame_rise")
 bus = &"SFX"

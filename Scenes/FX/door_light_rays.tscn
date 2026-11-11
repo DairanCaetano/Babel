@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://drl1ght5rays"]
+
+[ext_resource type="PackedScene" uid="uid://gr4ysp1xl8bq" path="res://Scenes/FX/god_rays.tscn" id="1_base"]
+[ext_resource type="Script" path="res://Scripts/FX/door_light_rays.gd" id="2_door"]
+
+[node name="DoorLightRays" instance=ExtResource("1_base")]
+script = ExtResource("2_door")
+origin = 0.0
+angle = 0.0
+spread = 0.9
+falloff = 0.5

@@ -1,38 +1,48 @@
 [gd_scene format=3 uid="uid://bt8vdhnykncu"]
 
 [ext_resource type="Script" uid="uid://ctt2tdybmyj8j" path="res://Scripts/Projectiles/ra_fx_projectile.gd" id="1_r"]
-[ext_resource type="Texture2D" uid="uid://bi3sreigc8c0m" path="res://sprites/Bosses/Rá/Rá_humanoide_Attack_3_FX.png" id="2_r"]
-[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Ra_Atk_3_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-006.ogg" id="snd_3"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_l1gg0"]
-atlas = ExtResource("2_r")
-region = Rect2(0, 0, 300, 120)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xoqg8"]
-atlas = ExtResource("2_r")
-region = Rect2(300, 0, 300, 120)
+[ext_resource type="Texture2D" uid="uid://dlfawalpqdygb" path="res://sprites/Bosses/Rá/Rá_humanoide_Attack_3_FX3.png" id="3_xoqg8"]
+[ext_resource type="AudioStream" uid="uid://dyno8e8wrl5iy" path="res://Sound/SFX/EnemiesSound/Ra_Atk_3_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-006.ogg" id="snd_3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ji27h"]
-atlas = ExtResource("2_r")
-region = Rect2(600, 0, 300, 120)
+atlas = ExtResource("3_xoqg8")
+region = Rect2(0, 0, 400, 120)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ahsdn"]
-atlas = ExtResource("2_r")
-region = Rect2(900, 0, 300, 120)
+atlas = ExtResource("3_xoqg8")
+region = Rect2(400, 0, 400, 120)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vlx6j"]
-atlas = ExtResource("2_r")
-region = Rect2(1200, 0, 300, 120)
+atlas = ExtResource("3_xoqg8")
+region = Rect2(800, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xl1cj"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(1200, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q8vmg"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(1600, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_13cu4"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(2000, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4foy"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(2400, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7fs28"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(2800, 0, 400, 120)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ng1r"]
+atlas = ExtResource("3_xoqg8")
+region = Rect2(3200, 0, 400, 120)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_l1gg0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xoqg8")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ji27h")
 }, {
@@ -41,6 +51,24 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_vlx6j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xl1cj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q8vmg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_13cu4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4foy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7fs28")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ng1r")
 }],
 "loop": 0,
 "name": &"Default",
@@ -48,7 +76,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
-size = Vector2(246, 40)
+size = Vector2(351, 40)
 
 [node name="ra_attack_3_fx" type="Area2D" unique_id=1002103589 node_paths=PackedStringArray("_texture", "_collision")]
 collision_layer = 0
@@ -56,19 +84,19 @@ script = ExtResource("1_r")
 _texture = NodePath("Texture")
 _collision = NodePath("Collision")
 _attack_damage = 15
+_active_frame_start = 4
+_active_frame_end = 6
 _sound = ExtResource("snd_3")
 _sound_frame = 2
-_active_frame_start = 1
-_active_frame_end = 3
 
 [node name="Texture" type="AnimatedSprite2D" parent="." unique_id=1986866226]
 sprite_frames = SubResource("SpriteFrames_5")
 animation = &"Default"
 frame = 3
-frame_progress = 0.72940534
+frame_progress = 0.91631794
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1265418892]
-position = Vector2(-5, 26)
+position = Vector2(0.5, 26)
 shape = SubResource("RectangleShape2D_6")
 disabled = true
 debug_color = Color(1, 0.3, 0, 0.42)

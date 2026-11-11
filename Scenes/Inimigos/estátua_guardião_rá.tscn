@@ -14,6 +14,9 @@
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="10_wpit6"]
 [ext_resource type="Texture2D" uid="uid://db8lfpavaipp0" path="res://sprites/Enemies/Estátua Guardião Rá/Estátua_Rá_Turn.png" id="12_da35b"]
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy_attack_area.gd" id="12_oaqsk"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Heavy_Sword_Atk_DSGNImpt_EXPLOSION-Flare Extinguish_HY_PC-001.ogg" id="20_atk1snd"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Heavy_Slash_Atk_DSGNImpt_EXPLOSION-Flare Ignite_HY_PC-001.ogg" id="21_atk2snd"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Rangido_Metal_1_audiopapkin-squeak-metal-ps-016-389413.ogg" id="22_antsnd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_as0fp"]
 shader = ExtResource("3_oa8pk")
@@ -588,7 +591,10 @@ size = Vector2(143, 58)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dhxde"]
 size = Vector2(22, 66)
 
-[node name="EstátuaGuardiãoRá" type="CharacterBody2D" node_paths=PackedStringArray("_texture", "_body_collision", "_detection_area", "_attack_area", "_attack_area_collision", "_special_detection_area", "_chase_area", "_hurtbox_area", "_special_attack_spawn_marker", "_attack_fx_marker")]
+[node name="EstátuaGuardiãoRá" type="CharacterBody2D" node_paths=PackedStringArray("_texture", "_body_collision", "_detection_area", "_attack_area", "_attack_area_collision", "_special_detection_area", "_chase_area", "_hurtbox_area", "_special_attack_spawn_marker", "_attack_fx_marker", "_attack_1_audio", "_attack_audio", "_anticipation_audio")]
+_anticipation_audio = NodePath("Audio/AnticipationAudio")
+_attack_1_audio = NodePath("Audio/Attack1Audio")
+_attack_audio = NodePath("Audio/Attack2Audio")
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_cikrg")
@@ -654,6 +660,15 @@ shape = SubResource("RectangleShape2D_dhxde")
 debug_color = Color(0.930747, 0.263301, 0, 0.42)
 
 [node name="Audio" type="Node2D" parent="."]
+
+[node name="Attack1Audio" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("20_atk1snd")
+
+[node name="Attack2Audio" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("21_atk2snd")
+
+[node name="AnticipationAudio" type="AudioStreamPlayer" parent="Audio"]
+stream = ExtResource("22_antsnd")
 
 [node name="SpecialAttackMaker" type="Marker2D" parent="."]
 position = Vector2(-73, 53)
