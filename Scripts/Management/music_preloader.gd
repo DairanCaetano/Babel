@@ -7,6 +7,8 @@ const MUSIC_CACHE = {
 	"tebe_1": preload("res://Sound/Music/LevelSound/Tebes_4. Canyon Echoes.ogg"),
 	"boss": preload("res://Sound/Music/LevelSound/Baal_Barith_Boss_Fight.ogg"),
 	"egito_1": preload("res://Sound/Music/LevelSound/Egito_2 Moonlit Dunes - Blue Lava.ogg"),
+	"santuario_corredor": preload("res://Sound/Music/LevelSound/Santuário_1_Corredor_Infinito_669491__logicmoon__kaleidoscope-0001.ogg"),
+	"santuario_1_2": preload("res://Sound/Music/LevelSound/Santuário_3_OST_698104__theojt__psychedelic-hypnotic-theme.ogg"),
 }
 
 func _ready() -> void:

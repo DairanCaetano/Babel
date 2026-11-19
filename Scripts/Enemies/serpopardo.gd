@@ -706,7 +706,12 @@ func _die() -> void:
 # =============================================
 
 func _set_shader_blink_intensity(new_value: float) -> void:
-	for seg in _segments:
+	# Corpo + pescoço + cabeça (o corpo não está em _segments)
+	var _sprites: Array = _segments.duplicate()
+	var _body_sprite: Node = get_node_or_null("Body")
+	if _body_sprite and not _sprites.has(_body_sprite):
+		_sprites.append(_body_sprite)
+	for seg in _sprites:
 		if not seg or not seg.material:
 			continue
 		if not seg.material.shader:

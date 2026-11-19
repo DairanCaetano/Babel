@@ -59,7 +59,8 @@ func _ready() -> void:
 	_pos = Vector2(randf_range(-raio.x, raio.x), randf_range(-raio.y, raio.y)) * 0.5
 	if texture == null:
 		texture = _criar_textura()
-	_configurar_alvos()
+	# Depois que a fase inteira entrou na árvore (nenhum alvo fica de fora)
+	call_deferred("_configurar_alvos")
 	# Posiciona logo antes de desenhar: a câmera já se moveu neste frame.
 	RenderingServer.frame_pre_draw.connect(_posicionar)
 	_posicionar()
@@ -115,10 +116,17 @@ func _configurar_alvos() -> void:
 		if no != null and is_instance_valid(no):
 			total += _marcar(no, bit)
 	if todos_tilemaps_da_fase:
-		for camada in EsteticaUtil.listar_tilemaps(EsteticaUtil.raiz_fase(self)):
+		var raiz: Node = EsteticaUtil.raiz_fase(self)
+		for camada in EsteticaUtil.listar_tilemaps(raiz):
 			if (camada.light_mask & bit) == 0:
 				camada.light_mask |= bit
 				total += 1
+		# Sprites marcados como cenário (grupo "estetica_decoracao"), ex.: cabeça do touro
+		for no in get_tree().get_nodes_in_group(EsteticaUtil.GRUPO_DECORACAO):
+			if no is CanvasItem and not no is TileMapLayer and raiz and raiz.is_ancestor_of(no):
+				if ((no as CanvasItem).light_mask & bit) == 0:
+					(no as CanvasItem).light_mask |= bit
+					total += 1
 	print("💡 LuzErrante: ilumina ", total, " item(ns) do cenário")
 
 func _marcar(no: Node, bit: int) -> int:

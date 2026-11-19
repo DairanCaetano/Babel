@@ -1,0 +1,46 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_bv4"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_4_Vanish_FX_v01.png" id="2_bv4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv4_0"]
+atlas = ExtResource("2_bv4")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv4_1"]
+atlas = ExtResource("2_bv4")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv4_2"]
+atlas = ExtResource("2_bv4")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bv4_3"]
+atlas = ExtResource("2_bv4")
+region = Rect2(180, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bv4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bv4_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bv4_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bv4_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bv4_3")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="BerithAttack4VanishFx" instance=ExtResource("1_bv4")]
+z_index = 5
+sprite_frames = SubResource("SpriteFrames_bv4")
+animation = &"default"
+offset = Vector2(4, 1)

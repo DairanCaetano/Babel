@@ -35,6 +35,7 @@ const COR_ITEM := Color8(255, 150, 40)
 func carregar_padrao() -> void:
 	var tebes := Color8(196, 150, 92)
 	var egito := Color8(120, 160, 190)
+	var santuario := Color8(110, 170, 120)
 	var lista := [
 		["res://Scenes/Fases/Tebes/tebes_1_1.tscn", "Tebes 1-1", Vector2(0, 0), tebes],
 		["res://Scenes/Fases/Tebes/tebes_1_2.tscn", "Tebes 1-2", Vector2(7344, 453), tebes],
@@ -42,6 +43,9 @@ func carregar_padrao() -> void:
 		["res://Scenes/Fases/Tebes/tebes_1_4.tscn", "Tebes 1-4", Vector2(9111, -680), tebes],
 		["res://Scenes/Fases/Egito/Egito_1_1.tscn", "Egito 1-1", Vector2(11570, -1628), egito],
 		["res://Scenes/Fases/Egito/Egito_1_2.tscn", "Egito 1-2", Vector2(11564, -3075), egito],
+		["res://Scenes/Fases/Santuario/santuario_1_1.tscn", "Santuário 1-1", Vector2(11236, -1982), santuario],  # à esquerda do Egito 1-2 (ajustar quando as salas crescerem)
+		["res://Scenes/Fases/Santuario/santuario_1_2.tscn", "Santuário 1-2", Vector2(10756, -1982), santuario],  # à esquerda do Egito 1-2 (ajustar quando as salas crescerem)
+		["res://Scenes/Fases/Santuario/santuario_1_3.tscn", "Santuário 1-3", Vector2(10276, -1982), santuario],  # à esquerda do Egito 1-2 (ajustar quando as salas crescerem)
 	]
 	var novas: Array[MapLevelEntry] = []
 	for d in lista:

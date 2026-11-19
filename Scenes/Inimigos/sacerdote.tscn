@@ -11,6 +11,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xgjk7"]
 shader = ExtResource("2_ifqwt")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 1.0

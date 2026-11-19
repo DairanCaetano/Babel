@@ -14,7 +14,6 @@ character = NodePath("Player/Character")
 camera = NodePath("CharacterCamera")
 hud = NodePath("HUD")
 initial_level_override = "uid://cvyun15n6lj5d"
-debug_dash = true
 debug_wall_jump = true
 debug_mute_music = true
 

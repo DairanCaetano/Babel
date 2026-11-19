@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_bc4"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_4_Charge_FX.png" id="2_bc4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_0"]
+atlas = ExtResource("2_bc4")
+region = Rect2(0, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_1"]
+atlas = ExtResource("2_bc4")
+region = Rect2(369, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_2"]
+atlas = ExtResource("2_bc4")
+region = Rect2(738, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_3"]
+atlas = ExtResource("2_bc4")
+region = Rect2(1107, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_4"]
+atlas = ExtResource("2_bc4")
+region = Rect2(1476, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_5"]
+atlas = ExtResource("2_bc4")
+region = Rect2(1845, 0, 369, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bc4_6"]
+atlas = ExtResource("2_bc4")
+region = Rect2(2214, 0, 369, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bc4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bc4_6")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="BerithAttack4ChargeFx" instance=ExtResource("1_bc4")]
+z_index = 3
+sprite_frames = SubResource("SpriteFrames_bc4")
+animation = &"default"

@@ -25,6 +25,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41r3g"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
@@ -38,6 +39,7 @@ size = Vector2(103, 37)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ac8fn"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
@@ -48,6 +50,7 @@ shader_parameter/fire_intensity = 0.4
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s3jwp"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
@@ -58,6 +61,7 @@ shader_parameter/fire_intensity = 0.4
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lglrs"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
@@ -68,6 +72,7 @@ shader_parameter/fire_intensity = 0.4
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_31l5p"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
@@ -78,6 +83,7 @@ shader_parameter/fire_intensity = 0.4
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8wn5k"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0

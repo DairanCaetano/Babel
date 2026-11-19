@@ -1,9 +1,10 @@
-[gd_scene load_steps=25 format=3 uid="uid://4nb825ugwl7i"]
+[gd_scene load_steps=27 format=3 uid="uid://4nb825ugwl7i"]
 
 [ext_resource type="Texture2D" uid="uid://cjudd1v3af48w" path="res://sprites/Enemies/Serpopardo/Serpopardo.png" id="1_o3p1i"]
 [ext_resource type="Script" path="res://Scripts/Enemies/serpopardo.gd" id="1_w63bc"]
 [ext_resource type="Texture2D" uid="uid://cmhn84pr6mtcn" path="res://sprites/Enemies/Serpopardo/Serpopardo_Neck.png" id="2_kcky2"]
 [ext_resource type="Texture2D" uid="uid://c025umaoti862" path="res://sprites/Enemies/Serpopardo/Serpopardo_Face.png" id="3_rt8rc"]
+[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="90_blink"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_15xmm"]
 radius = 23.0
@@ -381,6 +382,11 @@ height = 72.0
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mabto"]
 size = Vector2(26, 53)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blinkrb"]
+resource_local_to_scene = true
+shader = ExtResource("90_blink")
+shader_parameter/blink_style = 1
+
 [node name="Serpopardo" type="CharacterBody2D" node_paths=PackedStringArray("_anim", "_blood_particles", "_collision", "_detection_area", "_hurtbox_body", "_attack_area", "_head_hurtbox", "_head_damage_area", "_atk2_fx_marker")]
 z_index = 1
 collision_layer = 72
@@ -398,6 +404,7 @@ _atk2_fx_marker = NodePath("Atk2_Fx")
 _knockback_speed = 0.0
 
 [node name="Body" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 texture = ExtResource("1_o3p1i")
 hframes = 16
 
@@ -407,26 +414,32 @@ rotation = 1.5708
 shape = SubResource("CapsuleShape2D_15xmm")
 
 [node name="Neck_1" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-33, 11)
 texture = ExtResource("2_kcky2")
 
 [node name="Neck_2" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-44, -2)
 texture = ExtResource("2_kcky2")
 
 [node name="Neck_3" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-49, -16)
 texture = ExtResource("2_kcky2")
 
 [node name="Neck_4" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-44, -29)
 texture = ExtResource("2_kcky2")
 
 [node name="Neck_5" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-54, -42)
 texture = ExtResource("2_kcky2")
 
 [node name="Head" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_blinkrb")
 position = Vector2(-48, 24)
 texture = ExtResource("3_rt8rc")
 hframes = 4

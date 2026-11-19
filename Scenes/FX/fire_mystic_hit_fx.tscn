@@ -1,0 +1,12 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bu0sf5kli7xeo" path="res://Scenes/FX/fire_mystic_effect.tscn" id="1_fmh"]
+[ext_resource type="Script" path="res://Scripts/FX/mini_explosion_fx.gd" id="2_fmh"]
+[ext_resource type="AudioStream" uid="uid://b5db35iqadw0a" path="res://Sound/SFX/EnemiesSound/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg" id="3_fmh"]
+
+[node name="FireMysticHitFx" instance=ExtResource("1_fmh")]
+z_index = 6
+script = ExtResource("2_fmh")
+sound = ExtResource("3_fmh")
+pitch_min = 0.95
+pitch_max = 1.05

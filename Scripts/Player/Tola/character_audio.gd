@@ -230,9 +230,18 @@ func play_attack_hit() -> void:
 	if attack_hit_audio:
 		attack_hit_audio.play()
 
-func play_attack_hit_object() -> void:
-	"""Som de impacto em objetos destrutíveis"""
+var _hit_object_base_db: float = 0.0
+var _hit_object_base_saved: bool = false
+
+func play_attack_hit_object(volume_offset_db: float = 0.0) -> void:
+	"""Som de impacto em objetos destrutíveis.
+	volume_offset_db: ajuste vindo do objeto atingido (ex.: projéteis pedem o som mais baixo
+	para o som da destruição deles ficar em destaque)."""
 	if attack_hit_object_audio:
+		if not _hit_object_base_saved:
+			_hit_object_base_db = attack_hit_object_audio.volume_db
+			_hit_object_base_saved = true
+		attack_hit_object_audio.volume_db = _hit_object_base_db + volume_offset_db
 		attack_hit_object_audio.play()
 
 func play_attack_voice() -> void:

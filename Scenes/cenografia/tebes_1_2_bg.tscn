@@ -1,48 +1,45 @@
 [gd_scene format=3 uid="uid://tb12bgpx4lay"]
 
-[ext_resource type="Texture2D" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_BG.png" id="1_bg"]
-[ext_resource type="Texture2D" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_1.png" id="2_rochas_1"]
-[ext_resource type="Texture2D" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_2.png" id="3_rochas_2"]
-[ext_resource type="Texture2D" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_3.png" id="4_rochas_3"]
+[ext_resource type="Texture2D" uid="uid://8uou640k18yd" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_BG.png" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://c2wex33hnyxxm" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_1.png" id="2_rochas_1"]
+[ext_resource type="Texture2D" uid="uid://uimjj85cj28g" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_2.png" id="3_rochas_2"]
+[ext_resource type="Texture2D" uid="uid://cjoec5y7vnv8l" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_1_2_Bg/Tebes_1_2_BG_ROCHAS_3.png" id="4_rochas_3"]
 
-[node name="Tebes_1_2_BG" type="ParallaxBackground"]
+[node name="Tebes_1_2_BG" type="ParallaxBackground" unique_id=293156316]
 
-[node name="BG" type="ParallaxLayer" parent="."]
+[node name="BG" type="ParallaxLayer" parent="." unique_id=1533146203]
 motion_scale = Vector2(0.05, 0.05)
 motion_mirroring = Vector2(480, 270)
 
-[node name="Texture" type="TextureRect" parent="BG"]
+[node name="Texture" type="TextureRect" parent="BG" unique_id=1719676106]
 offset_right = 480.0
 offset_bottom = 270.0
 texture = ExtResource("1_bg")
-stretch_mode = 0
 
-[node name="Rochas_1" type="ParallaxLayer" parent="."]
+[node name="Rochas_1" type="ParallaxLayer" parent="." unique_id=336463417]
 motion_scale = Vector2(0.15, 0.15)
 motion_mirroring = Vector2(480, 270)
 
-[node name="Texture" type="TextureRect" parent="Rochas_1"]
+[node name="Texture" type="TextureRect" parent="Rochas_1" unique_id=37771173]
 offset_right = 480.0
 offset_bottom = 270.0
 texture = ExtResource("2_rochas_1")
-stretch_mode = 0
 
-[node name="Rochas_2" type="ParallaxLayer" parent="."]
+[node name="Rochas_2" type="ParallaxLayer" parent="." unique_id=543983817]
 motion_scale = Vector2(0.3, 0.3)
 motion_mirroring = Vector2(480, 270)
 
-[node name="Texture" type="TextureRect" parent="Rochas_2"]
+[node name="Texture" type="TextureRect" parent="Rochas_2" unique_id=549981360]
 offset_right = 480.0
 offset_bottom = 270.0
 texture = ExtResource("3_rochas_2")
-stretch_mode = 0
 
-[node name="Rochas_3" type="ParallaxLayer" parent="."]
+[node name="Rochas_3" type="ParallaxLayer" parent="." unique_id=944079194]
+visible = false
 motion_scale = Vector2(0.45, 0.45)
 motion_mirroring = Vector2(480, 270)
 
-[node name="Texture" type="TextureRect" parent="Rochas_3"]
+[node name="Texture" type="TextureRect" parent="Rochas_3" unique_id=470643642]
 offset_right = 480.0
 offset_bottom = 270.0
 texture = ExtResource("4_rochas_3")
-stretch_mode = 0

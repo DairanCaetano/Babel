@@ -1,0 +1,42 @@
+[gd_scene format=4 uid="uid://uj1p35wp1nbqh"]
+
+[ext_resource type="PackedScene" uid="uid://ccouueqg3d8hg" path="res://Scenes/Fases/base_level.tscn" id="1_base"]
+[ext_resource type="Script" path="res://Scripts/Fases/santuario_1_3.gd" id="2_script"]
+[ext_resource type="TileSet" path="res://Scenes/Fases/Santuario/santuario_terrain.tres" id="3_tiles"]
+[ext_resource type="PackedScene" uid="uid://clq0s71vag4rt" path="res://Scenes/Base/camera_zone.tscn" id="4_zone"]
+[ext_resource type="PackedScene" uid="uid://330sc06d11o6" path="res://Scenes/Fases/level_transition.tscn" id="5_trans"]
+[ext_resource type="PackedScene" uid="uid://30nud0ru6jo2r" path="res://Scenes/cenografia/santuario_bg.tscn" id="6_bg"]
+
+[sub_resource type="RectangleShape2D" id="Shape_zone1"]
+size = Vector2(480, 270)
+
+[node name="Santuario_1_3" unique_id=1110712976 instance=ExtResource("1_base")]
+script = ExtResource("2_script")
+level_name = "santuario_1_3"
+level_music_track = "santuario_corredor"
+
+[node name="Chão" parent="Terrain" parent_id_path=PackedInt32Array(2135714214) index="0" unique_id=1379951385]
+tile_set = ExtResource("3_tiles")
+tile_map_data = PackedByteArray("AAAAAA4AAAAEAAEAAAAAAA8AAAAEAAIAAAAAABAAAAAEAAMAAAABAA4AAAAEAAEAAAABAA8AAAAEAAIAAAABABAAAAAEAAMAAAACAA4AAAAEAAEAAAACAA8AAAAEAAIAAAACABAAAAAEAAMAAAADAA4AAAAEAAEAAAADAA8AAAAEAAIAAAADABAAAAAEAAMAAAAEAA4AAAAEAAEAAAAEAA8AAAAEAAIAAAAEABAAAAAEAAMAAAAFAA4AAAAEAAEAAAAFAA8AAAAEAAIAAAAFABAAAAAEAAMAAAAGAA4AAAAEAAEAAAAGAA8AAAAEAAIAAAAGABAAAAAEAAMAAAAHAA4AAAAEAAEAAAAHAA8AAAAEAAIAAAAHABAAAAAEAAMAAAAIAA4AAAAEAAEAAAAIAA8AAAAEAAIAAAAIABAAAAAEAAMAAAAJAA4AAAAEAAEAAAAJAA8AAAAEAAIAAAAJABAAAAAEAAMAAAAKAA4AAAAEAAEAAAAKAA8AAAAEAAIAAAAKABAAAAAEAAMAAAALAA4AAAAEAAEAAAALAA8AAAAEAAIAAAALABAAAAAEAAMAAAAMAA4AAAAEAAEAAAAMAA8AAAAEAAIAAAAMABAAAAAEAAMAAAANAA4AAAAEAAEAAAANAA8AAAAEAAIAAAANABAAAAAEAAMAAAAOAA4AAAAEAAEAAAAOAA8AAAAEAAIAAAAOABAAAAAEAAMAAAAPAA4AAAAEAAEAAAAPAA8AAAAEAAIAAAAPABAAAAAEAAMAAAAQAA4AAAAEAAEAAAAQAA8AAAAEAAIAAAAQABAAAAAEAAMAAAARAA4AAAAEAAEAAAARAA8AAAAEAAIAAAARABAAAAAEAAMAAAASAA4AAAAEAAEAAAASAA8AAAAEAAIAAAASABAAAAAEAAMAAAATAA4AAAAEAAEAAAATAA8AAAAEAAIAAAATABAAAAAEAAMAAAAUAA4AAAAEAAEAAAAUAA8AAAAEAAIAAAAUABAAAAAEAAMAAAAVAA4AAAAEAAEAAAAVAA8AAAAEAAIAAAAVABAAAAAEAAMAAAAWAA4AAAAEAAEAAAAWAA8AAAAEAAIAAAAWABAAAAAEAAMAAAAXAA4AAAAEAAEAAAAXAA8AAAAEAAIAAAAXABAAAAAEAAMAAAAYAA4AAAAEAAEAAAAYAA8AAAAEAAIAAAAYABAAAAAEAAMAAAAZAA4AAAAEAAEAAAAZAA8AAAAEAAIAAAAZABAAAAAEAAMAAAAaAA4AAAAEAAEAAAAaAA8AAAAEAAIAAAAaABAAAAAEAAMAAAAbAA4AAAAEAAEAAAAbAA8AAAAEAAIAAAAbABAAAAAEAAMAAAAcAA4AAAAEAAEAAAAcAA8AAAAEAAIAAAAcABAAAAAEAAMAAAAdAA4AAAAEAAEAAAAdAA8AAAAEAAIAAAAdABAAAAAEAAMAAAA=")
+
+[node name="SantuarioZone1" parent="CameraZones" parent_id_path=PackedInt32Array(1553731536) index="0" unique_id=757585944 instance=ExtResource("4_zone")]
+
+[node name="Collision" type="CollisionShape2D" parent="CameraZones/SantuarioZone1" index="0" unique_id=545239608]
+position = Vector2(240, 135)
+shape = SubResource("Shape_zone1")
+
+[node name="TransitionRight" parent="Transitions" parent_id_path=PackedInt32Array(1990016997) index="0" unique_id=256337646 instance=ExtResource("5_trans")]
+position = Vector2(486, 180)
+target_level = "res://Scenes/Fases/Santuario/santuario_1_2.tscn"
+target_spawn = "SpawnLeft"
+
+[node name="SpawnLeft" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="0" unique_id=857999190]
+position = Vector2(40, 200)
+
+[node name="SpawnRight" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="1" unique_id=1806210883]
+position = Vector2(440, 200)
+
+[node name="SpawnDefault" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=1693397203]
+position = Vector2(240, 200)
+
+[node name="Santuario_BG" parent="." unique_id=2097382435 instance=ExtResource("6_bg")]

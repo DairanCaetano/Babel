@@ -1,0 +1,84 @@
+[gd_scene format=3 uid="uid://mdir814tcelg"]
+
+[ext_resource type="PackedScene" uid="uid://b0x26bf42d111" path="res://Scenes/Projectile/projectile_component.tscn" id="1_pb4"]
+[ext_resource type="Script" uid="uid://0uxrijdfmk14" path="res://Scripts/Projectiles/projectile_berith_4.gd" id="2_pb4"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Berite_Atk_4_Vanish_DSGNImpt_EXPLOSION-Exploding Movement_HY_PC-003.ogg" id="7_pb4"]
+[ext_resource type="Texture2D" uid="uid://xkstjtwk5sha" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_4_FX_v01.png" id="3_pb4"]
+[ext_resource type="PackedScene" path="res://Scenes/FX/berith_attack_4_explosion_fx.tscn" id="4_pb4"]
+[ext_resource type="AudioStream" uid="uid://cvbfrvhwwxrn1" path="res://Sound/SFX/EnemiesSound/Berite_Atk_4_Flame_2_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg" id="5_pb4"]
+[ext_resource type="PackedScene" path="res://Scenes/FX/berith_attack_4_vanish_fx.tscn" id="6_pb4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_maahr"]
+atlas = ExtResource("3_pb4")
+region = Rect2(0, 0, 60, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w2816"]
+atlas = ExtResource("3_pb4")
+region = Rect2(60, 0, 60, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mn322"]
+atlas = ExtResource("3_pb4")
+region = Rect2(120, 0, 60, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8q2cd"]
+atlas = ExtResource("3_pb4")
+region = Rect2(180, 0, 60, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fbeya"]
+atlas = ExtResource("3_pb4")
+region = Rect2(240, 0, 60, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pb4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_maahr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w2816")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mn322")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8q2cd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fbeya")
+}],
+"loop": 1,
+"name": &"Active",
+"speed": 10.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pb4"]
+radius = 14.035668
+
+[node name="ProjectileBerith4" unique_id=223306925 node_paths=PackedStringArray("texture") groups=["destructible_objects"] instance=ExtResource("1_pb4")]
+z_index = 5
+collision_layer = 8
+collision_mask = 5
+script = ExtResource("2_pb4")
+texture = NodePath("Texture")
+attack_damage = 10
+lifetime = 4.0
+art_faces_left = true
+hit_fx_scene = ExtResource("4_pb4")
+destroy_fx_scene = ExtResource("6_pb4")
+spawn_sound = ExtResource("5_pb4")
+spawn_sound_volume_db = 0.0
+spawn_pitch_min = 0.9
+spawn_pitch_max = 1.1
+destroy_sound = ExtResource("7_pb4")
+destroy_sound_volume_db = 4.0
+_move_speed = 180.0
+
+[node name="Texture" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_pb4")
+animation = &"Active"
+autoplay = "Active"
+offset = Vector2(6, -3)
+
+[node name="Collision" parent="." index="1"]
+shape = SubResource("CircleShape2D_pb4")
+debug_color = Color(0.973341, 0, 0.434678, 0.42)

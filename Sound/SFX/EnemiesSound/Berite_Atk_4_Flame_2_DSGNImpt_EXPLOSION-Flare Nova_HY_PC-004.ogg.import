@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://cvbfrvhwwxrn1"
+path="res://.godot/imported/Berite_Atk_4_Flame_2_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg-58b26af20f70c178a595863a2f36b909.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Berite_Atk_4_Flame_2_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg"
+dest_files=["res://.godot/imported/Berite_Atk_4_Flame_2_DSGNImpt_EXPLOSION-Flare Nova_HY_PC-004.ogg-58b26af20f70c178a595863a2f36b909.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

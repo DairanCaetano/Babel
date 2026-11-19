@@ -48,6 +48,8 @@ enum State { CLOSED, OPENING, WALKING, CLOSING, LOCKED, VANISHING }
 @export_category("Audio")
 ## Som ambiente da sala deste chefe (cada instância da porta pode ter o seu)
 @export var boss_room_sound: AudioStream
+## Ajuste de volume (dB) do som ambiente só nesta porta. -6 dB ≈ metade do volume
+@export var boss_room_volume_offset_db: float = 0.0
 @export var open_gate_audio: AudioStreamPlayer
 @export var close_gate_audio: AudioStreamPlayer
 @export var boss_area_audio: AudioStreamPlayer2D
@@ -113,6 +115,7 @@ func _ready() -> void:
 		if boss_room_sound:
 			boss_area_audio.stream = boss_room_sound
 		boss_area_audio.max_distance = max_audio_distance
+		boss_area_audio.volume_db += boss_room_volume_offset_db
 		if boss_area_audio.stream:
 			boss_area_audio.play()
 

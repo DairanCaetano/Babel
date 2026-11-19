@@ -20,6 +20,11 @@ class_name CharacterCamera
 @export var max_camera_offset_up: float = 80.0
 @export var max_camera_offset_down: float = -60.0
 
+# ===== PUXÃO PARA O CENTRO DA SALA (definido pela CameraZone) =====
+@export_group("Center Pull")
+## Velocidade (por segundo) com que o puxão entra e sai ao trocar de zona.
+@export var center_pull_blend_speed: float = 1.5
+
 # ===== REFERÊNCIAS =====
 var _subject: Node2D = null
 
@@ -27,6 +32,10 @@ var _subject: Node2D = null
 var target_camera_offset: float = 0.0
 var current_camera_offset: float = 0.0
 var look_ahead_offset: Vector2 = Vector2.ZERO
+var _center_pull_x: float = 0.0
+var _center_pull_target: float = 0.0
+var _center_pull_current: float = 0.0
+var _center_pull_max_px: float = 150.0
 
 # ===== SHAKE =====
 var rng = RandomNumberGenerator.new()
@@ -134,6 +143,8 @@ func camera_follow(delta: float) -> void:
 	
 	# ✅ Posição base (subject + offset base)
 	var target_position = _subject.global_position + base_offset
+	# Puxão para o centro: vai na posição-alvo (antes dos limites), não no offset
+	target_position.x += _get_center_pull_offset(delta)
 	
 	if follow_smoothness > 0:
 		global_position = global_position.lerp(target_position, follow_smoothness * delta)
@@ -169,6 +180,23 @@ func camera_panning() -> void:
 	
 	var tween := create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN_OUT)
 	tween.tween_property(self, "global_position", Vector2(target_x, target_y), 0.14)
+
+func set_center_pull(center_x: float, strength: float, max_px: float) -> void:
+	"""Chamado pela CameraZone ao ativar. Força 0 desliga suavemente o puxão atual."""
+	_center_pull_target = clampf(strength, 0.0, 1.0)
+	if strength > 0.0:
+		_center_pull_x = center_x
+		_center_pull_max_px = max_px
+	if debug_logs: print("🎯 Center pull: centro=", center_x, " força=", strength, " max=", max_px)
+
+func _get_center_pull_offset(delta: float) -> float:
+	_center_pull_current = move_toward(_center_pull_current, _center_pull_target, center_pull_blend_speed * delta)
+	if _center_pull_current <= 0.0:
+		return 0.0
+	var pull := (_center_pull_x - _subject.global_position.x) * _center_pull_current
+	# Trava: a Tola nunca fica a mais de max_px do centro da tela, contando o look-ahead
+	var total := clampf(pull + look_ahead_offset.x, -_center_pull_max_px, _center_pull_max_px)
+	return total - look_ahead_offset.x
 
 func shake_camera(shake_force: float, shake_duration: float) -> void:
 	duration = shake_duration

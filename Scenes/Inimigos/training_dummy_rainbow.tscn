@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://tdrainbow01x"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/training_dummy_rainbow.gd" id="1_rdummy"]
+[ext_resource type="Shader" path="res://Shaders/hit_rainbow.gdshader" id="2_rshader"]
+[ext_resource type="Texture2D" uid="uid://d0geg7pelbols" path="res://sprites/Enemies/Estátua Guardião Rá/Estátua_Rá_Idle.png" id="3_rtex"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rainbow"]
+resource_local_to_scene = true
+shader = ExtResource("2_rshader")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(60, 100)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(70, 104)
+
+[node name="TrainingDummyRainbow" type="StaticBody2D" node_paths=PackedStringArray("_sprite", "_info_label")]
+collision_layer = 64
+collision_mask = 0
+script = ExtResource("1_rdummy")
+_sprite = NodePath("Sprite")
+_info_label = NodePath("InfoLabel")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_rainbow")
+texture = ExtResource("3_rtex")
+region_enabled = true
+region_rect = Rect2(0, 0, 120, 110)
+position = Vector2(11, 0)
+
+[node name="Collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="Hurtbox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+collision_layer = 8
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurt")
+
+[node name="InfoLabel" type="Label" parent="."]
+offset_left = -80.0
+offset_top = -110.0
+offset_right = 80.0
+offset_bottom = -60.0
+horizontal_alignment = 1
+vertical_alignment = 2

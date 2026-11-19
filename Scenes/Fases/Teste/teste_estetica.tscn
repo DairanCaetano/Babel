@@ -784,7 +784,7 @@ position = Vector2(480, 192)
 shape = SubResource("RectangleShape2D_zona")
 
 [node name="SpawnDefault" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="0" unique_id=2140371127]
-position = Vector2(264, 272)
+position = Vector2(233, 272)
 
 [node name="ParedeFalsa" type="TileMapLayer" parent="SecretAreas" parent_id_path=PackedInt32Array(1431849492) index="0" unique_id=143091481]
 z_index = 1
@@ -817,8 +817,8 @@ material_parede = ExtResource("wall_light_tebes")
 
 [node name="BgNoise" type="Node" parent="." index="15" unique_id=1944782084 node_paths=PackedStringArray("alvo")]
 script = ExtResource("aplicar_material_script")
-alvo = NodePath("../Tebes_BG")
 material_alvo = ExtResource("bg_noise_tebes")
+alvo = NodePath("../Tebes_BG")
 
 [node name="LuzErrante" type="PointLight2D" parent="." index="16" unique_id=152821032 node_paths=PackedStringArray("iluminar")]
 color = Color(1, 0.86, 0.62, 1)

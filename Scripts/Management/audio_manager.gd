@@ -40,6 +40,14 @@ const MUSIC_CONFIG := {
 		"loop": true, 
 		"fade_in": 2.0 
 		},
+	"santuario_corredor": {
+		"loop": true,
+		"fade_in": 2.0,
+	},
+	"santuario_1_2": {
+		"loop": true,
+		"fade_in": 2.0,
+	},
 }
 
 func _ready() -> void:

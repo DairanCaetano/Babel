@@ -21,6 +21,10 @@ class_name CameraZone
 @export var camera_zoom: Vector2 = Vector2(1, 1)
 @export var follow_player: bool = true
 @export var fixed_position: Vector2 = Vector2.ZERO
+## Puxa a câmera para o centro horizontal da sala (0 = desligado, 1 = câmera fixa no centro).
+@export_range(0.0, 1.0, 0.05) var center_pull: float = 0.0
+## Distância máxima (px) entre a Tola e o centro da tela causada pelo puxão (conta o look-ahead).
+@export var center_pull_max_px: float = 150.0
 
 @export_category("Transition")
 @export var transition_duration: float = 0.5
@@ -168,6 +172,10 @@ func activate_zone() -> void:
 		return
 	
 	var camera: Camera2D = game_main.camera
+	
+	# Puxão para o centro da sala (zonas com 0 desligam suavemente o puxão anterior)
+	if camera.has_method("set_center_pull"):
+		camera.set_center_pull((limit_left + limit_right) / 2.0, center_pull, center_pull_max_px)
 	
 	if tween and tween.is_running():
 		tween.kill()

@@ -1,0 +1,99 @@
+[gd_scene format=3 uid="uid://fm6dt50sa8vo5"]
+
+[ext_resource type="PackedScene" uid="uid://bls514774qst8" path="res://Scenes/Interactables/interactable_component.tscn" id="1_comp"]
+[ext_resource type="Texture2D" uid="uid://dvulw4k8g5elu" path="res://sprites/Environment/EGITO/MAPA_1_EGITO_Interativos_v01.png" id="2_sheet"]
+[ext_resource type="Texture2D" uid="uid://gt4yborl8sqh" path="res://sprites/FX/POEIRA/INTERACTABLES FX/Interativos_Destruição_FX_v01.png" id="3_fx"]
+[ext_resource type="AudioStream" uid="uid://d1n2wn0ml8vw8" path="res://Sound/SFX/InteractablesSound/Ceramic Pot Breaking 2.ogg" id="4_snd"]
+[ext_resource type="Script" uid="uid://cka3c5qo0wmp4" path="res://Scripts/Interactables/jarro_1.gd" id="5_jar"]
+
+[sub_resource type="RectangleShape2D" id="Shape_hit"]
+size = Vector2(12, 25)
+
+[sub_resource type="RectangleShape2D" id="Shape_body"]
+size = Vector2(10, 23)
+
+[sub_resource type="RectangleShape2D" id="Shape_interact"]
+size = Vector2(70, 14)
+
+[sub_resource type="AtlasTexture" id="Atlas_idle"]
+atlas = ExtResource("2_sheet")
+region = Rect2(224, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_fx0"]
+atlas = ExtResource("3_fx")
+region = Rect2(0, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_fx1"]
+atlas = ExtResource("3_fx")
+region = Rect2(32, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_fx2"]
+atlas = ExtResource("3_fx")
+region = Rect2(64, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_fx3"]
+atlas = ExtResource("3_fx")
+region = Rect2(96, 0, 32, 48)
+
+[sub_resource type="AtlasTexture" id="Atlas_fx4"]
+atlas = ExtResource("3_fx")
+region = Rect2(128, 0, 32, 48)
+
+[sub_resource type="SpriteFrames" id="Frames"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_fx0")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_fx1")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_fx2")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_fx3")
+},
+{
+"duration": 1.0,
+"texture": SubResource("Atlas_fx4")
+}],
+"loop": false,
+"name": &"Destroyed",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_idle")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[node name="BreakableEgito_Canopic01" instance=ExtResource("1_comp")]
+collision_mask = 7
+script = ExtResource("5_jar")
+
+[node name="Collision" parent="." index="0"]
+position = Vector2(0, 8.5)
+shape = SubResource("Shape_hit")
+
+[node name="Collision" parent="Body" index="0"]
+position = Vector2(0, 8.5)
+shape = SubResource("Shape_body")
+
+[node name="Texture" parent="." index="2"]
+sprite_frames = SubResource("Frames")
+animation = &"Idle"
+autoplay = "Idle"
+
+[node name="BrokenAudio" parent="." index="3"]
+stream = ExtResource("4_snd")
+
+[node name="Collision" parent="InteractionArea" index="0"]
+position = Vector2(0, 14)
+shape = SubResource("Shape_interact")

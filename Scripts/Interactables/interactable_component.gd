@@ -17,6 +17,8 @@ var _is_destroyed: bool = false
 @export var _is_static: bool = true
 @export var _is_interactable: bool = true
 @export var _is_special: bool = false
+## Ao quebrar, troca para a animação "Broken" e fica na cena (sem colisão), em vez de sumir.
+@export var _keep_broken: bool = false
 
 @export_category("Shards")
 @export var _interactable_pieces: Array
@@ -91,7 +93,10 @@ func _ready() -> void:
 	
 	if _should_persist and _unique_id != "":
 		if global.is_object_destroyed(_unique_id):
-			queue_free()
+			if _keep_broken:
+				_set_broken_state()
+			else:
+				queue_free()
 
 func _get_interactable_items() -> Dictionary:
 	return {}
@@ -144,7 +149,10 @@ func _interact(_area) -> void:
 	_health -= _damage
 	if _health <= 0:
 		_is_destroyed = true
-		_sprite.play("Destroyed")
+		if _keep_broken:
+			_sprite.play("Broken")
+		else:
+			_sprite.play("Destroyed")
 		# ✅ Deferred: estamos dentro de um sinal de física (area_entered),
 		# e adicionar RigidBody2D aqui gera erro de "flushing queries"
 		call_deferred("_destroyed")
@@ -197,7 +205,25 @@ func _destroyed() -> void:
 	if _broken_audio:
 		_broken_audio.play()
 	
+	if _keep_broken:
+		_set_broken_state()
+		return
+	
 	queue_free()  # sem await do áudio — ele continua tocando independente
+
+func _set_broken_state() -> void:
+	"""Versão quebrada que fica na cena: só decoração, sem colisão nem golpes."""
+	_is_destroyed = true
+	_is_interactable = false
+	if _sprite and _sprite.sprite_frames and _sprite.sprite_frames.has_animation("Broken"):
+		_sprite.play("Broken")
+	if _body_collision:
+		_body_collision.set_deferred("disabled", true)
+	if _interaction_area:
+		_interaction_area.set_deferred("disabled", true)
+	var hit_collision := get_node_or_null("Collision") as CollisionShape2D
+	if hit_collision:
+		hit_collision.set_deferred("disabled", true)
 
 # ✅ NOVA FUNÇÃO: Aplicar física aos fragmentos
 func _apply_shard_physics(shard: Node) -> void:

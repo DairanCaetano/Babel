@@ -1,0 +1,66 @@
+[gd_scene format=3]
+
+[ext_resource type="PackedScene" uid="uid://bmbowctcowdx7" path="res://Scenes/FX/base_effect.tscn" id="1_bx4"]
+[ext_resource type="Texture2D" path="res://sprites/Bosses/Baal Berith/Baal_Berith_Attack_4_Explosion_FX_v01.png" id="2_bx4"]
+[ext_resource type="Script" path="res://Scripts/FX/mini_explosion_fx.gd" id="3_bx4"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Berite_Atk_4_Exp_DSGNImpt_EXPLOSION-Cruncher_HY_PC-002.ogg" id="4_bx4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_0"]
+atlas = ExtResource("2_bx4")
+region = Rect2(0, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_1"]
+atlas = ExtResource("2_bx4")
+region = Rect2(60, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_2"]
+atlas = ExtResource("2_bx4")
+region = Rect2(120, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_3"]
+atlas = ExtResource("2_bx4")
+region = Rect2(180, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_4"]
+atlas = ExtResource("2_bx4")
+region = Rect2(240, 0, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bx4_5"]
+atlas = ExtResource("2_bx4")
+region = Rect2(300, 0, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bx4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bx4_5")
+}],
+"loop": false,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="BerithAttack4ExplosionFx" instance=ExtResource("1_bx4")]
+z_index = 6
+sprite_frames = SubResource("SpriteFrames_bx4")
+animation = &"default"
+script = ExtResource("3_bx4")
+sound = ExtResource("4_bx4")
+pitch_min = 0.95
+pitch_max = 1.05
+volume_db = 4.0

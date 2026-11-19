@@ -6,13 +6,17 @@ extends RefCounted
 ##
 ## Regras:
 ##  - PAREDE  = TileMapLayer cujo TileSet tem física  +  tudo dentro de "SecretAreas"
-##  - DECORAÇÃO = TileMapLayer sem física (fora de "SecretAreas")
+##              + qualquer tilemap no grupo "estetica_parede"
+##  - DECORAÇÃO = TileMapLayer sem física (fora de "SecretAreas" e fora de "estetica_parede")
 ##  - BG (ParallaxBackground) e outras CanvasLayer ficam sempre de fora.
 
 const PASTA_SECRETA: String = "SecretAreas"
 ## Tilemap neste grupo é SEMPRE decoração (nunca parede), mesmo dentro de
 ## SecretAreas ou com material próprio (que é substituído pelo noise do fundo).
 const GRUPO_DECORACAO: String = "estetica_decoracao"
+## Tilemap neste grupo é SEMPRE parede (recebe o efeito de chão/parede), mesmo
+## SEM física e sem colisão nenhuma (ex.: raízes da sala do chefe no Tebes_1_4).
+const GRUPO_PAREDE: String = "estetica_parede"
 
 ## A fase (BaseLevel) que contém este nó.
 static func raiz_fase(no: Node) -> Node:
@@ -65,14 +69,14 @@ static func tilemaps_de_parede(raiz: Node, excluir: Array[Node] = []) -> Array[T
 	for c in listar_tilemaps(raiz):
 		if excluido(c, excluir) or c.is_in_group(GRUPO_DECORACAO):
 			continue
-		if tem_fisica(c) or em_area_secreta(c, raiz):
+		if tem_fisica(c) or em_area_secreta(c, raiz) or c.is_in_group(GRUPO_PAREDE):
 			saida.append(c)
 	return saida
 
 static func tilemaps_de_decoracao(raiz: Node, excluir: Array[Node] = []) -> Array[TileMapLayer]:
 	var saida: Array[TileMapLayer] = []
 	for c in listar_tilemaps(raiz):
-		if excluido(c, excluir):
+		if excluido(c, excluir) or c.is_in_group(GRUPO_PAREDE):
 			continue
 		if c.is_in_group(GRUPO_DECORACAO) or (not tem_fisica(c) and not em_area_secreta(c, raiz)):
 			saida.append(c)

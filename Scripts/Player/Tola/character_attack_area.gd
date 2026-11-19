@@ -44,7 +44,11 @@ func _on_area_entered(_area: Area2D) -> void:
 			Vector2(36, 0), global_position, _character_texture.flip_h
 		)
 		if _entity and _entity._audio:
-			_entity._audio.play_attack_hit_object()
+			# O objeto pode pedir o som de impacto do Tola mais baixo
+			var _hit_vol_offset: float = 0.0
+			if "player_hit_sound_offset_db" in _area:
+				_hit_vol_offset = _area.player_hit_sound_offset_db
+			_entity._audio.play_attack_hit_object(_hit_vol_offset)
 		ControllerVibration.vibrate_light()
 		return
 	# ✅ HURTBOX DO INIMIGO

@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://rb747cpd27g6"
+path="res://.godot/imported/Berite_Atk_4_Vanish_DSGNImpt_EXPLOSION-Exploding Movement_HY_PC-003.ogg-aac61e2cbebe10d17d06276f37589058.oggvorbisstr"
+
+[deps]
+
+source_file="res://Sound/SFX/EnemiesSound/Berite_Atk_4_Vanish_DSGNImpt_EXPLOSION-Exploding Movement_HY_PC-003.ogg"
+dest_files=["res://.godot/imported/Berite_Atk_4_Vanish_DSGNImpt_EXPLOSION-Exploding Movement_HY_PC-003.ogg-aac61e2cbebe10d17d06276f37589058.oggvorbisstr"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

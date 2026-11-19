@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://30nud0ru6jo2r"]
+
+[ext_resource type="Shader" path="res://Shaders/santuario_bg_julia.gdshader" id="1_shader"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_julia"]
+shader = ExtResource("1_shader")
+shader_parameter/color_theme = 0
+shader_parameter/aspect_ratio = 1.7778
+
+[node name="Santuario_BG" type="CanvasLayer" unique_id=193413096]
+layer = -10
+
+[node name="Padrao" type="ColorRect" parent="." unique_id=849662388]
+material = SubResource("ShaderMaterial_julia")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

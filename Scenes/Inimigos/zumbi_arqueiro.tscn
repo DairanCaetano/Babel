@@ -16,6 +16,7 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uw74t"]
 resource_local_to_scene = true
 shader = ExtResource("2_8w0f7")
+shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
