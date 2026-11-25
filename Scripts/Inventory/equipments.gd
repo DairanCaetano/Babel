@@ -94,7 +94,9 @@ func unequip(_type: String) -> void:
 		return
 	
 	if _type == "consumable":
-		global.inventory.add_item(_item_data)
+		# Pena de Azazel já está na grade (espelho): só sai do slot
+		if not (CollectablePotion.is_feather(_item_data) and global.inventory._find_feather_slot() != -1):
+			global.inventory.add_item(_item_data)
 	else:
 		_atributes_increased[_type] = {}
 	
@@ -115,8 +117,16 @@ func unequip(_type: String) -> void:
 
 func is_equipped(_item: Dictionary) -> bool:
 	"""True se este item da grade está equipado em algum slot."""
-	if _item.is_empty() or _item.get("type", "") == "consumable":
+	if _item.is_empty():
 		return false
+	if _item.get("type", "") == "consumable":
+		var _eq: Dictionary = _equipments_inventory.get("consumable", {})
+		if _eq.is_empty():
+			return false
+		# Pena de Azazel: cheia ou apagada é o mesmo item (a chave muda ao apagar)
+		if CollectablePotion.is_feather(_item) and CollectablePotion.is_feather(_eq):
+			return true
+		return _same_item(_item, _eq)
 	return find_equipped_slot(_item) != ""
 
 func find_equipped_slot(_item: Dictionary) -> String:
@@ -296,6 +306,9 @@ func use_consumable() -> void:
 		_get_amount_label(_consumable_slot).text = str(_equipments_inventory["consumable"]["amount"])
 	
 	_save_equipments_to_serialization()
+	# 🪶 Atualiza a pena da grade (mesmo dicionário: só redesenha usos/ícone)
+	if global.inventory and global.inventory.has_method("sync_feather_mirror"):
+		global.inventory.sync_feather_mirror()
 	equipment_changed.emit()
 
 func _save_equipments_to_serialization() -> void:

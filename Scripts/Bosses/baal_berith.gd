@@ -25,6 +25,9 @@ const SPAWNED_GROUP: String = "baal_berith_spawned"
 @export var attack_impact_area: Area2D
 @export var attack_impact_collision: CollisionShape2D
 @export var enemy_audio: BaalBerithAudio
+## Corpo sólido que o Tola não atravessa (camada 7, igual aos hazards do Egito).
+## Desligado quando o Baal morre.
+@export var player_blocker: StaticBody2D
 ## Partícula de carga da antecipação do Ataque 1 (liga na antecipação, desliga no disparo)
 @export var attack_1_charge_particles: GPUParticles2D
 
@@ -550,6 +553,10 @@ func _kill() -> void:
 	set_collision_mask_value(1, false)
 	set_collision_layer_value(9, true)
 	player_in_attack = null
+	
+	# Morto: deixa de ser barreira para o Tola
+	if player_blocker:
+		player_blocker.collision_layer = 0
 	
 	# SALVAR MORTE E EMITIR SIGNAL
 	if not _is_alive:

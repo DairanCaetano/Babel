@@ -122,6 +122,11 @@ func add_item(_item: Dictionary, _equip_directly: bool = false) -> void:
 	
 	print("📦 Adicionando item: ", _item_copy["name"], " | Equipar direto: ", _equip_directly)
 	
+	# 🪶 Pena de Azazel: soma os usos na pena equipada e mantém o espelho na grade
+	if CollectablePotion.is_feather(_item_copy) and global.ui_equipments:
+		_add_feather(_item_copy)
+		return
+	
 	match _item_copy["type"]:
 		"consumable":
 			var _equiped_item_data = global.ui_equipments._equipments_inventory["consumable"]
@@ -192,12 +197,15 @@ func update_item(_amount: int, _slot: int, _type: String) -> void:
 				_save_inventory_to_serialization()
 
 func remove_item(_slot_index: int) -> void:
-	_inventory_data[_slot_index].clear()
+	# Troca por um vazio em vez de .clear(): a Pena de Azazel da grade é o MESMO
+	# dicionário do slot equipado, e .clear() apagaria a equipada também.
+	_inventory_data[_slot_index] = {}
 	global.ui_inventory.update_slot(_slot_index, {})
 	_save_inventory_to_serialization()
 
 func equip_item(_slot: int, _toggle: bool = true) -> void:
-	"""Consumível: sai da grade e vai para o slot (como antes).
+	"""Pena de Azazel: fica na grade com a moldura (mesmo dicionário do slot).
+	Outros consumíveis: saem da grade e vão para o slot.
 	Arma/armadura/offhand: fica na grade com a moldura de equipado;
 	se já estiver equipado e _toggle = true, desequipa."""
 	if _inventory_data[_slot].is_empty():
@@ -207,6 +215,19 @@ func equip_item(_slot: int, _toggle: bool = true) -> void:
 	var item_to_equip = _inventory_data[_slot]
 	
 	if item_to_equip.get("type", "") == "consumable":
+		# 🪶 Pena de Azazel: fica na grade (moldura de equipado), igual às armas
+		if CollectablePotion.is_feather(item_to_equip):
+			if global.ui_equipments.is_equipped(item_to_equip):
+				if _toggle:
+					print("	⚙️ Desequipando: ", item_to_equip["name"])
+					global.ui_equipments.unequip("consumable")
+				return
+			print("	⚙️ Equipando: ", item_to_equip["name"])
+			global.ui_equipments.equip_item(item_to_equip)
+			sync_feather_mirror()
+			_save_inventory_to_serialization()
+			return
+		# Outros consumíveis (futuros): saem da grade e vão para o slot
 		print("	⚙️ Equipando: ", item_to_equip["name"])
 		_sync_subweapon_state(item_to_equip)
 		global.ui_equipments.equip_item(item_to_equip)
@@ -306,6 +327,7 @@ func ensure_equipped_in_inventory() -> void:
 				break
 		if not _placed:
 			print("	⚠️ Grade cheia: item equipado ", _item.get("name", ""), " não coube no inventário")
+	sync_feather_mirror()
 	if global.ui_inventory and global.ui_inventory.has_method("refresh_equipped_marks"):
 		global.ui_inventory.refresh_equipped_marks()
 
@@ -323,7 +345,7 @@ func clear_inventory() -> void:
 	"""Limpa todo o inventário antes de carregar um save"""
 	for _slot in _INVENTORY_SIZE:
 		if not _inventory_data[_slot].is_empty():
-			_inventory_data[_slot].clear()
+			_inventory_data[_slot] = {}
 			global.ui_inventory.update_slot(_slot, {})
 	
 	print("	🧹 Inventário limpo completamente")
@@ -378,8 +400,66 @@ func refill_max_potions() -> void:
 			
 			print("	✓ Pena de Azazel equipada recarregada")
 	
+	sync_feather_mirror()
 	_save_inventory_to_serialization()
 	print("✅ Recarga das Penas de Azazel concluída!")
+
+# ========== PENA DE AZAZEL NA GRADE (espelho do slot) ==========
+# Com a pena equipada, a grade guarda O MESMO dicionário do slot de consumível
+# (não uma cópia). Usar, apagar ou recarregar a pena muda os dois lugares juntos.
+
+func _find_feather_slot() -> int:
+	for _s in _inventory_data:
+		if CollectablePotion.is_feather(_inventory_data[_s]):
+			return _s
+	return -1
+
+func _add_feather(item: Dictionary) -> void:
+	var _equipped: Dictionary = global.ui_equipments._equipments_inventory.get("consumable", {})
+	if CollectablePotion.is_feather(_equipped):
+		# Já equipada: soma os usos (equip_item junta as penas)
+		global.ui_equipments.equip_item(item)
+	else:
+		var _s: int = _find_feather_slot()
+		if _s != -1:
+			# Pena desequipada na grade: junta os usos e equipa
+			var _merged: Dictionary = _inventory_data[_s].duplicate()
+			_merged["amount"] = int(_merged.get("amount", 0)) + int(item.get("amount", 1))
+			global.ui_equipments.equip_item(_merged)
+		else:
+			global.ui_equipments.equip_item(item)
+	sync_feather_mirror()
+	_save_inventory_to_serialization()
+
+func sync_feather_mirror() -> void:
+	"""Garante 1 pena na grade apontando para a pena equipada (mesmo dicionário)."""
+	if not global.ui_equipments or not global.ui_inventory:
+		return
+	var _equipped: Dictionary = global.ui_equipments._equipments_inventory.get("consumable", {})
+	if not CollectablePotion.is_feather(_equipped):
+		return
+	var _target: int = -1
+	for _s in _INVENTORY_SIZE:
+		if not CollectablePotion.is_feather(_inventory_data[_s]):
+			continue
+		if _target == -1:
+			_target = _s
+		else:
+			# Pena repetida na grade (save antigo): fica só uma
+			_inventory_data[_s] = {}
+			global.ui_inventory.update_slot(_s, {})
+	if _target == -1:
+		for _s in _INVENTORY_SIZE:
+			if _inventory_data[_s].is_empty():
+				_target = _s
+				break
+	if _target == -1:
+		print("	⚠️ Grade cheia: Pena de Azazel não coube na grade")
+		return
+	_inventory_data[_target] = _equipped
+	global.ui_inventory.update_slot(_target, _equipped)
+	if global.ui_inventory.has_method("refresh_equipped_marks"):
+		global.ui_inventory.refresh_equipped_marks()
 
 func _restore_feather(item: Dictionary, amount: int) -> void:
 	"""Volta a pena para o estado cheio (key, nome, sprite e quantidade)"""

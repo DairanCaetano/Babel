@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://yapb0d3h41mi"]
+
+[ext_resource type="Script" path="res://Scripts/FX/attack_tell_fx.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://sprites/FX/COMBATE/Babel_FX_Effects_ Attack_Tell_v01.png" id="2_tex"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Attack_Tell_FX_freesound_community-sword-schwing-40520.ogg" id="3_snd"]
+[ext_resource type="AudioStream" path="res://Sound/SFX/EnemiesSound/Attack_Tell_Ant_FX_floraphonic-scifi-anime-whoosh-99-207108.ogg" id="4_ant"]
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(50, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(100, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(150, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_4"]
+atlas = ExtResource("2_tex")
+region = Rect2(200, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_5"]
+atlas = ExtResource("2_tex")
+region = Rect2(250, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_6"]
+atlas = ExtResource("2_tex")
+region = Rect2(300, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_7"]
+atlas = ExtResource("2_tex")
+region = Rect2(350, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_8"]
+atlas = ExtResource("2_tex")
+region = Rect2(400, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_9"]
+atlas = ExtResource("2_tex")
+region = Rect2(450, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_10"]
+atlas = ExtResource("2_tex")
+region = Rect2(500, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_11"]
+atlas = ExtResource("2_tex")
+region = Rect2(550, 0, 50, 50)
+
+[sub_resource type="AtlasTexture" id="Atlas_tell_12"]
+atlas = ExtResource("2_tex")
+region = Rect2(600, 0, 50, 50)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tell"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_7")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_8")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_9")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_10")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_11")
+}, {
+"duration": 1.0,
+"texture": SubResource("Atlas_tell_12")
+}],
+"loop": false,
+"name": &"Tell",
+"speed": 20.0
+}]
+
+[node name="AttackTellFX" type="AnimatedSprite2D"]
+z_index = 20
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_tell")
+animation = &"Tell"
+script = ExtResource("1_script")
+tell_sound = ExtResource("3_snd")
+anticipation_sound = ExtResource("4_ant")
+
+[node name="Audio" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[node name="AntAudio" type="AudioStreamPlayer2D" parent="."]
+bus = &"SFX"
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

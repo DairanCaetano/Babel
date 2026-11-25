@@ -1,4 +1,4 @@
-[gd_scene load_steps=110 format=3 uid="uid://dob71wungryu7"]
+[gd_scene load_steps=112 format=3 uid="uid://dob71wungryu7"]
 
 [ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="2_0us57"]
 [ext_resource type="PackedScene" uid="uid://d4lwlukohcc4x" path="res://Scenes/FX/ghost_trail.tscn" id="2_3gt1n"]
@@ -20,6 +20,7 @@
 [ext_resource type="AudioStream" uid="uid://cfg7f6t5yigll" path="res://Sound/SFX/EnemiesSound/Female_death_10_meghan.ogg" id="14_7h5tn"]
 [ext_resource type="AudioStream" uid="uid://b1tu2tw7bwoqd" path="res://Sound/SFX/EnemiesSound/Estocada_MELEE-Sword Slash_HY_PC-002.ogg" id="14_s6o5b"]
 [ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="19_fqo7e"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="step_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_4hxnh"]
 shader = ExtResource("2_0us57")
@@ -661,6 +662,9 @@ size = Vector2(12, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6whcr"]
 size = Vector2(83, 238)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemysteparea"]
+size = Vector2(12, 6)
+
 [node name="Sacerdotiza" type="CharacterBody2D" node_paths=PackedStringArray("_texture", "_body_collision", "_hurtbox_collision", "_attack_collision", "_detection_collision", "_chase_area", "_detection_area", "_attack_area", "_hurtbox_detection", "_dodge_timer", "_dodge_cooldown_timer", "_ground_ray", "_wall_ray", "_blood_particles", "_blood_particles_2", "_fade_fx", "_dead_audio", "_dead_scream_audio", "_hit_audio", "_attack_audio", "_voice_attack_audio", "_attack_3_audio")]
 z_index = 10
 collision_layer = 0
@@ -789,6 +793,12 @@ target_position = Vector2(-10, 0)
 collision_mask = 2
 
 [node name="FireParticles" parent="." instance=ExtResource("19_fqo7e")]
+
+[node name="EnemyStepArea" parent="." instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="EnemyStepArea" index="0"]
+position = Vector2(0, -14)
+shape = SubResource("RectangleShape2D_step_enemysteparea")
 
 [connection signal="body_entered" from="AttackArea" to="AttackArea" method="_on_body_entered"]
 [connection signal="body_entered" from="HurtBox" to="HurtBox" method="_on_body_entered"]

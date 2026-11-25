@@ -179,7 +179,7 @@ radius = 43.0116
 size = Vector2(20, 17)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8cf6p"]
-size = Vector2(25, 3)
+size = Vector2(20, 6)
 
 [node name="Zumbi Arqueiro" node_paths=PackedStringArray("detection_area", "attack_area", "texture", "fire_point", "fire_timer", "fire_particle", "hurt_box") instance=ExtResource("1_nburf")]
 script = ExtResource("2_c0h12")
@@ -254,7 +254,7 @@ debug_color = Color(0.978013, 0.0680272, 0.337077, 0.42)
 [node name="EnemyStepArea2" parent="." index="18" instance=ExtResource("12_2jh8w")]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea2" index="1"]
-position = Vector2(0.5, -8.5)
+position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_8cf6p")
 debug_color = Color(0.858281, 0.364203, 0, 0.42)
 

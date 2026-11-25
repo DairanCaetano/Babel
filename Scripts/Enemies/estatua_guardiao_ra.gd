@@ -9,6 +9,8 @@ const ATTACK_AREA_DEFAULT_ROT: float = 0.0
 
 # Posição/rotação do hitbox especificamente durante o dash do Ataque 2
 const ATTACK_2_AREA_POS: Vector2 = Vector2(-6, 3)
+## Knockback do Ataque 1 na Tola (x = lado, y = para cima). O Ataque 2 não empurra.
+const ATTACK_1_KNOCKBACK: Vector2 = Vector2(280, 180)
 const ATTACK_2_AREA_ROT: float = 90.0
 const DETECTION_AREA_DEFAULT_POS: Vector2 = Vector2(-26.5, 28.5)
 const SPECIAL_DETECTION_AREA_DEFAULT_POS: Vector2 = Vector2(-162, 23.5)
@@ -581,6 +583,11 @@ func _set_attack_area(active: bool, pos: Vector2 = ATTACK_AREA_DEFAULT_POS, rot_
 	_attack_area_collision.rotation_degrees = _mirrored_rot(rot_deg)
 
 
+func _set_attack_knockback(force: Vector2) -> void:
+	if _attack_area and "knockback_force" in _attack_area:
+		_attack_area.knockback_force = force
+
+
 # --- ATIVAÇÃO DO HITBOX POR FRAME ---
 func _on_texture_frame_changed() -> void:
 	match _texture.animation:
@@ -591,6 +598,7 @@ func _on_texture_frame_changed() -> void:
 
 
 func _handle_attack_frame(frame: int) -> void:
+	_set_attack_knockback(ATTACK_1_KNOCKBACK)
 	match frame:
 		1:
 			_set_attack_area(true, ATTACK_AREA_DEFAULT_POS, ATTACK_AREA_DEFAULT_ROT)
@@ -602,6 +610,7 @@ func _handle_attack_frame(frame: int) -> void:
 
 
 func _handle_attack_2_frame(frame: int) -> void:
+	_set_attack_knockback(Vector2.ZERO)
 	match frame:
 		1, 2, 3:
 			_set_attack_area(true, ATTACK_2_AREA_POS, ATTACK_2_AREA_ROT)

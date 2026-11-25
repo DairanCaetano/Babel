@@ -22,6 +22,42 @@ class_name GameMain
 @export var debug_speed_boost: bool = false
 @export_group("")
 
+@export_group("Debug: Sub-armas (só no editor)")
+## Entrega a sub-arma enquanto o jogo roda PELO EDITOR (sem pop-up).
+## Usa a cena do próprio coletável. Não tem efeito no jogo exportado.
+@export var debug_all_subweapons: bool = false
+@export var debug_axe: bool = false
+@export var debug_great_axe: bool = false
+@export var debug_dagger: bool = false
+@export var debug_spear: bool = false
+@export var debug_chakram: bool = false
+@export var debug_whip: bool = false
+@export var debug_fire: bool = false
+@export_group("")
+
+@export_group("Debug: Equipamentos (só no editor)")
+## Entrega o equipamento no inventário (equipe pelo menu de pausa).
+## Usa a cena do próprio coletável. Não tem efeito no jogo exportado.
+@export var debug_all_equipments: bool = false
+@export var debug_ancient_armor: bool = false
+@export var debug_bronze_shield: bool = false
+@export var debug_counter_blade: bool = false
+@export var debug_eagle_dagger: bool = false
+@export var debug_hawk_eyes: bool = false
+@export var debug_ram_charge: bool = false
+@export var debug_sandals: bool = false
+@export var debug_raphael_blessing: bool = false
+@export var debug_vengeance_mark: bool = false
+## Libera o slot sagrado
+@export var debug_gabriel_blessing: bool = false
+@export_group("")
+
+@export_group("Debug: Consumíveis (só no editor)")
+## Pena de Azazel (cura): quantos usos ter. 0 = desligado.
+## Entrega penas até o máximo de curas chegar nesse número (recarregam no save).
+@export_range(0, 10) var debug_potion_uses: int = 0
+@export_group("")
+
 @export_group("Debug: Áudio (só no editor)")
 ## Silencia a música enquanto o jogo roda PELO EDITOR (bom para testar e gravar
 ## trailer só com efeitos). Usa o mute do bus "Music": não mexe no volume das
@@ -84,6 +120,7 @@ func _process(_delta: float) -> void:
 	if not OS.has_feature("editor"):
 		return
 	_apply_debug_audio()
+	_apply_debug_items(_delta)
 	if not (debug_dash or debug_hook or debug_wall_jump or debug_enemy_step or debug_speed_boost):
 		return
 	if not character or not is_instance_valid(character) or not character._skills:
@@ -99,6 +136,93 @@ func _process(_delta: float) -> void:
 		skills._has_enemy_step_skill = true
 	if debug_speed_boost:
 		skills._has_speed_boost_skill = true
+
+# ===== DEBUG: SUB-ARMAS E EQUIPAMENTOS PELO INSPECTOR =====
+# Caixinha → [cena do coletável, chave do item]. Chave vazia = Bênção de Gavri'el
+# (não vai para o inventário: confere o slot sagrado liberado).
+const _DEBUG_SUBWEAPONS: Dictionary = {
+	"debug_axe": ["res://Scenes/Collectables/collectable_axe.tscn", "ITEM_AXE_NAME"],
+	"debug_great_axe": ["res://Scenes/Collectables/collectable_great_axe.tscn", "ITEM_GREAT_AXE_NAME"],
+	"debug_dagger": ["res://Scenes/Collectables/collectable_dagger.tscn", "ITEM_DAGGER_NAME"],
+	"debug_spear": ["res://Scenes/Collectables/collectable_spear.tscn", "ITEM_SPEAR_NAME"],
+	"debug_chakram": ["res://Scenes/Collectables/collectable_chakram.tscn", "ITEM_CHAKRAM_NAME"],
+	"debug_whip": ["res://Scenes/Collectables/collectable_whip.tscn", "ITEM_WHIP_NAME"],
+	"debug_fire": ["res://Scenes/Collectables/collectable_fire.tscn", "ITEM_FIRE_NAME"],
+}
+const _DEBUG_EQUIPMENTS: Dictionary = {
+	"debug_ancient_armor": ["res://Scenes/Collectables/collectable_ancient_armor.tscn", "ITEM_ANCIENT_ARMOR_NAME"],
+	"debug_bronze_shield": ["res://Scenes/Collectables/collectable_bronze_shield.tscn", "ITEM_BRONZE_SHIELD_NAME"],
+	"debug_counter_blade": ["res://Scenes/Collectables/collectable_counter_blade.tscn", "ITEM_COUNTER_BLADE_NAME"],
+	"debug_eagle_dagger": ["res://Scenes/Collectables/collectable_eagle_dagger.tscn", "ITEM_EAGLE_DAGGER_NAME"],
+	"debug_hawk_eyes": ["res://Scenes/Collectables/collectable_hawk_eyes.tscn", "ITEM_HAWK_EYES_NAME"],
+	"debug_ram_charge": ["res://Scenes/Collectables/collectable_ram_charge.tscn", "ITEM_RAM_CHARGE_NAME"],
+	"debug_sandals": ["res://Scenes/Collectables/collectable_sandals.tscn", "ITEM_SANDALS_NAME"],
+	"debug_raphael_blessing": ["res://Scenes/Collectables/collectable_raphael_blessing.tscn", "ITEM_RAPHAEL_BLESSING_NAME"],
+	"debug_vengeance_mark": ["res://Scenes/Collectables/collectable_vengeance_mark.tscn", "ITEM_VENGEANCE_MARK_NAME"],
+	"debug_gabriel_blessing": ["res://Scenes/Collectables/collectable_gabriel_blessing.tscn", ""],
+}
+var _debug_items_timer: float = 0.0
+var _debug_items_failed: Dictionary = {}   # caixinha -> true (não achou a cena)
+
+# Confere a cada meio segundo: o que estiver marcado e faltando é entregue.
+# (Se morrer e o save recarregar sem o item, ele volta sozinho.)
+func _apply_debug_items(delta: float) -> void:
+	_debug_items_timer -= delta
+	if _debug_items_timer > 0.0:
+		return
+	_debug_items_timer = 0.5
+	if not character or not is_instance_valid(character) or not global.ui_equipments:
+		return
+	if not character.get("_inventory"):
+		return
+	for _flag in _DEBUG_SUBWEAPONS:
+		if debug_all_subweapons or bool(get(_flag)):
+			_debug_try_give(_flag, _DEBUG_SUBWEAPONS[_flag])
+	for _flag in _DEBUG_EQUIPMENTS:
+		if debug_all_equipments or bool(get(_flag)):
+			_debug_try_give(_flag, _DEBUG_EQUIPMENTS[_flag])
+	# Pena de Azazel: cada pena entregue soma +1 ao máximo de curas
+	if debug_potion_uses > 0 and int(serialization.game_data.get("max_potions", 0)) < debug_potion_uses:
+		_debug_give_scene("debug_potion_uses", "res://Scenes/Collectables/collectable_potion.tscn")
+
+func _debug_try_give(flag: String, entry: Array) -> void:
+	if _debug_items_failed.has(flag) or _debug_has_item(entry[1]):
+		return
+	_debug_give_scene(flag, entry[0])
+
+func _debug_give_scene(flag: String, _path: String) -> void:
+	if _debug_items_failed.has(flag):
+		return
+	if not ResourceLoader.exists(_path):
+		_debug_items_failed[flag] = true
+		push_warning("⚠️ Debug itens: cena não encontrada para " + flag + ": " + _path)
+		return
+	var _collectable: Node = (load(_path) as PackedScene).instantiate()
+	if _collectable is Area2D:
+		(_collectable as Area2D).monitoring = false
+		(_collectable as Area2D).monitorable = false
+	if _collectable is CanvasItem:
+		(_collectable as CanvasItem).visible = false
+	add_child(_collectable)
+	if _collectable.has_method("_consume"):
+		global.debug_silent_pickup = true
+		_collectable._consume(character)
+		global.debug_silent_pickup = false
+		print("🧪 Debug: entregue ", flag)
+	_collectable.queue_free()
+
+func _debug_has_item(key: String) -> bool:
+	if key == "":
+		return global.ui_equipments.sacred_slot_unlocked
+	for _item in global.ui_equipments._equipments_inventory.values():
+		if _item is Dictionary and _item.get("key", "") == key:
+			return true
+	var _inv = character.get("_inventory")
+	if _inv and _inv.get("_inventory_data") is Dictionary:
+		for _item in _inv._inventory_data.values():
+			if _item is Dictionary and _item.get("key", "") == key:
+				return true
+	return false
 
 func _setup_camera() -> void:
 	camera.enabled = true

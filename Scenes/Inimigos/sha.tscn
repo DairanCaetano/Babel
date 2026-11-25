@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://ccpwci4n2dwu4"]
+[gd_scene load_steps=40 format=3 uid="uid://ccpwci4n2dwu4"]
 
 [ext_resource type="Texture2D" uid="uid://doxu6hb1qgpas" path="res://sprites/Enemies/Sha/Sha_Dead.png" id="1_e1bj3"]
 [ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="1_gvict"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://ceabi3b3lfb0w" path="res://sprites/Enemies/Sha/Sha_Turn.png" id="4_7xmoj"]
 [ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="5_kw16y"]
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy_attack_area.gd" id="6_upqr3"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="step_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_2pjrh"]
 shader = ExtResource("1_gvict")
@@ -219,6 +220,9 @@ size = Vector2(273, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gdqoh"]
 size = Vector2(34, 18)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemysteparea"]
+size = Vector2(34, 6)
+
 [node name="Sha" type="CharacterBody2D" node_paths=PackedStringArray("_texture", "_body_collision", "_hurtbox_collision", "_hurtbox_detection", "_chase_area", "_chase_lost_timer", "_fire_particles", "_dead_audio", "_dead_scream_audio", "_attack_audio", "_run_audio")]
 material = SubResource("ShaderMaterial_2pjrh")
 collision_layer = 0
@@ -277,5 +281,11 @@ debug_color = Color(0.977681, 0, 0.402202, 0.42)
 [node name="ChaseLossTimer" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
+
+[node name="EnemyStepArea" parent="." instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="EnemyStepArea" index="0"]
+position = Vector2(-4, -15)
+shape = SubResource("RectangleShape2D_step_enemysteparea")
 
 [connection signal="body_entered" from="HurtBox" to="HurtBox" method="_on_body_entered"]

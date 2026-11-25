@@ -139,6 +139,14 @@ var cinematic_walk_dir: float = 0.0
 @export var _ground_ray: RayCast2D
 @export var _subweapons: CharacterSubweapon
 @export var _invencibility_timer: Timer
+
+@export_category("Knockback")
+## Tempo (s) em que o knockback trava o controle horizontal da Tola
+@export var _knockback_duration: float = 0.3
+## Tremida de tela no knockback (mais forte que a do dano comum)
+@export var _knockback_shake_force: float = 12.0
+@export var _knockback_shake_duration: float = 0.3
+var _is_knocked_back: bool = false
 @export var _skills: CharacterSkills
 @export var _heal_1: GPUParticles2D
 @export var _heal_2: GPUParticles2D
@@ -209,6 +217,13 @@ func _physics_process(_delta: float) -> void:
 		print("  Physics enabled: ", is_physics_processing())
 		print("  Stack trace:")
 		print(get_stack())
+		return
+
+	# ✅ KNOCKBACK: sem nenhum controle até o empurrão terminar (só gravidade)
+	if _is_knocked_back:
+		if not is_on_floor():
+			velocity.y += _gravity * _gravity_multiplier * _delta
+		move_and_slide()
 		return
 
 	if is_on_floor() or _platform_descent_timer <= 0:
@@ -724,6 +739,10 @@ func _vertical_movement(_delta: float) -> void:
 	_character_texture._update_collision_size()
 
 func _horizontal_movement() -> void:
+	# ✅ Durante o knockback o empurrão manda no eixo X
+	if _is_knocked_back:
+		return
+	
 	if _is_crouching:
 		velocity.x = 0
 		return
@@ -940,7 +959,13 @@ func throw_axe(_is_flipped: bool) -> void:
 # ✅ FRAGMENTO ATUALIZADO PARA Character.gd
 # Cole este código substituindo as funções update_health, _handle_death e _respawn_at_save_point
 
-func update_health(_value: int, _entity) -> void:
+## _knockback: força do empurrão (x = para o lado, y = para cima). Zero = sem knockback.
+## Só alguns golpes passam esse valor; o empurrão só acontece se o dano entrar.
+func update_health(_value: int, _entity, _knockback: Vector2 = Vector2.ZERO) -> void:
+	# ✅ Enemy Step: logo após pisar, o inimigo pisado não causa dano de contato
+	if _skills and _skills.is_step_protected_from(_entity):
+		return
+	
 	# ✅ Ser atacado = entrar em combate (Bênção de Rafa'el)
 	if _item_effects:
 		_item_effects.mark_combat()
@@ -1026,6 +1051,10 @@ func update_health(_value: int, _entity) -> void:
 	# ✅ INVENCIBILIDADE TEMPORÁRIA APÓS LEVAR DANO (evita múltiplos hits da mesma fonte)
 	_activate_invincibility(0.6)
 	
+	# ✅ KNOCKBACK (só golpes que pedem)
+	if _knockback != Vector2.ZERO:
+		_apply_knockback(_entity, _knockback)
+	
 	print("🔍 ANTES DE TOCAR HIT:")
 	print("  Position: ", global_position)
 	print("  Velocity: ", velocity)
@@ -1038,8 +1067,11 @@ func update_health(_value: int, _entity) -> void:
 		set_physics_process(true)
 		print("🔧 Hit no ar detectado - forçando física ativa ANTES da animação")
 	
-	# Tocar animação de hit
-	_character_texture.action_animation("Hit")
+	# Tocar animação de hit (ou Knockback, se o golpe empurrou)
+	if _knockback != Vector2.ZERO and _character_texture.sprite_frames.has_animation("Knockback"):
+		_character_texture.action_animation("Knockback")
+	else:
+		_character_texture.action_animation("Hit")
 	print("🔍 DEPOIS DE TOCAR HIT:")
 	print("  Position: ", global_position)
 	print("  Velocity: ", velocity)
@@ -1583,3 +1615,33 @@ func _end_rainbow_shine() -> void:
 	
 	if _character_texture and _character_texture.material:
 		_character_texture.material.set_shader_parameter("rainbow_active", false)
+
+
+# ===== KNOCKBACK =====
+func _apply_knockback(_entity, force: Vector2) -> void:
+	"""Empurra a Tola para o lado oposto ao inimigo, com um impulso para cima."""
+	var from_x: float = global_position.x
+	if _entity is Node2D and is_instance_valid(_entity):
+		from_x = _entity.global_position.x
+	var dir: float = 1.0 if global_position.x >= from_x else -1.0
+	
+	velocity.x = dir * force.x
+	velocity.y = -force.y
+	_is_knocked_back = true
+	set_physics_process(true)
+	
+	# ✅ Impacto: tremida forte de tela e de controle (só no impacto)
+	var camera = get_tree().get_first_node_in_group("camera")
+	if camera and camera.has_method("shake_camera"):
+		camera.shake_camera(_knockback_shake_force, _knockback_shake_duration)
+	ControllerVibration.vibrate_custom(1.0, 1.0, 0.25)
+	
+	var timer := get_node_or_null("KnockbackTimer") as Timer
+	if timer:
+		timer.start(_knockback_duration)
+	else:
+		_is_knocked_back = false
+
+
+func _on_knockback_timer_timeout() -> void:
+	_is_knocked_back = false

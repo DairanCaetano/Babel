@@ -2,6 +2,8 @@ extends Node
 class_name Global
 
 var character = null
+## Debug (game.gd): entrega itens sem pop-up de "item novo"
+var debug_silent_pickup: bool = false
 var inventory: CharacterInventory = null
 var ui_inventory: UIInventory = null
 var ui_equipments: UIEquipments = null

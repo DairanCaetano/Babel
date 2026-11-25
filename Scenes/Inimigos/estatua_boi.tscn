@@ -77,7 +77,7 @@ height = 24.0
 radius = 113.071
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ntby"]
-size = Vector2(20, 4)
+size = Vector2(20, 6)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3if64"]
 
@@ -135,7 +135,7 @@ visible = false
 [node name="EnemyStepArea2" parent="." index="19" instance=ExtResource("9_bucg1")]
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea2" index="1"]
-position = Vector2(0, -15)
+position = Vector2(0, -22)
 shape = SubResource("RectangleShape2D_3ntby")
 debug_color = Color(0.862558, 0.359405, 0, 0.42)
 

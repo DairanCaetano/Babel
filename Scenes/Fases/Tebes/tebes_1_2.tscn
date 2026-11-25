@@ -31,6 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bd7wmsp4hccgx" path="res://Scenes/Collectables/Archives/collectable_text_tebes_2.tscn" id="22_nlpue"]
 [ext_resource type="PackedScene" uid="uid://dk883iyn443so" path="res://Scenes/Collectables/collectable_sandals.tscn" id="23_kfwl4"]
 [ext_resource type="PackedScene" uid="uid://5shs0uj4fa6i" path="res://Scenes/Collectables/collectable_wall_jump.tscn" id="24_xwa5v"]
+[ext_resource type="PackedScene" uid="uid://6nnvh0gj52id" path="res://Scenes/Inimigos/zumbi_bruto_2.tscn" id="27_3pv3e"]
 [ext_resource type="PackedScene" uid="uid://cnxafffh1pu1w" path="res://Scenes/Inimigos/zumbi_guerreiro.tscn" id="29_cggd4"]
 [ext_resource type="Texture2D" uid="uid://bxkg8agavy1lu" path="res://sprites/Interactables/Babel_Hidden_Area_Maker_v01.png" id="33_bmj7w"]
 [ext_resource type="Texture2D" uid="uid://cn0oo6mhlorn4" path="res://sprites/Environment/TEBES/DECORAÇÃO/Tebes_Berith_Statues_01.png" id="50_bstat"]
@@ -2113,6 +2114,9 @@ snake_health = 160
 position = Vector2(4985, 602)
 _enemy_type = 1
 
+[node name="ZumbiBruto" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="3" unique_id=281778719 instance=ExtResource("27_3pv3e")]
+position = Vector2(2700, 1458)
+
 [node name="RespawnPoint1" type="Marker2D" parent="HazardZone" parent_id_path=PackedInt32Array(23396374) index="0" unique_id=890481734]
 position = Vector2(1234, 1472)
 
@@ -2314,7 +2318,7 @@ target_spawn = "SpawnImpulse"
 position = Vector2(56, 288)
 
 [node name="Default" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="1" unique_id=1272180534]
-position = Vector2(2758, 849)
+position = Vector2(2835, 907)
 
 [node name="SpawnTop" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=1725906366]
 position = Vector2(2589, -98)

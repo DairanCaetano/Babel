@@ -1,11 +1,11 @@
-[gd_scene load_steps=52 format=3 uid="uid://mwkijkbkb2c"]
+[gd_scene format=3 uid="uid://mwkijkbkb2c"]
 
-[ext_resource type="Script" path="res://Scripts/Enemies/snake.gd" id="1_nlvgr"]
+[ext_resource type="Script" uid="uid://d3b7p00oicyun" path="res://Scripts/Enemies/snake.gd" id="1_nlvgr"]
 [ext_resource type="Texture2D" uid="uid://cq8n4a5utisnk" path="res://sprites/Enemies/Basilisco/Basilisco_Idle_CORPO_v01.png" id="3_lgouh"]
 [ext_resource type="Texture2D" uid="uid://b5jyvrk801tyr" path="res://sprites/Enemies/Basilisco/Basilisco_Idle_CABEÇA_v01.png" id="4_5naru"]
 [ext_resource type="Texture2D" uid="uid://b85jcat5bmari" path="res://sprites/Enemies/Basilisco/Basilisco_PESCOÇO_v01.png" id="4_mg3ln"]
 [ext_resource type="Texture2D" uid="uid://b8hfeyfsy2h7t" path="res://sprites/Enemies/Basilisco/Basilisco_Attack_1_CORPO_v01.png" id="5_idvhh"]
-[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="5_m3q17"]
+[ext_resource type="Shader" uid="uid://x85p37fnk4c5" path="res://Shaders/blink.gdshader" id="5_m3q17"]
 [ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="6_1jb3d"]
 [ext_resource type="Texture2D" uid="uid://ctjtutqa8llnk" path="res://sprites/Enemies/Basilisco/Basilisco_Attack_1_CABEÇA_v01.png" id="6_abh0a"]
 [ext_resource type="Texture2D" uid="uid://ddp25no4wqxkk" path="res://sprites/Enemies/Basilisco/Basilisco_Antecipation_Attack_1_CABEÇA_v01.png" id="7_r825s"]
@@ -15,7 +15,7 @@
 [ext_resource type="Texture2D" uid="uid://cp7ltxbvtkux7" path="res://sprites/Enemies/Basilisco/Basilisco_Attack_2_CABEÇA_v01.png" id="11_k5t66"]
 [ext_resource type="Texture2D" uid="uid://bc0cxiddpwosp" path="res://sprites/Enemies/Basilisco/Basilisco_Attack_2_CORPO_v01.png" id="12_bfc7s"]
 [ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="14_87spp"]
-[ext_resource type="Script" path="res://Scripts/Enemies/enemy_attack_area.gd" id="14_vcr0o"]
+[ext_resource type="Script" uid="uid://kr2odqdasxhj" path="res://Scripts/Enemies/enemy_attack_area.gd" id="14_vcr0o"]
 [ext_resource type="AudioStream" uid="uid://hwvydkf4h04j" path="res://Sound/SFX/EnemiesSound/SnakeSibiling.ogg" id="16_yva6t"]
 [ext_resource type="AudioStream" uid="uid://cr0au8gd8wytg" path="res://Sound/SFX/EnemiesSound/Building Castle wall or Parapet - Impact Crumbling.ogg" id="17_0g443"]
 [ext_resource type="AudioStream" uid="uid://br5whabweixge" path="res://Sound/SFX/EnemiesSound/Snake_Attack_1.ogg" id="17_e48qa"]
@@ -25,13 +25,30 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_41r3g"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4kem5"]
 size = Vector2(103, 37)
@@ -39,57 +56,142 @@ size = Vector2(103, 37)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ac8fn"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_s3jwp"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lglrs"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_31l5p"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_8wn5k"]
 resource_local_to_scene = true
 shader = ExtResource("5_m3q17")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 0.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
+shader_parameter/rainbow_active = false
+shader_parameter/rainbow_speed = 2.0
+shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hw36k"]
 radius = 21.0238
@@ -99,7 +201,7 @@ radius = 20.0
 height = 40.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0xbm1"]
-size = Vector2(51, 11)
+size = Vector2(40, 6)
 
 [sub_resource type="Animation" id="Animation_pwa31"]
 length = 0.001
@@ -960,12 +1062,12 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u61t1"]
 _data = {
-"RESET": SubResource("Animation_pwa31"),
-"attack": SubResource("Animation_ycnxn"),
-"attack_anticipation": SubResource("Animation_asb4a"),
-"death": SubResource("Animation_g2j2t"),
-"idle": SubResource("Animation_g6c8u"),
-"special_attack": SubResource("Animation_g8dv4")
+&"RESET": SubResource("Animation_pwa31"),
+&"attack": SubResource("Animation_ycnxn"),
+&"attack_anticipation": SubResource("Animation_asb4a"),
+&"death": SubResource("Animation_g2j2t"),
+&"idle": SubResource("Animation_g6c8u"),
+&"special_attack": SubResource("Animation_g8dv4")
 }
 
 [sub_resource type="Animation" id="Animation_1u3nd"]
@@ -1159,8 +1261,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_h3w3c"]
 _data = {
-"RESET": SubResource("Animation_1u3nd"),
-"idle": SubResource("Animation_tdgb6")
+&"RESET": SubResource("Animation_1u3nd"),
+&"idle": SubResource("Animation_tdgb6")
 }
 
 [sub_resource type="Gradient" id="Gradient_2ec6u"]
@@ -1195,7 +1297,7 @@ radius = 152.0
 radius = 28.0
 height = 104.0
 
-[node name="Snake" type="CharacterBody2D" node_paths=PackedStringArray("_attack_start_audio", "_attack_1_audio", "_attack_2_audio", "_attack_special_audio", "_attack_area_collision", "_attack_area_detection", "_particle_2d", "_hurtbox_detection", "_dead_audio", "_hit_audio")]
+[node name="Snake" type="CharacterBody2D" unique_id=722119692 node_paths=PackedStringArray("_attack_start_audio", "_attack_1_audio", "_attack_2_audio", "_attack_special_audio", "_attack_area_collision", "_attack_area_detection", "_particle_2d", "_hurtbox_detection", "_dead_audio", "_hit_audio")]
 position = Vector2(123, 80)
 collision_layer = 0
 collision_mask = 3
@@ -1212,149 +1314,150 @@ _hurtbox_detection = NodePath("HeadNNeck/Head/Hurtbox")
 _dead_audio = NodePath("DeadAudio")
 _hit_audio = NodePath("HitAudio")
 
-[node name="Body" type="Sprite2D" parent="."]
+[node name="Body" type="Sprite2D" parent="." unique_id=247501281]
 material = SubResource("ShaderMaterial_41r3g")
 position = Vector2(-30, 1)
 texture = ExtResource("3_lgouh")
 hframes = 4
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1549241486]
 position = Vector2(-33.5, 18.5)
 shape = SubResource("RectangleShape2D_4kem5")
 debug_color = Color(0.863946, 0.3575, 0.0180675, 0.42)
 
-[node name="HeadNNeck" type="Node2D" parent="."]
+[node name="HeadNNeck" type="Node2D" parent="." unique_id=596190919]
 z_index = 1
 position = Vector2(-42, 25)
 
-[node name="Neck5" type="Sprite2D" parent="HeadNNeck"]
+[node name="Neck5" type="Sprite2D" parent="HeadNNeck" unique_id=952420932]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_ac8fn")
 position = Vector2(13, 0)
 texture = ExtResource("4_mg3ln")
 
-[node name="Neck4" type="Sprite2D" parent="HeadNNeck"]
+[node name="Neck4" type="Sprite2D" parent="HeadNNeck" unique_id=1280691870]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_ac8fn")
 position = Vector2(13, 0)
 texture = ExtResource("4_mg3ln")
 
-[node name="Neck3" type="Sprite2D" parent="HeadNNeck"]
+[node name="Neck3" type="Sprite2D" parent="HeadNNeck" unique_id=904456933]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_s3jwp")
 position = Vector2(-4, 0)
 texture = ExtResource("4_mg3ln")
 
-[node name="Neck2" type="Sprite2D" parent="HeadNNeck"]
+[node name="Neck2" type="Sprite2D" parent="HeadNNeck" unique_id=314453631]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_lglrs")
 position = Vector2(-12, 0)
 texture = ExtResource("4_mg3ln")
 
-[node name="Neck1" type="Sprite2D" parent="HeadNNeck"]
+[node name="Neck1" type="Sprite2D" parent="HeadNNeck" unique_id=395195178]
 show_behind_parent = true
 material = SubResource("ShaderMaterial_31l5p")
 position = Vector2(-24, 0)
 texture = ExtResource("4_mg3ln")
 
-[node name="Head" type="Sprite2D" parent="HeadNNeck"]
+[node name="Head" type="Sprite2D" parent="HeadNNeck" unique_id=1599798995]
 material = SubResource("ShaderMaterial_8wn5k")
 position = Vector2(-45, -2)
 texture = ExtResource("4_5naru")
 
-[node name="DamageArea" type="Area2D" parent="HeadNNeck/Head"]
+[node name="DamageArea" type="Area2D" parent="HeadNNeck/Head" unique_id=34739222]
 collision_layer = 0
 
-[node name="Collision" type="CollisionShape2D" parent="HeadNNeck/Head/DamageArea"]
+[node name="Collision" type="CollisionShape2D" parent="HeadNNeck/Head/DamageArea" unique_id=904447092]
 position = Vector2(-4, 2)
 shape = SubResource("CircleShape2D_hw36k")
 disabled = true
 debug_color = Color(0.956066, 0, 0.539904, 0.42)
 
-[node name="Hurtbox" type="Area2D" parent="HeadNNeck/Head"]
+[node name="Hurtbox" type="Area2D" parent="HeadNNeck/Head" unique_id=608420106]
 collision_layer = 8
 collision_mask = 4
 
-[node name="Collision" type="CollisionShape2D" parent="HeadNNeck/Head/Hurtbox"]
+[node name="Collision" type="CollisionShape2D" parent="HeadNNeck/Head/Hurtbox" unique_id=1840221059]
 shape = SubResource("CapsuleShape2D_yy54u")
 debug_color = Color(0.670588, 0.862745, 0, 0.419608)
 
-[node name="EnemyStepArea" parent="HeadNNeck/Head" instance=ExtResource("6_1jb3d")]
+[node name="AttackTellMarker" type="Marker2D" parent="HeadNNeck/Head" unique_id=1732983699]
+position = Vector2(-3, -6)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="HeadNNeck/Head/EnemyStepArea"]
-position = Vector2(0.5, -17.5)
+[node name="EnemyStepArea" parent="HeadNNeck/Head" unique_id=78684926 instance=ExtResource("6_1jb3d")]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="HeadNNeck/Head/EnemyStepArea" unique_id=1639429612]
+position = Vector2(0, -27)
 shape = SubResource("RectangleShape2D_0xbm1")
 debug_color = Color(0.934993, 0.255519, 0, 0.42)
 
-[node name="Animation" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_u61t1")
-}
-autoplay = "idle"
+[node name="Animation" type="AnimationPlayer" parent="." unique_id=1926452151]
+libraries/ = SubResource("AnimationLibrary_u61t1")
+autoplay = &"idle"
 
-[node name="CooldownTimer" type="Timer" parent="."]
+[node name="CooldownTimer" type="Timer" parent="." unique_id=811126417]
 one_shot = true
 
-[node name="AnimationAux" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_h3w3c")
-}
-autoplay = "idle"
+[node name="AnimationAux" type="AnimationPlayer" parent="." unique_id=211956250]
+libraries/ = SubResource("AnimationLibrary_h3w3c")
+autoplay = &"idle"
 
-[node name="BloodParticles" type="GPUParticles2D" parent="."]
+[node name="BloodParticles" type="GPUParticles2D" parent="." unique_id=1735878947]
 emitting = false
 amount = 20
-process_material = SubResource("ParticleProcessMaterial_oydru")
 lifetime = 0.6
 one_shot = true
 explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_oydru")
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." unique_id=1399631296]
 script = ExtResource("14_vcr0o")
 
-[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+[node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1937120543]
 position = Vector2(-33, 12)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_jorh5")
 debug_color = Color(1, 0.384314, 0, 0.419608)
 
-[node name="DetectionArea" type="Area2D" parent="."]
+[node name="DetectionArea" type="Area2D" parent="." unique_id=48098493]
 
-[node name="Collision" type="CollisionShape2D" parent="DetectionArea"]
+[node name="Collision" type="CollisionShape2D" parent="DetectionArea" unique_id=36723593]
 position = Vector2(-31, 0)
 shape = SubResource("CircleShape2D_qbdwm")
 debug_color = Color(0, 0.639921, 0.357626, 0.42)
 
-[node name="GPUParticles2D" parent="." instance=ExtResource("14_87spp")]
+[node name="GPUParticles2D" parent="." unique_id=392896194 instance=ExtResource("14_87spp")]
 
-[node name="AttackStartAudio" type="AudioStreamPlayer" parent="."]
+[node name="AttackStartAudio" type="AudioStreamPlayer" parent="." unique_id=168227038]
 stream = ExtResource("16_yva6t")
 
-[node name="Attack1Audio" type="AudioStreamPlayer" parent="."]
+[node name="Attack1Audio" type="AudioStreamPlayer" parent="." unique_id=1323801518]
 stream = ExtResource("17_e48qa")
 
-[node name="Attack2Audio" type="AudioStreamPlayer" parent="."]
+[node name="Attack2Audio" type="AudioStreamPlayer" parent="." unique_id=73317059]
 stream = ExtResource("17_0g443")
 
-[node name="AttackSpecialAudio" type="AudioStreamPlayer" parent="."]
+[node name="AttackSpecialAudio" type="AudioStreamPlayer" parent="." unique_id=1869047704]
 stream = ExtResource("17_fnkh2")
 
-[node name="DeadAudio" type="AudioStreamPlayer" parent="."]
+[node name="DeadAudio" type="AudioStreamPlayer" parent="." unique_id=1547176189]
 stream = ExtResource("20_d1jxs")
 
-[node name="HitAudio" type="AudioStreamPlayer" parent="."]
+[node name="HitAudio" type="AudioStreamPlayer" parent="." unique_id=725936746]
 
-[node name="Attack2movimentAudio" type="AudioStreamPlayer" parent="."]
+[node name="Attack2movimentAudio" type="AudioStreamPlayer" parent="." unique_id=825155590]
 
-[node name="SnakeHurtbox" type="Area2D" parent="."]
+[node name="SnakeHurtbox" type="Area2D" parent="." unique_id=1217620708]
 collision_layer = 8
 collision_mask = 5
 
-[node name="Collision" type="CollisionShape2D" parent="SnakeHurtbox"]
+[node name="Collision" type="CollisionShape2D" parent="SnakeHurtbox" unique_id=2029664318]
 position = Vector2(-32, 11)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_adbxs")
 debug_color = Color(0.985479, 0, 0.333353, 0.42)
+
+[node name="EnemyStepAreaBody" parent="." unique_id=167373490 instance=ExtResource("6_1jb3d")]
 
 [connection signal="body_entered" from="HeadNNeck/Head/DamageArea" to="." method="_on_damage_area_body_entered"]
 [connection signal="area_exited" from="HeadNNeck/Head/Hurtbox" to="." method="_on_head_hurtbox_area_exited"]

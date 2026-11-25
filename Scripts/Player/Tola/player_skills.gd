@@ -52,6 +52,12 @@ var _is_enemy_stepping: bool = false  # ✅ NOVA FLAG
 var _enemy_step_force_x: float = 150.0   # ✅ Aumentei para 500
 var _enemy_step_force_y: float = -250.0
 var _enemy_step_cooldown: float = 0.5
+## Folga no topo do pulo: aceita pisar com velocity.y a partir deste valor (negativo = ainda subindo um pouco)
+const _ENEMY_STEP_FALL_TOLERANCE: float = -30.0
+## Tempo (ms) em que o inimigo pisado não causa dano de contato na Tola
+const _ENEMY_STEP_PROTECTION_MS: int = 200
+var _step_protected_entity: Node = null
+var _step_protected_until_ms: int = 0
 
 # ========== VARIÁVEIS DE SPEED BOOST ==========
 var _has_speed_boost_skill: bool = false
@@ -601,24 +607,64 @@ func handle_enemy_step_logic() -> bool:
 	if _character.is_on_floor():
 		return false
 	
-	if not _character.has_node("GroundRay"):
+	# ✅ Só pisa caindo (com folga no topo do pulo)
+	if _character.velocity.y < _ENEMY_STEP_FALL_TOLERANCE:
 		return false
 	
-	var ground_ray = _character.get_node("GroundRay")
-	
-	# ✅ Verificar se está colidindo com Area2D "Step"
-	if not ground_ray.is_colliding():
+	var step_cast := _character.get_node_or_null("StepCast") as ShapeCast2D
+	if not step_cast:
 		return false
 	
-	var collider = ground_ray.get_collider()
-	
-	# ✅ Verificar se é uma Area2D do grupo "Step"
-	if not (collider is Area2D and collider.is_in_group("Step")):
+	# ✅ StepCast só enxerga a camada 12 "Enemy Step" (áreas)
+	step_cast.force_shapecast_update()
+	if not step_cast.is_colliding():
 		return false
 	
-	# ✅ EXECUTAR ENEMY STEP
-	_execute_enemy_step()
+	for i in step_cast.get_collision_count():
+		var collider = step_cast.get_collider(i)
+		if not (collider is Area2D and collider.is_in_group("Step")):
+			continue
+		var enemy := _get_step_owner(collider)
+		if not _is_step_owner_alive(enemy):
+			continue
+		# ✅ EXECUTAR ENEMY STEP
+		_step_protected_entity = enemy
+		_step_protected_until_ms = Time.get_ticks_msec() + _ENEMY_STEP_PROTECTION_MS
+		_execute_enemy_step()
+		return true
+	
+	return false
+
+func _get_step_owner(area: Node) -> Node:
+	"""Sobe a árvore a partir da área até achar o inimigo dono (quem tem vida)."""
+	var node := area.get_parent()
+	while node:
+		if "_is_alive" in node or "is_dead" in node:
+			return node
+		node = node.get_parent()
+	return null
+
+func _is_step_owner_alive(enemy: Node) -> bool:
+	"""Inimigo morto ou morrendo não serve de trampolim."""
+	if enemy == null or not is_instance_valid(enemy):
+		return false
+	if "_is_alive" in enemy and not enemy.get("_is_alive"):
+		return false
+	if "is_dead" in enemy and enemy.get("is_dead"):
+		return false
+	if "_queued_to_die" in enemy and enemy.get("_queued_to_die"):
+		return false
 	return true
+
+func is_step_protected_from(entity) -> bool:
+	"""True logo após pisar: ignora o dano de contato SÓ do inimigo pisado."""
+	if _step_protected_entity == null or not is_instance_valid(_step_protected_entity):
+		return false
+	if Time.get_ticks_msec() > _step_protected_until_ms:
+		return false
+	if not (entity is Node) or not is_instance_valid(entity):
+		return false
+	return entity == _step_protected_entity or _step_protected_entity.is_ancestor_of(entity)
 
 func _execute_enemy_step() -> void:
 	"""Executa a habilidade Enemy Step"""

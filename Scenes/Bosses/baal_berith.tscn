@@ -658,6 +658,9 @@ size = Vector2(133, 167)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_oujfj"]
 size = Vector2(240, 74)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_blocker"]
+size = Vector2(80, 157)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_33x82"]
 size = Vector2(162, 90)
 
@@ -690,7 +693,7 @@ scale_max = 3.0
 scale_curve = SubResource("CurveTexture_atk1p2_shrink")
 color_ramp = SubResource("GradientTexture1D_atk1charge")
 
-[node name="BaalBerith" type="CharacterBody2D" unique_id=675913982 node_paths=PackedStringArray("attack_area", "texture", "attack_point_1", "attack_point_2", "attack_point_3", "fire_timer", "fire_particle", "attack_1_timer", "attack_1_interval", "spawn_area", "hurt_box", "attack_impact_area", "attack_impact_collision", "enemy_audio", "attack_1_charge_particles", "attack_4_head", "attack_4_face", "attack_4_mouth", "attack_4_charge_fx_point", "attack_4_echo_fx_point")]
+[node name="BaalBerith" type="CharacterBody2D" unique_id=675913982 node_paths=PackedStringArray("attack_area", "texture", "attack_point_1", "attack_point_2", "attack_point_3", "fire_timer", "fire_particle", "attack_1_timer", "attack_1_interval", "spawn_area", "hurt_box", "attack_impact_area", "attack_impact_collision", "enemy_audio", "attack_1_charge_particles", "attack_4_head", "attack_4_face", "attack_4_mouth", "attack_4_charge_fx_point", "attack_4_echo_fx_point", "player_blocker")]
 material = SubResource("ShaderMaterial_n1nru")
 collision_layer = 0
 collision_mask = 6
@@ -711,6 +714,7 @@ hurt_box = NodePath("HurtBox")
 attack_impact_area = NodePath("SpawnArea/AttackImpactArea")
 attack_impact_collision = NodePath("SpawnArea/AttackImpactArea/Collision")
 enemy_audio = NodePath("EnemyAudio")
+player_blocker = NodePath("PlayerBlocker")
 attack_1_charge_particles = NodePath("Attack1ChargeParticles")
 projectile_attack_1 = ExtResource("3_gw6j7")
 projectile_attack_2 = ExtResource("4_8bply")
@@ -803,6 +807,15 @@ collision_layer = 0
 position = Vector2(-215, 64)
 shape = SubResource("RectangleShape2D_oujfj")
 debug_color = Color(0.652546, 0.518554, 0, 0.42)
+
+[node name="PlayerBlocker" type="StaticBody2D" parent="." unique_id=1744120011]
+collision_layer = 64
+collision_mask = 0
+
+[node name="Collision" type="CollisionShape2D" parent="PlayerBlocker" unique_id=1744120012]
+position = Vector2(-48, 23.5)
+shape = SubResource("RectangleShape2D_blocker")
+debug_color = Color(0.2, 0.6, 1, 0.42)
 
 [node name="HurtBox" type="Area2D" parent="." unique_id=1803265034 groups=["enemy_hitbox"]]
 collision_layer = 72

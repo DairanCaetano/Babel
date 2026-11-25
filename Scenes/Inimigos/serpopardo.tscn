@@ -1,10 +1,11 @@
-[gd_scene load_steps=27 format=3 uid="uid://4nb825ugwl7i"]
+[gd_scene load_steps=31 format=3 uid="uid://4nb825ugwl7i"]
 
 [ext_resource type="Texture2D" uid="uid://cjudd1v3af48w" path="res://sprites/Enemies/Serpopardo/Serpopardo.png" id="1_o3p1i"]
 [ext_resource type="Script" path="res://Scripts/Enemies/serpopardo.gd" id="1_w63bc"]
 [ext_resource type="Texture2D" uid="uid://cmhn84pr6mtcn" path="res://sprites/Enemies/Serpopardo/Serpopardo_Neck.png" id="2_kcky2"]
 [ext_resource type="Texture2D" uid="uid://c025umaoti862" path="res://sprites/Enemies/Serpopardo/Serpopardo_Face.png" id="3_rt8rc"]
 [ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="90_blink"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="step_area"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_15xmm"]
 radius = 23.0
@@ -387,6 +388,12 @@ resource_local_to_scene = true
 shader = ExtResource("90_blink")
 shader_parameter/blink_style = 1
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemysteparea"]
+size = Vector2(28, 6)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemystepareabody"]
+size = Vector2(46, 6)
+
 [node name="Serpopardo" type="CharacterBody2D" node_paths=PackedStringArray("_anim", "_blood_particles", "_collision", "_detection_area", "_hurtbox_body", "_attack_area", "_head_hurtbox", "_head_damage_area", "_atk2_fx_marker")]
 z_index = 1
 collision_layer = 72
@@ -519,6 +526,18 @@ debug_color = Color(0.834028, 0.389573, 0, 0.42)
 
 [node name="Atk2_Fx" type="Marker2D" parent="."]
 position = Vector2(-71, 46)
+
+[node name="EnemyStepArea" parent="Head" instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="Head/EnemyStepArea" index="0"]
+position = Vector2(0, -18)
+shape = SubResource("RectangleShape2D_step_enemysteparea")
+
+[node name="EnemyStepAreaBody" parent="." instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="EnemyStepAreaBody" index="0"]
+position = Vector2(-2, -21)
+shape = SubResource("RectangleShape2D_step_enemystepareabody")
 
 [connection signal="body_entered" from="Head/DamageArea" to="." method="_on_damage_area_body_entered"]
 [connection signal="body_exited" from="Head/DamageArea" to="." method="_on_damage_area_body_exited"]

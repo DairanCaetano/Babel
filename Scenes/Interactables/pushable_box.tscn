@@ -1,19 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://cug5wiayse636"]
+[gd_scene format=3 uid="uid://cug5wiayse636"]
 
-[ext_resource type="Script" path="res://Scripts/Interactables/pushable_objects.gd" id="1_q5ahs"]
+[ext_resource type="Script" uid="uid://c3ev55htvcvcu" path="res://Scripts/Interactables/pushable_objects.gd" id="1_q5ahs"]
 [ext_resource type="Texture2D" uid="uid://d4lnaam1qxncb" path="res://sprites/Interactables/Bloco_Sprite.png" id="2_1i6fg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lqxxk"]
 size = Vector2(30, 32)
 
-[node name="PushableBox" type="CharacterBody2D"]
+[node name="PushableBox" type="CharacterBody2D" unique_id=1946068539]
 collision_layer = 1024
 collision_mask = 1051
 script = ExtResource("1_q5ahs")
 
-[node name="Texture" type="Sprite2D" parent="."]
+[node name="Texture" type="Sprite2D" parent="." unique_id=1663370667]
 texture = ExtResource("2_1i6fg")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2003016760]
 shape = SubResource("RectangleShape2D_lqxxk")
 debug_color = Color(0, 0.643974, 0.28995, 0.42)

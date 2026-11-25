@@ -19,6 +19,8 @@ const _COLLECTABLE_ITEM = preload("res://Scenes/Collectables/collectable_item.ts
 @export var fire_particle: GPUParticles2D
 @export var collision: CollisionShape2D
 @export var hurtbox_detection: Area2D 
+## Onde aparece o aviso de ataque poderoso (AttackTellFX) no Attack_2. Posição escrita para o lado esquerdo.
+@export var attack_tell_marker: Marker2D
 
 @export_category("Health System")
 @export var _enemy_health: int = 10
@@ -100,7 +102,9 @@ func _ready():
 	
 	# ✅ CONECTA OS SINAIS
 	texture.animation_finished.connect(_on_animation_finished)
-	texture.frame_changed.connect(_on_texture_frame_changed)
+	# Já conectado na cena (zumbi_bruto_2); evita conectar duas vezes
+	if not texture.frame_changed.is_connected(_on_texture_frame_changed):
+		texture.frame_changed.connect(_on_texture_frame_changed)
 	
 	_play_animation("Idle")
 	
@@ -146,12 +150,20 @@ func _update_direction():
 	if is_facing_right:
 		texture.flip_h = true
 		fire_point.position.x = abs(fire_point.position.x)
+		if attack_tell_marker:
+			attack_tell_marker.position.x = abs(attack_tell_marker.position.x)
+		if root_point:
+			root_point.position.x = abs(root_point.position.x)
 		attack_area.position.x = 210
 		attack_area.position.y = 17
 		collision.position.x = -6
 	else:
 		texture.flip_h = false
 		fire_point.position.x = -abs(fire_point.position.x)
+		if attack_tell_marker:
+			attack_tell_marker.position.x = -abs(attack_tell_marker.position.x)
+		if root_point:
+			root_point.position.x = -abs(root_point.position.x)
 		attack_area.position.x = -210
 		attack_area.position.y = 17
 		collision.position.x = 6
@@ -191,6 +203,11 @@ func _stop_attack():
 func _play_animation(animation_name: String):
 	if texture.sprite_frames and texture.sprite_frames.has_animation(animation_name):
 		texture.play(animation_name)
+		# ✅ O Godot só emite frame_changed se o frame MUDAR: vindo de uma animação
+		# que já estava no frame 0 (ex.: Idle de 1 quadro), o frame 0 da nova
+		# animação não dispara o sinal. Chamamos à mão; as flags evitam repetir.
+		if texture.frame == 0:
+			_on_texture_frame_changed()
 
 func _on_fire_timer_timeout():
 	if is_attacking and not is_executing_special_attack:
@@ -289,7 +306,11 @@ func _execute_special_attack():
 	var special_attack = special_attack_scene.instantiate()
 	get_tree().current_scene.add_child(special_attack)
 	
-	var spawn_position = root_point.global_position + special_attack_offset
+	# ✅ Offset escrito para o lado esquerdo: espelha quando olha para a direita
+	var offset := special_attack_offset
+	if is_facing_right:
+		offset.x = -offset.x
+	var spawn_position = root_point.global_position + offset
 	special_attack.global_position = spawn_position
 
 func _on_special_attack_cooldown_timeout():
@@ -354,6 +375,9 @@ func _on_texture_frame_changed() -> void:
 			if _attack_scream_audio:
 				_attack_scream_audio.play()
 			_attack_2_scream_played = true
+			# ✅ Aviso de ataque poderoso na antecipação do Attack_2
+			if attack_tell_marker:
+				AttackTellFX.spawn(attack_tell_marker, true, texture.flip_h)
 		elif current_frame == 7:
 			if _attack_2_audio:
 				_attack_2_audio.play()

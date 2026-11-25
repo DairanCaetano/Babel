@@ -1,0 +1,130 @@
+[gd_scene format=3 uid="uid://r1vbre2rru5o"]
+
+[ext_resource type="Shader" uid="uid://ey8aypuawvqr" path="res://Shaders/santuario_stars_tiler.gdshader" id="1_stars"]
+[ext_resource type="Texture2D" uid="uid://cm8vr4hmcdkun" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 1.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://dn4mgckiog60l" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 2.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://d3uokfpdf8nr" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 3.png" id="tex_3"]
+[ext_resource type="Texture2D" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 4.png" id="tex_4"]
+
+[sub_resource type="ShaderMaterial" id="Mat_1"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 5.0
+shader_parameter/g_grid_size = Vector2(32, 18)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -3.0)
+shader_parameter/g_draw_size_min = 0.4667
+shader_parameter/g_draw_size_max = 0.4667
+shader_parameter/g_fill_chance = 0.042000001995
+shader_parameter/tex_draw = ExtResource("tex_1")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.35)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="Mat_3"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 27.0
+shader_parameter/g_grid_size = Vector2(24, 13.5)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -2.5)
+shader_parameter/g_draw_size_min = 0.35
+shader_parameter/g_draw_size_max = 0.35
+shader_parameter/g_fill_chance = 0.5
+shader_parameter/tex_draw = ExtResource("tex_3")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.25)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="Mat_4"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 71.0
+shader_parameter/g_grid_size = Vector2(20, 11.25)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -2.5)
+shader_parameter/g_draw_size_min = 0.2917
+shader_parameter/g_draw_size_max = 0.2917
+shader_parameter/g_fill_chance = 0.4
+shader_parameter/tex_draw = ExtResource("tex_4")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.25)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="Mat_2"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 10.0
+shader_parameter/g_grid_size = Vector2(8, 4.5)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -1.5)
+shader_parameter/g_draw_size_min = 0.1167
+shader_parameter/g_draw_size_max = 0.1167
+shader_parameter/g_fill_chance = 0.22400001064
+shader_parameter/tex_draw = ExtResource("tex_2")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.6)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 0.5
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[node name="CinematicIntro_BG" type="CanvasLayer" unique_id=1288255586]
+layer = -10
+
+[node name="Cor_Fundo" type="ColorRect" parent="." unique_id=1934924868]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0235294, 0.0352941, 0.0705882, 1)
+
+[node name="Espaco" type="TextureRect" parent="." unique_id=565904220]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Estrelas_Pequenas" type="ColorRect" parent="." unique_id=1417695899]
+material = SubResource("Mat_1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Pontos" type="ColorRect" parent="." unique_id=1501694119]
+material = SubResource("Mat_3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Pontos_Azuis" type="ColorRect" parent="." unique_id=723886547]
+material = SubResource("Mat_4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Grandes" type="ColorRect" parent="." unique_id=1738778626]
+material = SubResource("Mat_2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2

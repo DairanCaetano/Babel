@@ -1,15 +1,20 @@
-[gd_scene load_steps=20 format=3 uid="uid://bgw7giqkp0e7w"]
+[gd_scene format=3 uid="uid://bgw7giqkp0e7w"]
 
-[ext_resource type="Script" path="res://Scripts/Cinematic/cinematic_intro.gd" id="1_6bdjn"]
-[ext_resource type="Texture2D" uid="uid://nr8b2csbuv12" path="res://sprites/Cinematics/Cinemactic_Intro_2.png" id="2_3rwwg"]
+[ext_resource type="Script" uid="uid://djm8d576cfg8a" path="res://Scripts/Cinematic/cinematic_intro.gd" id="1_6bdjn"]
+[ext_resource type="Shader" uid="uid://ey8aypuawvqr" path="res://Shaders/santuario_stars_tiler.gdshader" id="1_stars"]
 [ext_resource type="Texture2D" uid="uid://hhtnldfarw4m" path="res://sprites/Menu/Babel_Logo_Anim_v01.png" id="2_xaiax"]
-[ext_resource type="Shader" path="res://Shaders/glitch.gdshader" id="3_lqvrb"]
+[ext_resource type="Shader" uid="uid://c55ar2gyxfvcu" path="res://Shaders/glitch.gdshader" id="3_lqvrb"]
 [ext_resource type="Texture2D" uid="uid://bqc1n2eaq3oku" path="res://sprites/Cinematics/Cinemactic_Intro_Tola_Azazel.png" id="4_60ia5"]
-[ext_resource type="Script" path="res://Scripts/Cinematic/control_text_intro.gd" id="5_naw84"]
+[ext_resource type="Texture2D" uid="uid://dnmpf8ef5hjwm" path="res://sprites/Cinematics/Cinemactic_Intro_8.png" id="4_krivq"]
+[ext_resource type="Script" uid="uid://i05g2j2ot1sh" path="res://Scripts/Cinematic/control_text_intro.gd" id="5_naw84"]
 [ext_resource type="PackedScene" uid="uid://cl4rtqrag8jfq" path="res://Scenes/FX/crt_screen_fx.tscn" id="7_6l64q"]
 [ext_resource type="FontFile" uid="uid://dxlfd4ne1nryl" path="res://Fonts/alagard/alagard.ttf" id="7_vhjo8"]
-[ext_resource type="Shader" path="res://Shaders/heat.gdshader" id="8_ob4hx"]
+[ext_resource type="Shader" uid="uid://dybukr3hn2o1f" path="res://Shaders/heat.gdshader" id="8_ob4hx"]
 [ext_resource type="Texture2D" uid="uid://dafj3nbilqtyn" path="res://sprites/FX/NEBLINA/Babel_FX_Effects_ Fog_v06.png" id="9_hi2ta"]
+[ext_resource type="Texture2D" uid="uid://fha0hw4v0175" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 4.png" id="ibg_tex_4"]
+[ext_resource type="Texture2D" uid="uid://cm8vr4hmcdkun" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 1.png" id="tex_1"]
+[ext_resource type="Texture2D" uid="uid://dn4mgckiog60l" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 2.png" id="tex_2"]
+[ext_resource type="Texture2D" uid="uid://d3uokfpdf8nr" path="res://sprites/Environment/SANTUÁRIO/Sprite-0001_Layer 3.png" id="tex_3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7axdh"]
 shader = ExtResource("3_lqvrb")
@@ -18,6 +23,70 @@ shader_parameter/shake_rate = 0.1
 shader_parameter/shake_speed = 10.0
 shader_parameter/shake_block_size = 20.0
 shader_parameter/shake_color_rate = 0.01
+
+[sub_resource type="ShaderMaterial" id="ibg_Mat_1"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 5.0
+shader_parameter/g_grid_size = Vector2(32, 18)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -3)
+shader_parameter/g_draw_size_min = 0.4667
+shader_parameter/g_draw_size_max = 0.4667
+shader_parameter/g_fill_chance = 0.042000001995
+shader_parameter/tex_draw = ExtResource("tex_1")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.35)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="ibg_Mat_3"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 27.0
+shader_parameter/g_grid_size = Vector2(24, 13.5)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -2.5)
+shader_parameter/g_draw_size_min = 0.35
+shader_parameter/g_draw_size_max = 0.35
+shader_parameter/g_fill_chance = 0.5
+shader_parameter/tex_draw = ExtResource("tex_3")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.25)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="ibg_Mat_4"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 71.0
+shader_parameter/g_grid_size = Vector2(20, 11.25)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -2.5)
+shader_parameter/g_draw_size_min = 0.2917
+shader_parameter/g_draw_size_max = 0.2917
+shader_parameter/g_fill_chance = 0.4
+shader_parameter/tex_draw = ExtResource("ibg_tex_4")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.25)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 1.0
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
+
+[sub_resource type="ShaderMaterial" id="ibg_Mat_2"]
+shader = ExtResource("1_stars")
+shader_parameter/g_random_seed = 10.0
+shader_parameter/g_grid_size = Vector2(8, 4.5)
+shader_parameter/g_cell_offset = Vector2(0, 0)
+shader_parameter/g_speed = Vector2(0, -1.5)
+shader_parameter/g_draw_size_min = 0.1167
+shader_parameter/g_draw_size_max = 0.1167
+shader_parameter/g_fill_chance = 0.22400001064
+shader_parameter/tex_draw = ExtResource("tex_2")
+shader_parameter/g_color_a = Color(1, 1, 1, 0.6)
+shader_parameter/g_color_b = Color(1, 1, 1, 1)
+shader_parameter/g_rot_global_speed = 0.5
+shader_parameter/g_rot_min_speed = 0.1
+shader_parameter/g_rot_max_speed = 1.0
 
 [sub_resource type="Animation" id="Animation_yiqhc"]
 length = 0.001
@@ -108,7 +177,7 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="Animation_hw2x1"]
 resource_name = "cinematic"
-length = 46.0
+length = 61.04
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -116,10 +185,10 @@ tracks/0/path = NodePath("TextureTower:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2.1, 45.3667),
+"times": PackedFloat32Array(5, 17.139, 60.405),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(240, 690), Vector2(240, 660), Vector2(240, -420)]
+"values": [Vector2(240, 963), Vector2(240, 660), Vector2(240, -420)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -128,7 +197,7 @@ tracks/1/path = NodePath("TextureLogo:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(1.96667, 34.2667, 34.7334),
+"times": PackedFloat32Array(6.96667, 49.306, 49.772),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
@@ -140,7 +209,7 @@ tracks/2/path = NodePath("TextureLogo:frame")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(34.9, 35.2667, 35.6, 35.9334, 36.3),
+"times": PackedFloat32Array(49.939, 50.306, 50.639, 50.972, 51.339),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4]
@@ -152,7 +221,7 @@ tracks/3/path = NodePath("TextureTolaAzazel:position")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
-"times": PackedFloat32Array(28.7667, 43.4667),
+"times": PackedFloat32Array(43.806, 58.506),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(232, 327), Vector2(232, 220)]
@@ -164,7 +233,7 @@ tracks/4/path = NodePath("TextureTolaAzazel:scale")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
-"times": PackedFloat32Array(28.7, 34.7),
+"times": PackedFloat32Array(43.739, 49.739),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(3, 3), Vector2(1, 1)]
@@ -190,7 +259,7 @@ tracks/6/path = NodePath("Fog:position")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
-"times": PackedFloat32Array(25.3, 35.2667),
+"times": PackedFloat32Array(40.339, 50.306),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(480, -55), Vector2(-800, -55)]
@@ -202,7 +271,7 @@ tracks/7/path = NodePath("TextureTower:scale")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
-"times": PackedFloat32Array(-0.0333333, 41.7667),
+"times": PackedFloat32Array(4.96667, 56.806),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Vector2(0.98, 0.98), Vector2(1, 1)]
@@ -210,8 +279,8 @@ tracks/7/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5388i"]
 _data = {
-"RESET": SubResource("Animation_yiqhc"),
-"cinematic": SubResource("Animation_hw2x1")
+&"RESET": SubResource("Animation_yiqhc"),
+&"cinematic": SubResource("Animation_hw2x1")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e2el5"]
@@ -238,7 +307,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_n4yn6")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }]
@@ -249,54 +318,111 @@ shader_parameter/strength = 0.02
 shader_parameter/speed = 2.0
 shader_parameter/frequency = 20.0
 
-[node name="CinematicIntro" type="Node2D" node_paths=PackedStringArray("animation_player")]
+[node name="CinematicIntro" type="Node2D" unique_id=1389515338 node_paths=PackedStringArray("animation_player")]
 script = ExtResource("1_6bdjn")
 animation_player = NodePath("Anim")
 
-[node name="GlitchFx" type="CanvasLayer" parent="."]
+[node name="GlitchFx" type="CanvasLayer" parent="." unique_id=621662295]
 visible = false
 
-[node name="Texture" type="ColorRect" parent="GlitchFx"]
+[node name="Texture" type="ColorRect" parent="GlitchFx" unique_id=675742686]
 material = SubResource("ShaderMaterial_7axdh")
 offset_right = 481.0
 offset_bottom = 271.0
 color = Color(1, 1, 1, 0.337255)
 
-[node name="BG" type="Sprite2D" parent="."]
+[node name="BG" type="Sprite2D" parent="." unique_id=1751454605]
 
-[node name="CRT_Screen_FX" parent="." instance=ExtResource("7_6l64q")]
+[node name="CinematicIntro_BG" type="CanvasLayer" parent="." unique_id=1288255586]
+layer = -10
 
-[node name="TextureTower" type="Sprite2D" parent="."]
+[node name="Cor_Fundo" type="ColorRect" parent="CinematicIntro_BG" unique_id=1934924868]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0.0235294, 0.0352941, 0.0705882, 1)
+
+[node name="Espaco" type="TextureRect" parent="CinematicIntro_BG" unique_id=565904220]
+texture_filter = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Estrelas_Pequenas" type="ColorRect" parent="CinematicIntro_BG" unique_id=1417695899]
+material = SubResource("ibg_Mat_1")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Pontos" type="ColorRect" parent="CinematicIntro_BG" unique_id=1501694119]
+material = SubResource("ibg_Mat_3")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Pontos_Azuis" type="ColorRect" parent="CinematicIntro_BG" unique_id=723886547]
+material = SubResource("ibg_Mat_4")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Estrelas_Grandes" type="ColorRect" parent="CinematicIntro_BG" unique_id=1738778626]
+material = SubResource("ibg_Mat_2")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CRT_Screen_FX" parent="." unique_id=2096075572 instance=ExtResource("7_6l64q")]
+
+[node name="TextureTower" type="Sprite2D" parent="." unique_id=1821912896]
 position = Vector2(240, 540)
-texture = ExtResource("2_3rwwg")
+texture = ExtResource("4_krivq")
 
-[node name="TextureLogo" type="Sprite2D" parent="."]
+[node name="TextureLogo" type="Sprite2D" parent="." unique_id=13513967]
 position = Vector2(239, 136)
 texture = ExtResource("2_xaiax")
 hframes = 5
 
-[node name="TextureRect2" type="TextureRect" parent="."]
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1373790973]
 offset_left = -10.0
 offset_top = 239.0
 offset_right = 556.0
 offset_bottom = 279.0
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=351487457]
 offset_right = 573.0
 offset_bottom = 53.0
 
-[node name="Anim" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_5388i")
-}
-autoplay = "cinematic"
+[node name="Anim" type="AnimationPlayer" parent="." unique_id=32104766]
+libraries/ = SubResource("AnimationLibrary_5388i")
+autoplay = &"cinematic"
 
-[node name="TextureTolaAzazel" type="AnimatedSprite2D" parent="."]
+[node name="TextureTolaAzazel" type="AnimatedSprite2D" parent="." unique_id=1382150403]
 position = Vector2(232, 327)
 sprite_frames = SubResource("SpriteFrames_em2od")
 autoplay = "default"
 
-[node name="Control" type="Control" parent="."]
+[node name="Control" type="Control" parent="." unique_id=1894336490]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -314,7 +440,7 @@ script = ExtResource("5_naw84")
 font = ExtResource("7_vhjo8")
 font_size = 14
 
-[node name="Fog" type="TextureRect" parent="."]
+[node name="Fog" type="TextureRect" parent="." unique_id=442021517]
 modulate = Color(1, 1, 1, 0.345098)
 material = SubResource("ShaderMaterial_5b4sw")
 offset_left = 480.0

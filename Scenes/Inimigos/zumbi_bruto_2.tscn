@@ -1,16 +1,16 @@
-[gd_scene load_steps=59 format=3 uid="uid://6nnvh0gj52id"]
+[gd_scene format=3 uid="uid://6nnvh0gj52id"]
 
 [ext_resource type="Texture2D" uid="uid://d0pq41rrbgu8m" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_Ataque_1_v01.png" id="1_e4isj"]
-[ext_resource type="Script" path="res://Scripts/Enemies/zumbi_bruto.gd" id="1_m8184"]
+[ext_resource type="Script" uid="uid://vc4byduo3687" path="res://Scripts/Enemies/zumbi_bruto.gd" id="1_m8184"]
 [ext_resource type="Texture2D" uid="uid://bjrnlp67wdyab" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_Ataque_2_v01.png" id="2_d4ym2"]
 [ext_resource type="PackedScene" uid="uid://brl7ooo5ye4xp" path="res://Scenes/Projectile/projectile_ground_explosion.tscn" id="2_uj2b8"]
 [ext_resource type="Texture2D" uid="uid://dqlesnifcjyrj" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_Dead_v01.png" id="3_0ju7m"]
 [ext_resource type="PackedScene" uid="uid://ddwbhoaxlwqtp" path="res://Scenes/Projectile/projectile_ground_roots.tscn" id="3_bnwfy"]
-[ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="4_871ln"]
+[ext_resource type="Shader" uid="uid://x85p37fnk4c5" path="res://Shaders/blink.gdshader" id="4_871ln"]
 [ext_resource type="Texture2D" uid="uid://bt3vk70r2bx33" path="res://sprites/Enemies/Zumbi Bruto/Zumbi_Bruto_Idle_v01.png" id="4_bpflv"]
 [ext_resource type="PackedScene" uid="uid://ccahtwj6g0761" path="res://Scenes/FX/blood_particles.tscn" id="6_y2frm"]
 [ext_resource type="PackedScene" uid="uid://do4jxr5uxk2yp" path="res://Scenes/FX/fire_particles_01_2d.tscn" id="7_lutov"]
-[ext_resource type="Script" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="9_mm1jf"]
+[ext_resource type="Script" uid="uid://b88qamtji6syk" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="9_mm1jf"]
 [ext_resource type="AudioStream" uid="uid://b5db35iqadw0a" path="res://Sound/SFX/EnemiesSound/Enemy_Die_Fire_Fire Hit_HY_PC-001.ogg" id="10_ta3wn"]
 [ext_resource type="AudioStream" uid="uid://mac4c0wybpyr" path="res://Sound/SFX/EnemiesSound/Zombie_6.ogg" id="11_rddqu"]
 [ext_resource type="AudioStream" uid="uid://d2yk07qejm8s7" path="res://Sound/SFX/EnemiesSound/Injured.ogg" id="12_wija0"]
@@ -20,16 +20,30 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xm183"]
 shader = ExtResource("4_871ln")
-shader_parameter/blink_style = 1
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 1.0
+shader_parameter/blink_style = 1
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
 shader_parameter/rainbow_active = false
 shader_parameter/rainbow_speed = 2.0
 shader_parameter/rainbow_intensity = 0.65
+shader_parameter/outline_active = false
+shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
+shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oaepf"]
 atlas = ExtResource("1_e4isj")
@@ -197,7 +211,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_dl0gq")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_1",
 "speed": 10.0
 }, {
@@ -229,7 +243,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ckmq6")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_2",
 "speed": 10.0
 }, {
@@ -237,7 +251,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_idsxt")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Attack_Anticipation",
 "speed": 10.0
 }, {
@@ -272,7 +286,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1e3wv")
 }],
-"loop": false,
+"loop": 0,
 "name": &"Dead",
 "speed": 10.0
 }, {
@@ -292,7 +306,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_v8si0")
 }],
-"loop": true,
+"loop": 1,
 "name": &"Idle",
 "speed": 5.0
 }]
@@ -311,9 +325,9 @@ height = 138.0
 size = Vector2(58, 55)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8dwp6"]
-size = Vector2(40, 1)
+size = Vector2(58, 6)
 
-[node name="ZumbiBruto" type="CharacterBody2D" node_paths=PackedStringArray("detection_area", "attack_area", "texture", "fire_point", "fire_timer", "root_point", "fire_particle", "collision", "hurtbox_detection", "_dead_audio", "_dead_scream_audio", "_hit_audio", "_attack_audio", "_attack_scream_audio", "_attack_1_audio", "_attack_2_audio")]
+[node name="ZumbiBruto" type="CharacterBody2D" unique_id=103393838 node_paths=PackedStringArray("detection_area", "attack_area", "texture", "fire_point", "fire_timer", "root_point", "fire_particle", "collision", "hurtbox_detection", "attack_tell_marker", "_dead_audio", "_dead_scream_audio", "_hit_audio", "_attack_audio", "_attack_scream_audio", "_attack_1_audio", "_attack_2_audio")]
 collision_layer = 0
 collision_mask = 6
 script = ExtResource("1_m8184")
@@ -329,6 +343,7 @@ root_point = NodePath("Attack_2")
 fire_particle = NodePath("FireParticles")
 collision = NodePath("Collision")
 hurtbox_detection = NodePath("HurtBox")
+attack_tell_marker = NodePath("AttackTellMarker")
 _enemy_health = 35
 _knockback_speed = 0.0
 _dead_audio = NodePath("DeadAudio")
@@ -339,75 +354,78 @@ _attack_scream_audio = NodePath("AttackScreamAudio")
 _attack_1_audio = NodePath("Attack1Audio")
 _attack_2_audio = NodePath("Attack2Audio")
 
-[node name="Texture" type="AnimatedSprite2D" parent="."]
+[node name="Texture" type="AnimatedSprite2D" parent="." unique_id=859920369]
 material = SubResource("ShaderMaterial_xm183")
 sprite_frames = SubResource("SpriteFrames_adwvc")
 animation = &"Idle"
 
-[node name="Collision" type="CollisionShape2D" parent="."]
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=982076788]
 position = Vector2(0, 18.5)
 shape = SubResource("RectangleShape2D_pb7jp")
 debug_color = Color(1, 0.00536056, 0.0606623, 0.42)
 
-[node name="AttackArea" type="Area2D" parent="."]
+[node name="AttackArea" type="Area2D" parent="." unique_id=1103950283]
 
-[node name="Collision" type="CollisionShape2D" parent="AttackArea"]
+[node name="Collision" type="CollisionShape2D" parent="AttackArea" unique_id=1726126010]
 position = Vector2(0, 17)
 shape = SubResource("RectangleShape2D_gxgwi")
 debug_color = Color(0.643425, 0.523182, 0, 0.42)
 
-[node name="DetecttionArea" type="Area2D" parent="."]
+[node name="DetecttionArea" type="Area2D" parent="." unique_id=1149416399]
 collision_layer = 0
 
-[node name="Collision" type="CollisionShape2D" parent="DetecttionArea"]
+[node name="Collision" type="CollisionShape2D" parent="DetecttionArea" unique_id=1550382060]
 shape = SubResource("CapsuleShape2D_l7b2i")
 
-[node name="HurtBox" type="Area2D" parent="." groups=["enemy_hitbox"]]
+[node name="HurtBox" type="Area2D" parent="." unique_id=1147092448 groups=["enemy_hitbox"]]
 collision_layer = 72
 collision_mask = 5
 script = ExtResource("9_mm1jf")
 
-[node name="Collision" type="CollisionShape2D" parent="HurtBox"]
+[node name="Collision" type="CollisionShape2D" parent="HurtBox" unique_id=1700367003]
 position = Vector2(0, 16.5)
 shape = SubResource("RectangleShape2D_yf7eg")
 debug_color = Color(0.981255, 0, 0.372651, 0.42)
 
-[node name="Attack_1" type="Marker2D" parent="."]
+[node name="Attack_1" type="Marker2D" parent="." unique_id=560962024]
 position = Vector2(-27, 21)
 
-[node name="Attack_2" type="Marker2D" parent="."]
-position = Vector2(6, -10)
+[node name="Attack_2" type="Marker2D" parent="." unique_id=446741303]
+position = Vector2(-8, -10)
 
-[node name="FireTimer" type="Timer" parent="."]
+[node name="AttackTellMarker" type="Marker2D" parent="." unique_id=815508049]
+position = Vector2(-4, 7)
+
+[node name="FireTimer" type="Timer" parent="." unique_id=392052310]
 wait_time = 0.3
 
-[node name="BloodParticles" parent="." instance=ExtResource("6_y2frm")]
+[node name="BloodParticles" parent="." unique_id=1854544926 instance=ExtResource("6_y2frm")]
 
-[node name="FireParticles" parent="." instance=ExtResource("7_lutov")]
+[node name="FireParticles" parent="." unique_id=435800121 instance=ExtResource("7_lutov")]
 
-[node name="AttackAudio" type="AudioStreamPlayer" parent="."]
+[node name="AttackAudio" type="AudioStreamPlayer" parent="." unique_id=1950025265]
 
-[node name="DeadAudio" type="AudioStreamPlayer" parent="."]
+[node name="DeadAudio" type="AudioStreamPlayer" parent="." unique_id=912802084]
 stream = ExtResource("10_ta3wn")
 
-[node name="DeadScreamAudio" type="AudioStreamPlayer" parent="."]
+[node name="DeadScreamAudio" type="AudioStreamPlayer" parent="." unique_id=1455574772]
 stream = ExtResource("11_rddqu")
 
-[node name="HitAudio" type="AudioStreamPlayer" parent="."]
+[node name="HitAudio" type="AudioStreamPlayer" parent="." unique_id=1294407671]
 stream = ExtResource("12_wija0")
 
-[node name="AttackScreamAudio" type="AudioStreamPlayer" parent="."]
+[node name="AttackScreamAudio" type="AudioStreamPlayer" parent="." unique_id=598141496]
 stream = ExtResource("15_mo441")
 
-[node name="Attack1Audio" type="AudioStreamPlayer" parent="."]
+[node name="Attack1Audio" type="AudioStreamPlayer" parent="." unique_id=421422674]
 stream = ExtResource("16_p48fk")
 
-[node name="Attack2Audio" type="AudioStreamPlayer" parent="."]
+[node name="Attack2Audio" type="AudioStreamPlayer" parent="." unique_id=1758753984]
 
-[node name="EnemyStepArea" parent="." instance=ExtResource("17_irfta")]
+[node name="EnemyStepArea" parent="." unique_id=38610280 instance=ExtResource("17_irfta")]
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea"]
-position = Vector2(0, -12.5)
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea" unique_id=277671083]
+position = Vector2(0, -18)
 shape = SubResource("RectangleShape2D_8dwp6")
 
 [connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]

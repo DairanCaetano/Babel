@@ -67,6 +67,8 @@ func _consume(_body: BaseCharacter) -> void:
 	pass
 
 func _show_skill_display(skill_display_data: Dictionary) -> void:
+	if global.debug_silent_pickup:
+		return  # entrega de debug: sem pop-up
 	var game_main = get_tree().get_first_node_in_group("game_main")
 	if not game_main:
 		push_error("❌ game_main não encontrado!")
@@ -111,6 +113,8 @@ func _show_skill_display(skill_display_data: Dictionary) -> void:
 	skill_display.show_skill(skill_display_data)
 
 func _show_stat_boost_popup(text: String) -> void:
+	if global.debug_silent_pickup:
+		return  # entrega de debug: sem pop-up
 	var game_main = get_tree().get_first_node_in_group("game_main")
 	if not game_main:
 		push_error("❌ game_main não encontrado!")

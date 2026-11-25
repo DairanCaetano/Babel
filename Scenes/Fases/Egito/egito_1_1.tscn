@@ -17,10 +17,8 @@
 [ext_resource type="PackedScene" uid="uid://145r6otn3agc" path="res://Scenes/Interactables/spear_trap.tscn" id="9_mynlp"]
 [ext_resource type="PackedScene" uid="uid://bpejm27qwib1y" path="res://Scenes/cenografia/egito_bg.tscn" id="9_oc3va"]
 [ext_resource type="PackedScene" uid="uid://ca4aq4q4frgu" path="res://Scenes/Interactables/hook_area.tscn" id="10_cee6e"]
-[ext_resource type="PackedScene" uid="uid://c87puwj1bd1ov" path="res://Scenes/Collectables/collectable_spear.tscn" id="11_0mlga"]
 [ext_resource type="PackedScene" uid="uid://melnng4jallh" path="res://Scenes/Collectables/collectable_dash.tscn" id="11_emb50"]
 [ext_resource type="Texture2D" uid="uid://bssdggkrf2lgy" path="res://sprites/Environment/EGITO/TERRENO/MAPA_1_TEBES_Terreno_Plataformas_v01.png" id="11_oan4k"]
-[ext_resource type="PackedScene" uid="uid://5shs0uj4fa6i" path="res://Scenes/Collectables/collectable_wall_jump.tscn" id="12_6amkf"]
 [ext_resource type="PackedScene" uid="uid://dwa3dijqx57ec" path="res://Scenes/Interactables/door.tscn" id="13_o125k"]
 [ext_resource type="PackedScene" uid="uid://ducc0uci4ddnn" path="res://Scenes/Interactables/pendulum.tscn" id="14_leqf5"]
 [ext_resource type="PackedScene" uid="uid://dark5smk184qh" path="res://Scenes/Fases/save_area.tscn" id="15_evau1"]
@@ -1092,55 +1090,43 @@ tile_set = SubResource("TileSet_5y7xy")
 tile_map_data = PackedByteArray("AACVAAwAAAAEAAUAAACWAAwAAAAEAAUAAACVAA8AAAAEAAUAAACWAA8AAAAEAAUAAACVABEAAAAEAAUAAACWABEAAAAEAAUAAACUAAwAAAADAAUAAACXAAwAAAAFAAUAAACUAA8AAAADAAUAAACXAA8AAAAFAAUAAACUABEAAAADAAUAAACXABEAAAAFAAUAAADGAH8AAAADAAUAAADHAH8AAAAFAAUAAADGAHwAAAADAAUAAADHAHwAAAAFAAUAAADGAHkAAAADAAUAAADHAHkAAAAFAAUAAADGAHYAAAADAAUAAADHAHYAAAAFAAUAAACqAHEAAAADAAUAAACrAHEAAAAFAAUAAACqAG4AAAADAAUAAACrAG4AAAAFAAUAAACqAGsAAAADAAUAAACrAGsAAAAFAAUAAACLAC4AAAADAAUAAACMAC4AAAAEAAUAAACNAC4AAAAEAAUAAACOAC4AAAAEAAUAAACPAC4AAAAFAAUAAACLACoAAAADAAUAAACMACoAAAAEAAUAAACNACoAAAAEAAUAAACOACoAAAAEAAUAAACPACoAAAAFAAUAAACZAC4AAAADAAUAAACaAC4AAAAEAAUAAACbAC4AAAAEAAUAAACcAC4AAAAFAAUAAACZACkAAAADAAUAAACaACkAAAAEAAUAAACbACkAAAAEAAUAAACcACkAAAAFAAUAAAA=")
 tile_set = SubResource("TileSet_pua8o")
 
-[node name="CollectableSpear" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="0" unique_id=1542855315 instance=ExtResource("11_0mlga")]
-position = Vector2(2334, 1522)
-has_post_dialog = true
-
-[node name="CollectableWallJump" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="1" unique_id=786416806 instance=ExtResource("12_6amkf")]
-position = Vector2(4070, 593)
-has_post_dialog = false
-
-[node name="Pendulum3" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="2" unique_id=768573322 instance=ExtResource("14_leqf5")]
+[node name="Pendulum3" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="0" unique_id=768573322 instance=ExtResource("14_leqf5")]
 position = Vector2(2341, 2007)
 
-[node name="Pendulum2" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="3" unique_id=299353517 instance=ExtResource("14_leqf5")]
+[node name="Pendulum2" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="1" unique_id=299353517 instance=ExtResource("14_leqf5")]
 position = Vector2(3013, 1655)
 
-[node name="Pendulum4" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="4" unique_id=1217372265 instance=ExtResource("14_leqf5")]
+[node name="Pendulum4" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="2" unique_id=1217372265 instance=ExtResource("14_leqf5")]
 position = Vector2(3089, 2039)
 
-[node name="Pendulum5" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="5" unique_id=367907134 instance=ExtResource("14_leqf5")]
+[node name="Pendulum5" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="3" unique_id=367907134 instance=ExtResource("14_leqf5")]
 position = Vector2(2871, 2039)
 start_side = "right"
 
-[node name="Pendulum6" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="6" unique_id=1903121787 instance=ExtResource("14_leqf5")]
+[node name="Pendulum6" parent="Plataforms" parent_id_path=PackedInt32Array(270896775) index="4" unique_id=1903121787 instance=ExtResource("14_leqf5")]
 position = Vector2(2367, 1046)
 start_side = "right"
 
-[node name="CollectableDagger" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="0" unique_id=1314575375 instance=ExtResource("26_ytj3c")]
+[node name="CollectableDash" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="0" unique_id=1195355264 instance=ExtResource("11_emb50")]
+position = Vector2(2910, 614)
+
+[node name="CollectableDagger" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="1" unique_id=1314575375 instance=ExtResource("26_ytj3c")]
 position = Vector2(210, 228)
 
-[node name="CollectableSpear" parent="Collectables" parent_id_path=PackedInt32Array(1402700009) index="1" unique_id=1784084730 instance=ExtResource("11_0mlga")]
-position = Vector2(4180, 1255)
-
-[node name="CollectableDash" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="0" unique_id=1195355264 instance=ExtResource("11_emb50")]
-position = Vector2(2910, 614)
-has_post_dialog = false
-
-[node name="Altar" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="1" unique_id=164291638 instance=ExtResource("3_5qilx")]
+[node name="Altar" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="0" unique_id=164291638 instance=ExtResource("3_5qilx")]
 position = Vector2(2910, 632)
 
-[node name="Altar2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="2" unique_id=641633175 instance=ExtResource("3_5qilx")]
+[node name="Altar2" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="1" unique_id=641633175 instance=ExtResource("3_5qilx")]
 position = Vector2(2929, 856)
 
-[node name="HookArea" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="3" unique_id=1922376540 instance=ExtResource("10_cee6e")]
+[node name="HookArea" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="2" unique_id=1922376540 instance=ExtResource("10_cee6e")]
 position = Vector2(147, -25)
 
-[node name="Door" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="4" unique_id=75093924 instance=ExtResource("13_o125k")]
+[node name="Door" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="3" unique_id=75093924 instance=ExtResource("13_o125k")]
 position = Vector2(-7, -24)
 
-[node name="SamyazaNPC" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="5" unique_id=189636276 instance=ExtResource("19_w4t5v")]
-position = Vector2(3079, 172)
+[node name="SamyazaNPC" parent="Interactables" parent_id_path=PackedInt32Array(19938014) index="4" unique_id=189636276 instance=ExtResource("19_w4t5v")]
+position = Vector2(2304, 172)
 
 [node name="Serpopardo" parent="Enemies" parent_id_path=PackedInt32Array(1996115500) index="0" unique_id=1957284032 instance=ExtResource("25_txhtr")]
 position = Vector2(1689, 194)
@@ -1414,7 +1400,7 @@ position = Vector2(9, -10)
 position = Vector2(2313, 198)
 
 [node name="SpawnDefault" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=265643695]
-position = Vector2(1970, 158)
+position = Vector2(2622, 207)
 
 [node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="3" unique_id=1974325504]
 position = Vector2(3573, 579)

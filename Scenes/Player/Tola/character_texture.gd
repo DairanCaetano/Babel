@@ -390,6 +390,7 @@ func action_animation(_action_name: String, _previous_frame: int = 0) -> void:
 	
 	if (
 		_action_name == "Hit" or
+		_action_name == "Knockback" or
 		_action_name == "Dead_Hit" or 
 		_action_name == "Dead_Ground"
 	):
@@ -526,7 +527,7 @@ func _on_animation_finished():
 			animate(_character.velocity)
 		return
 	
-	if animation == "Hit":
+	if animation == "Hit" or animation == "Knockback":
 		_is_on_action = false
 		_character.set_physics_process(true)
 		

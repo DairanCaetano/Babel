@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cacc604fmk33w"]
+[gd_scene load_steps=27 format=3 uid="uid://cacc604fmk33w"]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/base_torreta.gd" id="1_7n04k"]
 [ext_resource type="Texture2D" uid="uid://cdpbqg5wbsy06" path="res://sprites/Enemies/Estátua Rá/Babel_Egito_Estátua_Rá_Torre_Atk_v01.png" id="2_bkqme"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://crda4gdmb6hmi" path="res://sprites/Enemies/Estátua Rá/Babel_Egito_Estátua_Rá_Torre_v01.png" id="4_chn8c"]
 [ext_resource type="Script" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="5_fo5s0"]
 [ext_resource type="Shader" path="res://Shaders/blink.gdshader" id="90_blink"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="step_area"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gcbk0"]
 atlas = ExtResource("2_bkqme")
@@ -130,6 +131,9 @@ resource_local_to_scene = true
 shader = ExtResource("90_blink")
 shader_parameter/blink_style = 1
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemysteparea"]
+size = Vector2(14, 6)
+
 [node name="EstátuaRá" type="CharacterBody2D" node_paths=PackedStringArray("detection_area", "texture", "fire_point", "hurt_box")]
 collision_layer = 0
 collision_mask = 6
@@ -175,6 +179,12 @@ script = ExtResource("5_fo5s0")
 position = Vector2(0, 1.5)
 shape = SubResource("RectangleShape2D_2p7q1")
 debug_color = Color(0.991088, 0, 0.270116, 0.42)
+
+[node name="EnemyStepArea" parent="." instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="EnemyStepArea" index="0"]
+position = Vector2(0, -20)
+shape = SubResource("RectangleShape2D_step_enemysteparea")
 
 [connection signal="body_entered" from="DetectionArea" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="DetectionArea" to="." method="_on_detection_area_body_exited"]

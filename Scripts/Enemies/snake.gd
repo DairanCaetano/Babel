@@ -3,9 +3,36 @@ class_name Snake
 
 var _can_attack: bool = true
 var _queued_to_die: bool = false
-var _attack_state: int = 0
+# ===== ORDEM DOS ATAQUES (sorteio sem repetição) =====
+# Cada rodada usa todos os ataques uma vez, em ordem aleatória ("saco" embaralhado).
+# Ao começar uma rodada nova, o primeiro ataque nunca repete o último da anterior.
+enum SnakeAttack { LINEAR, PENDULUM, SPECIAL }
+var _attack_bag: Array[int] = []
+var _last_attack: int = -1
+var _current_attack: int = -1
+## Ataque forçado por condição (ex.: Tola petrificada -> LINEAR). Não gasta o saco.
+var _forced_attack: int = -1
 var _is_player_on_right: bool = false  # ✅ NOVA VARIÁVEL
 var _current_facing_right: bool = false  # ✅ Rastreia direção atual para evitar mudanças bruscas
+
+# =====================================================================
+# ESPELHAMENTO (virar para a direita)
+# Todas as posições anotadas neste script (idle, ataques, pêndulo) estão
+# escritas para o Basilisco OLHANDO PARA A ESQUERDA (padrão dos sprites).
+# Ao olhar para a direita:
+#   - dentro do HeadNNeck: x -> -x (_get_adjusted_position)
+#   - o HeadNNeck e as áreas do corpo espelham em torno do centro do corpo
+#     (BODY_PIVOT_X), porque a cena não está centrada em (0, 0)
+#   - a DamageArea/Hurtbox da cabeça espelham em torno da própria cabeça
+# =====================================================================
+## Centro do corpo (Body.position.x): eixo do espelhamento
+const BODY_PIVOT_X: float = -30.0
+## Duração da troca de lado
+const FACING_TWEEN_TIME: float = 0.3
+# Posições X originais (lado esquerdo), capturadas da cena no _ready
+var _body_mirror_nodes: Dictionary = {}   # nós espelhados em torno do BODY_PIVOT_X
+var _head_mirror_nodes: Dictionary = {}   # nós espelhados em torno da cabeça (x -> -x)
+var _headnneck_base_x: float = 0.0
 
 @onready var _objects: Array = [
 	$HeadNNeck/Head, $HeadNNeck/Neck1, $HeadNNeck/Neck2, $HeadNNeck/Neck3, $HeadNNeck/Neck4, $HeadNNeck/Neck5
@@ -62,6 +89,8 @@ var _attack_2_rotations: Array = [0, 90, 180, 270, 360]
 
 @export_category("Stats")
 @export var _attack_damage: int = 10
+## Knockback dos golpes da cabeça (Linear e Pêndulo) na Tola (x = lado, y = para cima)
+@export var _attack_knockback: Vector2 = Vector2(280, 180)
 @export var snake_health: int = 30
 
 func _ready() -> void:
@@ -112,6 +141,8 @@ func _ready() -> void:
 	# ✅ DEFINIR POSIÇÕES INICIAIS
 	for i in range(_objects.size()):
 		_objects[i].position = _idle_positions[i]
+	
+	_capture_mirror_bases()
 
 
 # ✅ NOVA FUNÇÃO: Atualiza direção baseada na posição do player (SEM teleporte)
@@ -132,6 +163,9 @@ func _update_facing_direction(smooth: bool = true) -> void:
 			if obj:
 				obj.flip_h = _is_player_on_right
 		
+		# ✅ Corpo, base do pescoço e áreas trocam de lado
+		_apply_facing(smooth)
+		
 		# ✅ TRANSIÇÃO SUAVE para as novas posições idle
 		if smooth:
 			for i in range(_objects.size()):
@@ -147,10 +181,54 @@ func _get_adjusted_position(base_position: Vector2) -> Vector2:
 	return base_position
 
 
+# ✅ Pivô do espelhamento: guarda as posições X originais (lado esquerdo)
+func _capture_mirror_bases() -> void:
+	_headnneck_base_x = $HeadNNeck.position.x
+	for path in ["Collision", "SnakeHurtbox/Collision", "AttackArea/Collision", "DetectionArea/Collision", "EnemyStepAreaBody/CollisionShape2D"]:
+		var n := get_node_or_null(path) as Node2D
+		if n:
+			_body_mirror_nodes[n] = n.position.x
+	var head: Node = $HeadNNeck/Head
+	for path in ["DamageArea/Collision", "Hurtbox/Collision", "EnemyStepArea/CollisionShape2D2", "AttackTellMarker"]:
+		var n := head.get_node_or_null(path) as Node2D
+		if n:
+			_head_mirror_nodes[n] = n.position.x
+
+
+func _mirror_body_x(base_x: float) -> float:
+	return 2.0 * BODY_PIVOT_X - base_x if _current_facing_right else base_x
+
+
+# ✅ Vira corpo, base do pescoço e áreas para o lado atual
+func _apply_facing(smooth: bool = true) -> void:
+	if has_node("Body"):
+		$Body.flip_h = _current_facing_right
+	
+	var neck_x := _mirror_body_x(_headnneck_base_x)
+	if smooth:
+		var t := get_tree().create_tween()
+		t.tween_property($HeadNNeck, "position:x", neck_x, FACING_TWEEN_TIME).set_ease(Tween.EASE_IN_OUT)
+	else:
+		$HeadNNeck.position.x = neck_x
+	
+	for n in _body_mirror_nodes:
+		if is_instance_valid(n):
+			n.position.x = _mirror_body_x(_body_mirror_nodes[n])
+	for n in _head_mirror_nodes:
+		if is_instance_valid(n):
+			n.position.x = -_head_mirror_nodes[n] if _current_facing_right else _head_mirror_nodes[n]
+
+
+# ✅ Rotação espelhada (pêndulo): r -> -r ao olhar para a direita
+func _get_adjusted_rotation(base_degrees: float) -> float:
+	return -base_degrees if _current_facing_right else base_degrees
+
+
 func _get_limited_neck_position(neck_index: int, target_pos: Vector2) -> Vector2:
 	# ✅ APENAS O NECK5 É LIMITADO
 	if neck_index == 5:  # Neck5 - movimento mínimo
-		var idle_pos = _idle_positions[neck_index]
+		# ✅ Limite em torno do idle JÁ CONVERTIDO para o lado atual
+		var idle_pos = _get_adjusted_position(_idle_positions[neck_index])
 		var delta = target_pos - idle_pos
 		delta.x = clamp(delta.x, -2, 2)  # Máximo 2px
 		delta.y = clamp(delta.y, -2, 2)
@@ -184,28 +262,38 @@ func _process(_delta: float) -> void:
 		if _attack_start_audio:
 			_attack_start_audio.play()
 		
+		# ✅ Sorteia o próximo ataque da rodada
+		_current_attack = _pick_next_attack()
+		
 		$Animation.play("attack_anticipation")
 		_can_attack = false
 		
+		# ✅ Aviso de ataque poderoso na cabeça, na antecipação do ataque especial
+		if _current_attack == SnakeAttack.SPECIAL:
+			var tell_marker := $HeadNNeck/Head.get_node_or_null("AttackTellMarker") as Marker2D
+			if tell_marker:
+				AttackTellFX.spawn(tell_marker, true, _current_facing_right)
+		
 		await $Animation.animation_finished
 		
-		# ✅ ATAQUE 1 - Linear com pescoço proporcional
-		if _attack_state == 0:
-			await _execute_attack_1(_moving_direction, _moving_distance)
-			_attack_state += 1
+		if _queued_to_die or not _is_alive:
 			return
 		
-		# ✅ ATAQUE 2 - PÊNDULO (SEM MUDAR FLIP.H)
-		if _attack_state == 1:
+		# ✅ ATAQUE 1 - Linear com pescoço proporcional
+		if _current_attack == SnakeAttack.LINEAR:
+			await _execute_attack_1(_moving_direction, _moving_distance)
+			return
+		
+		# ✅ ATAQUE 2 - PÊNDULO
+		if _current_attack == SnakeAttack.PENDULUM:
 			if _attack_2_audio:
 				_attack_2_audio.play()
 			
 			await _perform_pendulum_attack()
-			_attack_state += 1
 			return
 			
 		# ✅ ATAQUE ESPECIAL - Subida com StunArea
-		if _attack_state == 2:
+		if _current_attack == SnakeAttack.SPECIAL:
 			if _attack_special_audio:
 				_attack_special_audio.play()
 			
@@ -214,7 +302,7 @@ func _process(_delta: float) -> void:
 				var _delay: float = i * 0.05
 				
 				_tween.tween_property(
-					_objects[i], "position", _special_attack_positions[i], 0.3 + _delay
+					_objects[i], "position", _get_adjusted_position(_special_attack_positions[i]), 0.3 + _delay
 				).set_ease(Tween.EASE_OUT)
 			
 			$Animation.play("special_attack")
@@ -225,6 +313,62 @@ func _process(_delta: float) -> void:
 				var _stun_area: StunArea = load("res://Scenes/Inimigos/stun_area.tscn").instantiate()
 				get_tree().root.call_deferred("add_child", _stun_area)
 				_stun_area.global_position = target_position
+
+
+# ===== DANO DA CABEÇA =====
+# Liga no começo do movimento de ataque (bote / balanço) e desliga ao voltar pro idle.
+func _set_head_damage(active: bool) -> void:
+	var col := $HeadNNeck/Head.get_node_or_null("DamageArea/Collision") as CollisionShape2D
+	if col:
+		col.set_deferred("disabled", not active)
+
+
+# ===== SORTEIO DOS ATAQUES =====
+func _pick_next_attack() -> int:
+	# Ataque forçado por condição tem prioridade e não gasta o saco
+	if _forced_attack != -1:
+		var forced := _forced_attack
+		_forced_attack = -1
+		return forced
+	
+	var starting_round := _attack_bag.is_empty()
+	if starting_round:
+		_attack_bag = [SnakeAttack.LINEAR, SnakeAttack.PENDULUM, SnakeAttack.SPECIAL]
+	
+	# Só os ataques possíveis agora (condições de cada golpe)
+	var options: Array[int] = []
+	for a in _attack_bag:
+		if _is_attack_allowed(a):
+			options.append(a)
+	
+	# Início de rodada: não repetir o último ataque da rodada anterior
+	if starting_round and options.size() > 1:
+		options.erase(_last_attack)
+	
+	# Nenhum possível agora: usa o Linear sem gastar o saco
+	if options.is_empty():
+		return SnakeAttack.LINEAR
+	
+	var chosen: int = options.pick_random()
+	_attack_bag.erase(chosen)
+	_last_attack = chosen
+	return chosen
+
+
+func _is_attack_allowed(attack: int) -> bool:
+	match attack:
+		SnakeAttack.SPECIAL:
+			# Não petrifica quem já está petrificado
+			return not _is_player_petrified()
+	return true
+
+
+func _is_player_petrified() -> bool:
+	if not is_instance_valid(_player_in_range):
+		return false
+	if "is_petrified" in _player_in_range:
+		return bool(_player_in_range.get("is_petrified"))
+	return false
 
 
 # ✅ FUNÇÃO: Executa o Ataque 1
@@ -253,6 +397,7 @@ func _execute_attack_1(_moving_direction: Vector2, _moving_distance: float) -> v
 	await get_tree().create_timer(0.1).timeout  # Pequena pausa
 	
 	# ===== ATAQUE LINEAR =====
+	_set_head_damage(true)  # dano ligado durante todo o bote
 	if _attack_1_audio:
 		_attack_1_audio.play()
 	
@@ -283,13 +428,14 @@ func _perform_pendulum_attack() -> void:
 	var saved_flip_states = []
 	for obj in _objects:
 		saved_flip_states.append(obj.flip_h)
-		obj.flip_h = false  # Desabilita para evitar conflito com rotation
+		# ✅ Flip do lado atual; o espelho da rotação é feito por _get_adjusted_rotation
+		obj.flip_h = _current_facing_right
 	
 	# ===== ANTECIPAÇÃO DO ATAQUE 2 =====
 	for neck_index in range(_objects.size() - 1, 0, -1):
 		var neck = _objects[neck_index]
 		var proportion = _attack_multipliers[neck_index]
-		var neck_target = Vector2(-9, -40) * proportion
+		var neck_target = _get_adjusted_position(Vector2(-9, -40)) * proportion
 		neck_target = _get_limited_neck_position(neck_index, neck_target)
 		
 		var neck_tween = get_tree().create_tween()
@@ -298,8 +444,8 @@ func _perform_pendulum_attack() -> void:
 	
 	var anticipation_tween = get_tree().create_tween()
 	anticipation_tween.set_parallel(true)
-	anticipation_tween.tween_property(head, "position", Vector2(-9, -40), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
-	anticipation_tween.tween_property(head, "rotation_degrees", 0, 0.3).set_ease(Tween.EASE_OUT)
+	anticipation_tween.tween_property(head, "position", _get_adjusted_position(Vector2(-9, -40)), 0.3).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
+	anticipation_tween.tween_property(head, "rotation_degrees", _get_adjusted_rotation(0), 0.3).set_ease(Tween.EASE_OUT)
 	await anticipation_tween.finished
 	await get_tree().create_timer(0.1).timeout
 	
@@ -307,7 +453,7 @@ func _perform_pendulum_attack() -> void:
 	for neck_index in range(_objects.size() - 1, 0, -1):
 		var neck = _objects[neck_index]
 		var proportion = _attack_multipliers[neck_index]
-		var neck_target = Vector2(-100, 5) * proportion
+		var neck_target = _get_adjusted_position(Vector2(-100, 5)) * proportion
 		neck_target = _get_limited_neck_position(neck_index, neck_target)
 		
 		var neck_tween = get_tree().create_tween()
@@ -316,8 +462,8 @@ func _perform_pendulum_attack() -> void:
 	
 	var start_tween = get_tree().create_tween()
 	start_tween.set_parallel(true)
-	start_tween.tween_property(head, "position", Vector2(-100, 5), 0.4).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
-	start_tween.tween_property(head, "rotation_degrees", 0, 0.4).set_ease(Tween.EASE_IN_OUT)
+	start_tween.tween_property(head, "position", _get_adjusted_position(Vector2(-100, 5)), 0.4).set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_SINE)
+	start_tween.tween_property(head, "rotation_degrees", _get_adjusted_rotation(0), 0.4).set_ease(Tween.EASE_IN_OUT)
 	await start_tween.finished
 	
 	var speed_normal = 0.3
@@ -326,12 +472,13 @@ func _perform_pendulum_attack() -> void:
 	if _attack_2_audio:
 		_attack_2_audio.play()
 	
+	_set_head_damage(true)  # dano ligado durante todo o balanço
 	for cycle in range(2):
 		# ===== IDA: Esquerda → Centro → Direita =====
 		for neck_index in range(_objects.size() - 1, 0, -1):
 			var neck = _objects[neck_index]
 			var proportion = _attack_multipliers[neck_index]
-			var mid_pos = Vector2(10, -100) * proportion
+			var mid_pos = _get_adjusted_position(Vector2(10, -100)) * proportion
 			mid_pos = _get_limited_neck_position(neck_index, mid_pos)
 			
 			var tween_neck_1 = get_tree().create_tween()
@@ -340,14 +487,14 @@ func _perform_pendulum_attack() -> void:
 		
 		var tween_head_1 = get_tree().create_tween()
 		tween_head_1.set_parallel(true)
-		tween_head_1.tween_property(head, "position", Vector2(10, -100), speed_normal).set_trans(Tween.TRANS_LINEAR)
-		tween_head_1.tween_property(head, "rotation_degrees", 90, speed_normal).set_trans(Tween.TRANS_LINEAR)
+		tween_head_1.tween_property(head, "position", _get_adjusted_position(Vector2(10, -100)), speed_normal).set_trans(Tween.TRANS_LINEAR)
+		tween_head_1.tween_property(head, "rotation_degrees", _get_adjusted_rotation(90), speed_normal).set_trans(Tween.TRANS_LINEAR)
 		await tween_head_1.finished
 		
 		for neck_index in range(_objects.size() - 1, 0, -1):
 			var neck = _objects[neck_index]
 			var proportion = _attack_multipliers[neck_index]
-			var end_pos = Vector2(100, 5) * proportion
+			var end_pos = _get_adjusted_position(Vector2(100, 5)) * proportion
 			end_pos = _get_limited_neck_position(neck_index, end_pos)
 			
 			var tween_neck_2 = get_tree().create_tween()
@@ -356,8 +503,8 @@ func _perform_pendulum_attack() -> void:
 		
 		var tween_head_2 = get_tree().create_tween()
 		tween_head_2.set_parallel(true)
-		tween_head_2.tween_property(head, "position", Vector2(100, 5), speed_fast).set_trans(Tween.TRANS_LINEAR)
-		tween_head_2.tween_property(head, "rotation_degrees", 180, speed_fast).set_trans(Tween.TRANS_LINEAR)
+		tween_head_2.tween_property(head, "position", _get_adjusted_position(Vector2(100, 5)), speed_fast).set_trans(Tween.TRANS_LINEAR)
+		tween_head_2.tween_property(head, "rotation_degrees", _get_adjusted_rotation(180), speed_fast).set_trans(Tween.TRANS_LINEAR)
 		await tween_head_2.finished
 		
 		if _attack_2_audio:
@@ -372,7 +519,7 @@ func _perform_pendulum_attack() -> void:
 		for neck_index in range(_objects.size() - 1, 0, -1):
 			var neck = _objects[neck_index]
 			var proportion = _attack_multipliers[neck_index]
-			var mid_pos = Vector2(10, -100) * proportion
+			var mid_pos = _get_adjusted_position(Vector2(10, -100)) * proportion
 			mid_pos = _get_limited_neck_position(neck_index, mid_pos)
 			
 			var tween_neck_1 = get_tree().create_tween()
@@ -381,14 +528,14 @@ func _perform_pendulum_attack() -> void:
 		
 		var tween_head_volta_1 = get_tree().create_tween()
 		tween_head_volta_1.set_parallel(true)
-		tween_head_volta_1.tween_property(head, "position", Vector2(10, -100), speed_fast).set_trans(Tween.TRANS_LINEAR)
-		tween_head_volta_1.tween_property(head, "rotation_degrees", 90, speed_fast).set_trans(Tween.TRANS_LINEAR)
+		tween_head_volta_1.tween_property(head, "position", _get_adjusted_position(Vector2(10, -100)), speed_fast).set_trans(Tween.TRANS_LINEAR)
+		tween_head_volta_1.tween_property(head, "rotation_degrees", _get_adjusted_rotation(90), speed_fast).set_trans(Tween.TRANS_LINEAR)
 		await tween_head_volta_1.finished
 		
 		for neck_index in range(_objects.size() - 1, 0, -1):
 			var neck = _objects[neck_index]
 			var proportion = _attack_multipliers[neck_index]
-			var end_pos = Vector2(-100, 5) * proportion
+			var end_pos = _get_adjusted_position(Vector2(-100, 5)) * proportion
 			end_pos = _get_limited_neck_position(neck_index, end_pos)
 			
 			var tween_neck_2 = get_tree().create_tween()
@@ -397,8 +544,8 @@ func _perform_pendulum_attack() -> void:
 		
 		var tween_head_volta_2 = get_tree().create_tween()
 		tween_head_volta_2.set_parallel(true)
-		tween_head_volta_2.tween_property(head, "position", Vector2(-100, 5), speed_normal).set_trans(Tween.TRANS_LINEAR)
-		tween_head_volta_2.tween_property(head, "rotation_degrees", 0, speed_normal).set_trans(Tween.TRANS_LINEAR)
+		tween_head_volta_2.tween_property(head, "position", _get_adjusted_position(Vector2(-100, 5)), speed_normal).set_trans(Tween.TRANS_LINEAR)
+		tween_head_volta_2.tween_property(head, "rotation_degrees", _get_adjusted_rotation(0), speed_normal).set_trans(Tween.TRANS_LINEAR)
 		await tween_head_volta_2.finished
 		
 		if _attack_2_audio:
@@ -482,7 +629,7 @@ func _die() -> void:
 	var head = _objects[0]
 	head.rotation_degrees = 0
 	for i in range(_objects.size()):
-		_objects[i].position = _idle_positions[i]
+		_objects[i].position = _get_adjusted_position(_idle_positions[i])
 	
 	# ✅ Desabilitar colisões da cabeça
 	if $HeadNNeck/Head.has_node("DamageArea"):
@@ -561,7 +708,8 @@ func _on_cooldown_timer_timeout() -> void:
 		return
 	
 	# ✅ VERIFICAÇÃO APÓS ATAQUE ESPECIAL
-	if _attack_state == 2:
+	if _current_attack == SnakeAttack.SPECIAL:
+		_current_attack = -1
 		# ✅ VERIFICAR SE O PLAYER ESTÁ PETRIFICADO
 		var is_player_petrified = false
 		
@@ -573,7 +721,7 @@ func _on_cooldown_timer_timeout() -> void:
 		# ✅ SE ESTÁ PETRIFICADO, FORÇA ATAQUE 1 IMEDIATO
 		if is_player_petrified:
 			print("🐍 Player petrificado detectado após Special Attack! Forçando Ataque 1...")
-			_attack_state = 0  # Volta para Ataque 1
+			_forced_attack = SnakeAttack.LINEAR  # Punição: Ataque 1 (fora do sorteio)
 			_return_to_idle()
 			$Animation.play("idle")
 			
@@ -583,7 +731,6 @@ func _on_cooldown_timer_timeout() -> void:
 			return
 		
 		# ✅ SE NÃO ESTÁ PETRIFICADO, CONTINUA CICLO NORMAL
-		_attack_state = 0
 		_return_to_idle()
 		$Animation.play("idle")
 		$CooldownTimer.start(2.0)
@@ -618,6 +765,7 @@ func _on_animation_finished(_anim_name: StringName) -> void:
 		
 	if _anim_name == "attack":
 		$Animation.play("idle")
+		_set_head_damage(false)  # golpe acabou: cabeça volta a ser inofensiva
 		
 		# ✅ RESETAR ROTAÇÃO DA CABEÇA E VOLTAR PARA IDLE AJUSTADO
 		var head = _objects[0]
@@ -643,7 +791,7 @@ func _on_damage_area_body_entered(_body: Node2D) -> void:
 		return
 		
 	if _body is BaseCharacter:
-		_body.update_health(_attack_damage, self)
+		_body.update_health(_attack_damage, self, _attack_knockback)
 
 
 func _drop_items() -> void:

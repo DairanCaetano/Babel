@@ -3440,7 +3440,7 @@ use_pixel_transition = true
 position = Vector2(34, 224)
 
 [node name="default" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="1" unique_id=1865756332]
-position = Vector2(951, -949)
+position = Vector2(101, 225)
 
 [node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=1490198833]
 position = Vector2(445, -948)

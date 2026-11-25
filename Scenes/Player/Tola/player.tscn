@@ -48,6 +48,7 @@
 [ext_resource type="Texture2D" uid="uid://wcepj8jn5i7r" path="res://sprites/Player/Tola/gancho/Babel_Gancho_Puxando_v01.png" id="28_fa4gl"]
 [ext_resource type="Texture2D" uid="uid://7woqlprp8lep" path="res://sprites/Player/Tola/ARREMESSO/Tola_Arremesso_Projetil_v02.png" id="29_lv3ie"]
 [ext_resource type="Texture2D" uid="uid://0ompulknj8mp" path="res://sprites/Player/Tola/RUN/Tola_Start_Run_v02.png" id="30_54ooa"]
+[ext_resource type="Texture2D" uid="uid://cebgbjspa8rq5" path="res://sprites/Player/Tola/KNOCKBACK/Tola_Knockback_v01.png" id="30_isk24"]
 [ext_resource type="Texture2D" uid="uid://bro7rewiir5h2" path="res://sprites/Player/Tola/STOP/Tola_Parada-Sheet.png" id="31_4f8p7"]
 [ext_resource type="Texture2D" uid="uid://cvjbtlwqj3ybs" path="res://sprites/Player/Tola/RUN/Tola_Run_Fast_v01.png" id="34_e4mbk"]
 [ext_resource type="Script" uid="uid://drreykahkiumw" path="res://Scripts/Player/Tola/sub_weapons.gd" id="34_xhvl5"]
@@ -93,6 +94,7 @@ shader = ExtResource("2_ryd4d")
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 1.0
+shader_parameter/blink_style = 0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
@@ -102,12 +104,24 @@ shader_parameter/rainbow_intensity = 0.65
 shader_parameter/outline_active = false
 shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
 shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_frix6"]
 shader = ExtResource("2_ryd4d")
 shader_parameter/blink_active = false
 shader_parameter/blink_color = Color(1, 1, 1, 1)
 shader_parameter/blink_intensity = 1.0
+shader_parameter/blink_style = 0
 shader_parameter/fire_active = false
 shader_parameter/fire_color = Color(1, 0.6, 0.2, 1)
 shader_parameter/fire_intensity = 0.4
@@ -117,6 +131,17 @@ shader_parameter/rainbow_intensity = 0.65
 shader_parameter/outline_active = false
 shader_parameter/outline_color = Color(0.35, 1, 0.45, 1)
 shader_parameter/outline_width = 1.0
+shader_parameter/hit_opacity = 0.6
+shader_parameter/hit_active_fraction = 0.5
+shader_parameter/hit_fade_start = 0.5
+shader_parameter/hit_spread = 3.0
+shader_parameter/hit_color_index = 0.6
+shader_parameter/hit_palette_steps = 12
+shader_parameter/hit_saturation = 0.9
+shader_parameter/hit_keep_shading = 0.7
+shader_parameter/hit_brightness = 1.15
+shader_parameter/hit_cycle_fps = 30.0
+shader_parameter/hit_cycle_step = 0.08
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cj8ab"]
 atlas = ExtResource("2_uh38f")
@@ -868,6 +893,22 @@ region = Rect2(360, 0, 90, 60)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hrfqt"]
 atlas = ExtResource("3_6dwg0")
 region = Rect2(450, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4xvac"]
+atlas = ExtResource("30_isk24")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jve2q"]
+atlas = ExtResource("30_isk24")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdjfq"]
+atlas = ExtResource("30_isk24")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wt66p"]
+atlas = ExtResource("30_isk24")
+region = Rect2(90, 0, 90, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jf4my"]
 atlas = ExtResource("4_y2lh4")
@@ -1875,6 +1916,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_4xvac")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jve2q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdjfq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wt66p")
+}],
+"loop": 0,
+"name": &"Knockback",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jf4my")
 }, {
 "duration": 1.0,
@@ -2371,6 +2429,9 @@ _data = {
 &"hit": SubResource("Animation_yktik")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_stepcast"]
+size = Vector2(10, 4)
+
 [sub_resource type="Gradient" id="Gradient_nfuvi"]
 offsets = PackedFloat32Array(0, 0.385593, 0.601695, 0.754237, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 0, 1, 0.99252, 0.611064, 0.0486171, 0.955123, 1, 0.27451, 0.00784314, 0.819608, 1, 1, 1, 0.054902)
@@ -2502,7 +2563,7 @@ process_mode = 3
 z_index = 10
 material = SubResource("ShaderMaterial_frix6")
 sprite_frames = SubResource("SpriteFrames_3x06b")
-animation = &"GetMap"
+animation = &"Knockback"
 script = ExtResource("6_bcpfw")
 _character = NodePath("..")
 _attack_area_collision = NodePath("../AttackArea/Collision")
@@ -2515,7 +2576,6 @@ z_index = 9
 position = Vector2(-3, -8)
 
 [node name="Collision" type="CollisionShape2D" parent="." unique_id=1909010168]
-visible = false
 position = Vector2(-1, 1)
 shape = SubResource("RectangleShape2D_wdufy")
 
@@ -2763,6 +2823,15 @@ one_shot = true
 target_position = Vector2(0, 21)
 collision_mask = 522
 collide_with_areas = true
+
+[node name="StepCast" type="ShapeCast2D" parent="." unique_id=1219786680]
+position = Vector2(-1, 12)
+shape = SubResource("RectangleShape2D_stepcast")
+target_position = Vector2(0, 12)
+max_results = 4
+collision_mask = 2048
+collide_with_areas = true
+collide_with_bodies = false
 
 [node name="StaminaRegenTimer" type="Timer" parent="." unique_id=1370340491]
 wait_time = 0.1

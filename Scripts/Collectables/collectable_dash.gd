@@ -5,8 +5,8 @@ class_name CollectableDash
 
 @export_group("Skill Display")
 @export var skill_icon_path: String = "res://sprites/Items/Skills_Dash.png"
-@export var skill_title: String = "Dash"
-@export_multiline var skill_description: String = "Botas ancestrais que permitem avançar rapidamente enquanto corre."
+@export var skill_title: String = "Esquiva"
+@export_multiline var skill_description: String = "Seu corpo recobrou a velocidade de outros tempos. Permite avançar rapidamente enquanto corre."
 
 func _ready() -> void:
 	if collectible_id != "" and _is_already_collected():

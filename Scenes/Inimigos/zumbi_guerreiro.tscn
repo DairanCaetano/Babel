@@ -334,7 +334,7 @@ size = Vector2(22, 20)
 radius = 73.3348
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lqxtx"]
-size = Vector2(24, 5)
+size = Vector2(19, 6)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_25pk7"]
 size = Vector2(19, 27)
@@ -390,7 +390,7 @@ shape = SubResource("CircleShape2D_oe413")
 debug_color = Color(0.674605, 0.506801, 7.70092e-07, 0.42)
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="EnemyStepArea" index="1"]
-position = Vector2(-4, -18)
+position = Vector2(0, -19)
 shape = SubResource("RectangleShape2D_lqxtx")
 debug_color = Color(0.936097, 0.244951, 0.166558, 0.42)
 

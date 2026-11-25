@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://2123nlt3unym" path="res://sprites/Enemies/Sacerdote/Sacerdote_Teleport.png" id="4_dpwyn"]
 [ext_resource type="Texture2D" uid="uid://wulc3he1gbji" path="res://sprites/Enemies/Sacerdote/Sacerdote_Teleport_attack.png" id="5_o8mdv"]
 [ext_resource type="Script" uid="uid://b88qamtji6syk" path="res://Scripts/Enemies/enemy_contact_damage.gd" id="8_uhe8l"]
+[ext_resource type="PackedScene" uid="uid://uvxjgv8itgwo" path="res://Scenes/Interactables/enemy_step_area.tscn" id="step_area"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xgjk7"]
 shader = ExtResource("2_ifqwt")
@@ -294,6 +295,9 @@ size = Vector2(393, 62)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_onewh"]
 size = Vector2(19, 42)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_step_enemysteparea"]
+size = Vector2(19, 6)
+
 [node name="Sacerdote" type="CharacterBody2D" unique_id=960962831 node_paths=PackedStringArray("_texture", "_body_collision", "_detection_area", "_hurtbox", "_hurtbox_collision", "_projectile_spawn_point", "_hit_audio", "_dead_audio", "_dead_scream_audio")]
 collision_layer = 0
 collision_mask = 4
@@ -345,6 +349,12 @@ debug_color = Color(0.996951, 0, 0.176392, 0.42)
 
 [node name="Marker2D" type="Marker2D" parent="." unique_id=92520955]
 position = Vector2(-13, 1)
+
+[node name="EnemyStepArea" parent="." unique_id=1769056893 instance=ExtResource("step_area")]
+
+[node name="CollisionShape2D" parent="EnemyStepArea" index="0"]
+position = Vector2(-3.5, -24)
+shape = SubResource("RectangleShape2D_step_enemysteparea")
 
 [connection signal="animation_finished" from="Texture" to="." method="_on_texture_animation_finished"]
 [connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]

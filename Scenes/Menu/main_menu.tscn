@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dafj3nbilqtyn" path="res://sprites/FX/NEBLINA/Babel_FX_Effects_ Fog_v06.png" id="10_7ns6j"]
 [ext_resource type="AudioStream" uid="uid://cubh2wi1wxj46" path="res://Sound/SFX/MenuSound/BNA_UI12.ogg" id="11_n2qk3"]
 [ext_resource type="AudioStream" uid="uid://c0drsl4qclft8" path="res://Sound/SFX/MenuSound/Unholy UI - Souls (7).ogg" id="12_kf5cx"]
+[ext_resource type="Material" path="res://Shaders/decor_noise_menu.tres" id="decor_noise_menu"]
 
 [sub_resource type="Animation" id="Animation_ttw8y"]
 resource_name = "Start_menu"
@@ -95,6 +96,7 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="TextureBG" type="Sprite2D" parent="."]
+material = ExtResource("decor_noise_menu")
 position = Vector2(240, 119)
 texture = ExtResource("1_ebbb0")
 

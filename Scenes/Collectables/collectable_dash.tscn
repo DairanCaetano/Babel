@@ -64,8 +64,8 @@ size = Vector2(20, 22)
 [node name="CollectableDash" groups=["collectibles"] instance=ExtResource("1_r6w2i")]
 script = ExtResource("2_a6a5q")
 skill_icon_path = "res://sprites/Items/Skills_Dash.png"
-skill_title = "Dash"
-skill_description = "Botas ancestrais que permitem avançar rapidamente enquanto corre."
+skill_title = "Esquiva"
+skill_description = "Seu corpo recobrou a velocidade de outros tempos. Permite avançar rapidamente enquanto corre."
 collectible_id = "dash_boots_1"
 has_post_dialog = true
 

@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://durtnc0bh7ls6" path="res://Fonts/old_style/njo_14.ttf" id="3_ypd7i"]
 [ext_resource type="PackedScene" uid="uid://dcj4vo3vs0e8t" path="res://Scenes/FX/dust_particles.tscn" id="4_g8s1e"]
 [ext_resource type="AudioStream" uid="uid://caqi8ddx07g5d" path="res://Sound/SFX/MenuSound/BNA_UI8.ogg" id="6_uvf4y"]
+[ext_resource type="Material" path="res://Shaders/decor_noise_menu.tres" id="decor_noise_menu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pdwx4"]
 atlas = ExtResource("1_s0v2a")
@@ -127,6 +128,7 @@ _anim = NodePath("Anim")
 _start_audio = NodePath("Audio")
 
 [node name="Sprite" type="Sprite2D" parent="."]
+material = ExtResource("decor_noise_menu")
 position = Vector2(239, 134)
 scale = Vector2(1.1, 1.1)
 texture = ExtResource("1_6aw7b")
