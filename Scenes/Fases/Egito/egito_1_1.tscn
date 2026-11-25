@@ -1400,7 +1400,7 @@ position = Vector2(9, -10)
 position = Vector2(2313, 198)
 
 [node name="SpawnDefault" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="2" unique_id=265643695]
-position = Vector2(2622, 207)
+position = Vector2(2788, 617)
 
 [node name="RespawnPoint1" type="Marker2D" parent="SpawnPoints" parent_id_path=PackedInt32Array(973835569) index="3" unique_id=1974325504]
 position = Vector2(3573, 579)

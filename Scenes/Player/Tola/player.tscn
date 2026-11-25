@@ -88,6 +88,7 @@
 [ext_resource type="AudioStream" uid="uid://dhnodgys7t4b2" path="res://Sound/SFX/PlayerSound/Fire Torch Loop.ogg" id="72_uv6w3"]
 [ext_resource type="Script" uid="uid://2wmgd3qskb8s" path="res://Scripts/Player/Tola/ChainTail.gd" id="77_jrywh"]
 [ext_resource type="PackedScene" uid="uid://8qljxy36uoo4" path="res://Scenes/Player/Tola/item_effects.tscn" id="90_itemfx"]
+[ext_resource type="Texture2D" path="res://sprites/Player/Tola/EMPURRAR/Tola_Empurrar_v01.png" id="push_tex"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jmx8c"]
 shader = ExtResource("2_ryd4d")
@@ -1206,8 +1207,55 @@ region = Rect2(0, 0, 90, 60)
 atlas = ExtResource("44_obxb0")
 region = Rect2(90, 0, 90, 60)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_push0"]
+atlas = ExtResource("push_tex")
+region = Rect2(0, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_push1"]
+atlas = ExtResource("push_tex")
+region = Rect2(90, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_push2"]
+atlas = ExtResource("push_tex")
+region = Rect2(180, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_push3"]
+atlas = ExtResource("push_tex")
+region = Rect2(270, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_push4"]
+atlas = ExtResource("push_tex")
+region = Rect2(360, 0, 90, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_push5"]
+atlas = ExtResource("push_tex")
+region = Rect2(450, 0, 90, 60)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_3x06b"]
 animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_push5")
+}],
+"loop": true,
+"name": &"Push",
+"speed": 8.0
+}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cj8ab")

@@ -35,6 +35,10 @@ class_name ChainTail
 @export_category("Chain Inertia")
 @export var follow_speed: float = 14.0
 
+@export_category("Visibilidade")
+## Animações da Tola em que o cachecol some (ex.: descanso no save)
+@export var hidden_animations: PackedStringArray = ["Rest", "Resting", "Rise", "Crounch", "AttackCrounch", "Attack_Crounch_Crit"]
+
 @export_category("Render")
 @export var rope_color: Color = Color.WHITE
 @export var pixel_size_start: int = 2
@@ -52,6 +56,10 @@ var _multimesh_instance: RID
 
 
 func _ready() -> void:
+	# ✅ Roda mesmo com o jogo pausado (o menu de save pausa o jogo): só para
+	# poder esconder/mostrar. A física do cachecol continua congelada na pausa.
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	var quad := QuadMesh.new()
 	quad.size = Vector2(pixel_size_start, pixel_size_start)
 
@@ -130,6 +138,19 @@ func _update_anchor_position() -> void:
 
 func _process(delta: float) -> void:
 	if not anchor or not character:
+		return
+
+	# ✅ Some durante o descanso; ao voltar, recomeça pendurado (sem "esticão")
+	if sprite and hidden_animations.has(String(sprite.animation)):
+		if visible:
+			visible = false
+		return
+	if not visible:
+		visible = true
+		_reset_chain()
+
+	# Pausado: mantém o cachecol parado, como antes
+	if get_tree().paused:
 		return
 
 	_time += delta
@@ -215,6 +236,17 @@ func _process(delta: float) -> void:
 
 	RenderingServer.canvas_item_clear(_multimesh_instance)
 	RenderingServer.canvas_item_add_multimesh(_multimesh_instance, _multimesh.get_rid())
+
+
+func _reset_chain() -> void:
+	_update_anchor_position()
+	_lag_offset = Vector2.ZERO
+	_current_segment_length = segment_length_idle
+	_current_direction = rest_direction_idle
+	_points[0] = anchor.global_position
+	for i in range(1, _points.size()):
+		var curve := rest_curve_offset * float(i)
+		_points[i] = _points[i - 1] + _current_direction.normalized() * _current_segment_length + curve
 
 
 func _exit_tree() -> void:

@@ -1,6 +1,11 @@
 extends AnimatedSprite2D
 class_name CharacterTexture
 
+## Margem (ms) para a animação de empurrar não piscar quando a detecção falha por um quadro
+const PUSH_ANIM_GRACE_MS: int = 200
+var _last_push_ms: int = -100000
+var _last_push_dir: float = 0.0
+
 var _is_on_action: bool = false
 var _can_cancel_attack: bool = false
 var _is_in_rest_state: bool = false
@@ -175,9 +180,22 @@ func animate(_velocity: Vector2) -> void:
 			play("Crounch")
 		return
 	
+	# ✅ EMPURRAR COM MARGEM: a detecção pisca quadro a quadro; mantém o estado
+	# por PUSH_ANIM_GRACE_MS depois da última detecção para a animação não piscar
+	var now_ms := Time.get_ticks_msec()
+	var push_input := signf(Input.get_axis("move_left", "move_right"))
+	if _character.is_pushing_heavy_object:
+		_last_push_ms = now_ms
+		_last_push_dir = push_input
+	# A margem só vale se continuar segurando para o MESMO lado (virar/soltar sai na hora)
+	var push_active: bool = _character.is_pushing_heavy_object or (
+		(now_ms - _last_push_ms) < PUSH_ANIM_GRACE_MS
+		and push_input != 0.0 and push_input == _last_push_dir
+	)
+	
 	# ✅ CALCULAR is_moving BASEADO EM INPUT QUANDO EMPURRANDO
 	var is_moving: bool
-	if _character.is_pushing_heavy_object:
+	if push_active:
 		var input_dir = Input.get_axis("move_left", "move_right")
 		is_moving = abs(input_dir) > 0.1
 	else:
@@ -191,6 +209,13 @@ func animate(_velocity: Vector2) -> void:
 	if (is_wall_sliding or remote_wall_sliding) and not _character._on_floor and _velocity.y > 0:
 		if animation != "Wall_Slide":
 			play("Wall_Slide")
+		return
+	
+	# ✅ EMPURRANDO OBJETO: animação dedicada
+	if push_active and _character._on_floor and is_moving:
+		if animation != "Push":
+			play("Push")
+		_was_moving = true
 		return
 	
 	# ✅ MODIFICADO: NÃO CHAMAR StartRun SE ESTÁ EMPURRANDO

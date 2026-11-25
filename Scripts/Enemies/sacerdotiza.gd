@@ -67,6 +67,14 @@ enum StartingDirection { LEFT, RIGHT }
 @export var _attack_3_advance_duration: float = 0.30  # tempo do avanço no Ataque 3
 @export var _gravity: float = ProjectSettings.get_setting("physics/2d/default_gravity")
 
+@export_category("Virada e Perseguição")
+## Distância horizontal (px) em que ela NÃO vira: com a Tola quase na mesma linha (em cima/embaixo dela) o lado é ambíguo
+@export var _turn_deadzone: float = 6.0
+## Tempo mínimo (s) entre uma virada e outra
+@export var _turn_cooldown: float = 0.2
+## Tempo (s) que ela continua perseguindo depois que a Tola sai da área de perseguição
+@export var _lose_target_time: float = 2.0
+
 @export_category("Esquiva (Dash)")
 @export var _dodge_chance: float = 0.6
 @export var _dodge_speed: float = 200.0
@@ -97,6 +105,11 @@ enum StartingDirection { LEFT, RIGHT }
 
 # Valor padrão aqui não importa muito: é sobrescrito em _ready() com base em _starting_direction.
 var _direction: float = -1.0
+var _last_turn_ms: int = -100000
+var _target_outside: bool = false
+var _target_lost_elapsed: float = 0.0
+# Posições do golpe atual (para reaplicar se ela virar no meio do ataque)
+var _attack_layout: Dictionary = {}
 
 var _chase_target: BaseCharacter = null
 var _player_in_attack: BaseCharacter = null
@@ -195,11 +208,15 @@ func _physics_process(delta: float) -> void:
 		move_and_slide()
 		return
 
+	_update_lose_target(delta)
+
 	if _is_chasing and is_instance_valid(_chase_target):
-		if _check_edge_and_wall_collision():
+		# Sempre virada para a Tola; bloqueada (beira/parede) ou em cima dela: para
+		_update_facing_to_target()
+		var _dx: float = absf(_chase_target.global_position.x - global_position.x)
+		if _is_path_blocked() or _dx <= _turn_deadzone:
 			velocity.x = 0
 		else:
-			_update_facing_to_target()
 			velocity.x = _direction * _move_speed
 	else:
 		velocity.x = 0
@@ -222,17 +239,59 @@ func _check_edge_and_wall_collision() -> bool:
 	return false
 
 
+# Beira ou parede à frente (sem inverter a direção: isso é só pra patrulha)
+func _is_path_blocked() -> bool:
+	if _wall_ray and _wall_ray.is_colliding():
+		return true
+	if _ground_ray and not _ground_ray.is_colliding():
+		return true
+	return false
+
+
+# Vira para o alvo só se ele estiver claramente do outro lado e fora do intervalo
+# entre viradas. Retorna true se virou.
+func _face_toward(target: Node2D) -> bool:
+	if not is_instance_valid(target):
+		return false
+	var dx: float = target.global_position.x - global_position.x
+	if absf(dx) <= _turn_deadzone:
+		return false
+	var new_dir: float = 1.0 if dx > 0.0 else -1.0
+	if new_dir == _direction:
+		return false
+	var now_ms := Time.get_ticks_msec()
+	if now_ms - _last_turn_ms < int(_turn_cooldown * 1000.0):
+		return false
+	_direction = new_dir
+	_last_turn_ms = now_ms
+	_apply_facing()
+	return true
+
+
+# Alvo saiu da área de perseguição: continua por _lose_target_time antes de desistir
+func _update_lose_target(delta: float) -> void:
+	if not _target_outside or not _is_chasing:
+		return
+	_target_lost_elapsed += delta
+	if _target_lost_elapsed >= _lose_target_time:
+		_stop_chasing()
+
+
+func _stop_chasing() -> void:
+	if is_instance_valid(_chase_target) and _chase_target.has_signal("attack_started"):
+		if _chase_target.attack_started.is_connected(_on_player_attack_started):
+			_chase_target.attack_started.disconnect(_on_player_attack_started)
+	_is_chasing = false
+	_chase_target = null
+	_target_outside = false
+	_target_lost_elapsed = 0.0
+
+
 func _update_facing_to_target() -> void:
 	if not is_instance_valid(_chase_target):
 		return
 
-	var _to_player: float = _chase_target.global_position.x - global_position.x
-	if _to_player > 0:
-		_direction = 1.0
-	elif _to_player < 0:
-		_direction = -1.0
-
-	_apply_facing()
+	_face_toward(_chase_target)
 
 	if not _is_attacking_sequence and not _is_dodging:
 		_reset_collisions_to_default()
@@ -240,24 +299,13 @@ func _update_facing_to_target() -> void:
 
 # Durante Attack_1/Attack_2 ela acompanha a posição do player (pode virar).
 # Durante Attack_3 a direção fica travada desde o início do golpe.
+# (Os efeitos de cada frame — som, avanço, área — rodam só no frame_changed.
+#  Antes eram chamados aqui a cada quadro e o som reiniciava sem parar.)
 func _update_facing_during_attack() -> void:
 	if _texture.animation != "Attack_3":
 		var target: BaseCharacter = _player_in_attack if is_instance_valid(_player_in_attack) else _chase_target
-		if is_instance_valid(target):
-			var _to_player: float = target.global_position.x - global_position.x
-			if _to_player > 0:
-				_direction = 1.0
-			elif _to_player < 0:
-				_direction = -1.0
-			_apply_facing()
-
-	match _texture.animation:
-		"Attack_1":
-			_handle_attack_1_frame(_texture.frame)
-		"Attack_2":
-			_handle_attack_2_frame(_texture.frame)
-		"Attack_3":
-			_handle_attack_3_frame(_texture.frame)
+		if _face_toward(target):
+			_reapply_attack_layout()
 
 
 func _apply_facing() -> void:
@@ -382,9 +430,7 @@ func _handle_attack_1_frame(frame: int) -> void:
 			if not _has_advanced_this_attack:
 				_advance_during_attack(ATTACK_ADVANCE_DISTANCE)
 				_has_advanced_this_attack = true
-			_body_collision.position = _mirrored_pos(ATTACK_1_BODY_POS)
-			_hurtbox_collision.position = _mirrored_pos(ATTACK_1_HURTBOX_POS)
-			_set_attack_area(true, ATTACK_AREA_DEFAULT_POS, ATTACK_AREA_DEFAULT_ROT)
+			_set_attack_layout(ATTACK_1_BODY_POS, ATTACK_1_HURTBOX_POS, ATTACK_AREA_DEFAULT_POS, ATTACK_AREA_DEFAULT_ROT)
 		11, 12:
 			pass
 
@@ -400,9 +446,7 @@ func _handle_attack_2_frame(frame: int) -> void:
 			if not _has_advanced_this_attack:
 				_advance_during_attack(ATTACK_ADVANCE_DISTANCE)
 				_has_advanced_this_attack = true
-			_body_collision.position = _mirrored_pos(ATTACK_2_BODY_POS)
-			_hurtbox_collision.position = _mirrored_pos(ATTACK_2_HURTBOX_POS)
-			_set_attack_area(true, ATTACK_2_AREA_POS, ATTACK_2_AREA_ROT)
+			_set_attack_layout(ATTACK_2_BODY_POS, ATTACK_2_HURTBOX_POS, ATTACK_2_AREA_POS, ATTACK_2_AREA_ROT)
 		10:
 			pass
 		11:
@@ -420,9 +464,7 @@ func _handle_attack_3_frame(frame: int) -> void:
 			if not _has_advanced_this_attack:
 				_advance_during_attack(ATTACK_3_ADVANCE_DISTANCE, _attack_3_advance_duration)
 				_has_advanced_this_attack = true
-			_body_collision.position = _mirrored_pos(ATTACK_3_BODY_POS)
-			_hurtbox_collision.position = _mirrored_pos(ATTACK_3_HURTBOX_POS)
-			_set_attack_area(true, ATTACK_3_AREA_POS, ATTACK_AREA_DEFAULT_ROT)
+			_set_attack_layout(ATTACK_3_BODY_POS, ATTACK_3_HURTBOX_POS, ATTACK_3_AREA_POS, ATTACK_AREA_DEFAULT_ROT)
 		9, 10:
 			pass
 		11:
@@ -461,7 +503,21 @@ func _start_death_fade_sequence() -> void:
 	queue_free()
 
 
+func _set_attack_layout(body_pos: Vector2, hurt_pos: Vector2, area_pos: Vector2, area_rot: float) -> void:
+	_attack_layout = {"body": body_pos, "hurt": hurt_pos, "area": area_pos, "rot": area_rot}
+	_reapply_attack_layout()
+
+
+func _reapply_attack_layout() -> void:
+	if _attack_layout.is_empty():
+		return
+	_body_collision.position = _mirrored_pos(_attack_layout["body"])
+	_hurtbox_collision.position = _mirrored_pos(_attack_layout["hurt"])
+	_set_attack_area(true, _attack_layout["area"], _attack_layout["rot"])
+
+
 func _reset_collisions_to_default() -> void:
+	_attack_layout = {}
 	_body_collision.position = _mirrored_pos(BODY_DEFAULT_POS)
 	_hurtbox_collision.position = _mirrored_pos(HURTBOX_DEFAULT_POS)
 	_set_attack_area(false, ATTACK_AREA_DEFAULT_POS, ATTACK_AREA_DEFAULT_ROT)
@@ -472,19 +528,18 @@ func _on_chase_area_body_entered(body: Node2D) -> void:
 	if body is BaseCharacter:
 		_is_chasing = true
 		_chase_target = body
+		_target_outside = false
+		_target_lost_elapsed = 0.0
 
 		if body.has_signal("attack_started") and not body.attack_started.is_connected(_on_player_attack_started):
 			body.attack_started.connect(_on_player_attack_started)
 
 
 func _on_chase_area_body_exited(body: Node2D) -> void:
+	# Não desiste na hora: conta _lose_target_time fora da área (ver _update_lose_target)
 	if body == _chase_target:
-		_is_chasing = false
-		_chase_target = null
-
-	if body is BaseCharacter and body.has_signal("attack_started"):
-		if body.attack_started.is_connected(_on_player_attack_started):
-			body.attack_started.disconnect(_on_player_attack_started)
+		_target_outside = true
+		_target_lost_elapsed = 0.0
 
 
 func _on_detection_area_body_entered(body: Node2D) -> void:
